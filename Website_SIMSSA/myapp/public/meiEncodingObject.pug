@@ -1,0 +1,64 @@
+.content
+  section.row
+ 
+    .column
+     .card
+      h4 Drag and drop images
+      section
+       script(src='/javascripts/dropzone.js')
+       link(rel='stylesheet', href='/stylesheets/dropzone.css')
+
+       form(action='/images', class ='dropzone', method='post', id='my-dropzone-element-id')
+        div(class='fallback')
+          input(type='file', name='pic' multiple)
+          | Drop files here or click to upload.
+          span.note.needsclick
+
+    .column
+     .card 
+      h4 Text description
+
+      h6 Name :
+        .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+
+      h6 Text description :
+        .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          textarea(rows="6" cols="30")
+  
+
+    .column
+     .card
+      h4 Classification name
+       .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+  
+
+    .column
+     .card
+      h4 MEI encoding
+      p
+       = '\<neume\>'
+       <br />
+       = '  \<nc\>'
+       <br />
+       = '  <nc intm=“-1S” tilt=”se” con=“g”/>'
+       <br />
+       = '  <nc intm=“1S” con=“g”'
+       <br />
+       = '  </neume>'
+       <br />

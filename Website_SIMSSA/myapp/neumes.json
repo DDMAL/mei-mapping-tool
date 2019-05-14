@@ -1,0 +1,27 @@
+{
+
+  "Movies": {
+
+    "Top Rated":{
+
+      "Watched":{
+
+        "2000s": {
+
+          "Action": {
+
+            "The Dark Knight": true,
+
+            "Sicario": false,
+
+            "Inception": true
+          },
+          "Drama": {
+
+            "Interstellar": true
+          }
+        }
+      }
+    }
+  }
+}
