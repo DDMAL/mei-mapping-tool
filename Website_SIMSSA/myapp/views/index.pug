@@ -25,9 +25,6 @@ head
   link(rel='stylesheet' href='/autocompletree.min.css')
   script(src='/autocompletree.js')
 
-//Link for reusable elements
-link(rel="import" href="meiEncodingObject.pug")
-
 //Dropzone elements 
   link(rel='stylesheet' href='dropzone.css')
   script(type='text/javascript' src='dropzone.js')
@@ -37,6 +34,7 @@ link(rel='stylesheet' href='/stylesheets/popup.css')
 
 //collapse elements
 script(type='text/javascript' src='/javascripts/collapse.js')
+link(rel='stylesheet' href='/stylesheets/collapsible.css')
 
 //Column parameters
 link(rel='stylesheet' href='/stylesheets/column.css')
@@ -58,27 +56,6 @@ div
         li
           a(href='/help') Help
 
-  style.
-    .collapsible {
-    background-color:#5F9F9F;
-    color: white;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 20px;
-    }
-    .active, .collapsible:hover {
-    background-color:#73B1B7;
-    }
-    .content {
-    padding: 0 18px;
-    display: none;
-    overflow: hidden;
-    background-color: #f1f1f1;
-    }
   .card
    .hero-text
      h1  SIMSSA MEI Mapping App
