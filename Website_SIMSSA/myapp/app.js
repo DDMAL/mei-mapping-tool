@@ -6,7 +6,6 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var uploadRouter = require('./routes/upload')
 
 var app = express();
 
@@ -23,24 +22,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/upload',uploadRouter);
-
-var upload = multer( { dest: 'uploads/' } );
-
-app.post( '/upload', upload.single( 'file' ), function( req, res, next ) {
-  // Metadata about the uploaded file can now be found in req.file
-});
+//app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-app.post("/upload", function(req, res) {
-    console.log("UPLOAD POST");
-    res.status(201).end()
-});
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -54,6 +42,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-.container {
-  column-count: 3;
-}
