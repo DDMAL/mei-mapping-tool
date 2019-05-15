@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    h2 Log-in
+    link(rel="stylesheet" href="/stylesheets/style.css")
+  body
+    h1
+    form#formAddUser(name="adduser" method="post" action="/project")
+      input#inputUserName(type="text" placeholder="username" name="username")
+      input#inputUserPassword(type="text" placeholder="password" name="usepassword")
+      select
+        option(value='volvo') Admin
+        option(value='saab') User
+
+      button#btnSubmit(type="submit") Submit
