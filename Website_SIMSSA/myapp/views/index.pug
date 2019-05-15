@@ -2,24 +2,19 @@ doctype html
 
 head
   meta(charset='UTF-8')
+  //Title for the upper part of the mei tool
   title SIMSSA MEI Mapping App
-
-  script(type = 'test/javascript' src='./path/to/dropzone.js')
 
   script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js')
   script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js')
   script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
   script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
-  //script(src='app.js')
-  //script(src='script.js')
-  //script(src='./split.min.js')
 
   link(rel='stylesheet' href='https://unpkg.com/flexmasonry/dist/flexmasonry.css')
   script(src='https://unpkg.com/flexmasonry/dist/flexmasonry.js')
 
   link(rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
   link(rel='stylesheet' href="/stylesheets/dropzone.css")
-  //link(rel='stylesheet' type="text/css" href="css/style.css")
 
 //form links and scripts
   link(rel='stylesheet' href='/autocompletree.min.css')
@@ -85,6 +80,7 @@ include meiEncodingObject.pug
 button.collapsible(id = 'collapsibleButton') Test
 include meiEncodingObject.pug
 
+//Getting the collapsible-element javascript file
 script(type='text/javascript' src='/javascripts/collapsible_element.js')
 
 block content
