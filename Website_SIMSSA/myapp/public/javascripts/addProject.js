@@ -23,6 +23,10 @@
 // Get the <span> element that closes the modal
  var span = document.getElementsByClassName("close")[0];
 
+//Variables for the new button project
+var newProject = document.createElement("BUTTON");
+
+
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
 modal.style.display = "block";
@@ -38,19 +42,20 @@ if (event.target == modal) {
 }
 }
 
-
-
 ////Submit button clicked events 
 
 buttonSubmit.onclick = function() {
 
 //Submit button closes pop-up
  modal.style.display = "none";
-
+var name = document.getElementById("elementName").value; 
 //Submit button adds a new element
-var newProject = document.createElement("BUTTON");
-var name = document.getElementById("elementName").value; //name submitted by the person
+//name submitted by the person
 newProject.innerText = name;
 document.body.appendChild(newProject);  
 
 }
+
+newProject.onclick = function(){
+   window.location.href= '/meiMapping'
+  }
