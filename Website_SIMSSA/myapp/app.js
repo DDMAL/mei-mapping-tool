@@ -21,8 +21,8 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
 
-app.use('/mei-encoding', indexRouter);
-app.use('/', usersRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
