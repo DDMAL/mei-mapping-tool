@@ -1,8 +1,35 @@
 doctype html
 html
   head
-    h1 Log-in
+    h1 MEI Mapping Projects
     link(rel="stylesheet" href="/stylesheets/style.css")
+    //Column parameters
+ 
+
   body
-    h2 Add Project
-    projects.username
+    h2 Project
+  link(rel='stylesheet' href='/stylesheets/popup.css')
+  script(type='text/javascript' src='/javascripts/collapse.js')
+  link(rel='stylesheet' href='/stylesheets/collapsible.css')
+  p
+  | 
+  a.btn.btn-info.btn-lg(href="#" id ="projectButton")
+    span.glyphicon.glyphicon-plus-sign
+    |  Add Project
+    br
+    br
+  #projectModal.modal
+    // Modal content
+    .modal-content
+      span.close x
+      h4 New element
+      form(action="/action_page.php")
+        | Name: 
+        input(type="text" name="Name" id = "elementName")
+        br
+        center
+           button.btn.btn-default.btn-sm(type="button" id ="submitProject")
+            |  Submit
+
+script(type='text/javascript' src='/javascripts/addProject.js')
+
