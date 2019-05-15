@@ -7,6 +7,7 @@
     "devstart": "nodemon ./bin/www"
   },
   "dependencies": {
+    "body-parser": "file:node_modules/body-parser",
     "bootstrap": "^4.3.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
