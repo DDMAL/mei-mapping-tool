@@ -17,15 +17,25 @@ router.get('/', function(req, res) {
     });
 });
 
-/* POST to Add User Service */
-router.post('/project', function(req, res) {
+/* GET Userlist page. */
+router.get('/projects', function(req, res) {
+    var db = req.db;
+    var collection = db.get('usercollection');
+    collection.find({},{},function(e,docs){
+        res.render('projects', {
+            "projects" : docs
+        });
+    });
+});
 
+/* GET Userlist page. */
+router.post('/projects', function(req, res) {
     // Set our internal DB variable
     var db = req.db;
 
     // Get our form values. These rely on the "name" attributes
     var userName = req.body.username;
-    var userEmail = req.body.useremail;
+    var userPass = req.body.password;
 
     // Set our collection
     var collection = db.get('usercollection');
@@ -33,7 +43,7 @@ router.post('/project', function(req, res) {
     // Submit to the DB
     collection.insert({
         "username" : userName,
-        "email" : userEmail
+        "Password" : userPass
     }, function (err, doc) {
         if (err) {
             // If it failed, return error
@@ -41,10 +51,11 @@ router.post('/project', function(req, res) {
         }
         else {
             // And forward to success page
-            res.redirect("userlist");
+            res.redirect("projects");
         }
     });
 
-});
+    });
+
 
 module.exports = router;
