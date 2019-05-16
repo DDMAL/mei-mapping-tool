@@ -9,6 +9,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var projectRouter = require('./routes/projects');
 
+// Require Notes routes
+require('./routes/note.routes');
+
 var app = express();
 
 // parse requests of content-type - application/x-www-form-urlencoded
