@@ -5,9 +5,9 @@ html
     link(rel="stylesheet" href="/stylesheets/style.css")
   body
     h1
-    form#formAddUser(name="adduser" method="post" action="/projects")
-      input#inputUserName(type="text" placeholder="username" name="username")
-      input#inputUserPassword(type="password" placeholder="password" name="password")
+    form#formAddUser(name="adduser" method="post" action="/addname")
+      input#inputUserName(type="text" placeholder="username" name="firstName")
+      input#inputUserPassword(type="password" placeholder="password" name="lastName")
       select
         option(value='volvo') Admin
         option(value='saab') User
