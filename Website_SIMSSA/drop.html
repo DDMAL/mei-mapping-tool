@@ -1,1 +1,0 @@
-<script src="./path/to/dropzone.js"></script>
