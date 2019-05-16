@@ -2,19 +2,36 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var logger = require('morgan');
-
-// New Code adding MongoDB
-var monk = require('monk');
-var db = monk('localhost:27017/DATABASE_NAME');
-
-
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var projectRouter = require('./routes/projects');
 
 var app = express();
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json())
+
+// Configuring the database
+const dbConfig = require('./config/database.config.js');
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+// Connecting to the database
+mongoose.connect(dbConfig.url, {
+    useNewUrlParser: true
+}).then(() => {
+    console.log("Successfully connected to the database");    
+}).catch(err => {
+    console.log('Could not connect to the database. Exiting now...', err);
+    process.exit();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
