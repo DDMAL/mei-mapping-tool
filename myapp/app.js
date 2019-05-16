@@ -21,35 +21,19 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // Configuring the database
-const dbConfig = require('./config/database.config.js');
-const mongoose = require('mongoose');
-
+var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-
-// Connecting to the database
-mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true
-}).then(() => {
-    console.log("Successfully connected to the database");    
-}).catch(err => {
-    console.log('Could not connect to the database. Exiting now...', err);
-    process.exit();
-});
-
+mongoose.connect("mongodb://localhost:27017/easy-notes");
 
 //Testing the database :
-
 var nameSchema = new mongoose.Schema({
     firstName: String,
     lastName: String
 });
+//Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.pug");
-});
-
-
+//If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/addname", (req, res) => {
     var myData = new User(req.body);
     myData.save()
