@@ -23,12 +23,13 @@ app.use(bodyParser.json())
 // Configuring the database
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/easy-notes");
+//Change this line to the database you want the user name and password to be posted to
+mongoose.connect("mongodb://localhost:27017/userDatabase");
 
-//Testing the database :
+//Testing the database for userDatabase schema:
 var nameSchema = new mongoose.Schema({
-    firstName: String,
-    lastName: String
+    username: String,
+    password: String
 });
 //Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
