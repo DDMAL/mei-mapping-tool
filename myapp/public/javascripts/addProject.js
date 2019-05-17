@@ -45,17 +45,16 @@ if (event.target == modal) {
 ////Submit button clicked events 
 
 buttonSubmit.onclick = function() {
-
+var newProject = document.createElement("BUTTON");
 //Submit button closes pop-up
  modal.style.display = "none";
 var name = document.getElementById("elementName").value; 
-//Submit button adds a new element
+
 //name submitted by the person
 newProject.innerText = name;
 document.body.appendChild(newProject);  
-
-}
-
 newProject.onclick = function(){
    window.location.href= '/meiMapping'
   }
+}
+
