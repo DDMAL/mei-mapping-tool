@@ -74,7 +74,7 @@ app.post("/projects", (req, res) => {
           if(userData == "meiMapping" && passwordData == "meiMapping")
             res.render('projects', { title: 'Express' });
           else
-            res.status(400).send("Wrong Username/password. Try again.");
+            res.render('userError', { title: 'Express' });
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
