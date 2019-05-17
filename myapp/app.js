@@ -82,18 +82,15 @@ app.post("/projects", (req, res) => {
 });
 
 /////DATABASE FOR PROJECTS:
-// Configuring the database
-var mongooseProjects = require("mongoose");
-mongooseProjects.Promise = global.Promise;
-//Change this line to the database you want the user name and password to be posted to
-mongooseProjects.connect("mongodb://localhost:27017/projectsDatabase");
 
+//Change this line to the database you want the user name and password to be posted to
+var mongooseProjects = mongoose.createConnection('mongodb://localhost:27017/projectsDatabase')
 //Testing the database for userDatabase schema:
-var projectSchema = new mongooseProjects.Schema({
-    projectName: String,
+var projectSchema = new mongoose.Schema({
+    title : { type : String, default : 'model in testA database' }
 });
 //Making a mongoose model with the name schema
-var Projects = mongooseProjects.model("Projects", projectSchema);
+var Projects = mongooseProjects.model("User", projectSchema);
 
 //If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/meiMapping", (req, res) => {

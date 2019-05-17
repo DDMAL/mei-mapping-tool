@@ -23,9 +23,9 @@ html
     .modal-content
       span.close x
       h4 New element
-      form(action="/action_page.php")
+      form#formAddProject(name="project" method="post" action="/meiMapping")
         | Name: 
-        input(type="text" name="Name" id = "elementName")
+        input(type="text" name="project" id = "elementName")
         br
         center
            button.btn.btn-default.btn-sm(type="button" id ="submitProject")
