@@ -82,28 +82,36 @@ app.post("/projects", (req, res) => {
 });
 
 /////DATABASE FOR PROJECTS:
+
+//Making a mongoose model with the name schema
+var mongooseProjects = require("mongoose"); 
+ 
+mongooseProjects.Promise = global.Promise;
 //Change this line to the database you want the user name and password to be posted to
-var mongooseProject = mongoose.connect("mongodb://localhost:27017/projectsDatabase");
+mongooseProjects.connect("mongodb://localhost:27017/userDatabase");
 
 //Testing the database for userDatabase schema:
-var projectSchema = new mongoose.Schema({
-    project: String
+var projectSchema = new mongooseProjects.Schema({
+    name: String
 });
+
 //Making a mongoose model with the name schema
-var Projects = mongoose.model("Projects", projectSchema);
+var project = mongooseProjects.model("project", projectSchema);
 
 //If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/meiMapping", (req, res) => {
-    var myData = new Projects(req.body);
+    var myData = new User(req.body);
+    var userData = req.body.username;
+    var passwordData = req.body.password;
+
     myData.save()
-        .then(item => {
-            res.render('index', { title: 'Express' });
+       .then(item => {
+            res.render('index', { title: 'Express' }); //The app enters here! Where does the data go to?
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
         });
 });
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
