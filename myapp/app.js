@@ -9,7 +9,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var projectRouter = require('./routes/projects');
 var noteRouter = require('./routes/note.routes')
-// Require Notes routes
+
+// Require bcrypt for the password
+ bcrypt = require('bcrypt'),
+ SALT_WORK_FACTOR = 10;
 
 
 var app = express();
@@ -34,6 +37,28 @@ var nameSchema = new mongoose.Schema({
     password: String,
     type: String
 });
+
+nameSchema.pre('save', function(next) {
+    var user = this;
+
+    // only hash the password if it has been modified (or is new)
+    if (!user.isModified('password')) return next();
+
+    // generate a salt
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if (err) return next(err);
+
+        // hash the password using our new salt
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if (err) return next(err);
+
+            // override the cleartext password with the hashed one
+            user.password = hash;
+            next();
+        });
+    });
+});
+
 //Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
 
