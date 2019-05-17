@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
 
+
+/////DATABASE FOR USERS:
 // Configuring the database
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
@@ -29,22 +31,50 @@ mongoose.connect("mongodb://localhost:27017/userDatabase");
 //Testing the database for userDatabase schema:
 var nameSchema = new mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    type: String
 });
 //Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
 
 //If this save to the database was successful it will return to the .then segment of the promise. 
-app.post("/addname", (req, res) => {
+app.post("/projects", (req, res) => {
     var myData = new User(req.body);
     myData.save()
         .then(item => {
-            res.send("Name saved to database");
+            res.render('projects', { title: 'Express' });
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
         });
 });
+
+/////DATABASE FOR PROJECTS:
+// Configuring the database
+var mongooseProjects = require("mongoose");
+mongooseProjects.Promise = global.Promise;
+//Change this line to the database you want the user name and password to be posted to
+mongooseProjects.connect("mongodb://localhost:27017/projectsDatabase");
+
+//Testing the database for userDatabase schema:
+var projectSchema = new mongooseProjects.Schema({
+    projectName: String,
+});
+//Making a mongoose model with the name schema
+var Projects = mongooseProjects.model("Projects", projectSchema);
+
+//If this save to the database was successful it will return to the .then segment of the promise. 
+app.post("/meiMapping", (req, res) => {
+    var myData = new Projects(req.body);
+    myData.save()
+        .then(item => {
+            res.render('index', { title: 'Express' });
+        })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

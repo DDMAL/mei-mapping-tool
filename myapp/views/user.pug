@@ -5,11 +5,11 @@ html
     link(rel="stylesheet" href="/stylesheets/style.css")
   body
     h1
-    form#formAddUser(name="adduser" method="post" action="/addname")
+    form#formAddUser(name="adduser" method="post" action="/projects")
       input#inputUserName(type="text" placeholder="username" name="username")
       input#inputUserPassword(type="password" placeholder="password" name="password")
-      select
-        option(value='volvo') Admin
-        option(value='saab') User
+      select#optionUser(name="type")
+        option(value='admin') Admin
+        option(value='user') User
 
       button#btnSubmit(type="submit") Submit

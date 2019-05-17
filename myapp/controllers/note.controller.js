@@ -1,3 +1,5 @@
+//Controller for the note model, won't be using it right now
+
 const Note = require('../models/note.model.js');
 
 // Create and Save a new Note
