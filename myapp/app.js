@@ -38,6 +38,7 @@ var nameSchema = new mongoose.Schema({
     type: String
 });
 
+//Hashing to hide the password from seeing it in the database
 nameSchema.pre('save', function(next) {
     var user = this;
 
@@ -65,9 +66,15 @@ var User = mongoose.model("User", nameSchema);
 //If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/projects", (req, res) => {
     var myData = new User(req.body);
+    var userData = req.body.username;
+    var passwordData = req.body.password;
+
     myData.save()
         .then(item => {
+          if(userData == "meiMapping" && passwordData == "meiMapping")
             res.render('projects', { title: 'Express' });
+          else
+            res.status(400).send("Wrong Username/password. Try again.");
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
