@@ -70,11 +70,11 @@ app.post("/projects", (req, res) => {
     var passwordData = req.body.password;
 
     myData.save()
-        .then(item => {
+       .then(item => {
           if(userData == "meiMapping" && passwordData == "meiMapping")
             res.render('projects', { title: 'Express' });
           else
-            res.render('userError', { title: 'Express' });
+            res.status(400).send("Wrong Username/password. Try again.");
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
