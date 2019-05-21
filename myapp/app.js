@@ -88,23 +88,23 @@ var mongooseProjects = require("mongoose");
  
 mongooseProjects.Promise = global.Promise;
 //Change this line to the database you want the user name and password to be posted to
-mongooseProjects.connect("mongodb://localhost:27017/userDatabase");
+mongooseProjects.connect("mongodb://localhost:27017/projectsDatabase");
 
 //Testing the database for userDatabase schema:
 var projectSchema = new mongooseProjects.Schema({
     name: String
 });
 
+//check for the same dataset and add it to the value of the work
+
 //Making a mongoose model with the name schema
 var project = mongooseProjects.model("project", projectSchema);
 
 //If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/meiMapping", (req, res) => {
-    var myData = new User(req.body);
-    var userData = req.body.username;
-    var passwordData = req.body.password;
-
-    myData.save()
+    var collection = db.collection('projects')
+    collection.insert({name: 'taco', tasty: true});
+    collection.save()
        .then(item => {
             res.render('index', { title: 'Express' }); //The app enters here! Where does the data go to?
         })
