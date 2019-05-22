@@ -18,13 +18,13 @@ Web-based app to map squiggles to MEI snippets (under construction)
 
   `git clone https://github.com/DDMAL/mei-mapping-tool`
 
-2. Install dependencies using npm
-
-  `npm install`
-
-3. Go to the myapp directory of the repository
+2. Go to the myapp directory of the repository
 
   `cd mei-mapping-tool/myapp`
+
+3. Install dependencies using npm
+
+  `npm install`
 
 4. Start the server
 
