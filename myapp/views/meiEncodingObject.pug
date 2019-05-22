@@ -1,3 +1,5 @@
+
+
 .content
   section#template.row
  
@@ -33,6 +35,8 @@
          p 
           form(method='POST' action='/submit-form')
           input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          a(href='#')   
+           span.glyphicon.glyphicon-plus
 
       h6 Description :
         .o-autocompletree__input 
@@ -40,7 +44,8 @@
         .o-autocompletree__suggestion-list
          p 
           form(method='POST' action='/submit-form')
-          textarea(rows="6" cols="30")
+          textarea(rows="4" cols="30")
+
   
 
     .column
@@ -53,6 +58,11 @@
           form(method='POST' action='/submit-form')
           input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
           
+          a(href='#')   
+           span.glyphicon.glyphicon-plus
+
+
+
   
 
     .column
