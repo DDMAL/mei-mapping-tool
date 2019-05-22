@@ -16,8 +16,8 @@ body
   | var x = "All this is syntax highlighted";
   | return x;
   | }
-script(src='/ace-builds/src/ace.js', type='text/javascript', charset='utf-8')
+script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
 script.
   var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/monokai");
+  editor.setTheme("ace/theme/eclipse");
   editor.session.setMode("ace/mode/javascript");
