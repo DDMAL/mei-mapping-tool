@@ -35,7 +35,7 @@ mongoose.connect("mongodb://localhost:27017/userDatabase");
 var nameSchema = new mongoose.Schema({
     username: String,
     password: String,
-    type: String
+    role: String
 });
 
 //Hashing to hide the password from seeing it in the database
