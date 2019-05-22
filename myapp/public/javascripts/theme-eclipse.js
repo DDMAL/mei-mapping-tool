@@ -1,102 +1,109 @@
-ace.define("ace/theme/eclipse",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
-"use strict";
+ace.define("ace/theme/monokai",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
 
-exports.isDark = false;
-exports.cssText = ".ace-eclipse .ace_gutter {\
-background: #ebebeb;\
-border-right: 1px solid rgb(159, 159, 159);\
-color: rgb(136, 136, 136);\
+exports.isDark = true;
+exports.cssClass = "ace-monokai";
+exports.cssText = ".ace-monokai .ace_gutter {\
+background: #2F3129;\
+color: #8F908A\
 }\
-.ace-eclipse .ace_print-margin {\
+.ace-monokai .ace_print-margin {\
 width: 1px;\
-background: #ebebeb;\
+background: #555651\
 }\
-.ace-eclipse {\
-background-color: #FFFFFF;\
-color: black;\
+.ace-monokai {\
+background-color: #272822;\
+color: #F8F8F2\
 }\
-.ace-eclipse .ace_fold {\
-background-color: rgb(60, 76, 114);\
+.ace-monokai .ace_cursor {\
+color: #F8F8F0\
 }\
-.ace-eclipse .ace_cursor {\
-color: black;\
+.ace-monokai .ace_marker-layer .ace_selection {\
+background: #49483E\
 }\
-.ace-eclipse .ace_storage,\
-.ace-eclipse .ace_keyword,\
-.ace-eclipse .ace_variable {\
-color: rgb(127, 0, 85);\
+.ace-monokai.ace_multiselect .ace_selection.ace_start {\
+box-shadow: 0 0 3px 0px #272822;\
 }\
-.ace-eclipse .ace_constant.ace_buildin {\
-color: rgb(88, 72, 246);\
+.ace-monokai .ace_marker-layer .ace_step {\
+background: rgb(102, 82, 0)\
 }\
-.ace-eclipse .ace_constant.ace_library {\
-color: rgb(6, 150, 14);\
-}\
-.ace-eclipse .ace_function {\
-color: rgb(60, 76, 114);\
-}\
-.ace-eclipse .ace_string {\
-color: rgb(42, 0, 255);\
-}\
-.ace-eclipse .ace_comment {\
-color: rgb(113, 150, 130);\
-}\
-.ace-eclipse .ace_comment.ace_doc {\
-color: rgb(63, 95, 191);\
-}\
-.ace-eclipse .ace_comment.ace_doc.ace_tag {\
-color: rgb(127, 159, 191);\
-}\
-.ace-eclipse .ace_constant.ace_numeric {\
-color: darkblue;\
-}\
-.ace-eclipse .ace_tag {\
-color: rgb(25, 118, 116);\
-}\
-.ace-eclipse .ace_type {\
-color: rgb(127, 0, 127);\
-}\
-.ace-eclipse .ace_xml-pe {\
-color: rgb(104, 104, 91);\
-}\
-.ace-eclipse .ace_marker-layer .ace_selection {\
-background: rgb(181, 213, 255);\
-}\
-.ace-eclipse .ace_marker-layer .ace_bracket {\
+.ace-monokai .ace_marker-layer .ace_bracket {\
 margin: -1px 0 0 -1px;\
-border: 1px solid rgb(192, 192, 192);\
+border: 1px solid #49483E\
 }\
-.ace-eclipse .ace_meta.ace_tag {\
-color:rgb(25, 118, 116);\
+.ace-monokai .ace_marker-layer .ace_active-line {\
+background: #202020\
 }\
-.ace-eclipse .ace_invisible {\
-color: #ddd;\
+.ace-monokai .ace_gutter-active-line {\
+background-color: #272727\
 }\
-.ace-eclipse .ace_entity.ace_other.ace_attribute-name {\
-color:rgb(127, 0, 127);\
+.ace-monokai .ace_marker-layer .ace_selected-word {\
+border: 1px solid #49483E\
 }\
-.ace-eclipse .ace_marker-layer .ace_step {\
-background: rgb(255, 255, 0);\
+.ace-monokai .ace_invisible {\
+color: #52524d\
 }\
-.ace-eclipse .ace_active-line {\
-background: rgb(232, 242, 254);\
+.ace-monokai .ace_entity.ace_name.ace_tag,\
+.ace-monokai .ace_keyword,\
+.ace-monokai .ace_meta.ace_tag,\
+.ace-monokai .ace_storage {\
+color: #F92672\
 }\
-.ace-eclipse .ace_gutter-active-line {\
-background-color : #DADADA;\
+.ace-monokai .ace_punctuation,\
+.ace-monokai .ace_punctuation.ace_tag {\
+color: #fff\
 }\
-.ace-eclipse .ace_marker-layer .ace_selected-word {\
-border: 1px solid rgb(181, 213, 255);\
+.ace-monokai .ace_constant.ace_character,\
+.ace-monokai .ace_constant.ace_language,\
+.ace-monokai .ace_constant.ace_numeric,\
+.ace-monokai .ace_constant.ace_other {\
+color: #AE81FF\
 }\
-.ace-eclipse .ace_indent-guide {\
-background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==\") right repeat-y;\
+.ace-monokai .ace_invalid {\
+color: #F8F8F0;\
+background-color: #F92672\
+}\
+.ace-monokai .ace_invalid.ace_deprecated {\
+color: #F8F8F0;\
+background-color: #AE81FF\
+}\
+.ace-monokai .ace_support.ace_constant,\
+.ace-monokai .ace_support.ace_function {\
+color: #66D9EF\
+}\
+.ace-monokai .ace_fold {\
+background-color: #A6E22E;\
+border-color: #F8F8F2\
+}\
+.ace-monokai .ace_storage.ace_type,\
+.ace-monokai .ace_support.ace_class,\
+.ace-monokai .ace_support.ace_type {\
+font-style: italic;\
+color: #66D9EF\
+}\
+.ace-monokai .ace_entity.ace_name.ace_function,\
+.ace-monokai .ace_entity.ace_other,\
+.ace-monokai .ace_entity.ace_other.ace_attribute-name,\
+.ace-monokai .ace_variable {\
+color: #A6E22E\
+}\
+.ace-monokai .ace_variable.ace_parameter {\
+font-style: italic;\
+color: #FD971F\
+}\
+.ace-monokai .ace_string {\
+color: #E6DB74\
+}\
+.ace-monokai .ace_comment {\
+color: #75715E\
+}\
+.ace-monokai .ace_indent-guide {\
+background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWPQ0FD0ZXBzd/wPAAjVAoxeSgNeAAAAAElFTkSuQmCC) right repeat-y\
 }";
-
-exports.cssClass = "ace-eclipse";
 
 var dom = require("../lib/dom");
 dom.importCssString(exports.cssText, exports.cssClass);
 });                (function() {
-                    ace.require(["ace/theme/eclipse"], function(m) {
+                    ace.require(["ace/theme/monokai"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
                         }
