@@ -38,6 +38,10 @@ Web-based app to map squiggles to MEI snippets (under construction)
 You can get the most recent version of the mei-mapping-tool by accessing the page http://localhost:3000/meiMapping
 
 ## Mongodb installation
+
+To make sure mongodb is running in your application, you can add this command to the terminal :
+`brew services start mongodb`
+
  ### With the terminal
  1. Open a new terminal window and add this command to the terminal. You will be asked for your administrator password.
  
