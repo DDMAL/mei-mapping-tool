@@ -48,18 +48,30 @@ buttonSubmit.onclick = function() {
 //Submit button closes pop-up
  modal.style.display = "none";
 
-//Making a new collapsible element
-//var elementToClone = document.getElementById("templateEncoding");
-//Submit button adds a new element
-//var clone = elementToClone.cloneNode(true);
+
+//Adding a divider element
+
+//Submit button adds a new collapsible element
 var name = document.getElementById("elementName").value; //name submitted by the person
 var buttonClone = document.getElementById("collapsibleButton");
 var buttonCloned = buttonClone.cloneNode(true);
 buttonCloned.innerText = name;
 document.body.appendChild(buttonCloned);
 //document.getElementById("collapsibleButton").innerText = name;
+
+//Maling the element for cloning the content of the collapsible
 var meiEncodingToClone = document.getElementById("template");
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
+buttonCloned.addEventListener("click", function() {
+  this.classList.toggle("active");
+  var content = meiEncodingCloned;
+  if (content.style.display === "block") {
+  content.style.display = "none";
+  } else {
+  content.style.display = "block";
+  }
+  });
+  
 document.body.appendChild(meiEncodingCloned);
 }
 
