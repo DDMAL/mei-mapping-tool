@@ -3,8 +3,8 @@ Web-based app to map squiggles to MEI snippets (under construction)
 
 ## Requirements
 * [Node.js](https://nodejs.org/en/download/)
-* [Homebrew](https://brew.sh/)
-* [Mongodb](https://docs.mongodb.com/manual/installation/)
+* [Homebrew](https://brew.sh/) *for mac users*
+* [Mongodb](https://docs.mongodb.com/manual/installation/) `brew install mongodb`
 * [Mongoose](https://mongoosejs.com/docs/) `npm install mongoose`
 * [npm](https://www.npmjs.com/get-npm):
  `npm install npm@latest -g` 
