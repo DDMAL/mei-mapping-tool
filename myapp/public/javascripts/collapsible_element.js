@@ -49,10 +49,15 @@ buttonSubmit.onclick = function() {
  modal.style.display = "none";
 
 //Making a new collapsible element
-
+//var elementToClone = document.getElementById("templateEncoding");
 //Submit button adds a new element
+//var clone = elementToClone.cloneNode(true);
 var name = document.getElementById("elementName").value; //name submitted by the person
-document.getElementById("collapsibleButton").innerText = name;
+var buttonClone = document.getElementById("collapsibleButton");
+var buttonCloned = buttonClone.cloneNode(true);
+buttonCloned.innerText = name;
+document.body.appendChild(buttonCloned);
+//document.getElementById("collapsibleButton").innerText = name;
 var meiEncodingToClone = document.getElementById("template");
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
 document.body.appendChild(meiEncodingCloned);
