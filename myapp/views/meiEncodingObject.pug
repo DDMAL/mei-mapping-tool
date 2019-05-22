@@ -33,9 +33,9 @@
         .o-autocompletree__tag
         .o-autocompletree__suggestion-list
          p 
-          form(method='POST' action='/submit-form')
+          form(method='POST' action='/submit-form' id="form")
           input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
-          a(href='#')   
+          a(href='#' id ="folioButton")   
            span.glyphicon.glyphicon-plus
 
       h6 Description :
@@ -55,11 +55,11 @@
         .o-autocompletree__tag
         .o-autocompletree__suggestion-list
          p 
-          form(method='POST' action='/submit-form')
-          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          form(method='POST' action='/submit-form' id = "inputClassifier")
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='' )
           
           a(href='#')   
-           span.glyphicon.glyphicon-plus
+           span.glyphicon.glyphicon-plus#classifierButton
 
 
 
@@ -73,6 +73,6 @@
 
       script(type='text/javascript' src='/javascripts/ace.js')
         
-
+     script(type='text/javascript' src='/javascripts/label.js')
 
 
