@@ -38,6 +38,11 @@ var nameSchema = new mongoose.Schema({
     role: String
 });
 
+//Testing the database for project schema:
+var projectSchema = new mongoose.Schema({
+    name: String,
+});
+
 //Hashing to hide the password from seeing it in the database
 nameSchema.pre('save', function(next) {
     var user = this;
@@ -62,6 +67,9 @@ nameSchema.pre('save', function(next) {
 
 //Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
+
+//Making a mongoose model with the project schema
+var Project = mongoose.model("Project", projectSchema);
 var db = mongoose.connection;
 //If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/projects", (req, res) => {
@@ -69,10 +77,9 @@ app.post("/projects", (req, res) => {
     var userData = req.body.username;
     var passwordData = req.body.password;
     var projectsCollection = db.collection("projects");
-    var name = document.getElementById("elementName").value; 
     projectsCollection.insertOne(
    {
-       project : name,
+       project : String,
   
    }
 )
@@ -87,6 +94,7 @@ app.post("/projects", (req, res) => {
             res.status(400).send("Unable to save to database");
         });
 });
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
