@@ -15,7 +15,7 @@
 
 // Get the modal and cloned element
  var modal = document.getElementById("myModal");
- var elementToClone = document.getElementById("collapsibleButton");
+ 
 
 // Get the button that opens the modal
  var btn = document.getElementById("button");
@@ -48,11 +48,14 @@ buttonSubmit.onclick = function() {
 //Submit button closes pop-up
  modal.style.display = "none";
 
+//Making a new collapsible element
+
 //Submit button adds a new element
-var clone = elementToClone.cloneNode(true);
 var name = document.getElementById("elementName").value; //name submitted by the person
 document.getElementById("collapsibleButton").innerText = name;
-document.body.appendChild(clone);
+var meiEncodingToClone = document.getElementById("template");
+var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
+document.body.appendChild(meiEncodingCloned);
 }
 
 //Delete element
