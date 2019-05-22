@@ -21,4 +21,10 @@ router.post('/projects', function(req, res) {
             res.redirect("projects");
         });
 
+
+router.post('/images', function(req, res) {
+    // do something w/ req.body or req.files 
+});
+
+
 module.exports = router;
