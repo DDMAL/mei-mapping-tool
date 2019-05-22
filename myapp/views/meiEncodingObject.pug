@@ -16,7 +16,7 @@
 
     .column
      .card 
-      h4 Text description
+      h4 Name, Folio, Description
 
       h6 Name :
         .o-autocompletree__input 
@@ -25,8 +25,16 @@
          p 
           form(method='POST' action='/submit-form')
           input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+     
+      h6 Folio :
+        .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
 
-      h6 Text description :
+      h6 Description :
         .o-autocompletree__input 
         .o-autocompletree__tag
         .o-autocompletree__suggestion-list
@@ -37,7 +45,7 @@
 
     .column
      .card
-      h4 Classification name
+      h4 Classifier label
        .o-autocompletree__input 
         .o-autocompletree__tag
         .o-autocompletree__suggestion-list
@@ -50,7 +58,7 @@
 
     .column
      .card
-      h4 MEI encoding
+      h4 MEI snippet
       br
       include ace.pug
 

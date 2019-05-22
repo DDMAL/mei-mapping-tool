@@ -3,7 +3,7 @@ doctype html
 head
   meta(charset='UTF-8')
   //Title for the upper part of the mei tool
-  title SIMSSA MEI Mapping App
+  title Squiggle to MEI mapping tool
 
   script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js')
   script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js')
@@ -55,7 +55,7 @@ div
 
   .card
    .hero-text
-     h1  SIMSSA MEI Mapping App
+     h1  Squiggle to MEI mapping tool
 
 p
   | 
@@ -79,8 +79,96 @@ p
 button.collapsible(id = 'collapsibleButton') Punctum
 include meiEncodingObject.pug
 
-button.collapsible(id = 'collapsibleButton') Pes
-include meiEncodingObject.pug
+button.collapsible(id = 'collapsibleButton2') Pes
+.content
+  section.row
+ 
+    .column
+     .card
+      h4 Drag and drop images
+      section
+       script(src='/javascripts/dropzone.js')
+       link(rel='stylesheet', href='/stylesheets/dropzone.css')
+
+       form(action='/images', class ='dropzone', method='post', id='my-dropzone-element-id')
+        div(class='fallback')
+          input(type='file', name='pic' multiple)
+          | Drop files here or click to upload.
+          span.note.needsclick
+
+    .column
+     .card 
+      h4 Name, Folio, Description
+
+      h6 Name :
+        .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+
+      h6 Folio :
+        .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+
+      h6 Description :
+        .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          textarea(rows="6" cols="30")
+  
+
+    .column
+     .card
+      h4 Classifier label
+       .o-autocompletree__input 
+        .o-autocompletree__tag
+        .o-autocompletree__suggestion-list
+         p 
+          form(method='POST' action='/submit-form')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+  
+
+    .column
+     .card
+      h4 MEI snippet
+      br
+      style(type='text/css', media='screen').
+        #editorSecond {
+        margin: 0;
+        //position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 300px;
+        height: 200px;
+        }
+      #editorSecond
+        | function foo(items) {
+        | var x = "All this is syntax highlighted";
+        | return x;
+        | }
+      script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+      script.
+        var editorSecond = ace.edit("editorSecond");
+        //Also need to add multiple ace editors for each added objects
+        editorSecond.setTheme("ace/theme/eclipse");
+        editorSecond.session.setMode("ace/mode/javascript");
+
+      script(type='text/javascript' src='/javascripts/ace.js')
+        
+
+
 
 button.collapsible(id = 'collapsibleButton') Scandicus
 include meiEncodingObject.pug
