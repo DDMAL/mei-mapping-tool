@@ -1,0 +1,23 @@
+
+style(type='text/css', media='screen').
+  #editor {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 500px;
+  height: 400px;
+  }
+body
+#editor
+  | function foo(items) {
+  | var x = "All this is syntax highlighted";
+  | return x;
+  | }
+script(src='/ace-builds/src/ace.js', type='text/javascript', charset='utf-8')
+script.
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.session.setMode("ace/mode/javascript");

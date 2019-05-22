@@ -23,6 +23,12 @@ body {
   clear: both;
 }
 
+.editor {
+        position: absolute;
+        width: 500px;
+        height: 400px;
+      }
+
 /* Style the counter cards */
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
