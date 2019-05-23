@@ -33,6 +33,9 @@ link(rel='stylesheet' href='/stylesheets/collapsible.css')
 
 //Column parameters
 link(rel='stylesheet' href='/stylesheets/column.css')
+
+//Menu parameters
+link(rel='stylesheet' href='/stylesheets/header.css')
   
 //Header parameters
 div
@@ -56,6 +59,7 @@ div
   .card
    .hero-text
      h1 Squiggle to MEI mapping tool
+
 p
   | 
   a.btn.btn-info.btn-lg(href="#" id ="button")
@@ -73,9 +77,16 @@ p
         center
            button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
             |  Submit
+p
+
+.header
+ .b
+  and Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 button.collapsible(id = 'collapsibleButton') Punctum
 include meiEncodingObject.pug
+
+
 
 
       script(type='text/javascript' src='/javascripts/ace.js')

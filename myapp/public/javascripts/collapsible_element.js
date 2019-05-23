@@ -62,8 +62,10 @@ document.body.appendChild(buttonCloned);
 //Maling the element for cloning the content of the collapsible
 var meiEncodingToClone = document.getElementById("template");
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
+
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 
+//Event listener for the click button of the collapsible element
 buttonCloned.addEventListener("click", function() {
   this.classList.toggle("active");
   var content = meiEncodingCloned;
@@ -73,7 +75,8 @@ buttonCloned.addEventListener("click", function() {
   content.style.display = "block";
   }
   });
-  
+
+//Appending the meiEncodingCloned to the document
 document.body.appendChild(meiEncodingCloned);
 }
 

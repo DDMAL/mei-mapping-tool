@@ -3,8 +3,9 @@
 
 var buttonLabel = document.getElementById("folioButton");
 var buttonFolio = document.getElementById("classifierButton");
-var form = document.getElementById("form");
+var folioInputform = document.getElementById("form");
 var classifierInputForm = document.getElementById("inputClassifier");
+
 //Function to make a new folio
 buttonLabel.onclick = function() {
 
