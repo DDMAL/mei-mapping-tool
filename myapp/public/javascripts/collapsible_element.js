@@ -39,17 +39,11 @@ if (event.target == modal) {
 }
 }
 
-
-
-////Submit button clicked events 
-
+////Submit button clicked events for creating a new element
 buttonSubmit.onclick = function() {
 
 //Submit button closes pop-up
  modal.style.display = "none";
-
-
-//Adding a divider element
 
 //Submit button adds a new collapsible element
 var name = document.getElementById("elementName").value; //name submitted by the person
@@ -62,6 +56,7 @@ document.body.appendChild(buttonCloned);
 //Maling the element for cloning the content of the collapsible
 var meiEncodingToClone = document.getElementById("template");
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
+meiEncodingCloned.reset();
 
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 
@@ -78,7 +73,11 @@ buttonCloned.addEventListener("click", function() {
 
 //Appending the meiEncodingCloned to the document
 document.body.appendChild(meiEncodingCloned);
+
+//Shutting off the autodiscovery element of the specific elements 
+Dropzone.autoDiscover = false; 
 }
+
 
 //Delete element
 var deleteElement = document.getElementsByClassName("close")[0];
