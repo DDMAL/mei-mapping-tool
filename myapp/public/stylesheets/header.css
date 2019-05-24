@@ -1,12 +1,14 @@
 .header {
   padding: 10px;
   text-align: center;
-  background: 	#006989;
+  background: 		#F8F8F8;
   color: white;
   font-size: 20px;
+  border-color: black;
+ 
 }
 
 
 .b {
-  color: #D6D9CE;
+  color: black;
 }
