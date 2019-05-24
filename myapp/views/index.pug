@@ -36,7 +36,10 @@ link(rel='stylesheet' href='/stylesheets/column.css')
 
 //Menu parameters
 link(rel='stylesheet' href='/stylesheets/header.css')
-  
+
+//Add button parameters
+link(rel='stylesheet' href='/stylesheets/button.css')
+
 //Header parameters
 div
   div
@@ -56,11 +59,8 @@ div
         li
           a(href='/') Log-out
 
-p
-  | 
-  a.btn.btn-info.btn-lg(href="#" id ="button")
-    span.glyphicon.glyphicon-plus-sign
-    |  Add
+  .z_button(id ="button")
+    .z_plus +
   #myModal.modal
     // Modal content
     .modal-content
@@ -73,8 +73,7 @@ p
         center
            button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
             |  Submit
-p
-
+  
 .header
  .b
   ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
