@@ -40,6 +40,7 @@ body {
   text-align: center;
   background-color: #deeeef;
   height: 100%;
+  position:relative;
 }
 
 /* Responsive columns - one column layout (vertical) on small screens */

@@ -1,24 +1,24 @@
 
 style(type='text/css', media='screen').
-  #editor {
-  margin: 0;
-  //position: absolute;
-  top: 0;
-  right: 10;
-  bottom: 0;
-  left: 20;
-  width: 280px;
-  height: 150px;
+ #editor {
+    /** Setting height is also important, otherwise editor wont showup**/
+    height: 200px;
   }
-body
-#editor
-  | function foo(items) {
-  | var x = "All this is syntax highlighted";
-  | return x;
-  | }
+
+.container
+  .panel.panel-default
+    .panel-heading
+      h3.panel-title Editor
+    .panel-body
+      #editor
+        | function foo(items) {
+        | var x = "All this is syntax highlighted";
+        | return x;
+        | }
+  
+
 script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
 script.
   var editor = ace.edit("editor");
-  //Also need to add multiple ace editors for each added objects
-  editor.setTheme("ace/theme/eclipse");
-  editor.session.setMode("ace/mode/javascript");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/javascript");
