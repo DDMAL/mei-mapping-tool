@@ -79,7 +79,7 @@ app.post("/projects", (req, res) => {
     var passwordData = req.body.password;
     var projectData = req.body.project;
     var projectsCollection = db.collection("projects");
-    projectsCollection.insertOne(
+    projectsCollection.insertOne( //Project
    {
        project : "Example",
   
