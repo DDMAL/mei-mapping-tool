@@ -75,6 +75,62 @@ meiEncodingCloned.value = "";
 //Changing the background of the element collapsible
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 
+
+///////CREATING A NEW DROPZONE EACH TIME THE CODE IS RESET :
+//Creating a new Dropzone form : 
+
+var dropzoneForm = document.createElement("form");
+
+var actionAttribute = document.createAttribute("action");
+actionAttribute.value = "/images";
+
+var classAttribute = document.createAttribute("class");
+classAttribute.value = "dropzone";
+
+var methodAttribute = document.createAttribute("method");
+methodAttribute.value = "post";
+
+var idAttribute = document.createAttribute("id");
+idAttribute.value = "myNewDropzoneElement";
+
+dropzoneForm.setAttributeNode(actionAttribute);
+dropzoneForm.setAttributeNode(classAttribute);
+dropzoneForm.setAttributeNode(methodAttribute);
+dropzoneForm.setAttributeNode(idAttribute);
+
+//Creating a divison fallback
+var divisionFallback = document.createElement("div");
+var classFallback = document.createAttribute("class");
+classFallback.value = "fallback";
+divisionFallback.setAttributeNode(classFallback);
+
+//creating an input
+var inputDrop = document.createElement("input");
+var typeAttribute = document.createAttribute("type");
+typeAttribute.value = "file";
+var nameAttribute = document.createAttribute("name");
+nameAttribute.value = "pic";
+var multipleAttribute = document.createAttribute("multiple")
+
+inputDrop.setAttributeNode(typeAttribute);
+inputDrop.setAttributeNode(nameAttribute);
+inputDrop.setAttributeNode(multipleAttribute);
+
+//Creating a span message:
+ var classSpan = document.createAttribute("class");
+classSpan.value = 'span';
+
+var classNote = document.createAttribute("class");
+classNote.value = "note";
+
+var classneedsclick = document.createAttribute("class")
+classneedsclick.value = "needsclick";
+
+///////SETTING THE DROPZONE IN THE MEIENCODING PANEL
+
+ var boxContainer = document.getElementById("roundedBoxId");
+ boxContainer.appendChild(dropzoneForm);
+
 //Event listener for the click button of the collapsible element
 buttonCloned.addEventListener("click", function() {
   this.classList.toggle("active");
