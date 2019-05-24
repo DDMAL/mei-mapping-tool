@@ -1,4 +1,12 @@
+.navbar {
+    background: black;
+    margin: 0;
+    border: 0;
+}
 
+.toggleButton{
+  float:right;
+}
 .wrapper {
     display: flex;
     align-items: stretch;

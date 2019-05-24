@@ -48,7 +48,7 @@ link(rel='stylesheet' href="/stylesheets/sidebar.css")
 
 //Header parameters
 div
-  nav.navbar.navbar-inverse(role='navigation' style="color:blue;")
+  nav.navbar.navbar-inverse(role='navigation')
     ul.nav.navbar-nav
       li.active
      
@@ -75,31 +75,25 @@ div
     .sidebar-header
       h3 Edits
     ul.list-unstyled.components
-      p Dummy Heading
+      p User1
       li.active
-        a.dropdown-toggle(href='#homeSubmenu', data-toggle='collapse', aria-expanded='false') Home
-        ul#homeSubmenu.collapse.list-unstyled
-          li
-            a(href='#') Home 1
-          li
-            a(href='#') Home 2
-          li
-            a(href='#') Home 3
+        a.dropdown-toggle(href='#previousEditsSubmenu', data-toggle='collapse', aria-expanded='false') Previous Edits
       li
-        a(href='#') About
-      li
-        a.dropdown-toggle(href='#pageSubmenu', data-toggle='collapse', aria-expanded='false') Pages
-        ul#pageSubmenu.collapse.list-unstyled
+        a.dropdown-toggle(href='#PunctumSubmenu', data-toggle='collapse', aria-expanded='false') Editing Punctum
+        ul#PunctumSubmenu.collapse.list-unstyled
           li
-            a(href='#') Page 1
+            a(href='#') Edit 1 : 02/01/19
           li
-            a(href='#') Page 2
+            a(href='#') Edit 2 : 02/01/19
+      li
+        a.dropdown-toggle(href='#PesSubmenu', data-toggle='collapse', aria-expanded='false') Editing Pes
+        ul#PesSubmenu.collapse.list-unstyled
           li
-            a(href='#') Page 3
+            a(href='#') Edit 1 : 02/01/19
+          li
+            a(href='#') Edit 2 : 02/01/19
       li
-        a(href='#') Portfolio
-      li
-        a(href='#') Contact
+        a(href='#') Community
 
   .roundedCorners
     div(id = "roundedBoxId")
@@ -121,7 +115,7 @@ div
         
       .header
        .b
-        ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
       button.collapsible(id = 'collapsibleButton') Punctum
       include meiEncodingObject.pug
