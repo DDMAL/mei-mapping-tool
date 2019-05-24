@@ -8,7 +8,7 @@ body {
   width: 400px;
   height: 400px;
   background-color: #f0f0f0;
-  position: relative;
+  position: fixed;
   display: flex;
 }
 
@@ -16,7 +16,7 @@ body {
   background-color: #01A7C2;
   height: 30px;
   outline: 0;
-  position:fixed;
+  position:absolute;
   display: block;
   margin: 10px 200px 0px 10px;
   color: #fff;

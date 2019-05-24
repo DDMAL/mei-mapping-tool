@@ -8,11 +8,12 @@
       section
        script(src='/javascripts/dropzone.js')
        link(rel='stylesheet', href='/stylesheets/dropzone.css')
-
+      
        form(action='/images', class ='dropzone', method='post', id='my-dropzone-element-id')
         div(class='fallback')
           input(type='file', name='pic' multiple)
           | Drop files here or click to upload.
+
           span.note.needsclick
 
     .column

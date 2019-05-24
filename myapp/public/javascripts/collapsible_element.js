@@ -45,6 +45,19 @@ buttonSubmit.onclick = function() {
 //Submit button closes pop-up
  modal.style.display = "none";
 
+
+//Creating a button element
+// var name = document.getElementById("elementName").value;
+// var buttonCollapse = document.createElement("BUTTON");
+ //var collapsibleAttribute = document.createAttribute("class");
+ //collapsibleAttribute.value = "collapsible";
+ //buttonCollapse.setAttributeNode(collapsibleAttribute);
+
+//Appending it to the bounding box for the collapsible
+ //buttonCollapse.innerText = name;
+ //var boxContainer = document.getElementById("roundedBoxId");
+ //boxContainer.appendChild(buttonCollapse);
+
 //Submit button adds a new collapsible element
 var name = document.getElementById("elementName").value; //name submitted by the person
 var buttonClone = document.getElementById("collapsibleButton");
@@ -58,7 +71,8 @@ boxContainer.appendChild(buttonCloned);
 var meiEncodingToClone = document.getElementById("template");
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
 
-
+meiEncodingCloned.value = "";
+//Changing the background of the element collapsible
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 
 //Event listener for the click button of the collapsible element
@@ -79,9 +93,15 @@ boxContainer.appendChild(meiEncodingCloned);
 Dropzone.autoDiscover = false; 
 }
 
+//Delete elements
+var closebtns = document.getElementsByClassName("close");
+var i;
 
-//Delete element
-var deleteElement = document.getElementsByClassName("close")[0];
-deleteElement.onclick = function() {
-document.getElementById("collapsibleButton").remove();
+for (i = 0; i < closebtns.length; i++) {
+  closebtns[i].addEventListener("click", function() {
+    document.getElementById("collapsibleButton").style.display = 'none';
+    meiEncodingToClone.remove();
+  });
 }
+
+

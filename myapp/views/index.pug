@@ -64,12 +64,16 @@ div
       li
         a(href='/') Log-out&nbsp;
       li
+        a(href='/') User1
+      li
         #content
           nav.navbar.navbar-expand-lg.navbar-light.bg-light
             .container-fluid
               button#sidebarCollapse.btn.btn-info(type='button')
                 i.fas.fa-align-left
                 span Edits
+    
+
 .wrapper
   nav#sidebar
     .sidebar-header
@@ -118,8 +122,9 @@ div
         ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
       button.collapsible(id = 'collapsibleButton') Punctum
+        span.close ×
       include meiEncodingObject.pug
-
+      
 
 
 
