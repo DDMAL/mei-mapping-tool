@@ -35,7 +35,8 @@ mongoose.connect("mongodb://localhost:27017/userDatabase");
 var nameSchema = new mongoose.Schema({
     username: String,
     password: String,
-    role: String
+    role: String,
+    project: String
 });
 
 //Testing the database for project schema:
@@ -76,10 +77,11 @@ app.post("/projects", (req, res) => {
     var myData = new User(req.body);
     var userData = req.body.username;
     var passwordData = req.body.password;
+    var projectData = req.body.project;
     var projectsCollection = db.collection("projects");
     projectsCollection.insertOne(
    {
-       project : String,
+       project : "Example",
   
    }
 )

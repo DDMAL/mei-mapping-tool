@@ -56,7 +56,7 @@ document.body.appendChild(buttonCloned);
 //Maling the element for cloning the content of the collapsible
 var meiEncodingToClone = document.getElementById("template");
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
-meiEncodingCloned.reset();
+
 
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 
