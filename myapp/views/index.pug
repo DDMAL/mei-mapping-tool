@@ -42,60 +42,100 @@ link(rel='stylesheet' href='/stylesheets/button.css')
 
 //Rounded corners 
 link(rel='stylesheet' href='/stylesheets/roundedCorners.css')
+//Scripts and CSS for userEdits
+script(type='text/javascript' src='/javascripts/sidebar.js')
+link(rel='stylesheet' href="/stylesheets/sidebar.css")
 
 //Header parameters
 div
-  div
-    nav.navbar.navbar-inverse(role='navigation' style="color:blue;")
-      ul.nav.navbar-nav
-        li.active
-       
-          a(href='/projects')
-            | Home
-            span.sr-only (current)
-        li
-          a(href='/about') About us
-        li
-          a(href='/contact') Contact
-        li
-          a(href='/help') Help
-        li
-          a(href='/') Log-out
+  nav.navbar.navbar-inverse(role='navigation' style="color:blue;")
+    ul.nav.navbar-nav
+      li.active
+     
+        a(href='/projects')
+          | Home
+          span.sr-only (current)
+      li
+        a(href='/about') About us
+      li
+        a(href='/contact') Contact
+      li
+        a(href='/help') Help
+      li
+        a(href='/') Log-out&nbsp;
+      li
+        #content
+          nav.navbar.navbar-expand-lg.navbar-light.bg-light
+            .container-fluid
+              button#sidebarCollapse.btn.btn-info(type='button')
+                i.fas.fa-align-left
+                span Edits
+.wrapper
+  nav#sidebar
+    .sidebar-header
+      h3 Edits
+    ul.list-unstyled.components
+      p Dummy Heading
+      li.active
+        a.dropdown-toggle(href='#homeSubmenu', data-toggle='collapse', aria-expanded='false') Home
+        ul#homeSubmenu.collapse.list-unstyled
+          li
+            a(href='#') Home 1
+          li
+            a(href='#') Home 2
+          li
+            a(href='#') Home 3
+      li
+        a(href='#') About
+      li
+        a.dropdown-toggle(href='#pageSubmenu', data-toggle='collapse', aria-expanded='false') Pages
+        ul#pageSubmenu.collapse.list-unstyled
+          li
+            a(href='#') Page 1
+          li
+            a(href='#') Page 2
+          li
+            a(href='#') Page 3
+      li
+        a(href='#') Portfolio
+      li
+        a(href='#') Contact
 
-.roundedCorners
-  div(id = "roundedBoxId")
-    div
-      .z_button(id ="button")
-        .z_plus +
-      #myModal.modal
-        // Modal content
-        .modal-content
-          span.close x
-          h4 New element
-          form(action="/action_page.php")
-            | Name: 
-            input(type="text" name="Name" id = "elementName")
-            br
-            center
-               button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
-                |  Submit
-      
-    .header
-     .b
-      ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  .roundedCorners
+    div(id = "roundedBoxId")
+      div
+        .z_button(id ="button")
+          .z_plus +
+        #myModal.modal
+          // Modal content
+          .modal-content
+            span.close x
+            h4 New element
+            form(action="/action_page.php")
+              | Name: 
+              input(type="text" name="Name" id = "elementName")
+              br
+              center
+                 button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
+                  |  Submit
+        
+      .header
+       .b
+        ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-    button.collapsible(id = 'collapsibleButton') Punctum
-    include meiEncodingObject.pug
-
-
+      button.collapsible(id = 'collapsibleButton') Punctum
+      include meiEncodingObject.pug
 
 
-          script(type='text/javascript' src='/javascripts/ace.js')
-          script(type='text/javascript' src='/javascripts/label.js')
-
-    //Getting the collapsible-element javascript file
-    script(type='text/javascript' src='/javascripts/collapsible_element.js')
 
 
-    block content
-     block foot
+            script(type='text/javascript' src='/javascripts/ace.js')
+            script(type='text/javascript' src='/javascripts/label.js')
+
+      //Getting the collapsible-element javascript file
+      script(type='text/javascript' src='/javascripts/collapsible_element.js')
+
+
+      block content
+       block foot
+
