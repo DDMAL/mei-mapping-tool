@@ -5,16 +5,15 @@ style(type='text/css', media='screen').
     height: 200px;
   }
 
-.container
-  .panel.panel-default
-    .panel-heading
-      h3.panel-title Editor
-    .panel-body
-      #editor
-        | function foo(items) {
-        | var x = "All this is syntax highlighted";
-        | return x;
-        | }
+.panel.panel-default
+  .panel-heading
+    h3.panel-title 
+  .panel-body
+    #editor
+      | function foo(items) {
+      | var x = "All this is syntax highlighted";
+      | return x;
+      | }
   
 
 script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
