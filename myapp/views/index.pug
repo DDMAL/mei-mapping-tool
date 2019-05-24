@@ -63,38 +63,39 @@ div
           a(href='/') Log-out
 
 .roundedCorners
-  div
-    .z_button(id ="button")
-      .z_plus +
-    #myModal.modal
-      // Modal content
-      .modal-content
-        span.close x
-        h4 New element
-        form(action="/action_page.php")
-          | Name: 
-          input(type="text" name="Name" id = "elementName")
-          br
-          center
-             button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
-              |  Submit
-    
-  .header
-   .b
-    ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  div(id = "roundedBoxId")
+    div
+      .z_button(id ="button")
+        .z_plus +
+      #myModal.modal
+        // Modal content
+        .modal-content
+          span.close x
+          h4 New element
+          form(action="/action_page.php")
+            | Name: 
+            input(type="text" name="Name" id = "elementName")
+            br
+            center
+               button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
+                |  Submit
+      
+    .header
+     .b
+      ab Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-  button.collapsible(id = 'collapsibleButton') Punctum
-  include meiEncodingObject.pug
-
-
-
-
-        script(type='text/javascript' src='/javascripts/ace.js')
-        script(type='text/javascript' src='/javascripts/label.js')
-
-  //Getting the collapsible-element javascript file
-  script(type='text/javascript' src='/javascripts/collapsible_element.js')
+    button.collapsible(id = 'collapsibleButton') Punctum
+    include meiEncodingObject.pug
 
 
-  block content
-   block foot
+
+
+          script(type='text/javascript' src='/javascripts/ace.js')
+          script(type='text/javascript' src='/javascripts/label.js')
+
+    //Getting the collapsible-element javascript file
+    script(type='text/javascript' src='/javascripts/collapsible_element.js')
+
+
+    block content
+     block foot

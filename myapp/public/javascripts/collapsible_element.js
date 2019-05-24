@@ -50,7 +50,8 @@ var name = document.getElementById("elementName").value; //name submitted by the
 var buttonClone = document.getElementById("collapsibleButton");
 var buttonCloned = buttonClone.cloneNode(true);
 buttonCloned.innerText = name;
-document.body.appendChild(buttonCloned);
+var boxContainer = document.getElementById("roundedBoxId");
+boxContainer.appendChild(buttonCloned);
 //document.getElementById("collapsibleButton").innerText = name;
 
 //Maling the element for cloning the content of the collapsible
@@ -72,7 +73,7 @@ buttonCloned.addEventListener("click", function() {
   });
 
 //Appending the meiEncodingCloned to the document
-document.body.appendChild(meiEncodingCloned);
+boxContainer.appendChild(meiEncodingCloned);
 
 //Shutting off the autodiscovery element of the specific elements 
 Dropzone.autoDiscover = false; 
