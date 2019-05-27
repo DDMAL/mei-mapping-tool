@@ -15,14 +15,14 @@ body { //Real body
 
 .z_button {
   background-color: #01A7C2;
-  height: 30px;
+  height: 25px;
   outline: 0;
   position:absolute;
   display: block;
-  margin: 10px 200px 0px 10px;
+  margin: 18px 210px 0px 18px;
   color: #fff;
   border-radius: 100%;
-  width: 30px;
+  width: 25px;
 }
 
 .z_button:hover {
@@ -76,7 +76,7 @@ body { //Real body
 
 .z_plus {
   text-align: center;
-  line-height: 30px;
+  line-height: 24px;
   font-size: 30px;
 }
 
@@ -116,6 +116,7 @@ body { //Real body
 @keyframes amazing_z_plus {
   to {
     color: rgba(255, 255, 255, 0);
+    margin: 18px 200px 0px 18px;
   }
 }
 
