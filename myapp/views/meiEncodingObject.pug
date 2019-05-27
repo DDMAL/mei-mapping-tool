@@ -15,6 +15,7 @@
           | Drop files here or click to upload.
 
           span.note.needsclick
+        include createDrop.pug
 
     .column
      .card 
@@ -24,7 +25,7 @@
         .o-autocompletree__suggestion-list
          p 
           form(method='POST' action='/submit-form')
-          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
      
       h6 Folio :
         .o-autocompletree__input 
@@ -32,7 +33,7 @@
         .o-autocompletree__suggestion-list
          p 
           form(method='POST' action='/submit-form' id="form")
-          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
 
           br
           a(href='#' id ="folioButton")
@@ -44,7 +45,7 @@
         .o-autocompletree__tag
         .o-autocompletree__suggestion-list
          p 
-          form(method='POST' action='/submit-form')
+          form(method='POST' action='/submit-form' name = 'input')
           textarea(rows="4" cols="25")
 
   
@@ -56,7 +57,7 @@
         .o-autocompletree__suggestion-list
          p 
           form(method='POST' action='/submit-form' id = "inputClassifier")
-          input(type='text' name='neume' data-path='neumes.json' data-autocompletree='' )
+          input(type='text' name='input' data-path='neumes.json' data-autocompletree='' )
           br
           a(href='#')   
            span.glyphicon.glyphicon-plus#classifierButton

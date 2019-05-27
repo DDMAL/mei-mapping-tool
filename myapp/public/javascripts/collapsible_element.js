@@ -49,6 +49,9 @@ buttonSubmit.onclick = function() {
 
 //Creating a button element
  var name = document.getElementById("elementName").value;
+
+ //Value of the container for the dropzone : 
+ var dropContainer = document.getElementById("hey");
 // var buttonCollapse = document.createElement("BUTTON");
  //var collapsibleAttribute = document.createAttribute("class");
  //collapsibleAttribute.value = "collapsible";
@@ -58,7 +61,9 @@ var buttonCloned = buttonClone.cloneNode(true);
 buttonCloned.innerText = name;
 
 var boxContainer = document.getElementById("roundedBoxId");
-boxContainer.appendChild(buttonCloned);
+boxContainer.appendChild(buttonCloned); //This works!
+
+
 //Appending it to the bounding box for the collapsible
  buttonCloned.innerText = name;
  //var boxContainer = document.getElementById("roundedBoxId");
@@ -75,14 +80,16 @@ boxContainer.appendChild(buttonCloned);
 
 //Maling the element for cloning the content of the collapsible
 var meiEncodingToClone = document.getElementById("template");
+document.getElementsByName("input").innerHTML = " ";
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
 var elementCloned = document.getElementById("template");
-
-meiEncodingCloned.value = "";
+//document.getElementsByName("input").value = "";
 //Changing the background of the element collapsible
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 boxContainer.appendChild(meiEncodingCloned);
 
+var createDropzone = document.getElementById("mydiv");
+meiEncodingCloned.appendChild(createDropzone);
 
 //Event listener for the click button of the collapsible element
 buttonCloned.addEventListener("click", function() {
@@ -125,9 +132,11 @@ var i;
 
 for (i = 0; i < closebtns.length; i++) {
   closebtns[i].addEventListener("click", function() {
-    document.getElementById("collapsibleButton").style.display = 'none';
-    meiEncodingToClone.remove();
+    modal.style.display = "none";
   });
 
 }
+
+
+//Function to create a new Collapsible object 
 

@@ -1,0 +1,13 @@
+#mydiv  
+    a.btn-dropzon-cre create dropzone
+    style.
+      .hidden{display:none;}
+    script.
+      var dropzoneCreationFlag=false;
+      $('.btn-dropzon-cre').click(function(event){
+      if(!dropzoneCreationFlag)
+      {
+      dropzoneCreationFlag=true;
+      $('#mydiv').removeClass('hidden').dropzone({ url: "/file/post" });
+      }
+      })

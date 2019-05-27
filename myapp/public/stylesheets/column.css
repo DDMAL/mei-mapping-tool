@@ -55,9 +55,15 @@ body {
     height: 100%;
   }
 }
+input{
+  width: 60%;
+  height: 95%;
+  margin: auto;
+  resize: none;
+}
 textarea {
   width: 95%;
-  height: 95%;
+  height: 85%;
   margin: auto;
   resize: none;
 }

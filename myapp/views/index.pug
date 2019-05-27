@@ -5,6 +5,8 @@ head
   //Title for the upper part of the mei tool
   title Squiggle to MEI mapping tool
 
+  script(src='https://code.jquery.com/jquery-1.10.2.js')
+
   script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js')
   script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js')
   script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
@@ -136,8 +138,7 @@ div
       button.collapsible(id = 'collapsibleButton') Punctum
         span.close ×
       include meiEncodingObject.pug
-      
-
+    
 
 
         script(type='text/javascript' src='/javascripts/ace.js')
