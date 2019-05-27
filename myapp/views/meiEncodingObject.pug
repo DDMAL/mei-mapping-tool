@@ -9,7 +9,7 @@
        script(src='/javascripts/dropzone.js')
        link(rel='stylesheet', href='/stylesheets/dropzone.css')
       
-       form(action='/images', class ='dropzone', method='post', id='my-dropzone-element-id')
+       form(action='/images', class ='dropzone', method='post', name = 'hey', id='my-dropzone-element-id')
         div(class='fallback')
           input(type='file', name='pic' multiple)
           | Drop files here or click to upload.
@@ -33,8 +33,10 @@
          p 
           form(method='POST' action='/submit-form' id="form")
           input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+
           br
-          a(href='#' id ="folioButton")   
+          a(href='#' id ="folioButton")
+
            span.glyphicon.glyphicon-plus
 
       h6 Description :
@@ -67,7 +69,6 @@
      .card
       br
       include ace.pug
-
       script(type='text/javascript' src='/javascripts/ace.js')
         
      script(type='text/javascript' src='/javascripts/label.js')

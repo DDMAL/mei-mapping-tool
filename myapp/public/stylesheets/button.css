@@ -1,6 +1,7 @@
-body {
+body { //Real body
   background-color: #ffffff.;
   font-family: 'Poppins', sans-serif;
+  border-width: 10px;
 }
 
 #container1 {

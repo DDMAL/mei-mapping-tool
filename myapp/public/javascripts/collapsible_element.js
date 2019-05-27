@@ -1,3 +1,4 @@
+//add function for Ace editor : 
 
   var coll = document.getElementsByClassName("collapsible");
   var i;
@@ -47,33 +48,49 @@ buttonSubmit.onclick = function() {
 
 
 //Creating a button element
-// var name = document.getElementById("elementName").value;
+ var name = document.getElementById("elementName").value;
 // var buttonCollapse = document.createElement("BUTTON");
  //var collapsibleAttribute = document.createAttribute("class");
  //collapsibleAttribute.value = "collapsible";
  //buttonCollapse.setAttributeNode(collapsibleAttribute);
+var buttonClone = document.getElementById("collapsibleButton");
+var buttonCloned = buttonClone.cloneNode(true);
+buttonCloned.innerText = name;
 
+var boxContainer = document.getElementById("roundedBoxId");
+boxContainer.appendChild(buttonCloned);
 //Appending it to the bounding box for the collapsible
- //buttonCollapse.innerText = name;
+ buttonCloned.innerText = name;
  //var boxContainer = document.getElementById("roundedBoxId");
- //boxContainer.appendChild(buttonCollapse);
+ //boxContainer.appendChild(buttonCloned);
 
 //Submit button adds a new collapsible element
-var name = document.getElementById("elementName").value; //name submitted by the person
-var buttonClone = document.getElementById("collapsibleButton");
+//var name = document.getElementById("elementName").value; //name submitted by the person
+/*var buttonClone = document.getElementById("collapsibleButton");
 var buttonCloned = buttonClone.cloneNode(true);
 buttonCloned.innerText = name;
 var boxContainer = document.getElementById("roundedBoxId");
 boxContainer.appendChild(buttonCloned);
-//document.getElementById("collapsibleButton").innerText = name;
+//document.getElementById("collapsibleButton").innerText = name;*/
 
 //Maling the element for cloning the content of the collapsible
 var meiEncodingToClone = document.getElementById("template");
 var meiEncodingCloned = meiEncodingToClone.cloneNode(true);
+var elementCloned = document.getElementById("template");
 
 meiEncodingCloned.value = "";
 //Changing the background of the element collapsible
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
+boxContainer.appendChild(meiEncodingCloned);
+
+//Creating a new Dropzone form : 
+var dropzone = document.getElementById("my-dropzone-element-id");
+dropzone.addEventListener("click", function() { 
+ var p = document.createElement("p");
+    p.innerHTML = "This works";
+    document.body.appendChild(p);
+});
+
 
 //Event listener for the click button of the collapsible element
 buttonCloned.addEventListener("click", function() {
@@ -85,15 +102,7 @@ buttonCloned.addEventListener("click", function() {
   content.style.display = "block";
   }
   });
-//creating a new dropzone
-Dropzone.autoDiscover = false;
 
-var myDropzone = new Dropzone("#hey", { url: "/file/post"});
-
-var temp = 0;
-var newMEIID = document.createElement("")
-meiEncodingCloned.setAttributeNode()
-newMeiID++;
 //Appending the meiEncodingCloned to the document
 boxContainer.appendChild(meiEncodingCloned);
 

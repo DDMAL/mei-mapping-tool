@@ -20,7 +20,7 @@
     background: #7386D5;
     color: #fff;
     transition: all 0.3s;
-    /*display: none;*/
+    display: none;
 }
 
 #sidebar.active {
@@ -107,6 +107,6 @@ ul ul a {
 }
 
  /* Fixes dropdown menus placed on the right side */
-    .ml-auto .dropdown-menu {
+.ml-auto .dropdown-menu {
       left: auto !important;
       right: 0px;
