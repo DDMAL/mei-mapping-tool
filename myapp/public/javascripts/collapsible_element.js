@@ -85,7 +85,15 @@ buttonCloned.addEventListener("click", function() {
   content.style.display = "block";
   }
   });
+//creating a new dropzone
+Dropzone.autoDiscover = false;
 
+var myDropzone = new Dropzone("#hey", { url: "/file/post"});
+
+var temp = 0;
+var newMEIID = document.createElement("")
+meiEncodingCloned.setAttributeNode()
+newMeiID++;
 //Appending the meiEncodingCloned to the document
 boxContainer.appendChild(meiEncodingCloned);
 

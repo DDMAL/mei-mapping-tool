@@ -5,7 +5,7 @@
  
     .column
      .card
-      section
+      section#hey
        script(src='/javascripts/dropzone.js')
        link(rel='stylesheet', href='/stylesheets/dropzone.css')
       
@@ -33,6 +33,7 @@
          p 
           form(method='POST' action='/submit-form' id="form")
           input(type='text' name='neume' data-path='neumes.json' data-autocompletree='')
+          br
           a(href='#' id ="folioButton")   
            span.glyphicon.glyphicon-plus
 
@@ -42,7 +43,7 @@
         .o-autocompletree__suggestion-list
          p 
           form(method='POST' action='/submit-form')
-          textarea(rows="4" cols="30")
+          textarea(rows="4" cols="25")
 
   
 
@@ -54,7 +55,7 @@
          p 
           form(method='POST' action='/submit-form' id = "inputClassifier")
           input(type='text' name='neume' data-path='neumes.json' data-autocompletree='' )
-          
+          br
           a(href='#')   
            span.glyphicon.glyphicon-plus#classifierButton
 
