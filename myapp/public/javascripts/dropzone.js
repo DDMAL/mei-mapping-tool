@@ -1207,7 +1207,7 @@ var Dropzone = function (_Emitter) {
           if (_this3.options.maxFiles === null || _this3.options.maxFiles > 1) {
             _this3.hiddenFileInput.setAttribute("multiple", "multiple");
           }
-          _this3.hiddenFileInput.className = "dz-hidden-input";
+          _this3.hiddenFileInput.className = "dropzone dz-clickable dz-started";
 
           if (_this3.options.acceptedFiles !== null) {
             _this3.hiddenFileInput.setAttribute("accept", _this3.options.acceptedFiles);

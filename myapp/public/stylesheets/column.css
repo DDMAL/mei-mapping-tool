@@ -14,6 +14,12 @@ body {
   padding: 0 10px;
   color :black;
 }
+.btn-dropzon-cre{
+  width: 95%;
+  height: 85%;
+  margin: auto;
+  resize: none;
+}
 
 /* Remove extra left and right margins, due to padding in columns */
 .row {margin: 0 -5px;}

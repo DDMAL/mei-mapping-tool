@@ -89,7 +89,7 @@ meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 boxContainer.appendChild(meiEncodingCloned);
 
 var createDropzone = document.getElementById("mydiv");
-meiEncodingCloned.appendChild(createDropzone);
+//meiEncodingCloned.appendChild(createDropzone);
 
 //Event listener for the click button of the collapsible element
 buttonCloned.addEventListener("click", function() {

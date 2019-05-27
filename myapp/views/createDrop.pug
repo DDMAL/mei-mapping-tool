@@ -1,13 +1,13 @@
-#mydiv  
-    a.btn-dropzon-cre create dropzone
+#mydiv
+    a.btn-dropzon-cre(class = "dropzone dz-clickable dz-started") create dropzone
     style.
-      .hidden{display:none;}
+      {display:block;
+      visibility: visible;
+      class : dropzone dz-clickable dz-started;}
     script.
-      var dropzoneCreationFlag=false;
+      var dropzoneCreationFlag=true;
       $('.btn-dropzon-cre').click(function(event){
-      if(!dropzoneCreationFlag)
-      {
+
       dropzoneCreationFlag=true;
-      $('#mydiv').removeClass('hidden').dropzone({ url: "/file/post" });
-      }
+      $('#mydiv').removeClass("hidden").dropzone({ url: "/file/post" });
       })
