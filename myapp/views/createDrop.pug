@@ -1,13 +1,14 @@
-#mydiv
-    a.btn-dropzon-cre(class = "dropzone dz-clickable dz-started") create dropzone
-    style.
-      {display:block;
-      visibility: visible;
-      class : dropzone dz-clickable dz-started;}
-    script.
-      var dropzoneCreationFlag=true;
-      $('.btn-dropzon-cre').click(function(event){
-
-      dropzoneCreationFlag=true;
-      $('#mydiv').removeClass("hidden").dropzone({ url: "/file/post" });
-      })
+#myDiv
+  Dropzone.autoDiscover = false;
+  $("#mydropzone").dropzone({
+      init: function() {
+          var $this = this;
+          $("button#clear-dropzone").click(function() {
+              $this.removeAllFiles(true);
+          });
+      },
+      paramName: "file",
+      maxFilesize: 5,
+      maxFiles : 1,
+      autoProcessQueue : false
+  });
