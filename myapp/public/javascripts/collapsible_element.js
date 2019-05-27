@@ -83,14 +83,6 @@ meiEncodingCloned.value = "";
 meiEncodingCloned.style.backgroundColor = "#f1f1f1";
 boxContainer.appendChild(meiEncodingCloned);
 
-//Creating a new Dropzone form : 
-var dropzone = document.getElementById("my-dropzone-element-id");
-dropzone.addEventListener("click", function() { 
- var p = document.createElement("p");
-    p.innerHTML = "This works";
-    document.body.appendChild(p);
-});
-
 
 //Event listener for the click button of the collapsible element
 buttonCloned.addEventListener("click", function() {
@@ -102,23 +94,30 @@ buttonCloned.addEventListener("click", function() {
   content.style.display = "block";
   }
   });
-
+meiEncodingCloned
 //Appending the meiEncodingCloned to the document
 boxContainer.appendChild(meiEncodingCloned);
+
+//Making dividers for the dropzone : 
 
 //Dropzone element multiple times
 var x = document.getElementsByName("hey");
 var i;
   for (i = 0; i < x.length; i++) {
       x[i].onclick = function() {
-      var element = document.createElement("BUTTON");
-      document.body.appendChild(element);
-}
-  }
+     var divisionDrop = document.createElement("div");
+     var divisionId = document.createAttribute("id");
+     divisionId.value = x[i];
+     divisionDrop.setAttributeNode(divisionId);
+     var formDropzone = document.getElementsByName("sectionDrop");
+     document.body.appendChild(divisionDrop);
+    // Dropzone class:
+    var myDropzone = new Dropzone(divisionDrop, { url: "/file/post"});
 
-//Shutting off the autodiscovery element of the specific elements 
-Dropzone.autoDiscover = false; 
+    //Shutting off the autodiscovery element of the specific elements 
+    Dropzone.autoDiscover = false; 
 }
+}}
 
 //Delete elements
 var closebtns = document.getElementsByClassName("close");
@@ -129,6 +128,6 @@ for (i = 0; i < closebtns.length; i++) {
     document.getElementById("collapsibleButton").style.display = 'none';
     meiEncodingToClone.remove();
   });
-}
 
+}
 

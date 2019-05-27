@@ -116,10 +116,22 @@ div
               center
                  button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
                   |  Submit
-        
-      .header
-       .b
-        abeasd Drag and Drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name, Folio, Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Classifier label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEI snippet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      .column  
+        .header
+         .b
+         p Drag and Drop
+      .column  
+        .header
+         .b
+         p Name, Folio, Description
+      .column  
+        .header
+         .b
+          p Classification Label
+      .column  
+        .header
+         .b
+          p MEI Snippet
 
       button.collapsible(id = 'collapsibleButton') Punctum
         span.close ×
@@ -128,13 +140,13 @@ div
 
 
 
-            script(type='text/javascript' src='/javascripts/ace.js')
-            script(type='text/javascript' src='/javascripts/label.js')
+        script(type='text/javascript' src='/javascripts/ace.js')
+        script(type='text/javascript' src='/javascripts/label.js')
 
-      //Getting the collapsible-element javascript file
-      script(type='text/javascript' src='/javascripts/collapsible_element.js')
+  //Getting the collapsible-element javascript file
+  script(type='text/javascript' src='/javascripts/collapsible_element.js')
 
 
-      block content
-       block foot
+  block content
+   block foot
 
