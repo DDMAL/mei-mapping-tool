@@ -106,6 +106,16 @@ buttonCloned.addEventListener("click", function() {
 //Appending the meiEncodingCloned to the document
 boxContainer.appendChild(meiEncodingCloned);
 
+//Dropzone element multiple times
+var x = document.getElementsByName("hey");
+var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].onclick = function() {
+      var element = document.createElement("BUTTON");
+      document.body.appendChild(element);
+}
+  }
+
 //Shutting off the autodiscovery element of the specific elements 
 Dropzone.autoDiscover = false; 
 }
