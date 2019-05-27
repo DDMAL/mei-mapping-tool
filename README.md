@@ -48,8 +48,11 @@ To make sure mongodb is running in your application, you can add this command to
   `sudo mongod`
   
   This will start the mongodb database app for the website.
+  
  2. Open another terminal window and add this command to the terminal
+ 
   `mongo`
+  
   Under this terminal, you will be able to interact with the database with mongodb commands like `show dbs`to show a list of all the databases. A list of useful commands can be found in this link : https://docs.mongodb.com/manual/reference/mongo-shell/
  
  ### With the MongoDB Compass Community object
