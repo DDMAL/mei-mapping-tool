@@ -1,77 +1,67 @@
-
-
-.content
-  section#template.row
- 
+#clone-container
+  .clone
+    button.collapsible(id = 'collapsibleButton') Punctum
     .column
-     .card
-      section#hey
-       script(src='/javascripts/dropzone.js')
-       link(rel='stylesheet', href='/stylesheets/dropzone.css')
-      
-       form(action='/images', class ='dropzone', method='post', name = 'hey', id='my-dropzone-element-id')
-        div(class='fallback')
-          input(type='file', name='pic' multiple)
-          | Drop files here or click to upload.
+         .card
+          script(src='/javascripts/dropzone.js')
+          link(rel='stylesheet', href='/stylesheets/dropzone.css')
+          section#dropzoneSection
+           form(action='/images', class ='dropzone', method='post', name = 'hey', id='my-dropzone-element-id')
+            div(class='fallback')
+              input(type='file', name='pic' multiple)
+              | Drop files here or click to upload.
 
-          span.note.needsclick
-        //include createDrop.pug
-
+              span.note.needsclick
+              
     .column
-     .card 
-      h6 Name :
-        .o-autocompletree__input 
-        .o-autocompletree__tag
-        .o-autocompletree__suggestion-list
-         p 
-          form(method='POST' action='/submit-form')
-          input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
-     
-      h6 Folio :
-        .o-autocompletree__input 
-        .o-autocompletree__tag
-        .o-autocompletree__suggestion-list
-         p 
-          form(method='POST' action='/submit-form' id="form")
-          input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
+         .card 
+          h6 Name :
+            .o-autocompletree__input 
+            .o-autocompletree__tag
+            .o-autocompletree__suggestion-list
+             p 
+              form(method='POST' action='/submit-form')
+              input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
+          h6 Folio :
+            .o-autocompletree__input 
+            .o-autocompletree__tag
+            .o-autocompletree__suggestion-list
+             p 
+              form(method='POST' action='/submit-form' id="form")
+              input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
 
+              br
+              a(href='javascript:void();' id ="folioButton")
+
+               span.glyphicon.glyphicon-plus
+
+          h6 Description :
+            .o-autocompletree__input 
+            .o-autocompletree__tag
+            .o-autocompletree__suggestion-list
+             p 
+              form(method='POST' action='/submit-form' name = 'input')
+              textarea(rows="4" cols="25") 
+    .column
+         .card
+          .o-autocompletree__input 
+          .o-autocompletree__tag
+          .o-autocompletree__suggestion-list
+           p 
+            form(method='POST' action='/submit-form' id = "inputClassifier" class = "classifier")
+            input(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
+            br
+            a(href='javascript:void();')   
+             span.glyphicon.glyphicon-plus#classifierButton
+    .column
+         .card#aceCard
           br
-          a(href='#' id ="folioButton")
+          include ace.pug
+          script(type='text/javascript' src='/javascripts/ace.js')
+       
 
-           span.glyphicon.glyphicon-plus
+       
 
-      h6 Description :
-        .o-autocompletree__input 
-        .o-autocompletree__tag
-        .o-autocompletree__suggestion-list
-         p 
-          form(method='POST' action='/submit-form' name = 'input')
-          textarea(rows="4" cols="25")
-
-  
-
-    .column
-     .card
-       .o-autocompletree__input 
-        .o-autocompletree__tag
-        .o-autocompletree__suggestion-list
-         p 
-          form(method='POST' action='/submit-form' id = "inputClassifier")
-          input(type='text' name='input' data-path='neumes.json' data-autocompletree='' )
-          br
-          a(href='#')   
-           span.glyphicon.glyphicon-plus#classifierButton
-
-
-
-  
-
-    .column
-     .card
-      br
-      include ace.pug
-      script(type='text/javascript' src='/javascripts/ace.js')
-        
-     script(type='text/javascript' src='/javascripts/label.js')
-
-
+    span.controls
+      a.z_button(id ="button")
+          .z_plus +

@@ -23,8 +23,11 @@ head
   script(src='/autocompletree.js')
 
 //Dropzone elements 
-  link(rel='stylesheet' href='dropzone.css')
+script(src='/javascripts/dropzone.js')
+link(rel='stylesheet', href='/stylesheets/dropzone.css')
 
+//Jquery :
+script(src='https://code.jquery.com/jquery-3.4.1.min.js')
 
 //Button elements
 link(rel='stylesheet' href='/stylesheets/popup.css')
@@ -109,20 +112,7 @@ div
   .roundedCorners
     div(id = "roundedBoxId")
       div
-        .z_button(id ="button")
-          .z_plus +
-        #myModal.modal
-          // Modal content
-          .modal-content
-            span.close x
-            h4 New element
-            form(action="/action_page.php")
-              | Name: 
-              input(type="text" name="Name" id = "elementName")
-              br
-              center
-                 button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
-                  |  Submit
+        
       .column  
         .header
          .b
@@ -140,15 +130,13 @@ div
          .b
           p MEI Snippet
 
-      button.collapsible(id = 'collapsibleButton') Punctum
-        span.close ×
       include meiEncodingObject.pug
     
 
 
         script(type='text/javascript' src='/javascripts/ace.js')
         script(type='text/javascript' src='/javascripts/label.js')
-
+        script(type='text/javascript' src='/javascripts/hiddenDropzone.js')
   //Getting the collapsible-element javascript file
   script(type='text/javascript' src='/javascripts/collapsible_element.js')
 
