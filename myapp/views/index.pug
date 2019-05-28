@@ -11,6 +11,8 @@ head
   script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js')
   script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
   script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+
 
   link(rel='stylesheet' href='https://unpkg.com/flexmasonry/dist/flexmasonry.css')
   script(src='https://unpkg.com/flexmasonry/dist/flexmasonry.js')
@@ -112,7 +114,18 @@ div
   .roundedCorners
     div(id = "roundedBoxId")
       div
-        
+      #myModal.modal
+        // Modal content
+        .modal-content
+          span.close x
+          h4 New element
+          form(action="/action_page.php")
+            | Name: 
+            input(type="text" name="Name" id = "elementName")
+            br
+            center
+               button.btn.btn-default.btn-sm(type="button" id ="newCollapsible")
+                |  Submit
       .column  
         .header
          .b
