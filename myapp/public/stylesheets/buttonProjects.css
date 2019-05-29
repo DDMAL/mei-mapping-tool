@@ -1,0 +1,17 @@
+.button3 {border-radius: 10px;
+border-color : cornflowerblue;
+width: 92%;
+font-size: 16px;
+background-color: lightskyblue;
+color: black;
+display: inline-block;
+padding: 16px 32px;
+text-align: center;
+//margin: 4px 2px;
+//margin-right : 20;
+//position: absolute;}
+
+.button3:hover {
+  background-color: dodgerblue; /* pale blue */
+  color: white;
+}

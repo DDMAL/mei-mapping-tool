@@ -50,7 +50,7 @@ var btn = $("#button");
 // Get the <span> element that closes the modal
 var span = $(".close");
 
-var $cloned = $('.clone').clone(true, true);
+
 
 var $collapsibleButton = $("#collapsibleButton");
 // When the user clicks on the button, open the modal 
@@ -92,7 +92,7 @@ window.onclick = function(event) {
   }
 }
 var buttonSubmit = document.getElementById("newCollapsible");
-
+Dropzone.autoDiscover = false;
 buttonSubmit.onclick = function(e) {
 
   //Submit button closes pop-up
@@ -121,14 +121,25 @@ for (el = 0; el < collapse.length; el++) {
     }
   });
 }
-  
+Dropzone.autoDiscover = false;
+    $(function() {
+        // Now that the DOM is fully loaded, create the dropzone, and setup the
+        // event listeners
+        var myDropzone = new Dropzone(document.getElementById("dropzoneSection"));
+        myDropzone.on("complete", function(file) {
+            alert("halo");
+            /* Maybe display some more file information on your page */
+        });
+    })
     e.preventDefault();
   //var $body = $(".roundedCorners")
-  $cloner.clone(true, true).appendTo($body);
+  $cloner.clone(true).appendTo($body);
   
 }
- 
+ var $cloned = $('.clone').clone(true, true);
 });
+
+
 
 
 
