@@ -96,8 +96,8 @@ buttonSubmit.onclick = function(e) {
 
   //Submit button closes pop-up
   modal.style.display = "none";
-
-  var $cloner = $addButton.closest(".clone");    
+  var buttonClone = $("#collapsibleButton");
+  var $cloner = $classifier.closest(".clone");    
 //Creating a button element
   var name = document.getElementById("elementName").value;
   var buttonClone = $("#collapsibleButton");
@@ -106,8 +106,8 @@ buttonSubmit.onclick = function(e) {
   buttonClone.innerText = name;
   
     e.preventDefault();
-  var $body = $(".roundedCorners")
-    $cloner.clone(true, true).appendTo($body);
+  //var $body = $(".roundedCorners")
+  $cloner.clone(true, true).appendTo($body);
   
 }
  
