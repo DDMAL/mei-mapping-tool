@@ -104,9 +104,23 @@ buttonSubmit.onclick = function(e) {
   var buttonClone = $("#collapsibleButton");
   var $body = $(".roundedCorners")
   var clonedButton = buttonClone.clone();
+  
   clonedButton.html(name);
   clonedButton.appendTo($body);
-  buttonClone.innerText = name;
+  var collapse = clonedButton;
+  var el;
+
+for (el = 0; el < collapse.length; el++) {
+  collapse[el].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "none") {
+      content.style.display = "block";
+    } else {
+      content.style.display = "none";
+    }
+  });
+}
   
     e.preventDefault();
   //var $body = $(".roundedCorners")
