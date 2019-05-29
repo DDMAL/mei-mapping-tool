@@ -181,7 +181,7 @@ div
                     input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
 
                     br
-                    a(href='javascript:void();' id ="folioButton")
+                    a(href='javascript:void(0);' id ="folioButton")
 
                      span.glyphicon.glyphicon-plus
 
@@ -201,7 +201,7 @@ div
                   form(method='POST' action='/submit-form' id = "inputClassifier" class = "classifier")
                   input(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
                   br
-                  a(href='javascript:void();')   
+                  a(href='javascript:void(0);')   
                    span.glyphicon.glyphicon-plus#classifierButton
           .column
                .card#aceCard
@@ -232,12 +232,6 @@ div
                   editorSecond.setTheme("ace/theme/monokai");
                   editorSecond.getSession().setMode("ace/mode/javascript");
                              
-
-             
-
-          span.controls
-            a.z_button(id ="button")
-                .z_plus +
   script(type='text/javascript' src='/javascripts/collapsible_element.js')            
 
 
