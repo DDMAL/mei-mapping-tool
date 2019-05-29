@@ -29,7 +29,6 @@ var modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
 var btn = $("#button");
-var buttonSubmit = $("#newCollapsible");
 
 //Creating a button element
   //var name = document.getElementById("elementName").value;
@@ -49,23 +48,6 @@ var buttonSubmit = $("#newCollapsible");
 
 // Get the <span> element that closes the modal
 var span = $(".close");
-buttonSubmit.onclick = function(e) {
-
-  //Submit button closes pop-up
-  modal.style.display = "none";
-
-  var $cloner = $addButton.closest(".clone");    
-//Creating a button element
-  var name = document.getElementById("elementName").value;
-  var buttonClone = $("#collapsibleButton");
-  //buttonClone.clone().insertAfter($addButton);
-  buttonClone.innerText = name;
-  //buttonClone.insertAfter($addButton);
-    e.preventDefault();
-    
-    $cloned.clone(true, true).insertAfter($cloner);
-  
-}
 
 var $cloned = $('.clone').clone(true, true);
 
@@ -84,6 +66,7 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
 /////Jquery to add multiple items and keep the event listeners
 var $addButton = $(".z_plus");
 $addButton.on("click", function(e) {
@@ -107,8 +90,28 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+var buttonSubmit = document.getElementById("newCollapsible");
 
+buttonSubmit.onclick = function(e) {
+
+  //Submit button closes pop-up
+  modal.style.display = "none";
+
+  var $cloner = $addButton.closest(".clone");    
+//Creating a button element
+  var name = document.getElementById("elementName").value;
+  var buttonClone = $("#collapsibleButton");
+  var $body = $(".roundedCorners")
+  buttonClone.clone().appendTo($body);
+  buttonClone.innerText = name;
+  
+    e.preventDefault();
+  var $body = $(".roundedCorners")
+    $cloner.clone(true, true).appendTo($body);
+  
+}
  
 });
+
 
 
