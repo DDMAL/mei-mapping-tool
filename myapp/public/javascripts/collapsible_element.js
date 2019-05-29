@@ -22,9 +22,6 @@ for (i = 0; i < coll.length; i++) {
   });
 }
 
-
-/////Jquery to add multiple items and keep the event listeners
-var $addButton = $(".z_plus");
 // Get the modal and cloned element
 // Get the modal and cloned element
 var modal = document.getElementById("myModal");
@@ -87,9 +84,10 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
-
+/////Jquery to add multiple items and keep the event listeners
+var $addButton = $(".z_plus");
 $addButton.on("click", function(e) {
-
+modal.style.display = "block";
 //Getting the elements for the collapsible element:
 var btn = $("#button");
 // Get the <span> element that closes the modal
