@@ -9,6 +9,7 @@ a {
   color: #000000;
 
 }
+.text{font: 14px "Lucida Grande", Helvetica, Arial, system-ui;}
 .buttonAdd
 {border-radius: 12px;
 padding: 10px 24px;

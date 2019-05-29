@@ -1,28 +1,39 @@
-.button {border-radius: 10px;
-border-color : cornflowerblue;
-width: 100%;
-height: 15px;
-font-size: 16px;
-background-color: lightskyblue;
-color: black;
-display: inline-block;
-padding: 16px 0px;
-text-align: center;
-//margin: 4px 2px;
-//margin-right : 20;
-//position: absolute;}
+.header{
+  box-sizing: border-box;
+  background: linear-gradient(to left,#ff2952,#ce1e3f);;
+}
+
+.separator{
+  height: 125px;
+  margin-top:calc(125px * -1);
+  background-image: linear-gradient(to bottom right, transparent, transparent 50%, #f3efe4 50%, #f3efe4);
+  /* Using transparent for top of the gradient allows for a background image on the header. Alternatively you can just use a solid color that matches the header color. */
+}
+
+.footer{
+  background: #f3efe4;
+}
+
+.button {border-radius: 5px;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  text-align: center;
+  background-color:lightskyblue;
+  height: 100%;
+  position:relative;
+  border-width: 10px;
+}}
 
 .button:hover {
-  background-color: dodgerblue; /* pale blue */
+  background-color: black; /* pale blue */
   color: white;
 }
 
 .button2 {
-  background-color: #92adbd; /* pale blue */
+  background-color: black; /* pale blue */
   color: black;
 }
 
 .button2:hover {
-  background-color: #659abb; /* pale blue */
+  background-color: black; /* pale blue */
   color: white;
 }

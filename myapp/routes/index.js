@@ -26,5 +26,7 @@ router.post('/images', function(req, res) {
     // do something w/ req.body or req.files 
 });
 
-
+router.get('/images/CF-005(1).png', function(req, res) {
+    res.render('index', { title: 'Express' });
+});
 module.exports = router;

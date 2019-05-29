@@ -6,35 +6,97 @@ html
     link(rel="stylesheet" href="/stylesheets/style.css")
     link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
     link(rel="stylesheet" href="/stylesheets/column.css")
-    ink(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    link(rel="images" href="/images/CF-005 (1).png")
     //Column parameters
- 
+  div
+    header
+      // our main logo
+      a#logo(href='index.html')
+        span MEI Mapping Projects
+      // main navigation links
+      nav
+        ul
+          li
+            a(href='#') About
+          li
+            a(href='#') Projects
+          li
+            a(href='#') DDMAL 
+          li
+            a(href='#') Log out
+    // the content
+    main
+      // hero content
+      .hero
+        // content for the hero
+        .hero-content
 
-  body
-    .card
-       h1  MEI Mapping Projects
-    h2 Projects
+          h1.hero-title Projects
+          p All of your mei-mapping projects, in one interface.
+          a(href='#') Add project
+          a(href='#') Learn more
+      // features section
+      .site-section
+        .site-section-inside
+          .section-header
+            h2 Add a new project
+          .feature-box
+            .text
+              .button(href="#" id ="projectButton" formaction="/meiMapping")
+                br
+                | Add New Project
+                br
+                br
+              #projectModal.modal
+                // Modal content
+                .modal-content
+                  span.close x
+                  h4 New element
+                  form#formAddProject(name="meiMapping" method="post" action="/meiMapping")
+                    | Name: 
+                    input(type="text" name="name" id = "elementName")
+                    br
+                    center
+                       button.btn.btn-default.btn-sm(type="button" id ="submitProject")
+                        |  Submit
+      // testimonials section
+      .site-section.site-section-secondary
+        .site-section-inside
+          .section-header
+            h2 What the people say
+          .testimonial-box
+            .testimonial-content
+              | Their service is by far the most influential I've ever seen.
+            .testimonial-author
+              //img(src='img/david.jpg', alt='David East')
+              h5 David East
+              span King of Firebase
+          .testimonial-box
+            .testimonial-content
+              | Their service is by far the most influential I've ever seen.
+            .testimonial-author
+              //img(src='img/holly.jpg', alt='Holly Lloyd')
+              h5 Holly Lloyd
+              span Queen of Scotch
+          .testimonial-box
+            .testimonial-content
+              | Their service is by far the most influential I've ever seen.
+            .testimonial-author
+              //img(src='img/brad.jpg', alt='Brad Green')
+              h5 Brad Green
+              span King of Angular
+    // the footer
+    footer
+      //img(src='img/avatar.jpeg', alt='Footer Logo')
+      span
+        | My Website
+        br
+        | Copyright © 2016-3010
+
   link(rel='stylesheet' href='/stylesheets/popup.css')
   script(type='text/javascript' src='/javascripts/collapse.js')
   link(rel='stylesheet' href='/stylesheets/collapsible.css')
-  p
-  | 
-  .button(href="#" id ="projectButton" formaction="/meiMapping")
-    |  Add New Project
-    br
-    br
-  #projectModal.modal
-    // Modal content
-    .modal-content
-      span.close x
-      h4 New element
-      form#formAddProject(name="meiMapping" method="post" action="/meiMapping")
-        | Name: 
-        input(type="text" name="name" id = "elementName")
-        br
-        center
-           button.btn.btn-default.btn-sm(type="button" id ="submitProject")
-            |  Submit
-
-script(type='text/javascript' src='/javascripts/addProject.js')
+  script(type='text/javascript' src='/javascripts/addProject.js')
 
