@@ -102,14 +102,14 @@ html
     button(onclick="document.getElementById('id01').style.display='block'", style='width:auto;') Sign Up
     #id01.modal
       span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') ×
-      form.modal-content(action='/action_page.php')
+      form.modal-content(action='/projects')
         .containing
           h1 Sign Up
           p Please fill in this form to create an account.
           br
-          label(for='email')
-            b Email
-          input(type='text', placeholder='Enter Email', name='email', required='')
+          label(for='username')
+            b Username
+          input(type='text', placeholder='Enter username', name='username', required='')
           label(for='psw')
             b Password
           input(type='password', placeholder='Enter Password', name='psw', required='')
