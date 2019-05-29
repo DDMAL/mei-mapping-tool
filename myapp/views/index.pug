@@ -143,17 +143,114 @@ div
          .b
           p MEI Snippet
 
+      button.collapsible(id = 'collapsibleButton') Punctum
       include meiEncodingObject.pug
-    
+      
+      button.collapsible(id = 'collapsibleButton2') Pes
+      #clone-container
+        .clone
+          .column
+               .card
+                script(src='/javascripts/dropzone.js')
+                link(rel='stylesheet', href='/stylesheets/dropzone.css')
+                section#dropzoneSection
+                 form(action='/images', class ='dropzone', method='post', name = 'hey', id='my-dropzone-element-id')
+                  div(class='fallback')
+                    input(type='file', name='pic' multiple)
+                    | Drop files here or click to upload.
+
+                    span.note.needsclick
+                    
+          .column
+               .card 
+                h6 Name :
+                  .o-autocompletree__input 
+                  .o-autocompletree__tag
+                  .o-autocompletree__suggestion-list
+                   p 
+                    form(method='POST' action='/submit-form')
+                    input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
+                h6 Folio :
+                  .o-autocompletree__input 
+                  .o-autocompletree__tag
+                  .o-autocompletree__suggestion-list
+                   p 
+                    form(method='POST' action='/submit-form' id="form")
+                    input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
+
+                    br
+                    a(href='javascript:void();' id ="folioButton")
+
+                     span.glyphicon.glyphicon-plus
+
+                h6 Description :
+                  .o-autocompletree__input 
+                  .o-autocompletree__tag
+                  .o-autocompletree__suggestion-list
+                   p 
+                    form(method='POST' action='/submit-form' name = 'input')
+                    textarea(rows="4" cols="25") 
+          .column
+               .card
+                .o-autocompletree__input 
+                .o-autocompletree__tag
+                .o-autocompletree__suggestion-list
+                 p 
+                  form(method='POST' action='/submit-form' id = "inputClassifier" class = "classifier")
+                  input(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
+                  br
+                  a(href='javascript:void();')   
+                   span.glyphicon.glyphicon-plus#classifierButton
+          .column
+               .card#aceCard
+                br
+                style(type='text/css', media='screen').
+                 #editorSecond {
+                    /** Setting height is also important, otherwise editor wont showup**/
+                    height: 120px;
+                  }
+
+                .panel.panel-default
+                  .panel-body
+                    #editorSecond
+                      | //Mei encoding neume
+                      |
+                      | #{'<'}neume>
+                      |    #{'<'}nc />
+                      |  #{'<'}/neume>
+                  
+
+                script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                script.
+                  var editorSecond = ace.edit("editorSecond");
+                  editorSecond.setTheme("ace/theme/monokai");
+                  editorSecond.getSession().setMode("ace/mode/javascript");
+                script.
+                  var editorSecond = ace.edit("editorSecond");
+                  editorSecond.setTheme("ace/theme/monokai");
+                  editorSecond.getSession().setMode("ace/mode/javascript");
+                             
+
+             
+
+          span.controls
+            a.z_button(id ="button")
+                .z_plus +
+              
 
 
-        script(type='text/javascript' src='/javascripts/ace.js')
-        script(type='text/javascript' src='/javascripts/label.js')
-        script(type='text/javascript' src='/javascripts/hiddenDropzone.js')
-  //Getting the collapsible-element javascript file
-  script(type='text/javascript' src='/javascripts/collapsible_element.js')
+            
+  //button.collapsible(id = 'collapsibleButton') Scandicus
+  //include meiEncodingObject.pug
+          
 
 
-  block content
-   block foot
+              script(type='text/javascript' src='/javascripts/ace.js')
+              script(type='text/javascript' src='/javascripts/label.js')
+              script(type='text/javascript' src='/javascripts/hiddenDropzone.js')
+              //Getting the collapsible-element javascript file
+              script(type='text/javascript' src='/javascripts/collapsible_element.js')
+
+
+      
 
