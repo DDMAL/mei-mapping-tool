@@ -3,8 +3,9 @@
 var $classifier = $('.glyphicon.glyphicon-plus')
     
  //Any button with a black + will be able to add input fields
-$classifier.on("click", function(e) {  
+$classifier.on("click", function(e) {
   $('<input>').insertBefore(this);
+  $('<br>').insertBefore(this);  
 })
 
 var coll = document.getElementsByClassName("collapsible");
