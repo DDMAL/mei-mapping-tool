@@ -102,7 +102,9 @@ buttonSubmit.onclick = function(e) {
   var name = document.getElementById("elementName").value;
   var buttonClone = $("#collapsibleButton");
   var $body = $(".roundedCorners")
-  buttonClone.clone().appendTo($body);
+  var clonedButton = buttonClone.clone();
+  clonedButton.html(name);
+  clonedButton.appendTo($body);
   buttonClone.innerText = name;
   
     e.preventDefault();
