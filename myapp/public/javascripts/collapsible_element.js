@@ -1,3 +1,12 @@
+//Geting the elements to be independent of one another
+
+var $classifier = $('.glyphicon.glyphicon-plus')
+    
+ //Any button with a black + will be able to add input fields
+$classifier.on("click", function(e) {  
+  $('<input>').insertBefore(this);
+})
+
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
@@ -22,27 +31,27 @@ var modal = document.getElementById("myModal");
 
 
 // Get the button that opens the modal
-var btn = document.getElementById("button");
-var buttonSubmit = document.getElementById("newCollapsible")
+var btn = $("#button");
+var buttonSubmit = $("#newCollapsible");
 
 //Creating a button element
-  var name = document.getElementById("elementName").value;
+  //var name = document.getElementById("elementName").value;
 
    //Value of the container for the dropzone : 
   var dropContainer = document.getElementById("hey");
   var buttonClone = document.getElementById("collapsibleButton");
-  var buttonCloned = buttonClone.cloneNode(true);
-  buttonCloned.innerText = name;
+  //var buttonCloned = buttonClone.cloneNode(true);
+  //buttonCloned.innerText = name;
 
   var boxContainer = document.getElementById("roundedBoxId");
   //boxContainer.appendChild(buttonCloned); //This works!
 
   //Appending it to the bounding box for the collapsible
-   buttonCloned.innerText = name;
+   //buttonCloned.innerText = name;
 
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+var span = $(".close");
 buttonSubmit.onclick = function(e) {
 
   //Submit button closes pop-up
@@ -59,14 +68,6 @@ buttonSubmit.onclick = function(e) {
     
     $cloned.clone(true, true).insertAfter($cloner);
   
-}
-
-//Geting the elements to be independent of one another:
-var $classifier = $('.glyphicon.glyphicon-plus')
-    
- //Any button with a black + will be able to add input fields
-$classifier.on("click", function(e) {  
-  $('<input>').insertBefore($classifier);
 }
 
 var $cloned = $('.clone').clone(true, true);
