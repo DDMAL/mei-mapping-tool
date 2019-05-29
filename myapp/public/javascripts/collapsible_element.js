@@ -66,8 +66,8 @@ var $classifier = $('.glyphicon.glyphicon-plus')
     
  //Any button with a black + will be able to add input fields
 $classifier.on("click", function(e) {  
-  $('<input>').insertBefore(this);
-});
+  $('<input>').insertBefore($classifier);
+}
 
 var $cloned = $('.clone').clone(true, true);
 
