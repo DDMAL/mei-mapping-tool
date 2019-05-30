@@ -49,6 +49,7 @@ var nameSchema = new mongoose.Schema({
 });
 
 var neumeSchema = new mongoose.Schema({
+    value : String,
     images : String,
     name : String,
     folio : String,
@@ -116,6 +117,23 @@ app.post("/projects", (req, res) => {
             res.status(400).send("Unable to save to database");
         });
 });
+
+//Making a mongoose model with the neume schema
+var Neumes = mongoose.model("neumes", neumeSchema);
+
+app.post("/meiMapping", (req, res) => {
+    var neumeData = new Neumes(req.body);
+    var neumeCollection = db.collection("neume");
+    
+    neumeData.save()
+       .then(item => {
+            res.render('/meiMapping', { title: 'Express' });
+        })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
+
 
 
 // view engine setup

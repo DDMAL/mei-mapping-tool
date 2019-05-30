@@ -5,9 +5,9 @@
           script(src='/javascripts/dropzone.js')
           link(rel='stylesheet', href='/stylesheets/dropzone.css')
           section#dropzoneSection
-           form(action='/images', class ='dropzone', method='post', name = 'hey', id='my-dropzone-element-id')
+           form(action='/meiMapping', class ='dropzone', method='post', name = 'hey', id='my-dropzone-element-id')
             div(class='fallback')
-              input(type='file', name='pic' multiple)
+              input(type='file', name='images' multiple)
               | Drop files here or click to upload.
 
               span.note.needsclick
@@ -19,15 +19,15 @@
             .o-autocompletree__tag
             .o-autocompletree__suggestion-list
              p 
-              form(method='POST' action='/submit-form')
-              input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
+              form(method='POST' action='/smeiMapping')
+              input(type='text' name='name' data-path='neumes.json' data-autocompletree='')
           h6 Folio :
             .o-autocompletree__input 
             .o-autocompletree__tag
             .o-autocompletree__suggestion-list
              p 
-              form(method='POST' action='/submit-form' id="form")
-              input(type='text' name='input' data-path='neumes.json' data-autocompletree='')
+              form(method='POST' action='/meiMapping' id="form")
+              input(type='text' name='folio' data-path='neumes.json' data-autocompletree='')
 
               br
               a(href='javascript:void(0);' id ="folioButton")
@@ -39,7 +39,7 @@
             .o-autocompletree__tag
             .o-autocompletree__suggestion-list
              p 
-              form(method='POST' action='/submit-form' name = 'input')
+              form(method='POST' action='/meiMapping' name = 'String')
               textarea(rows="4" cols="25") 
     .column
          .card
