@@ -4,6 +4,7 @@ window.onbeforeunload = function() {
     localStorage.setItem("name", $('#inputName').val());
     localStorage.setItem("folio", $('#inputFolio').val());
     localStorage.setItem("description", $('#inputDescription').val());
+    localStorage.setItem("classification", $('#inputClassification').val());
 }
 
 window.onload = function() {
@@ -14,6 +15,8 @@ window.onload = function() {
     if (folio !== null) $('#inputFolio').val(folio);
     var description = localStorage.getItem("description");
     if (description !== null) $('#inputDescription').val(description);
+    var classification = localStorage.getItem("classification");
+    if (classification !== null) $('#inputClassification').val(classification);
 
 
     // ...

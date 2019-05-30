@@ -48,7 +48,7 @@
           .o-autocompletree__suggestion-list
            p 
             form(method='POST' action='/submit-form' id = "inputClassifier" class = "classifier")
-            input(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
+            input#inputClassification(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
             br
             a(href='javascript:void(0);')   
              span.glyphicon.glyphicon-plus#classifierButton
