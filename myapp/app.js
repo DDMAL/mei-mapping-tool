@@ -48,16 +48,19 @@ var nameSchema = new mongoose.Schema({
 
 });
 
+//neumeSchema
 var neumeSchema = new mongoose.Schema({
     value : String,
-    images : String,
     name : String,
     folio : String,
     description : String,
     classLabel : String,
     meiSnippet : String
+});
 
-
+//Dropzone schema : 
+var dropzoneSchema = new mongoose.Schema({
+    images : String
 });
 
 //Testing the database for project schema:
@@ -126,6 +129,22 @@ app.post("/meiMapping", (req, res) => {
     var neumeCollection = db.collection("neume");
     
     neumeData.save()
+       .then(item => {
+            res.render('index', { title: 'Express' });
+        })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
+
+//Making a mongoose model with the neume schema
+var DropzoneImages = mongoose.model("dropzone", dropzoneSchema);
+
+app.post("/meiMapping", (req, res) => {
+    var dropzoneData = new DropzoneImages(req.body);
+    var dropzoneCollection = db.collection("dropzone");
+    
+    dropzoneData.save()
        .then(item => {
             res.render('index', { title: 'Express' });
         })
