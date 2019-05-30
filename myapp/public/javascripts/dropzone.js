@@ -1204,7 +1204,6 @@ var Dropzone = function (_Emitter) {
           }
           _this3.hiddenFileInput = document.createElement("input");
           _this3.hiddenFileInput.setAttribute("type", "file");
-          _this3.hiddenFileInput.setAttribute("webkitdirectory", true);
           if (_this3.options.maxFiles === null || _this3.options.maxFiles > 1) {
             _this3.hiddenFileInput.setAttribute("multiple", "multiple");
           }
