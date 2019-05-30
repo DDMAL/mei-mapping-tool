@@ -21,11 +21,11 @@ html
           li
             a(href='#') About
           li
-            a(href='#') Projects
+            a(href='/projects') Projects
           li
             a(href='#') DDMAL 
           li
-            a(href='#') Log out
+            a(href='/') Log out
     // the content
     main
       // hero content
@@ -35,10 +35,11 @@ html
 
           h1.hero-title Projects
           p All of your mei-mapping projects, in one interface.
-          a(href='#') Add project
+          a(href='#section') Add project
           a(href='#') Learn more
       // features section
       .site-section
+      div
         .site-section-inside
           .section-header
             h2 Add a new project
@@ -61,32 +62,15 @@ html
                     center
                        button.btn.btn-default.btn-sm(type="button" id ="submitProject")
                         |  Submit
+      div
+        .site-section
       // testimonials section
       .site-section.site-section-secondary
-        .site-section-inside
-          .section-header
-            h2 What the people say
-          .testimonial-box
-            .testimonial-content
-              | Their service is by far the most influential I've ever seen.
-            .testimonial-author
-              //img(src='img/david.jpg', alt='David East')
-              h5 David East
-              span King of Firebase
-          .testimonial-box
-            .testimonial-content
-              | Their service is by far the most influential I've ever seen.
-            .testimonial-author
-              //img(src='img/holly.jpg', alt='Holly Lloyd')
-              h5 Holly Lloyd
-              span Queen of Scotch
-          .testimonial-box
-            .testimonial-content
-              | Their service is by far the most influential I've ever seen.
-            .testimonial-author
-              //img(src='img/brad.jpg', alt='Brad Green')
-              h5 Brad Green
-              span King of Angular
+        .padding  
+           div#section
+            .site-section-inside
+              .section-header
+                h2 My Projects
     // the footer
     footer
       //img(src='img/avatar.jpeg', alt='Footer Logo')
@@ -98,5 +82,7 @@ html
   link(rel='stylesheet' href='/stylesheets/popup.css')
   script(type='text/javascript' src='/javascripts/collapse.js')
   link(rel='stylesheet' href='/stylesheets/collapsible.css')
+
+
   script(type='text/javascript' src='/javascripts/addProject.js')
 

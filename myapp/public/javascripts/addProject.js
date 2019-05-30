@@ -52,8 +52,9 @@ newProject.setAttribute("style", "   background-color: #659abb; border-radius: 1
 var name = document.getElementById("elementName").value; 
 
 //name submitted by the person
+var section = document.getElementById("section");
 newProject.innerText = name;
-document.body.appendChild(newProject);  
+section.appendChild(newProject);  
 newProject.onclick = function(){
    window.location.href= '/meiMapping'
   }

@@ -108,7 +108,10 @@ footer img   {
   text-decoration: none;
   font-size: 28px;
 }
-
+.padding {
+  padding: 15px 50px;
+  margin-right: 20px;
+}
 /* basic site sections */
 .site-section   {
   padding-bottom: 50px;
