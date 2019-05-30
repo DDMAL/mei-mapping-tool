@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+var multer = require('multer');
+var fs = require('fs');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -42,6 +44,7 @@ var nameSchema = new mongoose.Schema({
 
 //neumeSchema
 var neumeSchema = new mongoose.Schema({
+    images : { data: Buffer, contentType: String },
     value : String,
     name : String,
     folio : String,
@@ -149,8 +152,8 @@ app.post("/dropzoneImages", (req, res) => {
 //Getting the dropzone images and posting them in the meiMapping page 
 app.get('/meiMapping', function(req, res){
         Neumes.find({},function(err, docs){
-               // res.status(200).send({docs:docs});
-        //});
+                res.status(200).send({docs:docs});
+        });
         //res.send('test');
 //});
 
@@ -188,6 +191,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 //Enable CORS for all HTTP methods
 app.use(function(req, res, next) {
