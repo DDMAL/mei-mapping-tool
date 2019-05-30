@@ -20,14 +20,14 @@
             .o-autocompletree__suggestion-list
              p 
               form(method='POST' action='/meiMapping' name = 'name')
-              input#inputName(type='text' name='name' data-path='neumes.json' data-autocompletree='')
-          h6 Folio :
-            .o-autocompletree__input 
-            .o-autocompletree__tag
-            .o-autocompletree__suggestion-list
-             p 
-              form(method='POST' action='/meiMapping' id="form")
-              input#inputFolio(type='text' name='folio' data-path='neumes.json' data-autocompletree='')
+                input#inputName(type='text' name='name' data-path='neumes.json' data-autocompletree='')
+                h6 Folio :
+                  .o-autocompletree__input 
+                  .o-autocompletree__tag
+                  .o-autocompletree__suggestion-list
+                   p 
+                    input#inputFolio(type='text' name='folio' data-path='neumes.json' data-autocompletree='')
+                    button.signupbtn(type='submit') Save
 
               br
               a(href='javascript:void(0);' id ="folioButton")
@@ -40,7 +40,7 @@
             .o-autocompletree__suggestion-list
              p 
               form(method='POST' action='/meiMapping' name = 'String')
-              textarea#inputDescription(rows="4" cols="25") 
+                textarea#inputDescription(rows="4" cols="25") 
     .column
          .card
           .o-autocompletree__input 
@@ -48,7 +48,7 @@
           .o-autocompletree__suggestion-list
            p 
             form(method='POST' action='/submit-form' id = "inputClassifier" class = "classifier")
-            input#inputClassification(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
+              input#inputClassification(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
             br
             a(href='javascript:void(0);')   
              span.glyphicon.glyphicon-plus#classifierButton
@@ -58,7 +58,8 @@
           include ace.pug
 
           script(type='text/javascript' src='/javascripts/ace.js')
-       
+          
+   
 
        
 

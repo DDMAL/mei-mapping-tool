@@ -113,11 +113,20 @@ html
           input(type='text', placeholder='Enter username', name='username', required='')
           label(for='psw')
             b Password
-          input(type='password', placeholder='Enter Password', name='psw', required='')
+          input(type='password', placeholder='Enter Password', name='password', required='')
           label(for='psw-repeat')
             b Repeat Password
           input(type='password', placeholder='Repeat Password', name='psw-repeat', required='')
           label
+           b Role as Admin or User
+          br
+          br
+          select#optionUser(name="type")
+            option(value='admin') Admin
+            option(value='user') User 
+          label
+            br
+            br
             input(type='checkbox', checked='checked', name='remember', style='margin-bottom:15px')
             |  Remember me
           p

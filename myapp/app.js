@@ -127,7 +127,7 @@ app.post("/meiMapping", (req, res) => {
     
     neumeData.save()
        .then(item => {
-            res.render('/meiMapping', { title: 'Express' });
+            res.render('index', { title: 'Express' });
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
