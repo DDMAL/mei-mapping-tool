@@ -24,7 +24,7 @@ window.onload = function() {
 var $classifier = $('.glyphicon.glyphicon-plus')
 
 Dropzone.autoDiscover = false;    
-//Dropzone function:
+//Dropzone function to get:
 $(function() {
     var mockFile = { name: "Punctum_example_3.png", size: 12345 };
     var myDropzone = new Dropzone("#my-dropzone-element-id");
