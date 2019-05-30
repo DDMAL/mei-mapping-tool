@@ -41,18 +41,21 @@
                    p 
                     form(method='POST' action='/meiMapping' )
                       textarea#inputDescription(rows="4" cols="25" name = 'description') 
-                      button.signupbtn(type='submit') Save
+                  button.signupbtn(type='submit') Save
     .column
          .card
           .o-autocompletree__input 
           .o-autocompletree__tag
           .o-autocompletree__suggestion-list
            p 
-            form(method='POST' action='/submit-form' id = "inputClassifier" class = "classifier")
-              input#inputClassification(type='text' name='input' data-path='neumes.json' data-autocompletree='' class = "input")
-            br
-            a(href='javascript:void(0);')   
-             span.glyphicon.glyphicon-plus#classifierButton
+            form(method='POST' action='/meiMapping' id = "inputClassifier" class = "classifier")
+                input#inputClassification(type='text' name='classLabel' data-path='neumes.json' data-autocompletree='' class = "input")
+                  
+                br
+                a(href='javascript:void(0);')   
+                 span.glyphicon.glyphicon-plus#classifierButton
+
+                button.signupbtn(type='submit') Save
     .column
          .card#aceCard
           br
