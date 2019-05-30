@@ -1,5 +1,23 @@
 //Geting the elements to be independent of one another
 
+window.onbeforeunload = function() {
+    localStorage.setItem("name", $('#inputName').val());
+    localStorage.setItem("folio", $('#inputFolio').val());
+    localStorage.setItem("description", $('#inputDescription').val());
+}
+
+window.onload = function() {
+
+    var name = localStorage.getItem("name");
+    if (name !== null) $('#inputName').val(name);
+    var folio = localStorage.getItem("folio");
+    if (folio !== null) $('#inputFolio').val(folio);
+    var description = localStorage.getItem("description");
+    if (description !== null) $('#inputDescription').val(description);
+
+
+    // ...
+}
 var $classifier = $('.glyphicon.glyphicon-plus')
     
  //Any button with a black + will be able to add input fields

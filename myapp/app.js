@@ -134,7 +134,13 @@ app.post("/meiMapping", (req, res) => {
         });
 });
 
-
+//Getting the dropzone images and posting them in the meiMapping page 
+//app.get('/meiMapping', function(req, res){
+       // Neumes.find({},function(err, docs){
+               // res.status(200).send({docs:docs});
+        //});
+        //res.send('test');
+//});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
