@@ -22,7 +22,17 @@ window.onload = function() {
     // ...
 }
 var $classifier = $('.glyphicon.glyphicon-plus')
-    
+
+Dropzone.autoDiscover = false;    
+//Dropzone function:
+$(function() {
+    var mockFile = { name: "Punctum.png", size: 12345 };
+    var myDropzone = new Dropzone("#my-dropzone-element-id");
+    myDropzone.options.addedfile.call(myDropzone, mockFile);
+    myDropzone.options.thumbnail.call(myDropzone, mockFile, "/Users/imanechafi/Pictures/Punctum.png");
+})
+
+
  //Any button with a black + will be able to add input fields
 $classifier.on("click", function(e) {
   $('<input>').insertBefore(this);
