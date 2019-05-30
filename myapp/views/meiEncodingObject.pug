@@ -27,20 +27,21 @@
                   .o-autocompletree__suggestion-list
                    p 
                     input#inputFolio(type='text' name='folio' data-path='neumes.json' data-autocompletree='')
-                    button.signupbtn(type='submit') Save
+                    
 
-              br
-              a(href='javascript:void(0);' id ="folioButton")
+                    br
+                    a(href='javascript:void(0);' id ="folioButton")
 
-               span.glyphicon.glyphicon-plus
+                     span.glyphicon.glyphicon-plus
 
-          h6 Description :
-            .o-autocompletree__input 
-            .o-autocompletree__tag
-            .o-autocompletree__suggestion-list
-             p 
-              form(method='POST' action='/meiMapping' name = 'String')
-                textarea#inputDescription(rows="4" cols="25") 
+                h6 Description :
+                  .o-autocompletree__input 
+                  .o-autocompletree__tag
+                  .o-autocompletree__suggestion-list
+                   p 
+                    form(method='POST' action='/meiMapping' )
+                      textarea#inputDescription(rows="4" cols="25" name = 'description') 
+                      button.signupbtn(type='submit') Save
     .column
          .card
           .o-autocompletree__input 
