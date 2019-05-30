@@ -39,6 +39,26 @@ var nameSchema = new mongoose.Schema({
     project: String
 });
 
+//Testing the database for neumes schema:
+var nameSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    role: String,
+    project: String
+
+});
+
+var neumeSchema = new mongoose.Schema({
+    images : String,
+    name : String,
+    folio : String,
+    description : String,
+    classLabel : String,
+    meiSnippet : String
+
+
+});
+
 //Testing the database for project schema:
 var projectSchema = new mongoose.Schema({
     name: String,
