@@ -41,8 +41,19 @@ if (event.target == modal) {
 }
 }
 
-////Submit button clicked events 
+//Making a test button :
+var newProject = document.createElement("BUTTON");
+newProject.setAttribute("style", "   background-color: #659abb; border-radius: 10px; /* Green */ border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;");
 
+
+//name submitted by the person
+var section = document.getElementById("section");
+newProject.innerText = "Test Project";
+section.appendChild(newProject);  
+newProject.onclick = function(){
+   window.location.href= '/meiMapping'
+  }
+  
 buttonSubmit.onclick = function() {
 var newProject = document.createElement("BUTTON");
 newProject.setAttribute("style", "   background-color: #659abb; border-radius: 10px; /* Green */ border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;");
