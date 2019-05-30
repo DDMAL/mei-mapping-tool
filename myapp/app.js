@@ -39,14 +39,6 @@ var nameSchema = new mongoose.Schema({
     project: String
 });
 
-//Testing the database for neumes schema:
-var nameSchema = new mongoose.Schema({
-    username: String,
-    password: String,
-    role: String,
-    project: String
-
-});
 
 //neumeSchema
 var neumeSchema = new mongoose.Schema({
@@ -60,7 +52,8 @@ var neumeSchema = new mongoose.Schema({
 
 //Dropzone schema : 
 var dropzoneSchema = new mongoose.Schema({
-    images : String
+    images : String,
+    link : String
 });
 
 //Testing the database for project schema:
@@ -137,11 +130,11 @@ app.post("/meiMapping", (req, res) => {
         });
 });
 
-//Making a mongoose model with the neume schema
-var DropzoneImages = mongoose.model("dropzone", dropzoneSchema);
+//Making a mongoose model with the dropzone schema
+var dropzone = mongoose.model("dropzone", dropzoneSchema);
 
-app.post("/meiMapping", (req, res) => {
-    var dropzoneData = new DropzoneImages(req.body);
+app.post("/dropzoneImages", (req, res) => {
+    var dropzoneData = new dropzone(req.body);
     var dropzoneCollection = db.collection("dropzone");
     
     dropzoneData.save()
@@ -154,8 +147,8 @@ app.post("/meiMapping", (req, res) => {
 });
 
 //Getting the dropzone images and posting them in the meiMapping page 
-//app.get('/meiMapping', function(req, res){
-       // Neumes.find({},function(err, docs){
+app.get('/meiMapping', function(req, res){
+        Neumes.find({},function(err, docs){
                // res.status(200).send({docs:docs});
         //});
         //res.send('test');
