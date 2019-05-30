@@ -11,57 +11,54 @@
               | Drop files here or click to upload.
 
               span.note.needsclick
-              
-    .column
-         .card 
-          h6 Name :
+   
+    form(method='POST' action='/meiMapping' name = 'name')           
+      .column
+           .card 
+            h6 Name :
+              .o-autocompletree__input 
+              .o-autocompletree__tag
+              .o-autocompletree__suggestion-list
+               p 
+                  input#inputName(type='text' name='name' data-path='neumes.json' data-autocompletree='')
+                  h6 Folio :
+                    .o-autocompletree__input 
+                    .o-autocompletree__tag
+                    .o-autocompletree__suggestion-list
+                     p 
+                      input#inputFolio(type='text' name='folio' data-path='neumes.json' data-autocompletree='')
+                      
+
+                      br
+                      a(href='javascript:void(0);' id ="folioButton")
+
+                       span.glyphicon.glyphicon-plus
+
+                  h6 Description :
+                    .o-autocompletree__input 
+                    .o-autocompletree__tag
+                    .o-autocompletree__suggestion-list
+                     p 
+                        textarea#inputDescription(rows="4" cols="25" name = 'description') 
+      .column
+           .card
             .o-autocompletree__input 
             .o-autocompletree__tag
             .o-autocompletree__suggestion-list
              p 
-              form(method='POST' action='/meiMapping' name = 'name')
-                input#inputName(type='text' name='name' data-path='neumes.json' data-autocompletree='')
-                h6 Folio :
-                  .o-autocompletree__input 
-                  .o-autocompletree__tag
-                  .o-autocompletree__suggestion-list
-                   p 
-                    input#inputFolio(type='text' name='folio' data-path='neumes.json' data-autocompletree='')
+                  input#inputClassification(type='text' name='classLabel' data-path='neumes.json' data-autocompletree='' class = "input")
                     
+                  br
+                  a(href='javascript:void(0);')   
+                   span.glyphicon.glyphicon-plus#classifierButton
 
-                    br
-                    a(href='javascript:void(0);' id ="folioButton")
+      button.signupbtn(type='submit') Save
+      .column
+           .card#aceCard
+            br
+            include ace.pug
 
-                     span.glyphicon.glyphicon-plus
-
-                h6 Description :
-                  .o-autocompletree__input 
-                  .o-autocompletree__tag
-                  .o-autocompletree__suggestion-list
-                   p 
-                    form(method='POST' action='/meiMapping' )
-                      textarea#inputDescription(rows="4" cols="25" name = 'description') 
-                  button.signupbtn(type='submit') Save
-    .column
-         .card
-          .o-autocompletree__input 
-          .o-autocompletree__tag
-          .o-autocompletree__suggestion-list
-           p 
-            form(method='POST' action='/meiMapping' id = "inputClassifier" class = "classifier")
-                input#inputClassification(type='text' name='classLabel' data-path='neumes.json' data-autocompletree='' class = "input")
-                  
-                br
-                a(href='javascript:void(0);')   
-                 span.glyphicon.glyphicon-plus#classifierButton
-
-                button.signupbtn(type='submit') Save
-    .column
-         .card#aceCard
-          br
-          include ace.pug
-
-          script(type='text/javascript' src='/javascripts/ace.js')
+            script(type='text/javascript' src='/javascripts/ace.js')
           
    
 

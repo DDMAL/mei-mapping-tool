@@ -5,6 +5,7 @@ window.onbeforeunload = function() {
     localStorage.setItem("folio", $('#inputFolio').val());
     localStorage.setItem("description", $('#inputDescription').val());
     localStorage.setItem("classification", $('#inputClassification').val());
+    localStorage.setItem("classification", $('#inputClassification').val());
 }
 
 window.onload = function() {
