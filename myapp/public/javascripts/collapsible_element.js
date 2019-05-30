@@ -26,10 +26,10 @@ var $classifier = $('.glyphicon.glyphicon-plus')
 Dropzone.autoDiscover = false;    
 //Dropzone function:
 $(function() {
-    var mockFile = { name: "Punctum.png", size: 12345 };
+    var mockFile = { name: "Punctum_example_3.png", size: 12345 };
     var myDropzone = new Dropzone("#my-dropzone-element-id");
     myDropzone.options.addedfile.call(myDropzone, mockFile);
-    myDropzone.options.thumbnail.call(myDropzone, mockFile, "/Users/imanechafi/Pictures/Punctum.png");
+    myDropzone.options.thumbnail.call(myDropzone, mockFile, "/images/Punctum_example_3.png");
 })
 
 
