@@ -103,25 +103,25 @@ html
     button(onclick="document.getElementById('id01').style.display='block'", style='width:auto;') Sign Up
     #id01.modal
       span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') ×
-      form.modal-content(action='/projects')
+      form.modal-content(action='/' method = "post")
         .containing
           h1 Sign Up
           p Please fill in this form to create an account.
           br
           label(for='username')
             b Username
-          input(type='text', placeholder='Enter username', name='username', required='')
+          input(type='text', placeholder='Enter username', name='newUserName', required='')
           label(for='psw')
             b Password
-          input(type='password', placeholder='Enter Password', name='password', required='')
+          input(type='password', placeholder='Enter Password', name='newPassword', required='')
           label(for='psw-repeat')
             b Repeat Password
-          input(type='password', placeholder='Repeat Password', name='psw-repeat', required='')
+          input(type='password', placeholder='Repeat Password', name='newPasswordCheck', required='')
           label
            b Role as Admin or User
           br
           br
-          select#optionUser(name="type")
+          select#optionUser(name="newType")
             option(value='admin') Admin
             option(value='user') User 
           label

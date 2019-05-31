@@ -16,6 +16,8 @@ var noteRouter = require('./routes/note.routes')
  bcrypt = require('bcrypt'),
  SALT_WORK_FACTOR = 10;
 
+////THE COLLECTIONS ARE INSTANTIATED AUTOMATICALLY IS MONGODB AFTER YOU'VE MADE A
+////NEW SCHEMA AND POST METHOD, NO NEED TO CREATE THEM!
 
 var app = express();
 
@@ -37,10 +39,17 @@ mongoose.connect("mongodb://localhost:27017/userDatabase");
 var nameSchema = new mongoose.Schema({
     username: String,
     password: String,
-    role: String,
+    type: String,
     project: String
 });
 
+//Sign up schema:
+var signUpSchema = new mongoose.Schema({
+    newUserName: String,
+    newPassword: String,
+    newPasswordCheck: String,
+    newType: String
+});
 
 //neumeSchema
 var neumeSchema = new mongoose.Schema({
@@ -133,6 +142,20 @@ app.post("/meiMapping", (req, res) => {
         });
 });
 
+//Making a mongoose model with the neume schema
+var signUp = mongoose.model("signUp", signUpSchema);
+
+app.post("/", (req, res) => {
+    var newUserData = new signUp(req.body);
+    
+    newUserData.save()
+       .then(item => {
+            res.render('projects', { title: 'Express' });
+        })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
 //Making a mongoose model with the dropzone schema
 var dropzone = mongoose.model("dropzone", dropzoneSchema);
 
