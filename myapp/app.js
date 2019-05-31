@@ -134,7 +134,12 @@ var signUp = mongoose.model("signUp", signUpSchema);
 
 app.post("/project", (req, res) => {
     var newUserData = new signUp(req.body);
-    
+    if (req.body.newPassword !== req.body.newPasswordCheck) {
+    var err = new Error('Passwords do not match.');
+    err.status = 400;
+    res.send("passwords dont match");
+    return next(err);
+  }
     newUserData.save()
        .then(item => {
             res.render('projects', { title: 'Express' });
