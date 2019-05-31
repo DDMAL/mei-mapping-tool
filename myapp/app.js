@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-var multer = require('multer');
+//var multer = require('multer');
 var fs = require('fs');
 
 var indexRouter = require('./routes/index');
@@ -37,10 +37,8 @@ mongoose.connect("mongodb://localhost:27017/userDatabase");
 var nameSchema = new mongoose.Schema({
     username: String,
     password: String,
-    role: String,
-    project: String
+    role: String
 });
-
 
 //neumeSchema
 var neumeSchema = new mongoose.Schema({
@@ -136,7 +134,7 @@ app.post("/meiMapping", (req, res) => {
 //Making a mongoose model with the dropzone schema
 var dropzone = mongoose.model("dropzone", dropzoneSchema);
 
-app.post("/dropzoneImages", (req, res) => {
+app.post("/images", (req, res) => {
     var dropzoneData = new dropzone(req.body);
     var dropzoneCollection = db.collection("dropzone");
     
@@ -150,10 +148,10 @@ app.post("/dropzoneImages", (req, res) => {
 });
 
 //Getting the dropzone images and posting them in the meiMapping page 
-app.get('/meiMapping', function(req, res){
-        Neumes.find({},function(err, docs){
-                res.status(200).send({docs:docs});
-        });
+//app.get('/meiMapping', function(req, res){
+       // Neumes.find({},function(err, docs){
+               // res.status(200).send({docs:docs});
+        //});
         //res.send('test');
 //});
 
