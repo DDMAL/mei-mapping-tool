@@ -106,24 +106,11 @@ app.post("/projects", (req, res) => {
     var myData = new User(req.body);
     var userData = req.body.username;
     var passwordData = req.body.password;
-    var projectData = req.body.project;
-    var projectsCollection = db.collection("projects");
-    projectsCollection.insertOne( //Project
-   {
-       project : "Example",
-  
-   }
-)
-    myData.save()
-       .then(item => {
-          if(userData == "meiMapping" && passwordData == "meiMapping")
-            res.render('projects', { title: 'Express' });
-          else
-            res.status(400).send("Wrong Username/password. Try again.");
-        })
-        .catch(err => {
-            res.status(400).send("Unable to save to database");
-        });
+
+ if(userData == "meiMapping" && passwordData == "meiMapping")
+     res.render('projects', { title: 'Express' });
+ else
+  res.status(400).send("Wrong Username/password. Try again.");
 });
 
 //Making a mongoose model with the neume schema
@@ -145,7 +132,7 @@ app.post("/meiMapping", (req, res) => {
 //Making a mongoose model with the neume schema
 var signUp = mongoose.model("signUp", signUpSchema);
 
-app.post("/", (req, res) => {
+app.post("/project", (req, res) => {
     var newUserData = new signUp(req.body);
     
     newUserData.save()
