@@ -59,7 +59,7 @@ var neumeSchema = new mongoose.Schema({
     folio : String,
     description : String,
     classLabel : String,
-    editor : String
+    meiSnippet : String
 });
 
 //Dropzone schema : 

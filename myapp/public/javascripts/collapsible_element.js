@@ -1,5 +1,5 @@
 //Geting the elements to be independent of one another
-
+//Storing elements in local drive until the get methods are called from the database
 window.onbeforeunload = function() {
     localStorage.setItem("name", $('#inputName').val());
     localStorage.setItem("folio", $('#inputFolio').val());
@@ -19,7 +19,6 @@ window.onload = function() {
     if (description !== null) $('#inputDescription').val(description);
     var classification = localStorage.getItem("classification");
     if (classification !== null) $('#inputClassification').val(classification);
-
 
     // ...
 }
