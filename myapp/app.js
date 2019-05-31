@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-var multer = require('multer');
+//var multer = require('multer');
 var fs = require('fs');
 
 var indexRouter = require('./routes/index');
@@ -150,10 +150,10 @@ app.post("/dropzoneImages", (req, res) => {
 });
 
 //Getting the dropzone images and posting them in the meiMapping page 
-app.get('/meiMapping', function(req, res){
-        Neumes.find({},function(err, docs){
-                res.status(200).send({docs:docs});
-        });
+//app.get('/meiMapping', function(req, res){
+       // Neumes.find({},function(err, docs){
+                //res.status(200).send({docs:docs});
+       // });
         //res.send('test');
 //});
 
