@@ -68,9 +68,9 @@ var dropzoneSchema = new mongoose.Schema({
     link : String
 });
 
-//Testing the database for project schema:
+//Project schema:
 var projectSchema = new mongoose.Schema({
-    name: String,
+    projectName: String,
 });
 
 //Hashing to hide the password from seeing it in the database
@@ -98,8 +98,6 @@ nameSchema.pre('save', function(next) {
 //Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
 
-//Making a mongoose model with the project schema
-var Project = mongoose.model("Project", projectSchema);
 var db = mongoose.connection;
 //If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/projects", (req, res) => {
@@ -129,7 +127,7 @@ app.post("/meiMapping", (req, res) => {
         });
 });
 
-//Making a mongoose model with the neume schema
+//Making a mongoose model with the signUp schema
 var signUp = mongoose.model("signUp", signUpSchema);
 
 app.post("/project", (req, res) => {
@@ -148,6 +146,24 @@ app.post("/project", (req, res) => {
             res.status(400).send("Unable to save to database");
         });
 });
+
+//Making a mongoose model with the project schema
+var projectNeumes = mongoose.model("projectNeumes", projectSchema);
+
+app.post("/projectNames", (req, res) => {
+    var projectData = new projectNeumes(req.body);
+
+    projectData.save()
+       .then(item => {
+            res.render('projects', { title: 'Express' });
+        })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
+
+
+
 //Making a mongoose model with the dropzone schema
 var dropzone = mongoose.model("dropzone", dropzoneSchema);
 
