@@ -138,7 +138,7 @@ html
             | .
           .clearfix
             button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
-            button.signupbtn(type='submit') Sign Up
+            button.signupbtn(type='submit', disabled) Sign Up
     script.
       // Get the modal
       var modal = document.getElementById('id01');
@@ -158,3 +158,5 @@ html
           document.getElementById('message').innerHTML = 'Passwords are not matching';
         }
         }
+
+        
