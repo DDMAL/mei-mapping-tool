@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 //var multer = require('multer');
 var fs = require('fs');
-var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -28,12 +27,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
 
-//Using the sessions for tracking logins : 
-app.use(session({
-  secret: 'work hard',
-  resave: true,
-  saveUninitialized: false
-}));
 
 /////DATABASE FOR USERS:
 // Configuring the database
@@ -81,7 +74,7 @@ var projectSchema = new mongoose.Schema({
 });
 
 //Hashing to hide the password from seeing it in the database
-signUpSchema.pre('save', function(next) {
+nameSchema.pre('save', function(next) {
     var user = this;
 
     // only hash the password if it has been modified (or is new)
@@ -101,29 +94,6 @@ signUpSchema.pre('save', function(next) {
         });
     });
 });
-
-
-////Authenticate Users : 
-signUpSchema.statics.authenticate = function (newUserName, newPassword, callback) {
-  User.findOne({ newUserName: newUserName })
-    .exec(function (err, user) {
-      if (err) {
-        return callback(err)
-      } else if (!user) {
-        var err = new Error('User not found.');
-        err.status = 401;
-        return callback(err);
-      }
-      bcrypt.compare(password, user.password, function (err, result) {
-        if (result === true) {
-          return callback(null, user);
-        } else {
-          return callback();
-        }
-      })
-    });
-}
-
 
 //Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
@@ -162,20 +132,11 @@ app.post("/meiMapping", (req, res) => {
 //Making a mongoose model with the neume schema
 var signUp = mongoose.model("signUp", signUpSchema);
 
-//Post request for the new users :
 app.post("/project", (req, res) => {
     var newUserData = new signUp(req.body);
-
-    //If statement for if the passwords are the same:
-    if (req.body.newPassword !== req.body.newPasswordCheck) {
-    var err = new Error('Passwords do not match.');
-    err.status = 400;
-    res.send("passwords dont match");
-    return next(err);}
-
+    
     newUserData.save()
        .then(item => {
-            req.session.userId = user._id;
             res.render('projects', { title: 'Express' });
         })
         .catch(err => {
