@@ -54,9 +54,35 @@
       .column
            .card#aceCard
             br
-            include ace.pug
+            style(type='text/css', media='screen').
+             #editor {
+                /** Setting height is also important, otherwise editor wont showup**/
+                height: 120px;
+              }
 
-            script(type='text/javascript' src='/javascripts/ace.js')
+            .panel.panel-default
+              .panel-body
+                #editor(name = "aceEdit")
+                textarea(name='editor', style='display: none;')
+                  | //Mei encoding neume
+                  |
+                  | #{'<'}neume>
+                  |    #{'<'}nc />
+                  |  #{'<'}/neume>
+  
+
+      script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+      script.
+        var editor = ace.edit('editor');
+        var textarea = $('textarea[name="editor"]');
+        editor.getSession().on("change", function () {
+            textarea.val(editor.getSession().getValue());
+        });
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/javascript");
+        var code = editor.getValue();
+
+      script(type='text/javascript' src='/javascripts/ace.js')
       button.signupbtn(type='submit') Save    
    
 
