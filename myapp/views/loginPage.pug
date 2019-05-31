@@ -113,10 +113,13 @@ html
           input(type='text', placeholder='Enter username', name='newUserName', required='')
           label(for='psw')
             b Password
-          input(type='password', placeholder='Enter Password', name='newPassword', required='')
+          input#password(type='password', placeholder='Enter Password', name='newPassword', required='', class = "password", onkeyup='check();')
           label(for='psw-repeat')
             b Repeat Password
-          input(type='password', placeholder='Repeat Password', name='newPasswordCheck', required='')
+            br
+            span#message
+          input#confirm_password(type='password', placeholder='Repeat Password', name='newPasswordCheck', required='', class = "password", onkeyup='check();')
+          
           label
            b Role as Admin or User
           br
@@ -145,3 +148,13 @@ html
       modal.style.display = "none";
       }
       }
+      var check = function() {
+        if (document.getElementById('password').value ==
+          document.getElementById('confirm_password').value) {
+          document.getElementById('message').style.color = 'green';
+          document.getElementById('message').innerHTML = 'Passwords are matching';
+        } else {
+          document.getElementById('message').style.color = 'red';
+          document.getElementById('message').innerHTML = 'Passwords are not matching';
+        }
+        }
