@@ -181,28 +181,28 @@ app.post("/dropzoneImages", (req, res) => {
 });
 
 //Getting the form values from the images and posting them in the meiMapping page 
-app.get('/meiMapping', function(req, res){
-        Model.find({}, 'name', function (err, docs) {
+//app.get('/meiMapping', function(req, res){
+        //Model.find({}, 'name', function (err, docs) {
   // docs is an array of partially-`init`d documents
   // defaults are still applied and will be "populated"
-})
-         Model.find({}, 'folio', function (err, docs) {
+//})
+         //Model.find({}, 'folio', function (err, docs) {
   // docs is an array of partially-`init`d documents
   // defaults are still applied and will be "populated"
-})
-          Model.find({}, 'description', function (err, docs) {
+//})
+         // Model.find({}, 'description', function (err, docs) {
   // docs is an array of partially-`init`d documents
   // defaults are still applied and will be "populated"
-})
-           Model.find({}, 'classlabel', function (err, docs) {
+//})
+           //Model.find({}, 'classlabel', function (err, docs) {
   // docs is an array of partially-`init`d documents
   // defaults are still applied and will be "populated"
-})
-           Model.find({}, 'editor', function (err, docs) {
+//})
+           //Model.find({}, 'editor', function (err, docs) {
   // docs is an array of partially-`init`d documents
   // defaults are still applied and will be "populated"
-})
-    });
+//})
+    //});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
