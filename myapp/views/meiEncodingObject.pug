@@ -63,7 +63,7 @@
             .panel.panel-default
               .panel-body
                 #editor(name = "aceEdit")
-                textarea(name='editor', style='display: none;')
+                textarea#aceEditor(name='editor', style='display: none;')
                   | //Mei encoding neume
                   |
                   | #{'<'}neume>
@@ -77,11 +77,14 @@
         var textarea = $('textarea[name="editor"]');
         editor.getSession().on("change", function () {
             textarea.val(editor.getSession().getValue());
+            localStorage.setItem("ace",textarea.val());
         });
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/javascript");
-        var code = editor.getValue();
 
+        var aceEditor = localStorage.getItem("ace");
+        var code = editor.setValue(aceEditor);
+       
       script(type='text/javascript' src='/javascripts/ace.js')
       button.signupbtn(type='submit') Save    
    

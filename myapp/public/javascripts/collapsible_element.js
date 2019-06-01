@@ -7,6 +7,7 @@ window.onbeforeunload = function() {
     localStorage.setItem("classification", $('#inputClassification').val());
     localStorage.setItem("classification", $('#inputClassification').val());
     localStorage.setItem("classification", $('#inputClassification').val());
+    localStorage.setItem("ace", $('#aceEditor').val());
 }
 
 window.onload = function() {
@@ -19,6 +20,9 @@ window.onload = function() {
     if (description !== null) $('#inputDescription').val(description);
     var classification = localStorage.getItem("classification");
     if (classification !== null) $('#inputClassification').val(classification);
+    var aceEditor = localStorage.getItem("ace");
+    var editor = document.getElementsByClassName("ace_content")
+    //if (aceEditor !== null) editor.insert(aceEditor);
 
     // ...
 }
@@ -31,7 +35,7 @@ $(function() {
     var mockFile = { name: "Punctum_example_3.png", size: 12345 };
     var myDropzone = new Dropzone("#my-dropzone-element-id");
     myDropzone.options.addedfile.call(myDropzone, mockFile);
-    myDropzone.options.thumbnail.call(myDropzone, file, "http://" + window.location.hostname + '/images/' + value.server)
+    myDropzone.options.thumbnail.call(myDropzone, mockFile,  "/images/Punctum_example_3.png")
 })
 
 
@@ -57,7 +61,6 @@ for (i = 0; i < coll.length; i++) {
 }
 
 // Get the modal and cloned element
-// Get the modal and cloned element
 var modal = document.getElementById("myModal");
 
 
@@ -74,11 +77,6 @@ var btn = $("#button");
   //buttonCloned.innerText = name;
 
   var boxContainer = document.getElementById("roundedBoxId");
-  //boxContainer.appendChild(buttonCloned); //This works!
-
-  //Appending it to the bounding box for the collapsible
-   //buttonCloned.innerText = name;
-
 
 // Get the <span> element that closes the modal
 var span = $(".close");
