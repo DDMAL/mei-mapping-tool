@@ -28,15 +28,15 @@ window.onload = function() {
 }
 var $classifier = $('.glyphicon.glyphicon-plus')
 
-Dropzone.autoDiscover = false;    
+//Dropzone.autoDiscover = false;    
 //Dropzone function to get:
 
-$(function() {
-    var mockFile = { name: "Punctum_example_3.png", size: 12345 };
-    var myDropzone = new Dropzone("#my-dropzone-element-id");
-    myDropzone.options.addedfile.call(myDropzone, mockFile);
-    myDropzone.options.thumbnail.call(myDropzone, mockFile,  "/images/Punctum_example_3.png")
-})
+//$(function() {
+   // var mockFile = { name: "Punctum_example_3.png", size: 12345 };
+   // var myDropzone = new Dropzone("#my-dropzone-element-id");
+    //myDropzone.options.addedfile.call(myDropzone, mockFile);
+    //myDropzone.options.thumbnail.call(myDropzone, mockFile,  "/images/Punctum_example_3.png")
+//})
 
 
  //Any button with a black + will be able to add input fields
