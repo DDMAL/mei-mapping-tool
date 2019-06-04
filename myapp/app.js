@@ -104,6 +104,7 @@ var signUp = mongoose.model("signUp", signUpSchema);
 
 var db = mongoose.connection;
 //If this save to the database was successful it will return to the .then segment of the promise. 
+//Usernames Post for login page
 app.post("/projects", (req, res) => {
     var newUserData = new signUp(req.body);
     var userData = req.body.username;
@@ -128,10 +129,11 @@ app.post("/projects", (req, res) => {
   
 });
 });
-
+//Neume data post
 app.post("/meiMapping", (req, res) => {
     var neumeData = new Neumes(req.body);
     var neumeCollection = db.collection("neume");
+    
     
     neumeData.save()
        .then(item => {
