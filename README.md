@@ -65,7 +65,7 @@ The mei-mapping-tool has 3 main parts : log-in, projects and mei mapping page.
 
 ### Log-in
 To access the `log-in` page, you can go to the home page http://localhost:3000 .
-The default log-in username/password for the mapping tool need to be accessed with the developer. If you want to get access to the mei mapping tool with another username, you can create your own username and password under the mongodb database by filling the information of the sign up menu.
+Under the sign up menu, you can create your own username and password for your meiMapping project. After signing-up, you will be redirected to the `log-in` page where you can add your new username and log-in to your account.
 After clicking the submit button, you will be redirected to the `projects` page :
 http://localhost:3000/projects
 
