@@ -64,8 +64,8 @@ To make sure mongodb is running in your application, you can add this command to
 The mei-mapping-tool has 3 main parts : log-in, projects and mei mapping page.
 
 ### Log-in
-To access the `log-in` page, you can go to the home page http://localhost:3000 .
-Under the sign up menu, you can create your own username and password for your meiMapping project. After signing-up, you will be redirected to the `log-in` page where you can add your new username and log-in to your account.
+To access the `log-in` page, you can go to the home page http://localhost:3000 . If you don't have an account, you'll need to create it in the sign up menu.
+Under the sign up menu, you can create your own username and password for your meiMapping project.
 After clicking the submit button, you will be redirected to the `projects` page :
 http://localhost:3000/projects
 
