@@ -45,9 +45,45 @@
 	}
 #menu-icon {
 
-	width: 35px;
-  height: 5px;
-  background-color: white;
-  margin: 6px 0;
+	width: 6px;
+  height: 0px;
+  background-color: black;
+  margin: 9px 0px;
+  float: left;
+  border-left: 9px solid black;
 
+}
+#menu-icon2 {
+
+	width: 32px;
+  height: 0px;
+  background-color: white;
+  margin: 5px 0px;
+  float: left;
+  border-left: 2.95px solid black;
+
+}
+#menu-icon3 {
+
+	width: 29px;
+  height: 4px;
+  background-color: white;
+  margin: 9px 0px;
+  float: left;
+  border-left: 1px solid black;
+
+}
+#menu-icon4 {
+
+	width: 28px;
+  height: 4px;
+  background-color: white;
+  margin: 9px 0px;
+  float: left;
+  border-left: 0px solid black;
+
+}
+br {
+   display: block;
+   margin: 10px 0;
 }
