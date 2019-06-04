@@ -39,45 +39,46 @@ html
           a(href='#') Learn more
       // features section
       .site-section
-      div
-        form(name="meiMapping" method="post" action="/projectsNeumes")
-                .site-section-inside
-                  .section-header
-                    h2 Add a new project
-                  .feature-box
-                    .text
-                      .button(href="#" id ="projectButton" formaction="/projectsNeumes")
-                        br
-                        | Add New Project
-                        br
-                        br
-                      #projectModal.modal
-                        // Modal content
-                        .modal-content
-                          span.close x
-                          h4 New element
-                            | Name: 
-                            input(type="text" name="projectName" id = "elementName")
-                            br
-                            center
-                               button.btn.btn-default.btn-sm(type="button" id ="submitProject")
-                                |  Submit
-        div
-          .site-section
-        // testimonials section
-        .site-section.site-section-secondary
-          .padding  
-             div#section
-              .site-section-inside
-                .section-header
-                  h2 My Projects
-      // the footer
-      footer
-        //img(src='img/avatar.jpeg', alt='Footer Logo')
-        span
-          | My Website
-          br
-          | Copyright © 2016-3010
+    div
+     .site-section-inside
+        .section-header
+          h2 Add a new project
+        .feature-box
+          .text
+            .button(href="#" id ="projectButton")
+              br
+              | Add New Project
+              br
+              br
+            
+            #projectModal.modal
+              // Modal content
+              form(method="post" action='/projectsNeumes')
+                .modal-content
+                  span.close x
+                  h4 New element
+                    | Name: 
+                    input(type="text" name="projectName" id = "elementName")
+                    br
+                    center
+                       button.btn.btn-default.btn-sm(type="button" id ="submitProject")
+                        |  Submit
+    div
+      .site-section
+    // testimonials section
+    .site-section.site-section-secondary
+      .padding  
+         div#section
+          .site-section-inside
+            .section-header
+              h2 My Projects
+  // the footer
+  footer
+    //img(src='img/avatar.jpeg', alt='Footer Logo')
+    span
+      | SIMSSA WEBSITE
+      br
+      | Copyright © 2019
 
     link(rel='stylesheet' href='/stylesheets/popup.css')
     script(type='text/javascript' src='/javascripts/collapse.js')

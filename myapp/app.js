@@ -101,28 +101,28 @@ var Neumes = mongoose.model("neumes", neumeSchema);
 //Making a mongoose model with the signUp schema
 var signUp = mongoose.model("signUp", signUpSchema);
 //Making a mongoose model with the projects schema
-//var project = mongoose.model("projectNeumes",projectSchema);
+var project = mongoose.model("projectNeumes",projectSchema);
 
 //Mongoose connection variable db
 var db = mongoose.connection;
 
 //If this save to the database was successful it will return to the .then segment of the promise. 
 //Usernames Post for login page
-//app.post("/projectsNeumes", (req, res) => {
-  //  var projectData = new project(req.body)
-    //var nameProject = req.body.projectName;
-
-  
-   // projectData.save()
-     //  .then(item => {
-       //     res.render('index',function (err, html) {
-         //      res.send("not saved to database")
-            //})
-              //})
-        //.catch(err => {
-          //  res.status(400).send("Unable to save to database");
-       // });
-//});
+app.post("/projectsNeumes", (req, res) => {
+    var projectData = new project(req.body)
+    var nameProject = req.body.projectName;
+    console.log(nameProject);
+    
+    projectData.save()
+       .then(item => {
+            res.render('index',function (err, html) {
+               res.send("not saved to database")
+            })
+              })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
 
 //Usernames Post for login page
 app.post("/projects", (req, res) => {
@@ -177,7 +177,7 @@ app.post("/project", (req, res) => {
   }
     newUserData.save()
        .then(item => {
-            res.render('projects', { title: 'Express' });
+            res.render('index', { title: 'Express' });
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");

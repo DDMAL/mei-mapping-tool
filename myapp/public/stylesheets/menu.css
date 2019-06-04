@@ -16,13 +16,14 @@
 
 		display: none;
 		position: absolute;
-		padding: 20px;
+		padding: 0px 0px;
 		background: #fff;
-		border: 5px solid #444;
-		right: 20px;
-		top: 60px;
+		border: 3px solid #444;
+		right: 200px;
+		top: 38px;
 		width: 50%;
-		border-radius: 4px 0 4px 4px;
+		border-radius: 4px 4px 4px 4px;
+		z-index: 2000; /* Sit on top */
 
 	}
 
@@ -30,8 +31,9 @@
 
 		text-align: center;
 		width: 100%;
-		padding: 10px 0;
+		padding: 10px 20px;
 		margin: 0;
+		background : #fff;
 
 	}
 
@@ -39,12 +41,13 @@
 
 		display: block;
 
+
 	}
 #menu-icon {
 
-	display: hidden;
-	width: 40px;
-	height: 40px;
-	background: grey;
+	width: 35px;
+  height: 5px;
+  background-color: white;
+  margin: 6px 0;
 
 }
