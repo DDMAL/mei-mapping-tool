@@ -34,6 +34,11 @@ mongoose.Promise = global.Promise;
 //Change this line to the database you want the user name and password to be posted to
 mongoose.connect("mongodb://localhost:27017/userDatabase");
 
+//Testing the database for the project schema:
+var projectSchema = new mongoose.Schema({
+    projectName : String,
+    projectUser : String
+});
 //Testing the database for userDatabase schema:
 var nameSchema = new mongoose.Schema({
     username: String,
@@ -67,11 +72,6 @@ var dropzoneSchema = new mongoose.Schema({
     link : String
 });
 
-//Project schema:
-var projectSchema = new mongoose.Schema({
-    projectName: String,
-});
-
 //Hashing to hide the password from seeing it in the database
 nameSchema.pre('save', function(next) {
     var user = this;
@@ -100,9 +100,30 @@ var User = mongoose.model("User", nameSchema);
 var Neumes = mongoose.model("neumes", neumeSchema);
 //Making a mongoose model with the signUp schema
 var signUp = mongoose.model("signUp", signUpSchema);
+//Making a mongoose model with the projects schema
+//var project = mongoose.model("projectNeumes",projectSchema);
 
+//Mongoose connection variable db
 var db = mongoose.connection;
+
 //If this save to the database was successful it will return to the .then segment of the promise. 
+//Usernames Post for login page
+//app.post("/projectsNeumes", (req, res) => {
+  //  var projectData = new project(req.body)
+    //var nameProject = req.body.projectName;
+
+  
+   // projectData.save()
+     //  .then(item => {
+       //     res.render('index',function (err, html) {
+         //      res.send("not saved to database")
+            //})
+              //})
+        //.catch(err => {
+          //  res.status(400).send("Unable to save to database");
+       // });
+//});
+
 //Usernames Post for login page
 app.post("/projects", (req, res) => {
     var newUserData = new signUp(req.body);
@@ -128,6 +149,8 @@ app.post("/projects", (req, res) => {
   
 });
 });
+//Getting the database of the project and the users together
+
 //Neume data post
 app.post("/meiMapping", (req, res) => {
     var neumeData = new Neumes(req.body);
@@ -143,7 +166,7 @@ app.post("/meiMapping", (req, res) => {
         });
 });
 
-
+//Signup page posting function : 
 app.post("/project", (req, res) => {
     var newUserData = new signUp(req.body);
     if (req.body.newPassword !== req.body.newPasswordCheck) {
@@ -154,29 +177,12 @@ app.post("/project", (req, res) => {
   }
     newUserData.save()
        .then(item => {
-            res.render('index', { title: 'Express' });
-        })
-        .catch(err => {
-            res.status(400).send("Unable to save to database");
-        });
-});
-
-//Making a mongoose model with the project schema
-var projectNeumes = mongoose.model("projectNeumes", projectSchema);
-
-app.post("/projectNames", (req, res) => {
-    var projectData = new projectNeumes(req.body);
-
-    projectData.save()
-       .then(item => {
             res.render('projects', { title: 'Express' });
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
         });
 });
-
-
 
 //Making a mongoose model with the dropzone schema
 var dropzone = mongoose.model("dropzone", dropzoneSchema);
