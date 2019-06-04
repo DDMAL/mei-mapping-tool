@@ -97,22 +97,37 @@ nameSchema.pre('save', function(next) {
 
 //Making a mongoose model with the name schema
 var User = mongoose.model("User", nameSchema);
+//Making a mongoose model with the neume schema
+var Neumes = mongoose.model("neumes", neumeSchema);
+//Making a mongoose model with the signUp schema
+var signUp = mongoose.model("signUp", signUpSchema);
 
 var db = mongoose.connection;
 //If this save to the database was successful it will return to the .then segment of the promise. 
 app.post("/projects", (req, res) => {
-    var myData = new User(req.body);
+    var newUserData = new signUp(req.body);
     var userData = req.body.username;
     var passwordData = req.body.password;
 
- if(userData == "meiMapping" && passwordData == "meiMapping")
-     res.render('projects', { title: 'Express' });
- else
-  res.status(400).send("Wrong Username/password. Try again.");
-});
+  signUp.find({ 'newUserName': userData,'newPassword':passwordData }, function(err, user) {
 
-//Making a mongoose model with the neume schema
-var Neumes = mongoose.model("neumes", neumeSchema);
+        if (err) {
+
+            res.status(400).send("Wrong Username/password. Try again.");
+            return done(err);
+        }
+
+        //if user found.
+        if (user.length!=0) {
+          res.render('projects', { title: 'Express' });
+
+        }
+        else
+            res.status(400).send("Wrong Username/password. Try again.");
+    
+  
+});
+});
 
 app.post("/meiMapping", (req, res) => {
     var neumeData = new Neumes(req.body);
@@ -127,8 +142,6 @@ app.post("/meiMapping", (req, res) => {
         });
 });
 
-//Making a mongoose model with the signUp schema
-var signUp = mongoose.model("signUp", signUpSchema);
 
 app.post("/project", (req, res) => {
     var newUserData = new signUp(req.body);
@@ -140,7 +153,7 @@ app.post("/project", (req, res) => {
   }
     newUserData.save()
        .then(item => {
-            res.render('projects', { title: 'Express' });
+            res.render('index', { title: 'Express' });
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
