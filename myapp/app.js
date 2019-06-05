@@ -33,7 +33,7 @@ var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 //Change this line to the database you want the user name and password to be posted to
 mongoose.connect("mongodb://localhost:27017/userDatabase");
-
+const Schema = mongoose.Schema;
 //Testing the database for the project schema:
 var projectSchema = new mongoose.Schema({
     projectName : String,
@@ -43,8 +43,7 @@ var projectSchema = new mongoose.Schema({
 var nameSchema = new mongoose.Schema({
     username: String,
     password: String,
-    type: String,
-    project: String
+    type: String
 });
 
 //Sign up schema:
@@ -52,7 +51,8 @@ var signUpSchema = new mongoose.Schema({
     newUserName: String,
     newPassword: String,
     newPasswordCheck: String,
-    newType: String
+    newType: String,
+    project : { type: Schema.Types.ObjectId, ref: 'projectNeumes' }
 });
 
 //neumeSchema
@@ -73,7 +73,7 @@ var dropzoneSchema = new mongoose.Schema({
 });
 
 //Hashing to hide the password from seeing it in the database
-nameSchema.pre('save', function(next) {
+signUpSchema.pre('save', function(next) {
     var user = this;
 
     // only hash the password if it has been modified (or is new)
@@ -177,7 +177,7 @@ app.post("/project", (req, res) => {
   }
     newUserData.save()
        .then(item => {
-            res.render('index', { title: 'Express' });
+            res.render('projects', { title: 'Express' });
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
