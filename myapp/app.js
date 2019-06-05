@@ -116,7 +116,7 @@ app.post("/projectsNeumes", (req, res) => {
     projectData.save()
        .then(item => {
             res.render('index',function (err, html) {
-               res.send("not saved to database")
+               //res.send("not saved to database")
             })
               })
         .catch(err => {
