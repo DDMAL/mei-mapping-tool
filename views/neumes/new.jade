@@ -13,7 +13,7 @@ block content
 		#{title}
 	form#formAddneume(name="addneume",method="post",action="/neumes")
 		link(href='/stylesheets/dropzone.css', rel='stylesheet')
-		div#dropzone-example.dropzone(method='post', action='/')
+		div#dropzone-example.dropzone(method='post', action='/' name="image")
 		.fallback
 		p Name: 
 			input#inputName(type="text", placeholder="ex. Punctum", name="name")

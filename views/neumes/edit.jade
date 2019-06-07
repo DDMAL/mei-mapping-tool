@@ -4,14 +4,16 @@ block content
     h1.
         neume ID #{neume._id}
     form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
-        div#dZUpload(class = 'dropzone' method = 'post' action = '/neumes' name = 'image' value='#{neumeImage}') 
+        link(href='/stylesheets/dropzone.css', rel='stylesheet')
+        div#dropzone-example.dropzone(method='post', action='/')
+        .fallback
             div(class = 'dz-default dz-message')
         p Name:
             input#inputName(type='text', value='#{neume.name}', name='name')
         p Folio:
             input#inputfolio(type='text', value='#{neume.folio}', name='folio')
         p Description:
-            textarea#inputDescription(rows="4" cols="25" type='text', value='#{neume.description}', name='description')
+            input#inputDescription(type='text', value='#{neume.description}', name='description')
         p Classification:
             input#inputClassification(type='text',value='#{neume.classification}', name='classification')
         p MEI Snippet:
