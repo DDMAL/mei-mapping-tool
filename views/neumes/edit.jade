@@ -5,11 +5,11 @@ block content
         neume ID #{neume._id}
     form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
         link(href='/stylesheets/dropzone.css', rel='stylesheet')
-        div#dropzone-example.dropzone(method='post', action='/')
+        div#dropzone-example.dropzone(method='post', action='/' required)
         .fallback
             div(class = 'dz-default dz-message')
         p Name:
-            input#inputName(type='text', value='#{neume.name}', name='name')
+            input#inputName(type='text', value='#{neume.name}', name='name' required)
         p Folio:
             input#inputfolio(type='text', value='#{neume.folio}', name='folio')
         p Description:

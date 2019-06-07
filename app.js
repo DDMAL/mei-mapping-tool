@@ -29,6 +29,18 @@ app.use('/users', users);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '.jpg') //Appending .jpg
+  }
+})
+
+var upload = multer({ storage: storage });
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -39,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize())  
 app.use(passport.session()) 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(multer({dest: 'uploads'}).any()); // dest is not necessary if you are happy with the default: /tmp
+app.use(multer({storage}).any()); // dest is not necessary if you are happy with the default: /tmp
 app.use(express.static(path.join(__dirname, 'bower_components')));
 // routes for Dropzone element
 app.get('/', function (req, res) {

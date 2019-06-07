@@ -13,10 +13,10 @@ block content
 		#{title}
 	form#formAddneume(name="addneume",method="post",action="/neumes")
 		link(href='/stylesheets/dropzone.css', rel='stylesheet')
-		div#dropzone-example.dropzone(method='post', action='/' name="image")
+		div#dropzone-example.dropzone(method='post', action='/' name="image" required)
 		.fallback
 		p Name: 
-			input#inputName(type="text", placeholder="ex. Punctum", name="name")
+			input#inputName(type="text", placeholder="ex. Punctum", name="name" required)
 		p Folio:
 			input#inputfolio(type="text", placeholder="ex. 1/r3", name="folio")
 
