@@ -53,6 +53,7 @@ app.get('/old', function (req, res) {
 app.post('/', function (req, res) {
     //console.log(req.files);
         var files = req.files.file;
+        
     if (Array.isArray(files)) {
         // response with multiple files (old form may send multiple files)
         console.log("Got " + files.length + " files");
