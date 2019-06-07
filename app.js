@@ -41,7 +41,7 @@ app.use(passport.session())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(multer({dest: 'uploads'}).any()); // dest is not necessary if you are happy with the default: /tmp
 app.use(express.static(path.join(__dirname, 'bower_components')));
-// routes
+// routes for Dropzone element
 app.get('/', function (req, res) {
     res.send('<html><head><title>Dropzone example</title><link href="/dropzone/downloads/css/dropzone.css" rel="stylesheet"></head><body><h1>Using Dropzone</h1><form method="post" action="/" class="dropzone" id="dropzone-example"><div class="fallback"><input name="file" type="file" multiple /></div></form><p><a href="/old">Old form version</a></p><script src="/dropzone/downloads/dropzone.js"></script></body></html>');
 });
@@ -63,7 +63,22 @@ app.post('/', function (req, res) {
     }
     res.sendStatus(200);
 });
-
+//Route to show the image as gallery in edits : 
+/*
+@param {string, required} staticFiles The directory where your album starts - can contain photos or images
+@param {string, required} urlRoot The root URL which you pass into the epxress router in app.use (no way of obtaining this otherwise)
+@param {string, optional} title Yup, you guessed it - the title to display on the root gallery
+@param {boolean, optional} render Default to true. If explicitly set to false, rendering is left to the next function in the chain - see below. 
+@param {string, optional} thumbnail.width Thumbnail image width, defaults '200'
+@param {string, optional} thumbnail.height as above
+@param {string, optional} image.width Large images width defaults '100%'
+@param {string, optional} image.height as above
+*/
+app.use('/gallery', require('node-gallery')({
+  staticFiles : '/uploads/',
+  urlRoot : 'gallery', 
+  title : 'Example Gallery'
+}));
 app.use('/', routes);
 app.use('/neumes', neumes);
 //app.use('/users', users);
