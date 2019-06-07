@@ -12,9 +12,9 @@ block content
 	h1.
 		#{title}
 	form#formAddneume(name="addneume",method="post",action="/neumes")
-
-		div#dZUpload(class = 'dropzone' method = 'post' action = '/neume' name = 'image') 
-			div(class = 'dz-default dz-message')
+		link(href='/stylesheets/dropzone.css', rel='stylesheet')
+		div#dropzone-example.dropzone(method='post', action='/')
+		.fallback
 		p Name: 
 			input#inputName(type="text", placeholder="ex. Punctum", name="name")
 		p Folio:
