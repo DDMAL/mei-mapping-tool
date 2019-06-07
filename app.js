@@ -55,11 +55,11 @@ app.use(multer({storage}).any()); // dest is not necessary if you are happy with
 app.use(express.static(path.join(__dirname, 'bower_components')));
 // routes for Dropzone element
 app.get('/', function (req, res) {
-    res.send('<html><head><title>Dropzone example</title><link href="/dropzone/downloads/css/dropzone.css" rel="stylesheet"></head><body><h1>Using Dropzone</h1><form method="post" action="/" class="dropzone" id="dropzone-example"><div class="fallback"><input name="file" type="file" multiple /></div></form><p><a href="/old">Old form version</a></p><script src="/dropzone/downloads/dropzone.js"></script></body></html>');
+    res.send('<html><head><title>Dropzone example</title><link href="/stylesheets/dropzone.css" rel="stylesheet"></head><body><h1>Using Dropzone</h1><form method="post" action="/" class="dropzone" id="dropzone-example"><div class="fallback"><input name="file" type="file" multiple /></div></form><p><a href="/old">Old form version</a></p><script src="/javascripts/dropzone.js"></script></body></html>');
 });
 
 app.get('/old', function (req, res) {
-    res.send('<html><head><title>Dropzone example</title><link href="/dropzone/downloads/css/dropzone.css" rel="stylesheet"></head><body><h1>Old form</h1><form method="post" action="/" id="old-example" enctype="multipart/form-data"><input name="file" type="file" multiple /><button>Save</button></form><script src="/dropzone/downloads/dropzone.js"></script></body></html>');
+    res.send('<html><head><title>Dropzone example</title><link href="/stylesheets/dropzone.css" rel="stylesheet"></head><body><h1>Old form</h1><form method="post" action="/" id="old-example" enctype="multipart/form-data"><input name="file" type="file" multiple /><button>Save</button></form><script src="/javascripts/dropzone.js"></script></body></html>');
 });
 
 app.post('/', function (req, res) {
@@ -91,6 +91,7 @@ app.use('/gallery', require('node-gallery')({
   urlRoot : 'gallery', 
   title : 'Example Gallery'
 }));
+
 app.use('/', routes);
 app.use('/neumes', neumes);
 //app.use('/users', users);
