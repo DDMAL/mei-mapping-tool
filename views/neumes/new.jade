@@ -1,0 +1,62 @@
+extends ../layout
+
+head
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+	link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+	link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+
+block content
+	h1.
+		#{title}
+	form#formAddneume(name="addneume",method="post",action="/neumes")
+
+		div#dZUpload(class = 'dropzone' method = 'post' action = '/neume' name = 'image') 
+			div(class = 'dz-default dz-message')
+		p Name: 
+			input#inputName(type="text", placeholder="ex. Punctum", name="name")
+		p Folio:
+			input#inputfolio(type="text", placeholder="ex. 1/r3", name="folio")
+
+		p Description:
+			input#inputDescription(type="text", placeholder="ex. Punctum", name="description")
+
+		p Classification:
+			input#inputClassification(type="text", placeholder="ex. neume.punctum", name="classification")
+
+		p MEI Snippet:
+			//input#inputMei(type="text", placeholder="ex. <neume>", name="mei")
+			#editor(name = "aceEdit")
+			textarea#inputMei(name='mei', placeholder="ex. <neume>" style='display: none;')
+				|function foo(items) {
+				|var x = "All this is syntax highlighted";
+				|return x;
+				|}
+		p
+			button#btnSubmit(type="submit") submit
+	
+	script.
+		var editor = ace.edit("editor");
+		var textarea = $('textarea[name="mei"]');
+		editor.getSession().on("change", function () {
+			textarea.val(editor.getSession().getValue());
+			localStorage.setItem("ace",textarea.val());
+		});
+		editor.setTheme("ace/theme/monokai");
+		editor.session.setMode("ace/mode/javascript");//Add element for the ace editor in mongoose not getting values
+		var aceEditor = localStorage.getItem("ace");
+		
+		
+		Dropzone.autoDiscover = false;
+		$(function() {console.log("hey");
+			var myDropzone = new Dropzone(".dropzone", {
+				url: "upload.php",
+				paramName: "file",
+				maxFilesize: 2,
+				maxFiles: 10,
+				acceptedFiles: "image/*,application/pdf"
+
+		});
+		});

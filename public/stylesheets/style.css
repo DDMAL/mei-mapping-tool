@@ -1,0 +1,93 @@
+body {
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+body{
+  font-family:Arial, Helvetica, sans-serif; 
+  font-size:13px;
+  }
+  
+  .success, .error, .validation {
+  border: 1px solid;
+  margin: 10px 0px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  }
+
+  .success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  }
+  .error {
+  color: #D8000C;
+  background-color: #FFBABA;
+  }
+
+  .caption{
+    color: grey;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+  }
+  .container{
+  margin: 0 auto; 
+  width: 50%;
+}
+
+.content{
+  padding: 5px; 
+  margin: 0 auto;
+}
+.content span{
+  width: 250px;
+}
+
+.dz-message{
+  text-align: center;
+  font-size: 28px;
+}
+
+.dz-preview .dz-image img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}

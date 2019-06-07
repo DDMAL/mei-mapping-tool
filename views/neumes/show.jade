@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    h1.
+        Infophoto #{neume._id}
+    p Name: #{neume.name}
+    p folio: #{neume.folio}
+    p Description: #{neume.description}
+    p Classification: #{neume.classification}
+    p Mei Snippet: #{neume.mei}
+    p Date: #{neumedob}
+    p Image: #{neumeImage}
+
+    a(href='/neumes') Back

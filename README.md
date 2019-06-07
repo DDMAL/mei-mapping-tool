@@ -4,7 +4,7 @@ Web-based app to map squiggles to MEI snippets (under construction)
 ## Requirements
 * [Node.js](https://nodejs.org/en/download/)
 * [Homebrew](https://brew.sh/) *for mac users*
-* [Mongodb](https://docs.mongodb.com/manual/installation/) `brew install mongodb`
+* [Mongodb](https://docs.mongodb.com/manual/installation/) Make sure MongoDB is installed (`brew install mongodb`)
 * [Mongoose](https://mongoosejs.com/docs/) `npm install mongoose`
 * [npm](https://www.npmjs.com/get-npm):
  `npm install npm@latest -g` 
@@ -23,7 +23,7 @@ Web-based app to map squiggles to MEI snippets (under construction)
 
 2. Go to the myapp directory of the repository
 
-  `cd mei-mapping-tool/myapp`
+  `cd mei-mapping-tool`
 
 3. Install dependencies using npm
 
@@ -31,11 +31,11 @@ Web-based app to map squiggles to MEI snippets (under construction)
 
 4. Start the server
 
-  `DEBUG=myapp:* npm start`
+  `npm start`
   
-  You should be able to see the message *myapp:server Listening on port 3000 +0ms*
+  You should be able to see the message *node ./bin/www*
 
-You can get the most recent version of the mei-mapping-tool by accessing the page http://localhost:3000/meiMapping
+You can get the most recent version of the mei-mapping-tool by accessing the page http://localhost:3000/neumes
 
 ## Mongodb installation
 

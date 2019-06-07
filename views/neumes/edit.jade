@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+    h1.
+        neume ID #{neume._id}
+    form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+        div#dZUpload(class = 'dropzone' method = 'post' action = '/neumes' name = 'image' value='#{neumeImage}') 
+            div(class = 'dz-default dz-message')
+        p Name:
+            input#inputName(type='text', value='#{neume.name}', name='name')
+        p Folio:
+            input#inputfolio(type='text', value='#{neume.folio}', name='folio')
+        p Description:
+            textarea#inputDescription(rows="4" cols="25" type='text', value='#{neume.description}', name='description')
+        p Classification:
+            input#inputClassification(type='text',value='#{neume.classification}', name='classification')
+        p MEI Snippet:
+            //input#inputMei(type="text", value='#{neume.mei}', name="mei")
+            #editor2(name = "aceEdit")
+            textarea#inputMei(name='mei', value='#{neume.mei}' style='display: none;')
+  
+        p Date:
+            input#inputDob(type='date', value='#{neumedob}', name='dob')
+        p
+            input(type='hidden',value='PUT',name='_method')
+        p 
+            button#btnSubmit(type='submit', value = 'update') Update
+            script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+            script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+            script.
+              console.log('hey');
+              var editor2 = ace.edit('editor2');
+              var textarea = $('textarea[name="mei"]');
+                editor2.getSession().on("change", function () {
+                  textarea.val(editor2.getSession().getValue());
+                  localStorage.setItem("ace",textarea.val());
+                });
+              editor2.setTheme("ace/theme/monokai");
+              editor2.session.setMode("ace/mode/javascript");
+              var aceEditor = localStorage.getItem('ace');
