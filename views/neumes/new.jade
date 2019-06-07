@@ -9,14 +9,12 @@ head
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
 
 block content
-
 	h1.
 		#{title}
-	link(href='/stylesheets/dropzone.css', rel='stylesheet')
-	form#dropzone-example.dropzone(method='post', action='/')
-	.fallback
+	form#formAddneume(name="addneume",method="post",action="/neumes")
 
-	form#formAddneume(name="addneume",action="/neumes")
+		div#dZUpload(class = 'dropzone' method = 'post' action = '/neume' name = 'image') 
+			div(class = 'dz-default dz-message')
 		p Name: 
 			input#inputName(type="text", placeholder="ex. Punctum", name="name")
 		p Folio:
@@ -49,4 +47,16 @@ block content
 		editor.setTheme("ace/theme/monokai");
 		editor.session.setMode("ace/mode/javascript");//Add element for the ace editor in mongoose not getting values
 		var aceEditor = localStorage.getItem("ace");
+		
+		
+		Dropzone.autoDiscover = false;
+		$(function() {console.log("hey");
+			var myDropzone = new Dropzone(".dropzone", {
+				url: "upload.php",
+				paramName: "file",
+				maxFilesize: 2,
+				maxFiles: 10,
+				acceptedFiles: "image/*,application/pdf"
 
+		});
+		});
