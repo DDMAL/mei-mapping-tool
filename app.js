@@ -1,4 +1,4 @@
-//The brains fo the code
+//Requirements for app.js
 var express = require('express'),
     path = require('path'),
     favicon = require('serve-favicon'),
@@ -12,7 +12,6 @@ var db = require('./model/db'),
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
-
 
 var routes = require('./routes/index'),
     neumes = require('./routes/neumes');
@@ -36,7 +35,7 @@ var storage = multer.diskStorage({
     cb(null, 'uploads/')
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '.jpg') //Appending .jpg
+    cb(null, file.originalname) //Appending .jpg for the original name
   }
 })
 
