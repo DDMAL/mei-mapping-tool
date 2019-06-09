@@ -12,18 +12,28 @@ var db = require('./model/db'),
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
-var routes = require('./routes/index'),
-    neumes = require('./routes/neumes');
- 
-var index = require('./routes/index');
-//var users = require('./routes/users');
-var users = require('./routes/users');
-
+mongoose.connect('mongodb://localhost:27017/mei-mapping-tool');
+var db = mongoose.connection;
+var routes = require('./routes/router'),
+    neumes = require('./routes/neumes'); 
 var app = express();
 
-app.use('/', index);
-app.use('/users', users);
+//use sessions for tracking logins
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
+
+//Adding routes for the users index page
+app.use('/', routes);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -108,17 +118,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-app.use('/', index);
-app.use('/users', users);
-
-
-// passport configuration
-var User = require('./model/User');
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-// error handlers
 
 // development error handler
 // will print stacktrace
