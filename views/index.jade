@@ -19,7 +19,7 @@ html
     link(href='//fonts.googleapis.com/css?family=Jura:400,300,500,600', rel='stylesheet', type='text/css')
     // //web-fonts
   body
-    h1 Test Authentication 🚀 
+    h1 Cress 🎵 
     // main
     .main
       // login-profile
@@ -34,6 +34,10 @@ html
               input(type='password', name='logpassword', placeholder='Password', required='')
               .tp
                 input(type='submit', value='LOGIN NOW')
+                br
+                br
+              p
+                a(href='/neumes') Continue as User ->
       .agile
         .signin-form.profile
           h3 Register
@@ -43,7 +47,13 @@ html
               input(type='text', name='username', placeholder='Username', required='')
               input#password(type='password', name='password', placeholder='Password', required='')
               input#password_conf(type='password', name='passwordConf', placeholder='Confirm Password', required='')
+              label
+               h4 Role : 
+               select#optionUser(name="newType")
+                option(value='admin') Admin
+                option(value = 'editor') Editor
               input(type='submit', value='REGISTER')
+
           p
             a(href='#')  By clicking register, I agree to your terms
       .clear
