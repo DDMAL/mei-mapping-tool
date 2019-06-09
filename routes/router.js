@@ -24,12 +24,13 @@ router.post('/', function (req, res, next) {
   if (req.body.email &&
     req.body.username &&
     req.body.password &&
-    req.body.passwordConf) {
+    req.body.passwordConf && req.body.role) {
 
     var userData = {
       email: req.body.email,
       username: req.body.username,
       password: req.body.password,
+      role: req.body.role,
     }
 
     User.create(userData, function (error, user) {

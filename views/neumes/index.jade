@@ -4,7 +4,7 @@ block content
     h1.
          #{title}
 
-    a(href='/neumes/new' visibility: hidden) Add neume
+    a#addingNeume(href='/neumes/new' visibility: hidden) Add neume
     ul
         - each neume, i in neumes
             li
@@ -21,8 +21,8 @@ block content
                     button(type='submit' visibility: hidden).
                         Delete
                 p 
-                    a(href='/neumes/#{neume._id}/edit' visibility: hidden) Edit
+                    a#editing(href='/neumes/#{neume._id}/edit' visibility: hidden) Edit
                 p
                     a(href='/neumes/#{neume._id}') Show
                 br
-                a(type='button', href='/logout' visibility: hidden) Logout
+                a#logging-out(type='button', href='/logout' visibility: hidden) Logout
