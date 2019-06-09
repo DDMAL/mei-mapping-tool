@@ -112,6 +112,9 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+// serve static files from template
+app.use(express.static(__dirname + '/templateLogReg'));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
