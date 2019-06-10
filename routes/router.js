@@ -12,6 +12,9 @@ router.get('/', function (req, res, next) {
 
 //POST route for updating data
 router.post('/', function (req, res, next) {
+  var editor = false;
+  if(req.body.role == "editor")
+           editor = true;
   // confirm that user typed same password twice
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match.');
@@ -51,7 +54,10 @@ router.post('/', function (req, res, next) {
         err.status = 401;
         return next(err);
       } else {
-
+        if (editor = true){
+          req.session.userId = user._id;
+        return res.redirect('/neumes/editor');}
+        
         req.session.userId = user._id;
         return res.redirect('/neumes');
       }
