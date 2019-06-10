@@ -56,8 +56,8 @@ router.post('/', function (req, res, next) {
       } else {
         if (editor = true){
           req.session.userId = user._id;
-        return res.redirect('/neumes/editor');}
-        
+        return res.redirect('/neumes');}
+
         req.session.userId = user._id;
         return res.redirect('/neumes');
       }
