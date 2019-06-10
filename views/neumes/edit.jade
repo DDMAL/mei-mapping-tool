@@ -4,6 +4,13 @@ block content
     h1.
         neume ID #{neume._id}
     form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+       form(action = "/clicked" method = "post")
+        div#images
+          .image-area
+            img#image(src='http://localhost:3000/gallery/#{neume.name}.jpg', alt='Preview')
+            a.remove-image#deleteButton(href='#', style='display: inline;' onclick = "removeElement()" type='submit' name = "submit") ×
+        input#inputImage(type='text', value='hey', name='image' required hidden)
+
         link(href='/stylesheets/dropzone.css', rel='stylesheet')
         div#dropzone-example.dropzone(method='post', action='/' required)
         .fallback
@@ -40,3 +47,14 @@ block content
               editor2.setTheme("ace/theme/monokai");
               editor2.session.setMode("ace/mode/javascript");
               var aceEditor = localStorage.getItem('ace');
+              //Function to removeElement:
+              var image = document.getElementById("inputImage");
+              function removeElement(){
+                        var child = document.getElementById("image");
+                        var parent = document.getElementById("images");
+                        child.remove();
+                        parent.remove();  
+                        image.value = "deleted";
+                        console.log(image);
+              }
+     

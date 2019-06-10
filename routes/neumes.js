@@ -217,6 +217,14 @@ router.route('/:id/edit')
 	                     }
 	                  });
 	           }
+             //Deletes the file from the folder
+             if(req.body.image == "deleted"){
+             const fs = require('fs');
+
+              fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
+                if (err) throw err;
+                console.log('successfully deleted');
+              }); }
 	        })
 	    });
 	})
