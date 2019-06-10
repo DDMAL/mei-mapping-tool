@@ -43,3 +43,21 @@ block content
 		editor.setTheme("ace/theme/monokai");
 		editor.session.setMode("ace/mode/javascript");//Add element for the ace editor in mongoose not getting values
 		var aceEditor = localStorage.getItem("ace");
+		Dropzone.autoDiscover = false;
+		var myDropzone = new Dropzone("#dropzone-example", {
+			url: "/image",
+			maxFileSize: 50,
+			acceptedFiles: ".jpg",
+			addRemoveLinks: true,
+			removedfile: function(file){
+			var name = file.name;
+			$.ajax({
+				type: 'POST',
+				url: 'delete.php',
+				data: "name="+name,
+				dataType: 'html'
+				});
+			var _ref;
+			return(_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+			}
+		});
