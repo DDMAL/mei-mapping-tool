@@ -10,7 +10,6 @@ router.get('/', function (req, res, next) {
   return res.render('index');
 });
 
-
 //POST route for updating data
 router.post('/', function (req, res, next) {
   // confirm that user typed same password twice

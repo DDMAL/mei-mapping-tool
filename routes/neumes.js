@@ -15,7 +15,31 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-
+router.route('/user')
+    //GET all neumes
+    .get(function(req, res, next) {
+        //retrieve all neumes from Monogo
+        mongoose.model('neume').find({}, function (err, neumes) {
+              if (err) {
+                  return console.error(err);
+              } else {
+                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+                  res.format({
+                      //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
+                    html: function(){
+                        res.render('neumes/user', {
+                              title: 'Neumes',
+                              "neumes" : neumes
+                          });
+                    },
+                    //JSON response will show all neumes in JSON format
+                    json: function(){
+                        res.json(neumes);
+                    }
+                });
+              }     
+        });
+    })
 //build the REST operations at the base for neumes
 //this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
 router.route('/')
@@ -90,8 +114,9 @@ router.route('/')
 
 /* GET New neume page. */
 router.get('/new', function(req, res) {
-    res.render('neumes/new', { title: 'Add New Neume' });
+     res.render('neumes/new', { title: 'Add New Neume' });
 });
+
 
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
