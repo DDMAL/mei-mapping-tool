@@ -3,8 +3,6 @@ extends ../layout
 block content
     h1.
          #{title}
-
-    a#addingNeume(href='/neumes/new' visibility: hidden name = "add") Add neume
     ul
         - each neume, i in neumes
             li
@@ -25,4 +23,4 @@ block content
                 p
                     a(href='/neumes/#{neume._id}') Show
                 br
-                a#logging-out(type='button', href='/logout' name = "logout") Logout
+    a#logging-out(type='button', href='/logout' name = "logout") Logout
