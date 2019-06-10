@@ -20,16 +20,11 @@ router.post('/', function (req, res, next) {
     res.send("passwords dont match");
     return next(err);
   }
-  if(req.body.role == "admin")
-  	 console.log("admin");
-
-  if(req.body.role == "editor")
-  	 console.log("editor");
 
   if (req.body.email &&
     req.body.username &&
     req.body.password &&
-    req.body.passwordConf && req.body.role) {
+    req.body.passwordConf) {
 
     var userData = {
       email: req.body.email,
@@ -63,7 +58,6 @@ router.post('/', function (req, res, next) {
     err.status = 400;
     return next(err);
   }
-
 })
 
 // GET route after registering

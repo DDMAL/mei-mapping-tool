@@ -29,11 +29,11 @@ img{max-width:100%;}
 /*--end reset--*/
 body {
     font-family: 'Jura', sans-serif;
-    background:#0a4981;
+    background:white;
 }
 h4{color : white;}
 h1 {
-    color: #fff;
+    color: black;
     text-align: center;
     padding: 1em 0 0 0;
     font-size: 3em;

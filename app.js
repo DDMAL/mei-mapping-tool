@@ -63,7 +63,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(multer({storage}).any()); // dest is not necessary if you are happy with the default: /tmp
 app.use(express.static(path.join(__dirname, 'bower_components')));
 // routes for Dropzone element
-app.get('/', function (req, res) {
+app.get('/image', function (req, res) {
     res.send('<html><head><title>Dropzone example</title><link href="/stylesheets/dropzone.css" rel="stylesheet"></head><body><h1>Using Dropzone</h1><form method="post" action="/" class="dropzone" id="dropzone-example"><div class="fallback"><input name="file" type="file" multiple /></div></form><p><a href="/old">Old form version</a></p><script src="/javascripts/dropzone.js"></script></body></html>');
 });
 
@@ -71,7 +71,7 @@ app.get('/old', function (req, res) {
     res.send('<html><head><title>Dropzone example</title><link href="/stylesheets/dropzone.css" rel="stylesheet"></head><body><h1>Old form</h1><form method="post" action="/" id="old-example" enctype="multipart/form-data"><input name="file" type="file" multiple /><button>Save</button></form><script src="/javascripts/dropzone.js"></script></body></html>');
 });
 
-app.post('/', function (req, res) {
+app.post('/image', function (req, res) {
     //console.log(req.files);
         var files = req.files.file;
     if (Array.isArray(files)) {
@@ -103,6 +103,7 @@ app.use('/gallery', require('node-gallery')({
 
 app.use('/', routes);
 app.use('/neumes', neumes);
+
 //app.use('/users', users);
 app.use(require('express-session')({
     secret: 'keyboard cat',

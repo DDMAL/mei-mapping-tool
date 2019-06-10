@@ -26,3 +26,7 @@ block content
                     a(href='/neumes/#{neume._id}') Show
                 br
                 a#logging-out(type='button', href='/logout') Logout
+
+                script.
+                  if(editor == true)
+                  document.getElementById("editing").style.visibility = "hidden";
