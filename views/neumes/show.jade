@@ -11,8 +11,8 @@ block content
     p Date: #{neumedob}
     p Image: 
     img#image( class="optional" src='http://localhost:3000/gallery/#{neume.name}.jpg', alt='My_Logo')
-
-    a(href='/neumes') Back
+    form
+      input(type='button', value='Back', onclick='history.go(-1)')
     script.
       $.get("http://localhost:3000/gallery/#{neume.name}.jpg")
             .done(function() { 
