@@ -4,7 +4,7 @@ block content
     h1.
          #{title}
 
-    a#addingNeume(href='/neumes/new' visibility: hidden) Add neume
+    a#addingNeume(href='/neumes/new') Add neume
     ul
         - each neume, i in neumes
             li
@@ -18,11 +18,11 @@ block content
                 = neume.image
                 form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='hidden',value='DELETE',name='_method')
-                    button(type='submit' visibility: hidden).
+                    button(type='submit').
                         Delete
                 p 
-                    a#editing(href='/neumes/#{neume._id}/edit' visibility: hidden) Edit
+                    a#editing(href='/neumes/#{neume._id}/edit') Edit
                 p
                     a(href='/neumes/#{neume._id}') Show
                 br
-                a#logging-out(type='button', href='/logout' visibility: hidden) Logout
+                a#logging-out(type='button', href='/logout') Logout
