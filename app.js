@@ -9,6 +9,7 @@ var express = require('express'),
 var db = require('./model/db'),
     multer = require('multer'),
     neume = require('./model/neumes');
+    image = require('./model/images');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
@@ -53,6 +54,19 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname) //Appending .jpg for the original name
+    // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+        //call the create function for our database
+        mongoose.model('image').create({
+            path : file.originalname,
+             
+        }, function (err, neume) {
+              if (err) {
+                  res.send("There was a problem adding the information to the database.");
+              } else {
+                  //neume has been created
+                  console.log('POST creating new image: ' + neume);
+        }
+    })
   }
 })
 
@@ -80,7 +94,7 @@ app.get('/old', function (req, res) {
 });
 
 app.post('/image', function (req, res) {
-    //console.log(req.files);
+    //console.log (req.files);
         var files = req.files.file;
     if (Array.isArray(files)) {
         // response with multiple files (old form may send multiple files)
@@ -89,8 +103,7 @@ app.post('/image', function (req, res) {
     else {
         // dropzone will send multiple requests per default
         console.log("Got one file");
-    }
-    res.sendStatus(200);
+}
 });
 //Route to show the image as gallery in edits : 
 /*

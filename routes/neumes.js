@@ -112,7 +112,6 @@ router.route('/')
             classification : classification,
             mei : mei,
             dob : dob,
-            image : image,
              
         }, function (err, neume) {
               if (err) {
@@ -250,7 +249,6 @@ router.route('/:id/edit')
               classification : classification,
               mei : mei,
 	            dob : dob,
-	            image : image,
 	        }, function (err, neumeID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);
