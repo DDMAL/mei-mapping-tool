@@ -5,7 +5,7 @@ var neumeSchema = new mongoose.Schema({
   description: String,
   classification: String,
   mei: String,
-  image: { data: Buffer, contentType: String },
+//Make sure the image path is linked to the user id
   dob: { type: Date, default: Date.now },
 });
 mongoose.model('neume', neumeSchema);

@@ -47,7 +47,7 @@ block content
 		var myDropzone = new Dropzone("#dropzone-example", {
 			url: "/image",
 			maxFileSize: 50,
-			acceptedFiles: ".jpg",
+			acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
 			addRemoveLinks: true,
 			removedfile: function(file){
 			var name = file.name;
