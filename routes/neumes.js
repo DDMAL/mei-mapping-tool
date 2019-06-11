@@ -103,9 +103,6 @@ router.route('/')
         var classification = req.body.classification;
         var mei = req.body.mei;
         var dob = req.body.dob;
-        var image = req.
-        //var image = req.body.image._id;//Req.body.image seems to be undefined
-        
 
         //call the create function for our database
         mongoose.model('neume').create({
@@ -115,7 +112,7 @@ router.route('/')
             classification : classification,
             mei : mei,
             dob : dob,
-            image : image._id,
+            
              
         }, function (err, neume) {
               if (err) {
@@ -123,7 +120,7 @@ router.route('/')
               } else {
                   //neume has been created
                   console.log('POST creating new neume: ' + neume);
-                  getNeumesWithImages(_id);
+              
                   //Neume requests for the images inside of neumes
                   res.format({
                       //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
