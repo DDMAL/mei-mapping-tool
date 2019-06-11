@@ -4,6 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
 
+
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -40,6 +41,7 @@ router.route('/editor')
               }     
         });
     })
+
 router.route('/user')
     //GET all neumes
     .get(function(req, res, next) {
@@ -101,8 +103,9 @@ router.route('/')
         var classification = req.body.classification;
         var mei = req.body.mei;
         var dob = req.body.dob;
-        var image = req.body.image;
-        var company = req.body.company;
+        var image = req.
+        //var image = req.body.image._id;//Req.body.image seems to be undefined
+        
 
         //call the create function for our database
         mongoose.model('neume').create({
@@ -112,6 +115,7 @@ router.route('/')
             classification : classification,
             mei : mei,
             dob : dob,
+            image : image._id,
              
         }, function (err, neume) {
               if (err) {
@@ -119,6 +123,8 @@ router.route('/')
               } else {
                   //neume has been created
                   console.log('POST creating new neume: ' + neume);
+                  getNeumesWithImages(_id);
+                  //Neume requests for the images inside of neumes
                   res.format({
                       //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
                     html: function(){
@@ -224,7 +230,9 @@ router.route('/:id/edit')
 	                 }
 	            });
 	        }
-	    });
+	    }).populate('image').exec((err, posts) => {
+      console.log("Populated Image " + posts);
+    });
 	})
 	//PUT to update a neume by ID
 	.put(function(req, res) {
@@ -237,11 +245,12 @@ router.route('/:id/edit')
 	    var dob = req.body.dob;
       var image = req.body.image;
 	    var company = req.body.company;
-	    
+	    var image = mongoose.model('image')
 
 	    //find the document by ID
 	    mongoose.model('neume').findById(req.id, function (err, neume) {
 	        //update it
+          populate("image").
 	        neume.update({
 	            name : name,
 	            folio : folio,
@@ -249,6 +258,7 @@ router.route('/:id/edit')
               classification : classification,
               mei : mei,
 	            dob : dob,
+              image : image._id,
 	        }, function (err, neumeID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);
@@ -308,4 +318,11 @@ router.route('/:id/edit')
 	    });
 	});
 
+
+function getNeumesWithImages(id){
+  return mongoose.model('neume').findOne({ '_id':id })
+    .populate('image').exec((err, image) => {
+      console.log("Populated Image " + image);
+    })
+}
 module.exports = router;
