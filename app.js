@@ -40,6 +40,13 @@ app.set('view engine', 'jade');
 
 var multer = require('multer');
 
+//If folder doesn't exist, create a new uploads folder :
+var fs = require('fs');
+var dir = './uploads';
+  if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+  }
+
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
