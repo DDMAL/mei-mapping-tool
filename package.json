@@ -29,6 +29,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
+    "resize-image": "^0.1.0",
     "serve-favicon": "~2.2.0",
     "uuid": "^3.3.2"
   }
