@@ -14,12 +14,13 @@ block content
     form
       input(type='button', value='Back', onclick='history.go(-1)')
     script.
-      function f() {
-            return Array.from(arguments);
-          }
-      var imageArray = f("#{neume.imagePath}");
-        imageArray.forEach(function(entry) {
-            var image = document.createElement("img");
-            image.src = entry; //getting the file paths
-            document.body.appendChild(image);//the image is appended
-        });
+      var imagePaths = "#{neume.imagePath}";
+      var imageArray = imagePaths.split(',');
+      console.log(imageArray);
+      imageArray.forEach(function(element) {
+      var image = document.createElement("img");
+      image.src = "/gallery/" + element; //getting the file paths
+      document.body.appendChild(image);//the image is appended
+      });
+      
+
