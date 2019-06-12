@@ -23,7 +23,7 @@ var routes = require('./routes/router'),
     neumes = require('./routes/neumes'); 
 var app = express();
 var uuid = require('uuid');
-
+global.imageArray = [];
 //use sessions for tracking logins
 app.use(session({
   secret: 'work hard',
@@ -49,7 +49,6 @@ var dir = './uploads';
   if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);
   }
-global.imageArray = [];
 var tmpPath = 0;
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {

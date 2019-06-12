@@ -243,14 +243,11 @@ router.route('/:id/edit')
       var classification = req.body.classification;
       var mei = req.body.mei;
 	    var dob = req.body.dob;
-      var image = req.body.image;
-	    var company = req.body.company;
-	    var image = mongoose.model('image')
+	    
 
 	    //find the document by ID
 	    mongoose.model('neume').findById(req.id, function (err, neume) {
 	        //update it
-          populate("image").
 	        neume.update({
 	            name : name,
 	            folio : folio,
@@ -258,7 +255,7 @@ router.route('/:id/edit')
               classification : classification,
               mei : mei,
 	            dob : dob,
-              image : image._id,
+              imagePath : imageArray
 	        }, function (err, neumeID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);
@@ -317,12 +314,4 @@ router.route('/:id/edit')
 	        }
 	    });
 	});
-
-
-function getNeumesWithImages(id){
-  return mongoose.model('neume').findOne({ '_id':id })
-    .populate('image').exec((err, image) => {
-      console.log("Populated Image " + image);
-    })
-}
 module.exports = router;
