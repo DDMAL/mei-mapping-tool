@@ -17,10 +17,18 @@ html
 body
     h1.
          #{neume.name}
+  .column
+   .card
+     .panel.panel-default
+       .panel-body
+          div#images
+            p Images: 
  .column
    .card 
     h6 Name: #{neume.name}
-    h6 folio: #{neume.folio}
+    br
+    h6 Folio: #{neume.folio}
+    br
     h6 Description: #{neume.description}
 
  .column
@@ -30,13 +38,10 @@ body
  .column
    .card 
     p Mei Snippet: #{neume.mei}
-    p Date: #{neumedob}
+    //p Date: #{neumedob}
 
- .column
-   .card
-    div
-      p#images Images: 
-  
+
+.column
   form
       input(type='button', value='Back', onclick='history.go(-1)')
     script.
