@@ -221,7 +221,8 @@ router.route('/:id/edit')
 	                       res.render('neumes/edit', {
 	                          title: 'neume' + neume._id,
                             "neumedob" : neumedob,
-	                          "neume" : neume
+	                          "neume" : neume,
+                            "neumeImages" : neume.imagePath
 	                      });
 	                 },
 	                 //JSON response will return the JSON output
@@ -236,14 +237,14 @@ router.route('/:id/edit')
 	})
 	//PUT to update a neume by ID
 	.put(function(req, res) {
-	    // Get our REST or form values. These rely on the "name" attributes
+	    // Get our REST or form values. These rely on the "name" attributes from the edit page
 	    var name = req.body.name;
 	    var folio = req.body.folio;
       var description = req.body.description;
       var classification = req.body.classification;
       var mei = req.body.mei;
 	    var dob = req.body.dob;
-	    
+	    global.editArray = imageArray;
 
 	    //find the document by ID
 	    mongoose.model('neume').findById(req.id, function (err, neume) {
@@ -255,7 +256,7 @@ router.route('/:id/edit')
               classification : classification,
               mei : mei,
 	            dob : dob,
-              imagePath : imageArray
+              imagePath : imageArray //adding the image to the image array without reinitializng everything
 	        }, function (err, neumeID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);

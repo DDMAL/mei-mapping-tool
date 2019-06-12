@@ -9,7 +9,7 @@ block content
         - each neume, i in neumes
             li
                 = neume.name
-    
+
                 form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='hidden',value='DELETE',name='_method')
                     button(type='submit').
