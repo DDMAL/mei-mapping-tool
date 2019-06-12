@@ -49,6 +49,7 @@ var dir = './uploads';
   if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);
   }
+global.imageArray = [];
 var tmpPath = 0;
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -60,16 +61,16 @@ var storage = multer.diskStorage({
     cb(null, id + "") //Changing pathname to unique path
     // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         //call the create function for our database
-
+        
         mongoose.model('image').create({
-            imagepath : id, //unique pathname
-            neume : neume._id,    
+            imagepath : id, //unique pathname  
         }, function (err, image) {
               if (err) {
                   res.send("There was a problem adding the information to the database.");
               } else {
                   //neume has been created
                   console.log('POST creating new image: ' + image);
+                  imageArray.push(image);
           }
     })
   }

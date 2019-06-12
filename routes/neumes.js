@@ -113,7 +113,7 @@ router.route('/')
             classification : classification,
             mei : mei,
             dob : dob,
-            imagePath : id
+            imagePath : imageArray
             
              
         }, function (err, neume) {
