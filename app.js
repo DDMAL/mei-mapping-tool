@@ -56,7 +56,7 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
      console.log(uuid.v4())
-        var id = uuid.v4() + ".jpg";
+        global.id = uuid.v4() + ".jpg";
     cb(null, id + "") //Changing pathname to unique path
     // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         //call the create function for our database
@@ -70,7 +70,7 @@ var storage = multer.diskStorage({
               } else {
                   //neume has been created
                   console.log('POST creating new image: ' + image);
-        }
+          }
     })
   }
 })

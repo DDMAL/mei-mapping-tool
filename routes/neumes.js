@@ -94,6 +94,7 @@ router.route('/')
               }     
         });
     })
+
     //POST a new neume
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
@@ -112,6 +113,7 @@ router.route('/')
             classification : classification,
             mei : mei,
             dob : dob,
+            imagePath : id
             
              
         }, function (err, neume) {
