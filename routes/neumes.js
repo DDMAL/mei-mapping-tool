@@ -137,6 +137,7 @@ router.route('/')
                         res.json(neume);
                     }
                 });
+                imageArray = [];
               }
         })
     });
@@ -273,7 +274,6 @@ router.route('/:id/edit')
 	                           res.json(neume);
 	                     }
 	                  });
-                    imageArray = [];
 	           }
              //Deletes the file from the folder
              if(req.body.image == "deleted"){
