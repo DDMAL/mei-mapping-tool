@@ -244,11 +244,12 @@ router.route('/:id/edit')
       var classification = req.body.classification;
       var mei = req.body.mei;
 	    var dob = req.body.dob;
-	    global.editArray = imageArray;
+	    global.editArray = [];
 
 	    //find the document by ID
 	    mongoose.model('neume').findById(req.id, function (err, neume) {
 	        //update it
+          editArray = neume.imagePath.concat(imageArray);
 	        neume.update({
 	            name : name,
 	            folio : folio,
@@ -256,7 +257,7 @@ router.route('/:id/edit')
               classification : classification,
               mei : mei,
 	            dob : dob,
-              imagePath : imageArray //adding the image to the image array without reinitializng everything
+              imagePath : editArray //adding the image to the image array without reinitializng everything
 	        }, function (err, neumeID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);
