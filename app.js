@@ -23,7 +23,9 @@ var routes = require('./routes/router'),
     neumes = require('./routes/neumes'); 
 var app = express();
 var uuid = require('uuid');
-global.imageArray = [];
+global.imageArray = [];//This variable is initiated everytime the edit page loads.
+//We can make a new image array variable that takes as value the current imageArray from the database only (so neume.ImageArray)
+//and then add to that array a new image and update that new array as the neume name!
 //use sessions for tracking logins
 app.use(session({
   secret: 'work hard',
