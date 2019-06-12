@@ -70,7 +70,7 @@ var storage = multer.diskStorage({
               } else {
                   //neume has been created
                   console.log('POST creating new image: ' + image);
-                  imageArray.push(image);
+                  imageArray.push(image.imagepath);
           }
     })
   }
