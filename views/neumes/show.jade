@@ -2,15 +2,15 @@ extends ../layout
 
 block content
     h1.
-        Infophoto #{neume._id}
+         #{neume.name}
     p Name: #{neume.name}
     p folio: #{neume.folio}
     p Description: #{neume.description}
     p Classification: #{neume.classification}
     p Mei Snippet: #{neume.mei}
     p Date: #{neumedob}
-    p Image: 
-    img#image( class="optional" src='http://localhost:3000/gallery/#{neume.name}.jpg', alt='My_Logo')
+    p Images: #{neume.imagePath}//path of images
+    img#image( class="optional" src='http://localhost:3000/gallery/#{neume.name}.jpg')
     form
       input(type='button', value='Back', onclick='history.go(-1)')
     script.
