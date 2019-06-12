@@ -1,17 +1,43 @@
-extends ../layout
+doctype html
+html
+  head
+   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
 
-block content
+   script(src='/javascripts/dropzone.js')
+   link(rel='stylesheet', href='/stylesheets/dropzone.css')
+   script(type='text/javascript' src='/javascripts/ace.js')
+   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/stylesheets/column.css')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+body
     h1.
          #{neume.name}
+ .column
+   .card 
+    h6 Name: #{neume.name}
+    h6 folio: #{neume.folio}
+    h6 Description: #{neume.description}
 
-    p Name: #{neume.name}
-    p folio: #{neume.folio}
-    p Description: #{neume.description}
+ .column
+   .card 
     p Classification: #{neume.classification}
+
+ .column
+   .card 
     p Mei Snippet: #{neume.mei}
     p Date: #{neumedob}
-    p Images: 
-    form
+
+ .column
+   .card
+    div
+      p#images Images: 
+  
+  form
       input(type='button', value='Back', onclick='history.go(-1)')
     script.
       var imagePaths = "#{neume.imagePath}";
@@ -20,7 +46,8 @@ block content
       imageArray.forEach(function(element) {
       var image = document.createElement("img");
       image.src = "/gallery/" + element; //getting the file paths
-      document.body.appendChild(image);//the image is appended
+      var imageCard = document.getElementById("images")
+      imageCard.appendChild(image);//the image is appended
       });
       
 

@@ -132,3 +132,8 @@ right: -11px;
   top: -10px;
 right: -11px;
 }
+article {
+  -webkit-column-count: 2;
+     -moz-column-count: 2;
+          column-count: 2;
+}

@@ -7,9 +7,6 @@ block content
        form(action = "/clicked" method = "post" required)
         div#images
           .image-area
-            img#image(src='http://localhost:3000/gallery/#{neume.name}.jpg')
-            a.remove-image#deleteButton(href='#', style='display: inline;' onclick = "removeElement()" type='submit' name = "submit" onerror="this.style.display='none'") ×
-        input#inputImage(type='text', value='hey', name='image' required hidden)
 
         link(href='/stylesheets/dropzone.css', rel='stylesheet')
         div#dropzone-example.dropzone(method='post', action='/image' required)
@@ -47,22 +44,6 @@ block content
               editor2.setTheme("ace/theme/monokai");
               editor2.session.setMode("ace/mode/javascript");
               var aceEditor = localStorage.getItem('ace');
-              //Function to removeElement:
-              var image = document.getElementById("inputImage");
-              function removeElement(){
-                        var child = document.getElementById("image");
-                        var parent = document.getElementById("images");
-                        child.remove();
-                        parent.remove();  
-                        image.value = "deleted";
-                        console.log(image.value);
-              }
-                console.log(image.value);
-                    document.addEventListener("DOMContentLoaded", function(event) {
-                   document.querySelectorAll('img').forEach(function(img){
-                    img.onerror = function(){this.style.display='none';};
-                   })
-                });
                 Dropzone.autoDiscover = false;
                 var myDropzone = new Dropzone("#dropzone-example", {
                   url: "/image",
@@ -81,5 +62,14 @@ block content
                   return(_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                   }
                 });
+                var imagePaths = "#{neume.imagePath}";
+                var imageArray = imagePaths.split(',');
+                console.log(imageArray);
+                imageArray.forEach(function(element) {
+                var image = document.createElement("img");
+                image.src = "/gallery/" + element; //getting the file paths
+                document.body.appendChild(image);//the image is appended
+                });
+                
                 
                  

@@ -45,19 +45,7 @@ block content
 		var aceEditor = localStorage.getItem("ace");
 		Dropzone.autoDiscover = false;
 		var myDropzone = new Dropzone("#dropzone-example", {
-			url: "/image",
-			maxFileSize: 50,
+			maxFileSize: 100,
 			acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
 			addRemoveLinks: true,
-			removedfile: function(file){
-			var name = file.name;
-			$.ajax({
-				type: 'POST',
-				url: 'delete.php',
-				data: "name="+name,
-				dataType: 'html'
-				});
-			var _ref;
-			return(_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-			}
 		});
