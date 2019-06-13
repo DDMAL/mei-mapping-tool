@@ -7,6 +7,7 @@ head
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
 	link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
 	script(src='/javascripts/dropzone.js', type='text/javascript')
+	script(src='/javascripts/worker-html.js', type='text/javascript')
 
 block content
 	h1.
@@ -41,7 +42,7 @@ block content
 			localStorage.setItem("ace",textarea.val());
 		});
 		editor.setTheme("ace/theme/monokai");
-		editor.session.setMode("ace/mode/javascript");//Add element for the ace editor in mongoose not getting values
+		editor.session.setMode("ace/mode/html");//Html mode parsing
 		var aceEditor = localStorage.getItem("ace");
 		Dropzone.autoDiscover = false;
 		var myDropzone = new Dropzone("#dropzone-example", {
