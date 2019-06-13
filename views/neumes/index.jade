@@ -75,7 +75,8 @@ body
                     p Mei Snippet: 
                        .panel.panel-default
                         .panel-body
-                            #editor2(name = "aceEdit")
+                             div(id = "#{neume.id}")
+                               p 
                             textarea#inputMei(name='mei', value='#{neume.mei}' style='display: none;')
 
 
@@ -86,7 +87,7 @@ body
                 
                 script.
                   console.log('hey');
-                  var editor2 = ace.edit('editor2');
+                  var editor2 = ace.edit('#{neume.id}');
                   var textarea = $('textarea[name="mei"]');
                     editor2.getSession().on("change", function () {
                       textarea.val(editor2.getSession().getValue());
@@ -95,6 +96,42 @@ body
                   editor2.setTheme("ace/theme/monokai");
                   editor2.session.setMode("ace/mode/html");
                   var aceEditor = localStorage.getItem('ace');
+
+                  //Getting the canvas for the mei snippets : 
+                  var imagePaths = "#{neume.imagePath}";
+                  var imageArray = imagePaths.split(',');
+                  imageArray.forEach(function(element){
+                  var canvas = document.createElement('canvas');
+                  var ctx = canvas.getContext("2d");
+                  var image = new Image();
+
+                  image.onload = function () {
+
+                      // set size proportional to image
+                      canvas.height = 95;
+                      canvas.width = 100;
+
+                      // step 1 - resize to 50%
+                      var oc = document.createElement('canvas'),
+                          octx = oc.getContext('2d');
+
+                      oc.width = image.width;
+                      oc.height = image.height;
+                      octx.drawImage(image, 0, 0, oc.width, oc.height);
+
+                      // step 2
+                      octx.drawImage(oc, 0, 0, oc.width, oc.height);
+
+                      // step 3, resize to final size
+                      ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                      0, 0, canvas.width, canvas.height);
+                  }
+                  image.src = "/gallery/" + element; //getting the file paths
+                  var imageCard = document.getElementById("#{neume.id}");//getting
+                  imageCard.appendChild(canvas);
+                  canvas.appendChild(image);//the image is appended
+                  });
+
 
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
