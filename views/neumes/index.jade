@@ -23,12 +23,15 @@ body
         - each neume, i in neumes
 
             button.collapsible #{neume.name}
-
+               form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='hidden',value='DELETE',name='_method')
+                    button(type='submit').
+                        Delete
             .column
                .card
                  .panel.panel-default
                    .panel-body
-                      div#images
+                      div(id = "#{neume.name}")
                         p Images: 
             .column
                .card 
@@ -46,10 +49,7 @@ body
                .card 
                 p Mei Snippet: #{neume.mei}
 
-                form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='hidden',value='DELETE',name='_method')
-                    button(type='submit').
-                        Delete
+               
                 p 
                     a#editing(href='/neumes/#{neume._id}/edit') Edit
                 p
@@ -88,7 +88,7 @@ body
                   0, 0, canvas.width, canvas.height);
               }
               image.src = "/gallery/" + element; //getting the file paths
-              var imageCard = document.getElementById("images");//getting
+              var imageCard = document.getElementById("#{neume.name}");//getting
               imageCard.appendChild(canvas);
               canvas.appendChild(image);//the image is appended
               });
