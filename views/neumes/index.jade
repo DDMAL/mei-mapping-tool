@@ -16,6 +16,24 @@ html
    link(rel='stylesheet', href='/stylesheets/column.css')
    link(rel='stylesheet', href='/stylesheets/collapsible.css')
    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+   link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='/javascripts/dropzone.js', type='text/javascript')
+   script(src='/javascripts/worker-html.js', type='text/javascript')
+   style(type='text/css', media='screen').
+      #editor {
+      height: 120px;
+      width : 500px;
+      }
+   style(type='text/css', media='screen').
+      #editor2{
+      height: 120px;
+      width : 100%;
+      }
+
 body
     h1.
          #{title} 
@@ -55,13 +73,19 @@ body
                 .column
                    .card 
                     p Mei Snippet: 
-                        #editor2(name = "aceEdit")
-                        textarea#inputMei(name='mei', value='#{neume.mei}' style='display: none;')
+                       .panel.panel-default
+                        .panel-body
+                            #editor2(name = "aceEdit")
+                            textarea#inputMei(name='mei', value='#{neume.mei}' style='display: none;')
+
 
                 input(type='hidden',value='PUT',name='_method')
                 button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
-           
+                script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                
                 script.
+                  console.log('hey');
                   var editor2 = ace.edit('editor2');
                   var textarea = $('textarea[name="mei"]');
                     editor2.getSession().on("change", function () {
@@ -69,8 +93,9 @@ body
                       localStorage.setItem("ace",textarea.val());
                     });
                   editor2.setTheme("ace/theme/monokai");
-                  editor2.session.setMode("ace/mode/javascript");
+                  editor2.session.setMode("ace/mode/html");
                   var aceEditor = localStorage.getItem('ace');
+
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
                   //console.log(imageArray);
