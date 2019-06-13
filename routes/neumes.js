@@ -267,7 +267,7 @@ router.route('/:id/edit')
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
 	                      html: function(){
-	                           res.redirect("/neumes/" + neume._id);
+	                           res.redirect("/neumes/");
 	                     },
 	                     //JSON responds showing the updated values
 	                    json: function(){
