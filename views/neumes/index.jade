@@ -95,7 +95,7 @@ body
                     });
                   editor2.setTheme("ace/theme/monokai");
                   editor2.session.setMode("ace/mode/html");
-                  var aceEditor = localStorage.getItem('ace');
+                  editor2.getSession().setValue("#{neume.mei}")
 
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
