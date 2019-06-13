@@ -94,8 +94,7 @@ body
                       localStorage.setItem("ace",textarea.val());
                     });
                   editor2.setTheme("ace/theme/monokai");
-                  editor2.session.setMode("ace/mode/html");
-                  editor2.getSession().setValue("#{neume.mei}")
+                  editor2.session.setMode("ace/mode/xml");
 
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
@@ -103,6 +102,7 @@ body
                   imageArray.forEach(function(element){
                   var canvas = document.createElement('canvas');
                   var ctx = canvas.getContext("2d");
+                  //editor2.getSession().setValue("#{neume.mei}")
                   var image = new Image();
 
                   image.onload = function () {
