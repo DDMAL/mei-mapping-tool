@@ -24,6 +24,7 @@ var routes = require('./routes/router'),
 var app = express();
 var uuid = require('uuid');
 global.imageArray = [];//This variable is initiated everytime the edit page loads.
+//global.removedFile = "";
 //We can make a new image array variable that takes as value the current imageArray from the database only (so neume.ImageArray)
 //and then add to that array a new image and update that new array as the neume name!
 //use sessions for tracking logins
@@ -76,6 +77,9 @@ var storage = multer.diskStorage({
     })
   }
 })
+//if a file is removed from the dropzone : 
+//if the remove button is pressed in the dropzone, 
+//You need to unlink the file "file" : 
 
 var upload = multer({ storage: storage });
 // uncomment after placing your favicon in /public
