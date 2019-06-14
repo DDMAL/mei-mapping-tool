@@ -14,117 +14,10 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-global.project;
-//build the REST operations at the base for projects
-//this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
-router.route('/')
-    //GET all projects
-    .get(function(req, res, next) {
-        //retrieve all projects from Monogo
-        mongoose.model('project').find({}, function (err, projects) {
-              if (err) {
-                  return console.error(err);
-              } else {
-                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                  res.format({
-                      //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
-                    html: function(){
-                        res.render('projects/index', {
-                              title: 'Projects',
-                              "projects" : projects
-                          });
-                    },
-                    //JSON response will show all projects in JSON format
-                    json: function(){
-                        res.json(projects);
-                    }
-                });
-              }     
-        });
-    })
-
-    //POST a new project
-    .post(function(req, res) {
-        // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-        var name = req.body.name;
-        //call the create function for our database
-        mongoose.model('project').create({
-            name : name,
-            project : name
-             
-        }, function (err, project) {
-              if (err) {
-                  res.send("There was a problem adding the information to the database.");
-              } else {
-                  //project has been created
-                  console.log('POST creating new project: ' + project);
-                  projectID = project._id; //Project id
-              
-                  //project requests for the images inside of projects
-                  res.format({
-                      //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
-                    html: function(){
-                        // If it worked, set the header so the address bar doesn't still say /adduser
-                        res.location("projects");
-                        // And forward to success page redirecting to classifier project page
-                        res.redirect("/projects");
-                    },
-                    //JSON response will show the newly created project
-                    json: function(){
-                        res.json(project);
-                    }
-                });
-              }
-        })
-    });
-
-/* GET New project page. */
-router.get('/new', function(req, res) {
-     res.render('projects/new', { title: 'Add New project' });
-     //Adding the new names lines
-});
-/* GET New project page. */
-router.get('/newNeume', function(req, res) {
-     res.render('projects/new', { title: 'Add New project' });
-     //Adding the new names lines
-});
-/* GET New neume page. */
-router.get('/neumes/new', function(req, res) {
-     res.render('projects/newNeume', { title: 'Add New Neume'});
-});
-
-
-// route middleware to validate :id
-router.param('id', function(req, res, next, id) {
-    //console.log('validating ' + id + ' exists');
-    //find the ID in the Database
-    mongoose.model('project').findById(id, function (err, project) {
-        //if it isn't found, we are going to repond with 404
-        if (err) {
-            console.log(id + ' was not found');
-            res.status(404)
-            var err = new Error('Not Found');
-            err.status = 404;
-            res.format({
-                html: function(){
-                    next(err);
-                 },
-                json: function(){
-                       res.json({message : err.status  + ' ' + err});
-                 }
-            });
-        //if it is found we continue on
-        } else {
-            //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
-            //console.log(project);
-            // once validation is done save the new item in the req
-            req.id = id;
-            // go to the next thing
-            next(); 
-        } 
-    });
-});
-
+//Project id
+global.projectID = "";
+//Neume array : 
+global.neumeArray = [];
 //build the REST operations at the base for neumes
 //this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
 router.route('/:id/neumes')
@@ -172,8 +65,8 @@ router.route('/:id/neumes')
             classification : classification,
             mei : mei,
             dob : dob,
-            imagePath : imageArray
-            
+            imagePath : imageArray,
+            projectName : projectID
              
         }, function (err, neume) {
               if (err) {
@@ -181,7 +74,8 @@ router.route('/:id/neumes')
               } else {
                   //neume has been created
                   console.log('POST creating new neume: ' + neume); //neume holds the new neume
-              
+                  neumeArray.push(neume);
+                  console.log(neumeArray);
                   //Neume requests for the images inside of neumes
                   res.format({
                       //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
@@ -370,6 +264,117 @@ router.route('/neumes/:id/edit')
           }
       });
   });
+//build the REST operations at the base for projects
+//this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
+router.route('/')
+    //GET all projects
+    .get(function(req, res, next) {
+        //retrieve all projects from Monogo
+        mongoose.model('project').find({}, function (err, projects) {
+              if (err) {
+                  return console.error(err);
+              } else {
+                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+                  res.format({
+                      //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
+                    html: function(){
+                        res.render('projects/index', {
+                              title: 'Projects',
+                              "projects" : projects
+                          });
+                    },
+                    //JSON response will show all projects in JSON format
+                    json: function(){
+                        res.json(projects);
+                    }
+                });
+              }     
+        });
+    })
+
+    //POST a new project
+    .post(function(req, res) {
+        // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+        var name = req.body.name;
+        //call the create function for our database
+        mongoose.model('project').create({
+            name : name,
+            neumeArray : neumeArray 
+             
+        }, function (err, project) {
+              if (err) {
+                  res.send("There was a problem adding the information to the database.");
+              } else {
+                  //project has been created
+                  console.log('POST creating new project: ' + project);
+                  projectID = project._id; //Project id
+              
+                  //project requests for the images inside of projects
+                  res.format({
+                      //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
+                    html: function(){
+                        // If it worked, set the header so the address bar doesn't still say /adduser
+                        res.location("projects");
+                        // And forward to success page redirecting to classifier project page
+                        res.redirect("/projects");
+                    },
+                    //JSON response will show the newly created project
+                    json: function(){
+                        res.json(project);
+                    }
+                });
+              }
+        })
+    });
+
+/* GET New project page. */
+router.get('/new', function(req, res) {
+     res.render('projects/new', { title: 'Add New project'});
+     //Adding the new names lines
+});
+/* GET New project page. */
+router.get('/newNeume', function(req, res) {
+     res.render('projects/new', { title: 'Add New project' });
+     //Adding the new names lines
+});
+/* GET New neume page. */
+router.get('/:id/neumes/new', function(req, res) {
+     res.render('projects/newNeume', { title: 'Add New Neume'});
+});
+
+
+// route middleware to validate :id
+router.param('id', function(req, res, next, id) {
+    //console.log('validating ' + id + ' exists');
+    //find the ID in the Database
+    mongoose.model('project').findById(id, function (err, project) {
+        //if it isn't found, we are going to repond with 404
+        if (err) {
+            console.log(id + ' was not found');
+            res.status(404)
+            var err = new Error('Not Found');
+            err.status = 404;
+            res.format({
+                html: function(){
+                    next(err);
+                 },
+                json: function(){
+                       res.json({message : err.status  + ' ' + err});
+                 }
+            });
+        //if it is found we continue on
+        } else {
+            //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
+            //console.log(project);
+            // once validation is done save the new item in the req
+            req.id = id;
+            // go to the next thing
+            next(); 
+        } 
+    });
+});
+
+
 
 router.route('/:id') //This is where the classifier would be
   .get(function(req, res) {
@@ -433,8 +438,8 @@ router.route('/:id/edit')
 	    mongoose.model('project').findById(req.id, function (err, project) {
 	        //update it
 	        project.update({
-	            name : name
-	            
+	            name : name,
+	            neumeArray : neumeArray
 	        }, function (err, projectID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);
