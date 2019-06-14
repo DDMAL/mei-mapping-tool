@@ -14,7 +14,7 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-global.project;
+global.projectID = "";
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
@@ -50,7 +50,6 @@ router.route('/')
         //call the create function for our database
         mongoose.model('project').create({
             name : name,
-            project : name
              
         }, function (err, project) {
               if (err) {
@@ -89,7 +88,7 @@ router.get('/newNeume', function(req, res) {
      //Adding the new names lines
 });
 /* GET New neume page. */
-router.get('/neumes/new', function(req, res) {
+router.get('/:id/new', function(req, res) {
      res.render('projects/newNeume', { title: 'Add New Neume'});
 });
 
@@ -139,10 +138,9 @@ router.route('/:id/neumes')
                   res.format({
                       //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function(){
-                        res.render('projects/show', {
-                              title: 'ProjectName',
+                        res.render('neumes/index', {
+                              title: 'Neumes',
                               "neumes" : neumes
-
                           });
                     },
                     //JSON response will show all neumes in JSON format
@@ -202,7 +200,7 @@ router.route('/:id/neumes')
     });
 
 // route middleware to validate :id
-router.param('/neumes/id', function(req, res, next, id) {
+router.param('/neume/id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');
     //find the ID in the Database
     mongoose.model('neume').findById(id, function (err, neume) {
@@ -232,7 +230,7 @@ router.param('/neumes/id', function(req, res, next, id) {
     });
 });
 
-router.route('/neumes/:id')
+router.route('/neume/:id')
   .get(function(req, res) {
     mongoose.model('neume').findById(req.id, function (err, neume) {
       if (err) {
@@ -257,7 +255,7 @@ router.route('/neumes/:id')
   });
   //The new projectID should be here. 
 
-router.route('/neumes/:id/edit')
+router.route('/neume/:id/edit')
   //GET the individual neume by Mongo ID
   .get(function(req, res) {
       //search for the neume within Mongo
@@ -356,7 +354,7 @@ router.route('/neumes/:id/edit')
                       res.format({
                           //HTML returns us back to the main page, or you can create a success page
                             html: function(){
-                                 res.redirect("/projects");
+                                 res.redirect("/neumes");
                            },
                            //JSON returns the item with the message that is has been deleted
                           json: function(){
@@ -395,7 +393,7 @@ router.route('/:id') //This is where the classifier would be
     });
   });
 
-router.route('/:id/edit')
+router.route('/neumes/:id/edit')
 	//GET the individual project by Mongo ID
 	.get(function(req, res) {
 	    //search for the project within Mongo
