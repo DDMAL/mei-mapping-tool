@@ -1,3 +1,4 @@
+extends ../layout
 head
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
 	link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
@@ -9,7 +10,7 @@ head
 
 block content
 	h1.
-		#{title}
+		Add new Neume
 	form#formAddneume(name="addneume",method="post",action="/neumes")
 		link(href='/stylesheets/dropzone.css', rel='stylesheet')
 		div#dropzone-example.dropzone(method='post', action='/image' name="image" required)
@@ -21,7 +22,8 @@ block content
 
 		p Description:
 			input#inputDescription(type="text", placeholder="ex. Punctum", name="description")
-
+		p Project:
+			input#inputProject(type = "text", placeholder = "project", name = "projectID", visibility = "hidden") 
 		p Classification:
 			input#inputClassification(type="text", placeholder="ex. neume.punctum", name="classification")
 

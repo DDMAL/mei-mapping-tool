@@ -14,13 +14,13 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-global.projectID = "";
+global.projectsArray = [];
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
     //GET all projects
     .get(function(req, res, next) {
-        //retrieve all projects from Monogo
+        //retrieve all projects from Mongo
         mongoose.model('project').find({}, function (err, projects) {
               if (err) {
                   return console.error(err);
@@ -50,6 +50,7 @@ router.route('/')
         //call the create function for our database
         mongoose.model('project').create({
             name : name,
+            projectArray : projectsArray // Doesn't seem to work
              
         }, function (err, project) {
               if (err) {
@@ -57,7 +58,6 @@ router.route('/')
               } else {
                   //project has been created
                   console.log('POST creating new project: ' + project);
-                  projectID = project._id; //Project id
               
                   //project requests for the images inside of projects
                   res.format({
@@ -83,11 +83,10 @@ router.get('/new', function(req, res) {
      //Adding the new names lines
 });
 
-/* GET New neume page. */
+/* GET New project page. */
 router.get('/:id/new', function(req, res) {
-     res.render('/newNeume', { title: 'Add New Neume'});
+     res.render('projects/newNeume', { title: 'Add New project'});
 });
-
 
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
@@ -120,35 +119,148 @@ router.param('id', function(req, res, next, id) {
     });
 });
 
-//build the REST operations at the base for neumes
-//this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
-router.route('/neumes')
-    //GET all neumes
+router.route('/:id/edit')
+  //GET the individual project by Mongo ID
+  .get(function(req, res) {
+      //search for the project within Mongo
+      mongoose.model('project').findById(req.id, function (err, project) {
+          if (err) {
+              console.log('GET Error: There was a problem retrieving: ' + err);
+          } else {
+              //Return the project
+              console.log('GET Retrieving ID: ' + project._id);
+              var projectdob = project.dob.toISOString();
+              projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+              res.format({
+                  //HTML response will render the 'edit.jade' template
+                  html: function(){
+                         res.render('projects/edit', {
+                            title: 'project' + project._id,
+                            "projectdob" : projectdob,
+                            "project" : project,
+                            "projectImages" : project.imagePath
+                        });
+                   },
+                   //JSON response will return the JSON output
+                  json: function(){
+                         res.json(project);
+                   }
+              });
+          }
+      }).populate('image').exec((err, posts) => {
+      console.log("Populated Image " + posts);
+    });
+  })
+  //PUT to update a project by ID
+  .put(function(req, res) {
+      // Get our REST or form values. These rely on the "name" attributes from the edit page
+      var name = req.body.name;
+      var folio = req.body.folio;
+      var description = req.body.description;
+      var classification = req.body.classification;
+      var mei = req.body.mei;
+      var dob = req.body.dob;
+      global.editArray = [];
+
+      //find the document by ID
+      mongoose.model('project').findById(req.id, function (err, project) {
+          //update it
+          editArray = project.imagePath.concat(imageArray);
+          project.update({
+              name : name,
+              folio : folio,
+              description : description,
+              classification : classification,
+              mei : mei,
+              dob : dob,
+              imagePath : editArray //adding the image to the image array without reinitializng everything
+          }, function (err, projectID) {
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+                    //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    res.format({
+                        html: function(){
+                             res.redirect("/projects/");
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(project);
+                       }
+                    });
+             }
+             //Deletes the file from the folder
+             if(req.body.image == "deleted"){
+             const fs = require('fs');
+
+              fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
+                if (err) throw err;
+                console.log('successfully deleted');
+              }); }
+          })
+      });
+  })
+  //DELETE a project by ID
+  .delete(function (req, res){
+      //find project by ID
+      mongoose.model('project').findById(req.id, function (err, project) {
+          if (err) {
+              return console.error(err);
+          } else {
+              //remove it from Mongo
+              project.remove(function (err, project) {
+                  if (err) {
+                      return console.error(err);
+                  } else {
+                      //Returning success messages saying it was deleted
+                      console.log('DELETE removing ID: ' + project._id);
+                      res.format({
+                          //HTML returns us back to the main page, or you can create a success page
+                            html: function(){
+                                 res.redirect("/projects");
+                           },
+                           //JSON returns the item with the message that is has been deleted
+                          json: function(){
+                                 res.json({message : 'deleted',
+                                     item : project
+                                 });
+                           }
+                        });
+                  }
+              });
+          }
+      });
+  });
+//build the REST operations at the base for projects
+//this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
+router.route('/projects')
+    //GET all projects
     .get(function(req, res, next) {
-        //retrieve all neumes from Monogo
-        mongoose.model('neume').find({}, function (err, neumes) {
+        //retrieve all projects from Monogo
+        mongoose.model('project').find({}, function (err, projects) {
               if (err) {
                   return console.error(err);
               } else {
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
-                      //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
+                      //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                     html: function(){
-                        res.render('neumes/index', {
-                              title: 'Neumes',
-                              "neumes" : neumes
+                        res.render('projects/index', {
+                              title: 'projects',
+                              "projects" : projects
                           });
                     },
-                    //JSON response will show all neumes in JSON format
+                    //JSON response will show all projects in JSON format
                     json: function(){
-                        res.json(neumes);
+                        res.json(projects);
                     }
                 });
               }     
         });
     })
 
-    //POST a new neume
+    //POST a new project
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         var name = req.body.name;
@@ -159,7 +271,7 @@ router.route('/neumes')
         var dob = req.body.dob;
 
         //call the create function for our database
-        mongoose.model('neume').create({
+        mongoose.model('project').create({
             name : name,
             folio : folio,
             description : description,
@@ -169,25 +281,25 @@ router.route('/neumes')
             imagePath : imageArray
             
              
-        }, function (err, neume) {
+        }, function (err, project) {
               if (err) {
                   res.send("There was a problem adding the information to the database.");
               } else {
-                  //neume has been created
-                  console.log('POST creating new neume: ' + neume); //neume holds the new neume
+                  //project has been created
+                  console.log('POST creating new project: ' + project); //project holds the new project
               
-                  //Neume requests for the images inside of neumes
+                  //project requests for the images inside of projects
                   res.format({
                       //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
                     html: function(){
                         // If it worked, set the header so the address bar doesn't still say /adduser
-                        res.location("neumes");
+                        res.location("projects");
                         // And forward to success page
                         res.redirect("/projects/" + projectID);
                     },
-                    //JSON response will show the newly created neume
+                    //JSON response will show the newly created project
                     json: function(){
-                        res.json(neume);
+                        res.json(project);
                     }
                 });
                 imageArray = [];
@@ -196,10 +308,10 @@ router.route('/neumes')
     });
 
 // route middleware to validate :id
-router.param('/neume/id', function(req, res, next, id) {
+router.param('/project/id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');
     //find the ID in the Database
-    mongoose.model('neume').findById(id, function (err, neume) {
+    mongoose.model('project').findById(id, function (err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
             console.log(id + ' was not found');
@@ -217,7 +329,7 @@ router.param('/neume/id', function(req, res, next, id) {
         //if it is found we continue on
         } else {
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
-            //console.log(neume);
+            //console.log(project);
             // once validation is done save the new item in the req
             req.id = id;
             // go to the next thing
@@ -226,24 +338,24 @@ router.param('/neume/id', function(req, res, next, id) {
     });
 });
 
-router.route('/neume/:id')
+router.route('/project/:id')
   .get(function(req, res) {
-    mongoose.model('neume').findById(req.id, function (err, neume) {
+    mongoose.model('project').findById(req.id, function (err, project) {
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
-        console.log('GET Retrieving ID: ' + neume._id);
-        var neumedob = neume.dob.toISOString();
-        neumedob = neumedob.substring(0, neumedob.indexOf('T'))
+        console.log('GET Retrieving ID: ' + project._id);
+        var projectdob = project.dob.toISOString();
+        projectdob = projectdob.substring(0, projectdob.indexOf('T'))
         res.format({
           html: function(){
-              res.render('neumes/show', {
-                "neumedob" : neumedob,
-                "neume" : neume
+              res.render('projects/show', {
+                "projectdob" : projectdob,
+                "project" : project
               });
           },
           json: function(){
-              res.json(neume);
+              res.json(project);
           }
         });
       }
@@ -251,31 +363,31 @@ router.route('/neume/:id')
   });
   //The new projectID should be here. 
 
-router.route('/neume/:id/edit')
-  //GET the individual neume by Mongo ID
+router.route('/project/:id/edit')
+  //GET the individual project by Mongo ID
   .get(function(req, res) {
-      //search for the neume within Mongo
-      mongoose.model('neume').findById(req.id, function (err, neume) {
+      //search for the project within Mongo
+      mongoose.model('project').findById(req.id, function (err, project) {
           if (err) {
               console.log('GET Error: There was a problem retrieving: ' + err);
           } else {
-              //Return the neume
-              console.log('GET Retrieving ID: ' + neume._id);
-              var neumedob = neume.dob.toISOString();
-              neumedob = neumedob.substring(0, neumedob.indexOf('T'))
+              //Return the project
+              console.log('GET Retrieving ID: ' + project._id);
+              var projectdob = project.dob.toISOString();
+              projectdob = projectdob.substring(0, projectdob.indexOf('T'))
               res.format({
                   //HTML response will render the 'edit.jade' template
                   html: function(){
-                         res.render('neumes/edit', {
-                            title: 'neume' + neume._id,
-                            "neumedob" : neumedob,
-                            "neume" : neume,
-                            "neumeImages" : neume.imagePath
+                         res.render('projects/edit', {
+                            title: 'project' + project._id,
+                            "projectdob" : projectdob,
+                            "project" : project,
+                            "projectImages" : project.imagePath
                         });
                    },
                    //JSON response will return the JSON output
                   json: function(){
-                         res.json(neume);
+                         res.json(project);
                    }
               });
           }
@@ -283,7 +395,7 @@ router.route('/neume/:id/edit')
       console.log("Populated Image " + posts);
     });
   })
-  //PUT to update a neume by ID
+  //PUT to update a project by ID
   .put(function(req, res) {
       // Get our REST or form values. These rely on the "name" attributes from the edit page
       var name = req.body.name;
@@ -295,10 +407,10 @@ router.route('/neume/:id/edit')
       global.editArray = [];
 
       //find the document by ID
-      mongoose.model('neume').findById(req.id, function (err, neume) {
+      mongoose.model('project').findById(req.id, function (err, project) {
           //update it
-          editArray = neume.imagePath.concat(imageArray);
-          neume.update({
+          editArray = project.imagePath.concat(imageArray);
+          project.update({
               name : name,
               folio : folio,
               description : description,
@@ -306,7 +418,7 @@ router.route('/neume/:id/edit')
               mei : mei,
               dob : dob,
               imagePath : editArray //adding the image to the image array without reinitializng everything
-          }, function (err, neumeID) {
+          }, function (err, projectID) {
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
             } 
@@ -314,11 +426,11 @@ router.route('/neume/:id/edit')
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
                         html: function(){
-                             res.redirect("/neumes/");
+                             res.redirect("/projects/");
                        },
                        //JSON responds showing the updated values
                       json: function(){
-                             res.json(neume);
+                             res.json(project);
                        }
                     });
              }
@@ -333,29 +445,29 @@ router.route('/neume/:id/edit')
           })
       });
   })
-  //DELETE a neume by ID
+  //DELETE a project by ID
   .delete(function (req, res){
-      //find neume by ID
-      mongoose.model('neume').findById(req.id, function (err, neume) {
+      //find project by ID
+      mongoose.model('project').findById(req.id, function (err, project) {
           if (err) {
               return console.error(err);
           } else {
               //remove it from Mongo
-              neume.remove(function (err, neume) {
+              project.remove(function (err, project) {
                   if (err) {
                       return console.error(err);
                   } else {
                       //Returning success messages saying it was deleted
-                      console.log('DELETE removing ID: ' + neume._id);
+                      console.log('DELETE removing ID: ' + project._id);
                       res.format({
                           //HTML returns us back to the main page, or you can create a success page
                             html: function(){
-                                 res.redirect("/neumes");
+                                 res.redirect("/projects");
                            },
                            //JSON returns the item with the message that is has been deleted
                           json: function(){
                                  res.json({message : 'deleted',
-                                     item : neume
+                                     item : project
                                  });
                            }
                         });
@@ -389,7 +501,7 @@ router.route('/:id') //This is where the classifier would be
     });
   });
 
-router.route('/neume/:id/edit')
+router.route('/project/:id/edit')
 	//GET the individual project by Mongo ID
 	.get(function(req, res) {
 	    //search for the project within Mongo
