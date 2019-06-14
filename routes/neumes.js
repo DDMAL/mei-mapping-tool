@@ -5,6 +5,7 @@ var express = require('express'),
     methodOverride = require('method-override'); //used to manipulate POST
 
 global.neumesArray = [];
+
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -105,7 +106,6 @@ router.route('/')
         var classification = req.body.classification;
         var mei = req.body.mei;
         var dob = req.body.dob;
-        var project = req.body.projectID;
 
         //call the create function for our database
         mongoose.model('neume').create({
@@ -126,10 +126,10 @@ router.route('/')
                   //neume has been created
                   console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   neumesArray.push(neume);
-                  console.log(neumesArray);
+                  mongoose.model("project").update({neumes : neume});
+                  //Show neume array
                   //Neume requests for the images inside of neumes
                   res.format({
-                      //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
                     html: function(){
                         // If it worked, set the header so the address bar doesn't still say /adduser
                         res.location("neumes");
@@ -204,12 +204,6 @@ router.route('/:id')
         });
       }
     });
-    populate('project').
-      exec(function (err, neume) {
-      if (err) return handleError(err);
-    console.log('The neume is %s', neume.project.name);
-    // prints "The neume is neume.project.name"
-  });
   });
   //The new projectID should be here. 
 

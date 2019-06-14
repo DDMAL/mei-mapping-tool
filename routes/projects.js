@@ -43,6 +43,49 @@ router.route('/')
         });
     })
 
+    //PUT to update a project by ID
+  .put(function(req, res) {
+      // Get our REST or form values. These rely on the "name" attributes from the edit page
+
+      //find the document by ID
+      mongoose.model('project').findById(req.id, function (err, project) {
+          //update it
+          project.update({
+              name : name,
+              folio : folio,
+              description : description,
+              classification : classification,
+              mei : mei,
+              dob : dob,
+              imagePath : editArray //adding the image to the image array without reinitializng everything
+          }, function (err, projectID) {
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+                    //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    res.format({
+                        html: function(){
+                             res.redirect("/projects/");
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(project);
+                       }
+                    });
+             }
+             //Deletes the file from the folder
+             if(req.body.image == "deleted"){
+             const fs = require('fs');
+
+              fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
+                if (err) throw err;
+                console.log('successfully deleted');
+              }); }
+          })
+      });
+  })
+
     //POST a new project
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms

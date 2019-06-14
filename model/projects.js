@@ -6,7 +6,7 @@ var projectSchema = new mongoose.Schema({
 //The images always have a new id
   dob: { type: Date, default: Date.now },
   neumeID: { type: Schema.Types.ObjectId },//Ref option is what tells mongoose which model to use during population
-  neumes: [{ type: Schema.Types.ObjectId, ref: 'neume' }]
+  neumes: [{ type: Schema.Types.ObjectId }]
 });
 
 mongoose.model('project', projectSchema);
