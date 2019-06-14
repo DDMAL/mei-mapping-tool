@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+    h1.
+         #{title} 
+    a#addingNeume(href='/projects/new') Add project
+    br
+    button#logging-out(type='button', href='/logout') Logout
+    ul
+        - each project, i in projects
+           button.collapsible #{project.name}

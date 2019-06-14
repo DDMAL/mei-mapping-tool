@@ -1,0 +1,12 @@
+extends ../layout
+
+head
+block content
+	h1.
+		#{title}
+	form#formAddproject(name="addproject",method="post",action="/projects")
+		
+		p Name: 
+			input#inputName(type="text", placeholder="ex. Punctum", name="name" required)
+		p
+			button#btnSubmit(type="submit") submit

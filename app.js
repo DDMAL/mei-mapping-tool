@@ -10,6 +10,7 @@ var db = require('./model/db'),
     multer = require('multer'),
     neume = require('./model/neumes');
     image = require('./model/images');
+    project = require('./model/projects');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -20,7 +21,8 @@ var MongoStore = require('connect-mongo')(session);
 mongoose.connect('mongodb://localhost:27017/mei-mapping-tool');
 var db = mongoose.connection;
 var routes = require('./routes/router'),
-    neumes = require('./routes/neumes'); 
+    neumes = require('./routes/neumes'),
+    projects = require('./routes/projects');
 var app = express();
 var uuid = require('uuid');
 global.imageArray = [];//This variable is initiated everytime the edit page loads.
@@ -130,6 +132,7 @@ app.use('/gallery', require('node-gallery')({
 
 app.use('/', routes);
 app.use('/neumes', neumes);
+app.use('/projects', projects);
 
 //app.use('/users', users);
 app.use(require('express-session')({
@@ -150,6 +153,7 @@ app.use(function(req, res, next) {
     next(err);
 });
 
+//On click example of the deleted image (Still working on it)
 app.post('/clicked', (req, res) => {
   console.log("work");
 // delete file named 'sample.txt'
