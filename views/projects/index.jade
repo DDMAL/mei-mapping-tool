@@ -8,4 +8,11 @@ block content
     button#logging-out(type='button', href='/logout') Logout
     ul
         - each project, i in projects
-           button.collapsible #{project.name}
+           button.collapsible(onclick = "window.location='/projects:#{project._id}/'") #{project.name} 
+           br
+           form(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+             input(type='hidden',value='DELETE',name='_method')
+             button(type='submit').
+                    Delete
+             br
+                  
