@@ -81,6 +81,12 @@ router.get('/new', function(req, res) {
      res.render('projects/new', { title: 'Add New project' });
 });
 
+/* GET New neume page. */
+router.get('/:id/new', function(req, res) {
+     res.render('neumes/new', { title: 'Add New Neume' });
+});
+
+
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');
