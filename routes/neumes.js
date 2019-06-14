@@ -122,7 +122,7 @@ router.route('/')
                   res.send("There was a problem adding the information to the database.");
               } else {
                   //neume has been created
-                  console.log('POST creating new neume: ' + neume);
+                  console.log('POST creating new neume: ' + neume); //neume holds the new neume
               
                   //Neume requests for the images inside of neumes
                   res.format({
@@ -131,7 +131,7 @@ router.route('/')
                         // If it worked, set the header so the address bar doesn't still say /adduser
                         res.location("neumes");
                         // And forward to success page
-                        res.redirect("/neumes");
+                        res.redirect("/projects/" + projectID);
                     },
                     //JSON response will show the newly created neume
                     json: function(){
@@ -202,6 +202,7 @@ router.route('/:id')
       }
     });
   });
+  //The new projectID should be here. 
 
 router.route('/:id/edit')
 	//GET the individual neume by Mongo ID
