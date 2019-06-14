@@ -87,6 +87,7 @@ body
                 
                 script.
                   console.log('hey');
+                  //for each neume in the mei snippet : 
                   var editor2 = ace.edit('#{neume.id}');
                   var textarea = $('textarea[name="mei"]');
                     editor2.getSession().on("change", function () {
@@ -95,6 +96,7 @@ body
                     });
                   editor2.setTheme("ace/theme/monokai");
                   editor2.session.setMode("ace/mode/xml");
+                   var aceEditor = localStorage.getItem('ace');
 
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
@@ -102,7 +104,6 @@ body
                   imageArray.forEach(function(element){
                   var canvas = document.createElement('canvas');
                   var ctx = canvas.getContext("2d");
-                  //editor2.getSession().setValue("#{neume.mei}")
                   var image = new Image();
 
                   image.onload = function () {
