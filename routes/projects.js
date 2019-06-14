@@ -82,14 +82,10 @@ router.get('/new', function(req, res) {
      res.render('projects/new', { title: 'Add New project' });
      //Adding the new names lines
 });
-/* GET New project page. */
-router.get('/newNeume', function(req, res) {
-     res.render('projects/new', { title: 'Add New project' });
-     //Adding the new names lines
-});
+
 /* GET New neume page. */
 router.get('/:id/new', function(req, res) {
-     res.render('projects/newNeume', { title: 'Add New Neume'});
+     res.render('/newNeume', { title: 'Add New Neume'});
 });
 
 
@@ -126,7 +122,7 @@ router.param('id', function(req, res, next, id) {
 
 //build the REST operations at the base for neumes
 //this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
-router.route('/:id/neumes')
+router.route('/neumes')
     //GET all neumes
     .get(function(req, res, next) {
         //retrieve all neumes from Monogo
@@ -241,7 +237,7 @@ router.route('/neume/:id')
         neumedob = neumedob.substring(0, neumedob.indexOf('T'))
         res.format({
           html: function(){
-              res.render('projects/show', {
+              res.render('neumes/show', {
                 "neumedob" : neumedob,
                 "neume" : neume
               });
@@ -393,7 +389,7 @@ router.route('/:id') //This is where the classifier would be
     });
   });
 
-router.route('/neumes/:id/edit')
+router.route('/neume/:id/edit')
 	//GET the individual project by Mongo ID
 	.get(function(req, res) {
 	    //search for the project within Mongo

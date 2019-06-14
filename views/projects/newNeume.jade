@@ -9,11 +9,8 @@ head
 
 block content
 	h1.
-	p #{project.name}
-	a#addingNeume(href='/projects/#{project._id}/new') Add neume
-	br
-	button#logging-out(type='button', href='/logout' name = "logout") Logout
-	form#formAddneume(name="addneume",method="post",action="/projects/neumes")
+		#{title}
+	form#formAddneume(name="addneume",method="post",action="/neumes")
 		link(href='/stylesheets/dropzone.css', rel='stylesheet')
 		div#dropzone-example.dropzone(method='post', action='/image' name="image" required)
 		.fallback
