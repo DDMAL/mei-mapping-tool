@@ -4,7 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
 
-
+global.neumes_array = []
 
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
@@ -83,7 +83,7 @@ router.route('/')
                   res.format({
                       //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function(){
-                        res.render('neumes/index', {
+                        res.render('neumes', {
                               title: 'Neumes',
                               "neumes" : neumes
                           });
@@ -131,9 +131,9 @@ router.route('/')
                   res.format({
                     html: function(){
                         // If it worked, set the header so the address bar doesn't still say /adduser
-                        res.location("neumes");
+                        res.location("/projects/" + ID_project);
                         // And forward to success page
-                        res.redirect("/projects/");
+                        res.redirect("/projects/" + ID_project);
                     },
                     //JSON response will show the newly created neume
                     json: function(){

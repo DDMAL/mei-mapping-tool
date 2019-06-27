@@ -14,12 +14,15 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-global.projectsArray = [];
+
+global.projectIds = "";
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
     //GET all projects
+    //Get all the neumes from the database : 
     .get(function(req, res, next) {
+      projectIds = req.body._id;
         //retrieve all projects from Mongo
         mongoose.model('project').find({}, function (err, projects) {
               if (err) {
@@ -41,6 +44,7 @@ router.route('/')
                 });
               }     
         });
+
     })
 
     //PUT to update a project by ID
@@ -371,6 +375,7 @@ router.param('/project/id', function(req, res, next, id) {
             });
         //if it is found we continue on
         } else {
+            global.projectIds = id;
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
             //console.log(project);
             // once validation is done save the new item in the req
@@ -382,12 +387,20 @@ router.param('/project/id', function(req, res, next, id) {
 });
 
 router.route('/project/:id')
+
   .get(function(req, res) {
     mongoose.model('project').findById(req.id, function (err, project) {
+
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
+     
         console.log('GET Retrieving ID: ' + project._id);
+        mongoose.model('neume').find({ project : project._id}, function (err, neumes) {
+        global.ArrayNeumes = [];
+            ArrayNeumes.push(neumes);
+            console.log(ArrayNeumes);
+      });
         var projectdob = project.dob.toISOString();
         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
         res.format({
@@ -403,8 +416,21 @@ router.route('/project/:id')
         });
       }
     });
+
   });
+
   //The new projectID should be here. 
+  //I just need to get the project id used right now and add it to the find!!!
+  //Things to do : 
+  //1.Understand how I can get the project id from the database
+  //2.Add the project id to the find algorithm
+  //3.Use the project schema to add an array of neumes inside.
+   mongoose.model('neume').find({project : project._id }, function (err, neumes) {   
+      global.neumeFinal = [];
+      neumeFinal.push(neumes);
+      console.log(neumeFinal);//This works!!!
+    
+    });
 
 router.route('/project/:id/edit')
   //GET the individual project by Mongo ID

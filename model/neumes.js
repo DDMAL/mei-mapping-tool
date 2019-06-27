@@ -11,4 +11,8 @@ var neumeSchema = new mongoose.Schema({
   imagePath : [String],
   project: String
 });
-mongoose.model('neume', neumeSchema);
+var Neume = module.exports = mongoose.model('neume', neumeSchema);
+
+module.exports.getNeumeByProject = function(project, callback){
+    User.Neume({project: project }, callback);
+}
