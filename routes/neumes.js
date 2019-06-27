@@ -83,7 +83,7 @@ router.route('/')
                   res.format({
                       //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function(){
-                        res.render('neumes/index', {
+                        res.render('neumes', { // need to render the neume id inside of the projects page
                               title: 'Neumes',
                               "neumes" : neumes
                           });
@@ -117,7 +117,7 @@ router.route('/')
             mei : mei,
             dob : dob,
             imagePath : imageArray,
-            project : ID_project
+            project_id : ID_project
             
              
         }, function (err, neume) {
@@ -131,9 +131,11 @@ router.route('/')
                   res.format({
                     html: function(){
                         // If it worked, set the header so the address bar doesn't still say /adduser
-                        res.location("neumes");
+                        //This is where the neume is being sent to :
+                        //ID_project is the id of the project which the neume belongs to!
+                        res.location("projects/" + ID_project);
                         // And forward to success page
-                        res.redirect("/projects/");
+                        res.redirect("/projects/" + ID_project);
                     },
                     //JSON response will show the newly created neume
                     json: function(){
