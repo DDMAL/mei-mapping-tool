@@ -106,7 +106,7 @@ router.route('/')
         var classification = req.body.classification;
         var mei = req.body.mei;
         var dob = req.body.dob;
-        var projectID = req.body.projectID;
+        var ID_project = req.body.ID_project;
 
         //call the create function for our database
         mongoose.model('neume').create({
@@ -117,7 +117,7 @@ router.route('/')
             mei : mei,
             dob : dob,
             imagePath : imageArray,
-            project : projectID
+            project : ID_project
             
              
         }, function (err, neume) {
