@@ -106,6 +106,7 @@ router.route('/')
         var classification = req.body.classification;
         var mei = req.body.mei;
         var dob = req.body.dob;
+        var projectID = req.body.projectID;
 
         //call the create function for our database
         mongoose.model('neume').create({
@@ -116,7 +117,7 @@ router.route('/')
             mei : mei,
             dob : dob,
             imagePath : imageArray,
-            project : project._id
+            project : projectID
             
              
         }, function (err, neume) {
@@ -125,8 +126,6 @@ router.route('/')
               } else {
                   //neume has been created
                   console.log('POST creating new neume: ' + neume); //neume holds the new neume
-                  neumesArray.push(neume);
-                  mongoose.model("project").update({neumes : neume});
                   //Show neume array
                   //Neume requests for the images inside of neumes
                   res.format({

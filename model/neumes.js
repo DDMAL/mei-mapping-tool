@@ -9,6 +9,6 @@ var neumeSchema = new mongoose.Schema({
 //Make sure the image path is linked to the user id
   dob: { type: Date, default: Date.now },
   imagePath : [String],
-  projects: [{ type: Schema.Types.ObjectId, ref: 'project' }]
+  project: String
 });
 mongoose.model('neume', neumeSchema);

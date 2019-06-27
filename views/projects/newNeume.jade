@@ -31,9 +31,20 @@ block content
 			//input#inputMei(type="text", placeholder="ex. <neume>", name="mei")
 			#editor(name = "aceEdit")
 			textarea#inputMei(name='mei', placeholder="ex. <neume>" style='display: none;')
+		p ProjectID
+		p#URL(style = 'display:none;')
+		input#ProjectID(type="text", placeholder="ex. neume.punctum", name="projectID")
+		script.
+			var url = window.location.href;
+			var urlDOM = document.getElementById("URL").innerHTML = url;
+			var array = urlDOM.split("/");
+			var projectID = array[4];
+			console.log(projectID);
+			//console.log(array);
+			document.getElementById("ProjectID").innerHTML = projectID;
 		p
 			button#btnSubmit(type="submit") submit
-	
+		
 	//Add these lines to a javascript file:
 	script.
 		var editor = ace.edit("editor");
