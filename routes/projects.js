@@ -96,8 +96,7 @@ router.route('/')
         var name = req.body.name;
         //call the create function for our database
         mongoose.model('project').create({
-            name : name,
-            projectArray : projectsArray // Doesn't seem to work
+            name : name
              
         }, function (err, project) {
               if (err) {
@@ -387,6 +386,7 @@ router.param('/project/id', function(req, res, next, id) {
     });
 });
 
+//THIS IS WHERE THE NEUMES ARE ACTUALLY SHOWN!!!!
 router.route('/project/:id')
 
   .get(function(req, res) {
@@ -408,7 +408,8 @@ router.route('/project/:id')
           html: function(){
               res.render('projects/show', {
                 "projectdob" : projectdob,
-                "project" : project
+                "project" : project,
+                "neumes" : ArrayNeumes
               });
           },
           json: function(){
@@ -544,6 +545,7 @@ router.route('/project/:id/edit')
   });
 
 /////ROUTE FOR THE ID!!!!!
+global.neumeFinal = [];
 ////////////////////////////
 /**************************/
 router.route('/:id') //This is where the classifier would be
@@ -554,20 +556,24 @@ router.route('/:id') //This is where the classifier would be
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
+        //Getting the neumes for each project and showing them in the console!!
         console.log(project._id);
-           mongoose.model('neume').find({project : project._id}, function (err, neumes) {   
-            global.neumeFinal = [];
+           mongoose.model('neume').find({project : project._id}, function (err, neumes) {  
+            neumeFinal = [];
             neumeFinal.push(neumes);
             console.log(neumeFinal);//This works!!!
           });
+           console.log(neumeFinal);
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
         res.format({
           html: function(){
+            console.log(neumeFinal)//This is shown on the console!
               res.render('projects/show', {
                 "projectdob" : projectdob,
-                "project" : project
+                "project" : project,
+                "neumes" : neumeFinal
               });
           },
           json: function(){

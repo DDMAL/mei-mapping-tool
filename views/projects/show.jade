@@ -15,6 +15,82 @@ html
    link(rel='stylesheet', href='/stylesheets/column.css')
    link(rel='stylesheet', href='/stylesheets/collapsible.css')
    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+
+   script(src='/javascripts/dropzone.js')
+   link(rel='stylesheet', href='/stylesheets/dropzone.css')
+   script(type='text/javascript' src='/javascripts/ace.js')
+   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/stylesheets/column.css')
+   link(rel='stylesheet', href='/stylesheets/collapsible.css')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+   link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='/javascripts/dropzone.js', type='text/javascript')
+   script(src='/javascripts/worker-html.js', type='text/javascript')
+   style(type='text/css', media='screen').
+      #editor {
+      height: 120px;
+      width : 500px;
+      }
+   style(type='text/css', media='screen').
+      #editor2{
+      height: 120px;
+      width : 100%;
+      }
+      .navbar {
+        background: black;
+        margin: 0;
+        border: 0;
+      }
+      .navbar .navbar-nav > li > a:hover, .navbar .navbar > li > a:focus {
+        background-color: #black;
+        color: gray;
+        }
+        .collapsible {
+          margin : -5px;
+          padding : 7px;
+        }
+        input{
+        margin : 0px;
+        padding: 0px;
+        font-size: 10px;
+        }
+//Header parameters
+div.headerStyle
+
+  nav.navbar.navbar-inverse(role='navigation')
+    a#menu-icon(href='#')
+
+    ul.nav.navbar-nav
+
+      li.active
+       
+        a(href='/projects')
+          | Home
+          span.sr-only 
+      li 
+        a#addingNeume(href='/neumes/new') New neume
+      li
+        a(href='/about') About us
+      li
+        a(href='/contact') Contact
+      li
+        a(href='/help') Help
+      li
+        a(href='/') Log-out&nbsp;
+
+      li
+        a(href='/') User1
+
 body
 
   h3
@@ -22,5 +98,147 @@ body
   a#addingNeume(href='/projects/#{project._id}/new') Add neume
   br
   button#logging-out(type='button', href='/logout' name = "logout") Logout
-  h5 Neumes
- 
+.bodyStyle
+  .roundedCorners
+    ul
+        - each neume, i in neumes
+          
+            button.collapsible.padding #{neume.name}
+            form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                .column
+                   .card
+                     .panel.panel-default
+                       .panel-body
+                          div(id = "#{neume.name}")
+                            p Images: 
+                .column
+                  .height
+                   .card 
+                    p Name: 
+                    input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
+                    p Folio:
+                     input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
+                    p Description:
+                    input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
+
+                .column
+                   .card 
+                    p Classification: 
+                    input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+                .column
+                   .card 
+                    p Mei Snippet: 
+                       .panel.panel-default
+                        .panel-body
+                             div(id = "#{neume.id}")
+                               p 
+                            textarea#inputMei(name='mei', value='#{neume.mei}' style='display: none;')
+
+                input(type='hidden',value='PUT',name='_method')
+                button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
+                br
+                br
+            form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                input(type='hidden',value='DELETE',name='_method')
+                button(type='submit').
+                    Delete
+                script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                
+                script.
+                  console.log('hey');
+                  //for each neume in the mei snippet : 
+                  var editor2 = ace.edit('#{neume.id}');
+                  var textarea = $('textarea[name="mei"]');
+                    editor2.getSession().on("change", function () {
+                      textarea.val(editor2.getSession().getValue());
+                      localStorage.setItem("ace",textarea.val());
+                    });
+                  editor2.setTheme("ace/theme/monokai");
+                  editor2.session.setMode("ace/mode/xml");
+                   var aceEditor = localStorage.getItem('ace');
+
+                  //Getting the canvas for the mei snippets : 
+                  var imagePaths = "#{neume.imagePath}";
+                  var imageArray = imagePaths.split(',');
+                  imageArray.forEach(function(element){
+                  var canvas = document.createElement('canvas');
+                  var ctx = canvas.getContext("2d");
+                  var image = new Image();
+
+                  image.onload = function () {
+
+                      // set size proportional to image
+                      canvas.height = 95;
+                      canvas.width = 100;
+
+                      // step 1 - resize to 50%
+                      var oc = document.createElement('canvas'),
+                          octx = oc.getContext('2d');
+
+                      oc.width = image.width;
+                      oc.height = image.height;
+                      octx.drawImage(image, 0, 0, oc.width, oc.height);
+
+                      // step 2
+                      octx.drawImage(oc, 0, 0, oc.width, oc.height);
+
+                      // step 3, resize to final size
+                      ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                      0, 0, canvas.width, canvas.height);
+                  }
+                  image.src = "/gallery/" + element; //getting the file paths
+                  var imageCard = document.getElementById("#{neume.id}");//getting
+                  imageCard.appendChild(canvas);
+                  canvas.appendChild(image);//the image is appended
+                  });
+
+
+                  var imagePaths = "#{neume.imagePath}";
+                  var imageArray = imagePaths.split(',');
+                  //console.log(imageArray);
+                  imageArray.forEach(function(element) {
+                  var canvas = document.createElement('canvas');
+                  var ctx = canvas.getContext("2d");
+                  var image = new Image();
+
+                  image.onload = function () {
+
+                      // set size proportional to image
+                      canvas.height = 60;
+                      canvas.width = 60;
+
+                      // step 1 - resize to 50%
+                      var oc = document.createElement('canvas'),
+                          octx = oc.getContext('2d');
+
+                      oc.width = image.width;
+                      oc.height = image.height;
+                      octx.drawImage(image, 0, 0, oc.width, oc.height);
+
+                      // step 2
+                      octx.drawImage(oc, 0, 0, oc.width, oc.height);
+
+                      // step 3, resize to final size
+                      ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                      0, 0, canvas.width, canvas.height);
+                  }
+                  image.src = "/gallery/" + element; //getting the file paths
+                  var imageCard = document.getElementById("#{neume.name}");//getting
+                  imageCard.appendChild(canvas);
+                  canvas.appendChild(image);//the image is appended
+                  });
+                    var coll = document.getElementsByClassName("collapsible");
+                    var i;
+
+                    for (i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "none") {
+                    content.style.display = "block";
+                    } else {
+                    content.style.display = "none";
+                    }
+                    });
+                    }
