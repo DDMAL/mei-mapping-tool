@@ -32,8 +32,8 @@ block content
 			#editor(name = "aceEdit")
 			textarea#inputMei(name='mei', placeholder="ex. <neume>" style='display: none;')
 		p ProjectID
-		p#URL(style = 'display:none;')
-		input#ProjectID(type="text", placeholder="ex. neume.punctum", name="projectID")
+			p#URL(style = 'display:none;')
+			input#inputID(type="text", name="projectID")
 		script.
 			var url = window.location.href;
 			var urlDOM = document.getElementById("URL").innerHTML = url;
@@ -41,7 +41,7 @@ block content
 			var projectID = array[4];
 			console.log(projectID);
 			//console.log(array);
-			document.getElementById("ProjectID").innerHTML = projectID;
+			document.getElementById("inputID").value = projectID;
 		p
 			button#btnSubmit(type="submit") submit
 		
