@@ -33,21 +33,59 @@ html
       height: 120px;
       width : 100%;
       }
+      .navbar {
+        background: black;
+        margin: 0;
+        border: 0;
+      }
+      .navbar .navbar-nav > li > a:hover, .navbar .navbar > li > a:focus {
+        background-color: #black;
+        color: gray;
+        }
+        .collapsible {
+          margin : -5px;
+          padding : 7px;
+        }
+        input{
+        margin : 0px;
+        padding: 0px;
+        font-size: 10px;
+        }
+//Header parameters
+div.headerStyle
+
+  nav.navbar.navbar-inverse(role='navigation')
+    a#menu-icon(href='#')
+
+    ul.nav.navbar-nav
+
+      li.active
+       
+        a(href='/projects')
+          | Home
+          span.sr-only 
+      li 
+        a#addingNeume(href='/neumes/new') New neume
+      li
+        a(href='/about') About us
+      li
+        a(href='/contact') Contact
+      li
+        a(href='/help') Help
+      li
+        a(href='/') Log-out&nbsp;
+
+      li
+        a(href='/') User1
+
 
 body
-    h1.
-         #{title} 
-    a#addingNeume(href='/neumes/new') Add neume
-    br
-    button#logging-out(type='button', href='/logout') Logout
+.bodyStyle
+  .roundedCorners
     ul
         - each neume, i in neumes
           
-            button.collapsible #{neume.name}
-               form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='hidden',value='DELETE',name='_method')
-                    button(type='submit').
-                        Delete
+            button.collapsible.padding #{neume.name}
             form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                 .column
                    .card
@@ -56,20 +94,19 @@ body
                           div(id = "#{neume.name}")
                             p Images: 
                 .column
+                  .height
                    .card 
-                    h6 Name: 
-                    input#inputName(type='text', value='#{neume.name}', name='name' required)
-                    br
-                    h6 Folio:
-                     input#inputfolio(type='text', value='#{neume.folio}', name='folio')
-                    br
-                    h6 Description:
-                    input#inputDescription(type='text', value='#{neume.description}', name='description')
+                    p Name: 
+                    input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
+                    p Folio:
+                     input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
+                    p Description:
+                    input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
 
                 .column
                    .card 
                     p Classification: 
-                    input#inputClassification(type='text',value='#{neume.classification}', name='classification')
+                    input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
                 .column
                    .card 
                     p Mei Snippet: 
@@ -82,6 +119,12 @@ body
 
                 input(type='hidden',value='PUT',name='_method')
                 button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
+                br
+                br
+                form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='hidden',value='DELETE',name='_method')
+                    button(type='submit').
+                        Delete
                 script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                 script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 
@@ -168,3 +211,17 @@ body
                   imageCard.appendChild(canvas);
                   canvas.appendChild(image);//the image is appended
                   });
+                    var coll = document.getElementsByClassName("collapsible");
+                    var i;
+
+                    for (i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "none") {
+                    content.style.display = "block";
+                    } else {
+                    content.style.display = "none";
+                    }
+                    });
+                    }

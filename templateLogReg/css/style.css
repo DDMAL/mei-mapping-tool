@@ -45,8 +45,9 @@ h1 {
     width: 50%;
 }
 .banner {
-    background: url(../images/banner.jpg)no-repeat 0px 0px;
+    background: url(../images/CF-005-newest.png)no-repeat 0px 0px;
     background-size: cover;
+    border-radius: 25px;
 }
 
 /*--signin-form--*/
@@ -60,9 +61,10 @@ h1 {
     width: 48%;
 }
 .signin-form {
-    background: url(../images/banner1.jpg)no-repeat 0px 0px;
+    background: url(../images/CF-005-newest.png)no-repeat 0px 0px;
     background-size: cover;
     padding: 2em 2em;
+    border-radius: 25px;
 	text-align: center;
 }
 .signin-form h3 {
@@ -72,7 +74,7 @@ h1 {
     margin-bottom: 1.5em;
 }
 .signin-form h3 span {
-    color: #67e1ff;
+    color: #B0C4DE;
 }
 .signin-form img {
     border-radius: 50%;
@@ -113,7 +115,7 @@ h1 {
     border: none;
     color: #fff;
     cursor: pointer;
-    background: #0b4379;
+    background: black;
     box-shadow: 0px 2px 1px rgba(28, 28, 29, 0.42);
 	border-radius: 22px;
 	
@@ -139,6 +141,7 @@ h1 {
 }
 .tp {
     margin: 3.7em 0 0;
+
 }
 h5 {
     border-left: 1px dotted #7467b9;
@@ -196,7 +199,7 @@ h5 {
 }
 .header-social h4 {
   font-size: 17px;
-  color: #6A67CE;
+  color: #B0C4DE;
   text-align: center;
   margin: 20px 0px;
   font-family: 'Roboto Condensed', sans-serif;
@@ -205,7 +208,7 @@ h5 {
 	color:#6A67CE;
 }
 .header-social h4 a:hover{
-	color:#FFB900;
+	color:#B0C4DE;
 }
 /*--copyright--*/
 .copyright {

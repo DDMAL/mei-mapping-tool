@@ -1,5 +1,5 @@
 .collapsible {
-    background-color:darkgreen;
+    background-color:#5680e9;
     color: white;
     cursor: pointer;
     padding: 10px;
@@ -10,7 +10,7 @@
     font-size: 16px;
     }
     .active, .collapsible:hover {
-    background-color:darkgreen;
+    background-color:#1dbab4;
     }
     .content {
     padding: 0 18px;

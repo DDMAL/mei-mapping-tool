@@ -1,5 +1,5 @@
 body {
-  background-color: #eee;
+  background-color: white;
 }
 
 .form-signin {
@@ -92,8 +92,14 @@ body{
   object-fit: cover;
 }
 
+.bodyStyle {
+  padding : 10px;
+  height : 5px;
+}
+
 body {
-  padding: 20px;
+  padding: 40px;
+  margin: 0;
 }
 .image-area {
   position: relative;
