@@ -561,9 +561,9 @@ router.route('/:id') //This is where the classifier would be
            mongoose.model('neume').find({project : project._id}, function (err, neumes) {  
             neumeFinal = [];
             neumeFinal.push(neumes);
-            console.log(neumeFinal);//This works!!!
+            //console.log(neumeFinal);//This works!!!
           });
-           console.log(neumeFinal);
+          // console.log(neumeFinal);
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
