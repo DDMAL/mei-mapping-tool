@@ -31,7 +31,6 @@ block content
 			//input#inputMei(type="text", placeholder="ex. <neume>", name="mei")
 			#editor(name = "aceEdit")
 			textarea#inputMei(name='mei', placeholder="ex. <neume>" style='display: none;')
-		p ProjectID
 			p#URL(style = 'display:none;')
 			input#inputID(type="text", name="ID_project")
 		script.
@@ -42,6 +41,7 @@ block content
 			console.log(projectID);
 			//console.log(array);
 			document.getElementById("inputID").value = projectID;
+			document.getElementById("inputID").style.visibility = "hidden";
 		p
 			button#btnSubmit(type="submit") submit
 		
