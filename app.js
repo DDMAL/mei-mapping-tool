@@ -12,6 +12,7 @@ var db = require('./model/db'),
     image = require('./model/images');
     project = require('./model/projects');
 
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');

@@ -3,7 +3,7 @@ var express = require('express'),
     mongoose = require('mongoose'), //mongo connection
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
-
+ var fs = require('fs');
 global.neumes_array = [];
 
 //Any requests to this controller must pass through this 'use' function
@@ -134,6 +134,22 @@ router.route('/')
                     neumeFinal = neumes;
                     //console.log(neumeFinal);//This works!!!
                   });
+                  //Creating an xml file to store mei for each neume => neume.mei and neume._id for the name of the file
+                  //Making the xml files folder if it doesnt exist
+                  var dir = './xmlFiles';
+
+                    if (!fs.existsSync(dir)){
+                        fs.mkdirSync(dir);
+                    }
+                  //Creating and writing the file with the information
+                  fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
+                      if(err) {
+                          return console.log(err);
+                      }
+
+                      console.log("The file was saved!");
+                  });
+
                   res.format({
                     html: function(){
                         // If it worked, set the header so the address bar doesn't still say /adduser
@@ -278,6 +294,13 @@ router.route('/:id/edit')
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
                       });
+                  fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
+                      if(err) {
+                          return console.log(err);
+                      }
+
+                      console.log("The file was saved!");
+                  });
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
 	                      html: function(){

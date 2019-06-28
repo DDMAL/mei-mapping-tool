@@ -146,18 +146,17 @@ body
                 script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 
                 script.
-                  console.log('hey');
+                  
                   //for each neume in the mei snippet : 
                   var editor2 = ace.edit('#{neume.id}');
                   var textarea = $('textarea[name="mei"]');
-                   editor2.getSession().setValue("#{neume.mei}");
                     editor2.getSession().on("change", function () {
                       textarea.val(editor2.getSession().getValue());
                     });
                   editor2.setTheme("ace/theme/monokai");
                   editor2.session.setMode("ace/mode/xml");
                    var aceEditor = localStorage.getItem('ace');
-
+                  console.log('hey');
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
