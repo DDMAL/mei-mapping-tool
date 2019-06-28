@@ -342,6 +342,12 @@ router.route('/:id/edit')
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
                       });
+                      // delete file named 'neumeID.xml'
+                        fs.unlink("xmlFiles/"+neume._id + '.xml',function(err){
+                            if(err) throw err;
+
+                            console.log('File deleted!');
+                        });
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page
 	                          html: function(){
