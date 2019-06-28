@@ -150,7 +150,7 @@ body
                   //for each neume in the mei snippet : 
                   var editor2 = ace.edit('#{neume.id}');
                   var textarea = $('textarea[name="mei"]');
-                   editor2.getSession().setValue(textarea.val());
+                   editor2.getSession().setValue('#{neume.mei}');
                     editor2.getSession().on("change", function () {
                       textarea.val(editor2.getSession().getValue());
                     });
