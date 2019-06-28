@@ -128,6 +128,10 @@ router.route('/')
                   console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   //Show neume array
                   //Neume requests for the images inside of neumes
+                  mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
+                    neumeFinal = neumes;
+                    //console.log(neumeFinal);//This works!!!
+                  });
                   res.format({
                     html: function(){
                         // If it worked, set the header so the address bar doesn't still say /adduser

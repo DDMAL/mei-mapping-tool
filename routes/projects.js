@@ -14,7 +14,7 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-
+global.neumeFinal = [];
 
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
@@ -386,8 +386,7 @@ router.param('/project/id', function(req, res, next, id) {
     });
 });
 
-//THIS IS WHERE THE NEUMES ARE ACTUALLY SHOWN!!!!
-router.route('/project/:id')
+router.route('/project/:id')//Doesnt lead to the projects page, see projects/:id for the projects
 
   .get(function(req, res) {
     mongoose.model('project').findById(req.id, function (err, project) {
@@ -537,7 +536,6 @@ router.route('/project/:id/edit')
   });
 
 /////ROUTE FOR THE ID!!!!!
-global.neumeFinal = [];
 ////////////////////////////
 /**************************/
 router.route('/:id') //This is where the classifier would be
@@ -550,7 +548,7 @@ router.route('/:id') //This is where the classifier would be
       } else {
         //Getting the neumes for each project and showing them in the console!!
         console.log(project._id);
-           mongoose.model('neume').find({project : project._id}, function (err, neumes) {  
+           mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
             neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
           });
