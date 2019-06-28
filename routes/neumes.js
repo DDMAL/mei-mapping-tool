@@ -253,6 +253,7 @@ router.route('/:id/edit')
       var mei = req.body.mei;
 	    var dob = req.body.dob;
 	    global.editArray = [];
+      var ID_project = req.body.ID_project;
 
 	    //find the document by ID
 	    mongoose.model('neume').findById(req.id, function (err, neume) {
@@ -265,12 +266,17 @@ router.route('/:id/edit')
               classification : classification,
               mei : mei,
 	            dob : dob,
-              imagePath : editArray //adding the image to the image array without reinitializng everything
+              imagePath : editArray, //adding the image to the image array without reinitializng everything
+              project : ID_project
 	        }, function (err, neumeID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);
 	          } 
 	          else {
+                  mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
+                        neumeFinal = neumes;
+                        //console.log(neumeFinal);//This works!!!
+                      });
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
 	                      html: function(){
