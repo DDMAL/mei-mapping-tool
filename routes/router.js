@@ -4,6 +4,8 @@ var User = require('../model/user');
 var path = require('path');
 var bodyParser = require('body-parser');
 
+var alert = require('alert-node');
+ 
 router.use(bodyParser.urlencoded({ extended: true }));
 // GET route for reading data
 router.get('/', function (req, res, next) {
@@ -50,8 +52,8 @@ router.post('/', function (req, res, next) {
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
         var err = new Error('Wrong email or password.');
-        err.status = 401;
-        return next(err);
+        alert(err, 'yad');
+        return res.redirect('back');
       } else {
         if (user.role == "editor"){
           req.session.userId = user._id;

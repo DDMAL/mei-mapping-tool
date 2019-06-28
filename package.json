@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "alert-node": "^1.2.5",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "bower": "^1.3.12",
@@ -18,6 +19,7 @@
     "express-session": "^1.16.1",
     "jade": "~1.9.1",
     "joi": "^14.3.1",
+    "js-alert": "^1.0.4",
     "jsdom": "^15.1.1",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^2.3.10",
@@ -29,6 +31,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
+    "popup-tools": "^1.0.2",
+    "popups": "^1.1.3",
     "resize-image": "^0.1.0",
     "serve-favicon": "~2.2.0",
     "uuid": "^3.3.2"
