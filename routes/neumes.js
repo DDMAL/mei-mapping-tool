@@ -119,8 +119,7 @@ router.route('/')
             dob : dob,
             imagePath : imageArray,
             project : ID_project
-            
-             
+
         }, function (err, neume) {
               if (err) {
                   res.send("There was a problem adding the information to the database.");
@@ -234,6 +233,7 @@ router.route('/:id/edit')
 	                       res.json(neume);
 	                 }
 	            });
+              res.redirect('back');
 	        }
 	    }).populate('image').exec((err, posts) => {
       console.log("Populated Image " + posts);
@@ -253,7 +253,7 @@ router.route('/:id/edit')
 	    //find the document by ID
 	    mongoose.model('neume').findById(req.id, function (err, neume) {
 	        //update it
-          editArray = neume.imagePath.concat(imageArray);
+          editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
 	        neume.update({
 	            name : name,
 	            folio : folio,
@@ -270,7 +270,7 @@ router.route('/:id/edit')
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
 	                      html: function(){
-	                           res.redirect("/neumes/");
+	                           res.redirect("back");
 	                     },
 	                     //JSON responds showing the updated values
 	                    json: function(){
@@ -306,7 +306,7 @@ router.route('/:id/edit')
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page
 	                          html: function(){
-	                               res.redirect("/projects");
+	                               res.redirect("back");
 	                         },
 	                         //JSON returns the item with the message that is has been deleted
 	                        json: function(){

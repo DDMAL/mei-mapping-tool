@@ -421,14 +421,6 @@ router.route('/project/:id')
     console.log(project._id);
   });
 
-  
-  //The new projectID should be here. 
-  //I just need to get the project id used right now and add it to the find!!!
-  //Things to do : 
-  //1.Understand how I can get the project id from the database
-  //2.Add the project id to the find algorithm
-  //3.Use the project schema to add an array of neumes inside.
-
 
 router.route('/project/:id/edit')
   //GET the individual project by Mongo ID
