@@ -132,7 +132,7 @@ body
                         .panel-body
                              div(id = "#{neume.id}")
                                p 
-                            textarea(name='mei', value='#{neume.mei}' style='display: block;' id = '#{neume._id}' + '1')
+                            textarea(name='mei', value='#{neume.mei}' style='display: block;' id = '#{neume._id}')
 
                 input(type='hidden',value='PUT',name='_method')
                 button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
@@ -150,6 +150,7 @@ body
                   //for each neume in the mei snippet : 
                   var editor2 = ace.edit('#{neume.id}');
                   var textarea = $('textarea[name="mei"]');
+                   editor2.getSession().setValue(textarea.val());
                     editor2.getSession().on("change", function () {
                       textarea.val(editor2.getSession().getValue());
                     });
