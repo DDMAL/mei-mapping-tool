@@ -42,8 +42,8 @@ router.post('/', function (req, res, next) {
       } else {
         req.session.userId = user._id;
         if(req.body.role == "editor")
-          return res.redirect("neumes/editor");
-        return res.redirect('/neumes');
+          return res.redirect("/projects");
+        return res.redirect('/projects');
       }
     });
 
@@ -51,16 +51,16 @@ router.post('/', function (req, res, next) {
       
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
-        var err = new Error('Wrong email or password.');
+        var err = new Error('Wrong email or password. Please try again.');
         alert(err, 'yad');
         return res.redirect('back');
       } else {
         if (user.role == "editor"){
           req.session.userId = user._id;
-        return res.redirect('/neumes/editor');}
+        return res.redirect('/projects');}
 
         req.session.userId = user._id;
-        return res.redirect('/neumes');
+        return res.redirect('/projects');
       }
 
     });
