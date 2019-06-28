@@ -104,7 +104,9 @@ router.route('/')
         var name = req.body.name;
         var folio = req.body.folio;
         var description = req.body.description;
-        var classification = req.body.classification;
+        
+        var classification 
+        = req.body.classification;
         var mei = req.body.mei;
         var dob = req.body.dob;
         var ID_project = req.body.ID_project;
