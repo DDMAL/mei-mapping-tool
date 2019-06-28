@@ -302,6 +302,7 @@ router.route('/:id/edit')
 	.delete(function (req, res){
 	    //find neume by ID
 	    mongoose.model('neume').findById(req.id, function (err, neume) {
+        var ID_project = neume.project;
 	        if (err) {
 	            return console.error(err);
 	        } else {
@@ -312,6 +313,10 @@ router.route('/:id/edit')
 	                } else {
 	                    //Returning success messages saying it was deleted
 	                    console.log('DELETE removing ID: ' + neume._id);
+                      mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
+                        neumeFinal = neumes;
+                        //console.log(neumeFinal);//This works!!!
+                      });
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page
 	                          html: function(){

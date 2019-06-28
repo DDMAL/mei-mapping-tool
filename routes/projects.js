@@ -28,6 +28,10 @@ router.route('/')
               if (err) {
                   return console.error(err);
               } else {
+                mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+                  neumeFinal = neumes;
+                  //console.log(neumeFinal);//This works!!!
+                });
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -102,6 +106,10 @@ router.route('/')
               if (err) {
                   res.send("There was a problem adding the information to the database.");
               } else {
+                mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+                  neumeFinal = neumes;
+                  //console.log(neumeFinal);//This works!!!
+                });
                   //project has been created
                   console.log('POST creating new project: ' + project);
               
@@ -261,6 +269,10 @@ router.route('/:id/edit')
                   } else {
                       //Returning success messages saying it was deleted
                       console.log('DELETE removing ID: ' + project._id);
+                      mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+                        neumeFinal = neumes;
+                        //console.log(neumeFinal);//This works!!!
+                      });
                       res.format({
                           //HTML returns us back to the main page, or you can create a success page
                             html: function(){
