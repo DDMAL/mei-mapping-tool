@@ -120,7 +120,7 @@ body
                      input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
                     p Description:
                     input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
-
+                   textarea(id = 'meiSnippet', style='display: none;') #{neume.mei}
                 .column
                    .card 
                     p Classification: 
@@ -155,6 +155,9 @@ body
                     });
                   editor2.setTheme("ace/theme/monokai");
                   editor2.session.setMode("ace/mode/xml");
+                  var meiString = document.getElementById("meiSnippet").value;
+                  console.log(meiString)
+                  editor2.setValue(meiString);
                    var aceEditor = localStorage.getItem('ace');
                   console.log('hey');
                   //Getting the canvas for the mei snippets : 
