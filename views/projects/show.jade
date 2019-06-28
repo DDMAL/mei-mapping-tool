@@ -146,6 +146,10 @@ body
                 script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 
                 script.
+                  var all = document.getElementsByClassName("collapsible");
+
+                  for (var i=0, max=all.length; i < max; i++) {
+                       // Do something with the element here
                   
                   //for each neume in the mei snippet : 
                   var editor#{neume.id} = ace.edit('#{neume.id}');
@@ -163,6 +167,8 @@ body
                   editor#{neume.id}.setValue(meiString);
                    var aceEditor = localStorage.getItem('ace');
                   console.log('hey');
+                    }
+
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
