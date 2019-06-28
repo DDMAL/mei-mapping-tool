@@ -54,7 +54,23 @@ block content
 		});
 		myDropzone.on('removedfile', function (file) {
 		//Need to add the remove file to true from the dropzone.
-			var fs = require('fs');
+			function deleteImage(file_name)
+{
+    var r = confirm("Are you sure you want to delete this Image?")
+    if(r == true)
+    {
+        $.ajax({
+          url: 'delete.php',
+          data: {'file' : "<?php echo dirname(__FILE__) . '/uploads/'?>" + file_name },
+          success: function (response) {
+             // do something
+          },
+          error: function () {
+             // do something
+          }
+        });
+    }
+}
 			  console.log(file);
 
 			/* here do AJAX call to your server ... */

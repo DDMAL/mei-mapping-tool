@@ -120,7 +120,7 @@ body
                      input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
                     p Description:
                     input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
-                   textarea(id = '#{neume.id}3', style='display: block;') #{neume.mei}
+                   textarea(id = '#{neume.id}3', style='display: none;') #{neume.mei}
                 .column
                    .card 
                     p Classification: 
@@ -132,7 +132,7 @@ body
                         .panel-body
                              div(id = "#{neume.id}")
                                p 
-                            textarea(name='mei', value='#{neume.mei}' style='display: block;' id = '#{neume.id}2')
+                              textarea(name='mei', value='#{neume.mei}' style='display: none;' id = 'textarea#{neume.id}')
 
                 input(type='hidden',value='PUT',name='_method')
                 button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
@@ -153,7 +153,7 @@ body
                   
                   //for each neume in the mei snippet : 
                   var editor#{neume.id} = ace.edit('#{neume.id}');
-                  var textarea = document.getElementById("#{neume.id}2");
+                  var textarea = document.getElementById("textarea#{neume.id}");
                   console.log(textarea);
                     editor#{neume.id}.getSession().on("change", function () {
                       textarea.value = editor#{neume.id}.getSession().getValue();
@@ -161,7 +161,6 @@ body
                   editor#{neume.id}.setTheme("ace/theme/monokai");
                   editor#{neume.id}.session.setMode("ace/mode/xml");
                   var meiString = document.getElementById("#{neume.id}3").value;
-                  console.log(meiString)
 
 
                   editor#{neume.id}.setValue(meiString);
