@@ -163,6 +163,10 @@ router.param('id', function(req, res, next, id) {
             });
         //if it is found we continue on
         } else {
+          mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+            neumeFinal = neumes;
+            //console.log(neumeFinal);//This works!!!
+          });
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
             //console.log(project);
             // once validation is done save the new item in the req
