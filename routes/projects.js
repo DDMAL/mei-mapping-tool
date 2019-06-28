@@ -559,8 +559,7 @@ router.route('/:id') //This is where the classifier would be
         //Getting the neumes for each project and showing them in the console!!
         console.log(project._id);
            mongoose.model('neume').find({project : project._id}, function (err, neumes) {  
-            neumeFinal = [];
-            neumeFinal.push(neumes);
+            neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
           });
           // console.log(neumeFinal);

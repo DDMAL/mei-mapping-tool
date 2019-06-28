@@ -4,7 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
 
-global.neumes_array = []
+global.neumes_array = [];
 
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
@@ -51,6 +51,7 @@ router.route('/user')
               if (err) {
                   return console.error(err);
               } else {
+
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
@@ -305,7 +306,7 @@ router.route('/:id/edit')
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page
 	                          html: function(){
-	                               res.redirect("/neumes");
+	                               res.redirect("/projects");
 	                         },
 	                         //JSON returns the item with the message that is has been deleted
 	                        json: function(){

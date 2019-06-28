@@ -101,7 +101,7 @@ body
 .bodyStyle
   .roundedCorners
     ul
-        - each neume, i in neumes
+        - each neume in neumes
           
             button.collapsible.padding #{neume.name}
             form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
