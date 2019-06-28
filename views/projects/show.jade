@@ -120,7 +120,7 @@ body
                      input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
                     p Description:
                     input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
-                   textarea(id = 'meiSnippet', style='display: none;') #{neume.mei}
+                   textarea(id = '#{neume.id}3', style='display: block;') #{neume.mei}
                 .column
                    .card 
                     p Classification: 
@@ -132,7 +132,7 @@ body
                         .panel-body
                              div(id = "#{neume.id}")
                                p 
-                            textarea(name='mei', value='#{neume.mei}' style='display: none;' id = '#{neume._id}')
+                            textarea(name='mei', value='#{neume.mei}' style='display: block;' id = '#{neume.id}2')
 
                 input(type='hidden',value='PUT',name='_method')
                 button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
@@ -148,16 +148,19 @@ body
                 script.
                   
                   //for each neume in the mei snippet : 
-                  var editor2 = ace.edit('#{neume.id}');
-                  var textarea = $('textarea[name="mei"]');
-                    editor2.getSession().on("change", function () {
-                      textarea.val(editor2.getSession().getValue());
+                  var editor#{neume.id} = ace.edit('#{neume.id}');
+                  var textarea = document.getElementById("#{neume.id}2");
+                  console.log(textarea);
+                    editor#{neume.id}.getSession().on("change", function () {
+                      textarea.value = editor#{neume.id}.getSession().getValue();
                     });
-                  editor2.setTheme("ace/theme/monokai");
-                  editor2.session.setMode("ace/mode/xml");
-                  var meiString = document.getElementById("meiSnippet").value;
+                  editor#{neume.id}.setTheme("ace/theme/monokai");
+                  editor#{neume.id}.session.setMode("ace/mode/xml");
+                  var meiString = document.getElementById("#{neume.id}3").value;
                   console.log(meiString)
-                  editor2.setValue(meiString);
+
+
+                  editor#{neume.id}.setValue(meiString);
                    var aceEditor = localStorage.getItem('ace');
                   console.log('hey');
                   //Getting the canvas for the mei snippets : 
