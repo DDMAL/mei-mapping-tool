@@ -7,5 +7,4 @@ var imageSchema = new mongoose.Schema({
   dob: { type: Date, default: Date.now },
   neumeID: { type: Schema.Types.ObjectId, ref: 'neume' },//Ref option is what tells mongoose which model to use during population
 });
-
 mongoose.model('image', imageSchema);

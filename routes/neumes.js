@@ -353,8 +353,10 @@ router.route('/:id/edit')
                           fs.unlink('uploads/' + image, (err) => {
                             if (err) throw err;
                             console.log('successfully deleted');
-                          }); 
-                        });
+                         mongoose.model('image').remove({imagepath : image}, function (err, image) {
+                            console.log(image)});
+                          });
+                          })
                 
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page
