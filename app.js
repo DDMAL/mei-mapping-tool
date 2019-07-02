@@ -80,6 +80,7 @@ var storage = multer.diskStorage({
     })
   }
 })
+
 //if a file is removed from the dropzone : 
 //if the remove button is pressed in the dropzone, 
 //You need to unlink the file "file" : 

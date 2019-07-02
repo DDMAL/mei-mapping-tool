@@ -110,7 +110,7 @@ body
   button#newNeumeButton Add Neume
 
   br
-  button#logging-out(type='button', href='/logout' name = "logout") Logout
+  a#logging-out(href='/' name = "logout") Logout
   .bodyStyle
     .roundedCorners
       ul
@@ -150,10 +150,10 @@ body
                   button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
                   br
                   br
-              form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                  input(type='hidden',value='DELETE',name='_method')
-                  button(type='submit').
-                      Delete
+                form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='hidden',value='DELETE',name='_method')
+                    button(type='submit').
+                        Delete
                   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 

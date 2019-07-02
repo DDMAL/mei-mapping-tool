@@ -348,6 +348,14 @@ router.route('/:id/edit')
 
                             console.log('File deleted!');
                         });
+                        //deleting the images if the neume is deleted
+                        neume.imagePath.forEach(function(image){
+                          fs.unlink('uploads/' + image, (err) => {
+                            if (err) throw err;
+                            console.log('successfully deleted');
+                          }); 
+                        });
+                
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page
 	                          html: function(){
