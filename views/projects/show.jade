@@ -89,9 +89,7 @@ div.headerStyle
        
         a(href='/projects')
           | Home
-          span.sr-only 
-      li 
-        a#addingNeume(href='/neumes/new') New neume
+          span.sr-only
       li
         a(href='/about') About us
       li
@@ -176,6 +174,11 @@ body
                   
                   //For each neume in the mei snippet :
                   var editor#{neume.id} = ace.edit('#{neume.id}');
+                  //For each editor on the screen
+                  //Create a textarea 
+                  //This textarea has as value what is written in the editor
+                  //This textarea's value gets saved as the new editor's value
+                  //It also gets saved on the database.
                   var textarea = document.getElementById("textarea#{neume.id}");
                   console.log(textarea);
                     editor#{neume.id}.getSession().on("change", function () {
@@ -300,17 +303,4 @@ body
                       modal.style.display = "none";
                     }
                   }
-                  Dropzone.autoDiscover = false;
-                  var myDropzone = new Dropzone("#dropzone-new", {
-                    maxFileSize: 100,
-                    acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
-                    addRemoveLinks: true,
-                  });
-                  myDropzone.on('removedfile', function (file) {
-                  //Need to add the remove file to true from the dropzone.
-                    var fs = require('fs');
-                      console.log(file);
-
-                    /* here do AJAX call to your server ... */
-                    //try an ajax call with a php file
-                    });
+                  
