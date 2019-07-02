@@ -30,7 +30,7 @@ block content
 		p MEI Snippet:
 			//input#inputMei(type="text", placeholder="ex. <neume>", name="mei")
 			#editor(name = "aceEdit")
-			textarea#inputMei(name='mei', placeholder="ex. <neume>" style='display: none;')
+			textarea#mei(name='mei', placeholder="ex. <neume>" style='display: none;')
 			p#URL(style = 'display:none;')
 			input#inputID(type="text", name="ID_project")
 		script.
@@ -48,10 +48,10 @@ block content
 	//Add these lines to a javascript file:
 	script.
 		var editor = ace.edit("editor");
-		var textarea = $('textarea[name="mei"]');
+		var textareaNew = $('#mei');
 		editor.getSession().on("change", function () {
-			textarea.val(editor.getSession().getValue());
-			localStorage.setItem("ace",textarea.val());
+			textareaNew.val(editor.getSession().getValue());
+			localStorage.setItem("ace",textareaNew.val());
 		});
 		editor.setTheme("ace/theme/monokai");
 		editor.session.setMode("ace/mode/html");//Html mode parsing
