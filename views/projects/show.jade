@@ -66,6 +66,8 @@ html
         padding: 0px;
         font-size: 10px;
         }
+
+
   link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
 //Header parameters
 div.headerStyle
@@ -95,65 +97,66 @@ div.headerStyle
         a(href='/') User1
 
 body
-
-  h3
-    p #{project.name}
-  a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
-  button#newNeumeButton Add Neume
+ div
   // The Modal
   #myModal.modal
     // Modal content
     .modal-content
       span.close ×
       include newNeume.jade
+  h3
+    p #{project.name}
+  a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
+  button#newNeumeButton Add Neume
+
   br
   button#logging-out(type='button', href='/logout' name = "logout") Logout
-.bodyStyle
-  .roundedCorners
-    ul
-        - each neume in neumes
-          
-            button.collapsible.padding #{neume.name}
-            form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
-                .column
-                   .card
-                     .panel.panel-default
-                       .panel-body
-                          div(id = "#{neume.name}")
-                            p Images: 
-                .column
-                  .height
-                   .card 
-                    p Name: 
-                    input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
-                    p Folio:
-                     input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
-                    p Description:
-                    input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
-                   textarea(id = '#{neume.id}3', style='display: none;') #{neume.mei}
-                .column
-                   .card 
-                    p Classification: 
-                    input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
-                .column
-                   .card 
-                    p Mei Snippet: 
+  .bodyStyle
+    .roundedCorners
+      ul
+          - each neume in neumes
+            
+              button.collapsible.padding #{neume.name}
+              form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                  .column
+                     .card
                        .panel.panel-default
-                        .panel-body
-                             div(id = "#{neume.id}")
-                               p 
-                              textarea(name='mei', value='#{neume.mei}' style='display: none;' id = 'textarea#{neume.id}')
+                         .panel-body
+                            div(id = "#{neume.name}")
+                              p Images: 
+                  .column
+                    .height
+                     .card 
+                      p Name: 
+                      input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
+                      p Folio:
+                       input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
+                      p Description:
+                      input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
+                     textarea(id = '#{neume.id}3', style='display: none;') #{neume.mei}
+                  .column
+                     .card 
+                      p Classification: 
+                      input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+                  .column
+                     .card 
+                      p Mei Snippet: 
+                         .panel.panel-default
+                          .panel-body
+                               div(id = "#{neume.id}")
+                                 p 
+                                textarea(name='mei', value='#{neume.mei}' style='display: none;' id = 'textarea#{neume.id}')
 
-                input(type='hidden',value='PUT',name='_method')
-                button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
-                br
-                br
-            form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                input(type='hidden',value='DELETE',name='_method')
-                button(type='submit').
-                    Delete
-                script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-                script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                  input(type='hidden',value='PUT',name='_method')
+                  button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
+                  br
+                  br
+              form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='hidden',value='DELETE',name='_method')
+                  button(type='submit').
+                      Delete
+                  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                  script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 
                 script.
                   var all = document.getElementsByClassName("collapsible");

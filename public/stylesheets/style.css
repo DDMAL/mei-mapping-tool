@@ -37,7 +37,6 @@ body {
   border-top-right-radius: 0;
 }
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -74,7 +73,7 @@ body{
 }
 
 .content{
-  padding: 5px; 
+
   margin: 0 auto;
 }
 .content span{
@@ -93,13 +92,7 @@ body{
 }
 
 .bodyStyle {
-  padding : 10px;
   height : 5px;
-}
-
-body {
-  padding: 40px;
-  margin: 0;
 }
 .image-area {
   position: relative;
