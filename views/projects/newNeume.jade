@@ -9,8 +9,8 @@ head
 	script(src='/javascripts/worker-html.js', type='text/javascript')
 
 block content
-	h1.
-		Add new Neume
+	h4.
+		New Neume
 	form#formAddneume(name="addneume",method="post",action="/neumes")
 		link(href='/stylesheets/dropzone.css', rel='stylesheet')
 		div#dropzone-example.dropzone(method='post', action='/image' name="image" required)
