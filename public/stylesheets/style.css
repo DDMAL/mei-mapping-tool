@@ -137,3 +137,7 @@ article {
      -moz-column-count: 2;
           column-count: 2;
 }
+.editButton{
+  top : -20px;
+  left :100px;
+}

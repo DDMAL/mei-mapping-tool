@@ -112,6 +112,9 @@ body
       include newNeume.jade
   h3
     p #{project.name}
+  .editButton
+    button(type='button') Edit 
+
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#newNeumeButton Add Neume
 
