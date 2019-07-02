@@ -110,11 +110,11 @@ body
     .modal-content
       span.close ×
       include newNeume.jade
-  h3
-    p #{project.name}
-  .editButton
-    button(type='button') Edit 
 
+
+  h3
+    input.form-control(type='text', name='email', value='#{project.name}', required='')
+  button#on_off.make-switch(type='button', name='double_optin', data-on-text='on', data-off-text='off') Edit
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#newNeumeButton Add Neume
 
@@ -306,4 +306,8 @@ body
                       modal.style.display = "none";
                     }
                   }
+                  $('#on_off').click(function() {
+
+                    $('.FullName [name="email"]').attr('disabled', $(this).is(':checked') ? false : true);
+                  });
                   
