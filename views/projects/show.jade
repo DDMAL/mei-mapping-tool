@@ -112,8 +112,8 @@ body
       include newNeume.jade
 
 
-  h3
-    input.form-control(type='text', name='email', value='#{project.name}', required='')
+  h3 #{project.name}
+    //input.form-control(type='text', name='email', value='#{project.name}', required='')
   button#on_off.make-switch(type='button', name='double_optin', data-on-text='on', data-off-text='off') Edit
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#newNeumeButton Add Neume
@@ -133,9 +133,9 @@ body
                          .panel-body
                             div(id = "#{neume.name}")
                               p Images: 
-                                link(href='/stylesheets/dropzone.css', rel='stylesheet')
-                                div#dropzone-new.dropzone(method='post', action='/image' name="image" required)
-                                .fallback
+                                //link(href='/stylesheets/dropzone.css', rel='stylesheet')
+                                //div#dropzone-new.dropzone(method='post', action='/image' name="image" required)
+                               // .fallback
                   .column
                     .height
                      .card 
