@@ -39,35 +39,32 @@ html
           p All of your mei-mapping projects, in one interface.
           a(href='#section') Add project
           a(href='#') Learn more
-          // features section
-          .site-section
           div
-            .site-section-inside
-                  .section-header
-                    h2 Add a new project
-                  .feature-box
-                    .text
-                      a#addingNeume(href='/projects/new') Add project
-            br
-            //When creating projects, you need to have the user id linked
-            button#logging-out(type='button', onclick = "window.location='/'") Logout
-            div
             .site-section
               // testimonials section
-              .site-section.site-section-secondary
+              .site-section.site-section-third
                 .padding  
                    div#section
                     .site-section-inside
                       .section-header
-                        h2 My Projects
+                          h2 Add a new project
+                        .feature-box
+                          .text
+                            a#addingNeume(href='/projects/new') Add project      
+              // testimonials section
+              .site-section.site-section-secondary
+                   div#section
+                    .site-section-inside
+                      .section-header
+                        h2.projectHeader My Projects
                         ul
                             - each project, i in projects
-                               button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded') #{project.name} 
+                               button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
                                br
                                form(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                                  input(type='hidden',value='DELETE',name='_method')
-                                 button(type='submit').
-                                        Delete
+                                 button(type='submit' class="button button3").
+                                        x
                                  br
                                  br
 

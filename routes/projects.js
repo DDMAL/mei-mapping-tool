@@ -597,13 +597,12 @@ router.route('/:id/edit')
 	    })
 	})
 
-  //Used to get the updated on the id!
+  //Used to get the updated name of the project!
 	//PUT to update a project by ID
 	.put(function(req, res) {
 	    // Get our REST or form values. These rely on the "name" attributes from the edit page
 	    var projectName = req.body.nameProject; //Its getting the information from the edit page
-      console.log(projectName); //undefined
-      //The project name isnt getting information from the project.show page
+      console.log(projectName); 
 
 	    //find the document by ID
 	    mongoose.model('project').findById(req.id, function (err, project) {
