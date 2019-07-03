@@ -115,6 +115,7 @@ body
   h3 
     input#projectName.form-control(style="font-size:35px;" type='text', name='email', value='#{project.name}', required='' disabled)
   button#editProjectName(type='button') Edit
+  button#editDone(type='button') Done
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#newNeumeButton Add Neume
 
@@ -276,13 +277,12 @@ body
                     }
 
                   //Edit the project name:
+                  var projectInput = document.getElementById("projectName");
                   var editProjectNameButton = document.getElementById("editProjectName")
                   editProjectNameButton.onclick = function(){
-                     var projectInput = document.getElementById("projectName");
                      projectInput.disabled = false;
-                     this.innerHTML = "Done";
-                     editProjectNameButton.onclick = function(){
-                       projectInput.disabled = true; 
-                       this.innerHTML = "Edit";};
+                  };
+                  editDone.onclick = function(){
+                     projectInput.disabled = true;
                   };
                   
