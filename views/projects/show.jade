@@ -156,7 +156,7 @@ body
                           .panel-body
                                div(id = "#{neume.id}")
                                  p 
-                                textarea(name='mei' style='display: block;' id = 'textarea#{neume.id}') #{neume.mei}
+                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
 
                   input(type='hidden',value='PUT',name='_method')
                   button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
