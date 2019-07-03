@@ -270,6 +270,7 @@ router.route('/:id/edit')
       var classification = req.body.classification;
       var mei = req.body.mei;
 	    var dob = req.body.dob;
+      var projectName = req.body.projectName;
 	    global.editArray = [];
 
 	    //find the document by ID

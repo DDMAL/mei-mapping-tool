@@ -177,7 +177,7 @@ router.param('id', function(req, res, next, id) {
     });
 });
 
-router.route('/:id/edit')
+router.route('projects/:id/edit')
   //GET the individual project by Mongo ID
   .get(function(req, res) {
       //search for the project within Mongo
@@ -192,12 +192,7 @@ router.route('/:id/edit')
               res.format({
                   //HTML response will render the 'edit.jade' template
                   html: function(){
-                         res.render('projects/edit', {
-                            title: 'project' + project._id,
-                            "projectdob" : projectdob,
-                            "project" : project,
-                            "projectImages" : project.imagePath
-                        });
+                         res.redirect("/projects/")
                    },
                    //JSON response will return the JSON output
                   json: function(){
@@ -212,26 +207,13 @@ router.route('/:id/edit')
   //PUT to update a project by ID
   .put(function(req, res) {
       // Get our REST or form values. These rely on the "name" attributes from the edit page
-      var name = req.body.name;
-      var folio = req.body.folio;
-      var description = req.body.description;
-      var classification = req.body.classification;
-      var mei = req.body.mei;
-      var dob = req.body.dob;
-      global.editArray = [];
-
+      var name = req.body.projectName;
+      console.log(name);//this isnt shown
       //find the document by ID
       mongoose.model('project').findById(req.id, function (err, project) {
-          //update it
-          editArray = project.imagePath.concat(imageArray);
+          
           project.update({
-              name : name,
-              folio : folio,
-              description : description,
-              classification : classification,
-              mei : mei,
-              dob : dob,
-              imagePath : editArray //adding the image to the image array without reinitializng everything
+              name : name
           }, function (err, projectID) {
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
@@ -556,13 +538,17 @@ router.route('/project/:id/edit')
 /**************************/
 router.route('/:id') //This is where the classifier would be
   .get(function(req, res) {
-
+    var projectName = req.body.projectName;
+    console.log(projectName);
+    global.nameOfProject = projectName;
     mongoose.model('project').findById(req.id, function (err, project) {
 
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
+        //Updating the name
         //Getting the neumes for each project and showing them in the console!!
+        //Element in face
         console.log(project._id);
            mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
             neumeFinal = neumes;
@@ -589,7 +575,7 @@ router.route('/:id') //This is where the classifier would be
     });
   });
 
-router.route('/project/:id/edit')
+router.route('/:id/edit')
 	//GET the individual project by Mongo ID
 	.get(function(req, res) {
 	    //search for the project within Mongo
@@ -597,37 +583,33 @@ router.route('/project/:id/edit')
 	        if (err) {
 	            console.log('GET Error: There was a problem retrieving: ' + err);
 	        } else {
-	            //Return the project
-	            console.log('GET Retrieving ID: ' + project._id);
-              var projectdob = project.dob.toISOString();
-              projectdob = projectdob.substring(0, projectdob.indexOf('T'))
-	            res.format({
-	                //HTML response will render the 'edit.jade' template
-	                html: function(){
-	                       res.render('projects/edit', {
-	                          title: 'project' + project._id,
-                            "projectdob" : projectdob,
-	                          "project" : project
-	                      });
-	                 },
-	                 //JSON response will return the JSON output
-	                json: function(){
-	                       res.json(project);
-	                 }
-	            });
+            //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    res.format({
+                        html: function(){
+                             res.redirect("/projects/" + req.id);
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(project);
+                       }
+                    });
 	        }
 	    })
 	})
+
+  //Used to get the updated on the id!
 	//PUT to update a project by ID
 	.put(function(req, res) {
 	    // Get our REST or form values. These rely on the "name" attributes from the edit page
-	    var name = req.body.name;
+	    var projectName = req.body.nameProject; //Its getting the information from the edit page
+      console.log(projectName); //undefined
+      //The project name isnt getting information from the project.show page
 
 	    //find the document by ID
 	    mongoose.model('project').findById(req.id, function (err, project) {
 	        //update it
-	        project.update({
-	            name : name
+	        project.update({ //This works, it's just the element from the page that isn't sent over.
+	            name : projectName
 	            
 	        }, function (err, projectID) {
 	          if (err) {
@@ -637,7 +619,7 @@ router.route('/project/:id/edit')
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
 	                      html: function(){
-	                           res.redirect("/projects/");
+	                           res.redirect("/projects/" + project._id);
 	                     },
 	                     //JSON responds showing the updated values
 	                    json: function(){
@@ -645,14 +627,6 @@ router.route('/project/:id/edit')
 	                     }
 	                  });
 	           }
-             //Deletes the file from the folder
-             if(req.body.image == "deleted"){
-             const fs = require('fs');
-
-              fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
-                if (err) throw err;
-                console.log('successfully deleted');
-              }); }
 	        })
 	    });
 	})

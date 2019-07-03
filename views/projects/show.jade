@@ -111,11 +111,11 @@ body
       span.close ×
       include newNeume.jade
 
-
   h3 
-    input#projectName.form-control(style="font-size:35px;" type='text', name='email', value='#{project.name}', required='' disabled)
-  button#editProjectName(type='button') Edit
-  button#editDone(type='button') Done
+  form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+    input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
+    input(type='hidden',value='PUT',name='_method')
+    button#editDone(type='submit' value = 'update' href = "/projects") Edit name
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#newNeumeButton Add Neume
 

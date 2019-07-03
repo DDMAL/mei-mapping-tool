@@ -13,17 +13,17 @@ html
   div
     header
       // our main logo
-      a#logo(href='index.html')
+      a#logo(href='#')
         span MEI Mapping Projects
       // main navigation links
       nav
         ul
           li
-            a(href='#') About
+            a(href='/') About
           li
             a(href='/projects') Projects
           li
-            a(href='#') DDMAL 
+            a(href='/') DDMAL 
           li
             a(href='/') Log out
     // the content
@@ -70,4 +70,14 @@ html
                                         Delete
                                  br
                                  br
+
+              footer
+                //img(src='img/avatar.jpeg', alt='Footer Logo')
+                span
+                  | My Website
+                  br
+                  | Copyright © 2016-3010
+
+
+            script(type='text/javascript' src='/javascripts/addProject.js')
                       
