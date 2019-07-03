@@ -112,9 +112,9 @@ body
       include newNeume.jade
 
 
-  h3 #{project.name}
-    //input.form-control(type='text', name='email', value='#{project.name}', required='')
-  button#on_off.make-switch(type='button', name='double_optin', data-on-text='on', data-off-text='off') Edit
+  h3 
+    input#projectName.form-control(style="font-size:35px;" type='text', name='email', value='#{project.name}', required='' disabled)
+  button#editProjectName(type='button') Edit
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#newNeumeButton Add Neume
 
@@ -170,7 +170,9 @@ body
                   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 
                 script.
-                  //For each neume in the mei snippet :
+
+                  //For each neume in the project :
+                  //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
                   var editor#{neume.id} = ace.edit('#{neume.id}');
                   var textarea = document.getElementById("textarea#{neume.id}");
                   console.log(textarea);
@@ -272,33 +274,15 @@ body
                     }
                     });
                     }
-                    // Get the modal
-                  var modal = document.getElementById("myModal");
 
-                  // Get the button that opens the modal
-                  var btn = document.getElementById("myBtn");
-
-                  // Get the <span> element that closes the modal
-                  var span = document.getElementsByClassName("close")[0];
-
-                  // When the user clicks on the button, open the modal 
-                  btn.onclick = function() {
-                    modal.style.display = "block";
-                  }
-
-                  // When the user clicks on <span> (x), close the modal
-                  span.onclick = function() {
-                    modal.style.display = "none";
-                  }
-
-                  // When the user clicks anywhere outside of the modal, close it
-                  window.onclick = function(event) {
-                    if (event.target == modal) {
-                      modal.style.display = "none";
-                    }
-                  }
-                  $('#on_off').click(function() {
-
-                    $('.FullName [name="email"]').attr('disabled', $(this).is(':checked') ? false : true);
-                  });
+                  //Edit the project name:
+                  var editProjectNameButton = document.getElementById("editProjectName")
+                  editProjectNameButton.onclick = function(){
+                     var projectInput = document.getElementById("projectName");
+                     projectInput.disabled = false;
+                     this.innerHTML = "Done";
+                     editProjectNameButton.onclick = function(){
+                       projectInput.disabled = true; 
+                       this.innerHTML = "Edit";};
+                  };
                   
