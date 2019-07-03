@@ -132,7 +132,7 @@ body
                      .card
                        .panel.panel-default
                          .panel-body
-                            div(id = "#{neume.name}")
+                            div(id = "image#{neume.id}")
                               p Images: 
                                 //link(href='/stylesheets/dropzone.css', rel='stylesheet')
                                 //div#dropzone-new.dropzone(method='post', action='/image' name="image" required)
@@ -257,7 +257,7 @@ body
                       0, 0, canvas.width, canvas.height);
                   }
                   image.src = "/gallery/" + element; //getting the file paths
-                  var imageCard = document.getElementById("#{neume.name}");//getting
+                  var imageCard = document.getElementById("image#{neume.id}");//getting
                   imageCard.appendChild(canvas);
                   canvas.appendChild(image);//the image is appended
                   });
