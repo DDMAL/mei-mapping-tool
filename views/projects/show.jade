@@ -112,8 +112,7 @@ body
       include newNeume.jade
 
 
-  h3
-    input.form-control(type='text', name='email', value='#{project.name}', required='')
+  h3 #{project.name}
   button#on_off.make-switch(type='button', name='double_optin', data-on-text='on', data-off-text='off') Edit
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#newNeumeButton Add Neume
@@ -155,8 +154,7 @@ body
                          .panel.panel-default
                           .panel-body
                                div(id = "#{neume.id}")
-                                 p 
-                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                               textarea(name='mei' style='display: block;' id = 'textarea#{neume.id}') #{neume.mei}
 
                   input(type='hidden',value='PUT',name='_method')
                   button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
@@ -176,16 +174,14 @@ body
                        // Do something with the element here
                   
                   //For each neume in the mei snippet :
-                  var editor#{neume.id} = ace.edit('#{neume.id}');
-                  //For each editor on the screen
-                  //Create a textarea 
-                  //This textarea has as value what is written in the editor
-                  //This textarea's value gets saved as the new editor's value
-                  //It also gets saved on the database.
-                  var textarea = document.getElementById("textarea#{neume.id}");
+                  var editor = document.getElementById("#{neume.id}")
+                  console.log(editor); //the right editor
+                  var editor#{neume.id} = ace.edit(editor);
+                  
+                  var textarea = document.getElementById("#{neume.id}").nextSibling;
                   console.log(textarea);
                     editor#{neume.id}.getSession().on("change", function () {
-                      textarea.value = editor#{neume.id}.getSession().getValue();
+                      editor#{neume.id}.nextSibling.value = editor#{neume.id}.getSession().getValue();
                     });
                   editor#{neume.id}.setTheme("ace/theme/monokai");
                   editor#{neume.id}.session.setMode("ace/mode/xml");
@@ -306,6 +302,7 @@ body
                       modal.style.display = "none";
                     }
                   }
+                  document.getElementById("")
                   $('#on_off').click(function() {
 
                     $('.FullName [name="email"]').attr('disabled', $(this).is(':checked') ? false : true);
