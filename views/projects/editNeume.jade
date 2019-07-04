@@ -34,9 +34,12 @@ script.
     //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
+                  //For each image in the neume
                   imageArray.forEach(function(element){
+                  //creating a canvas
                   var canvas = document.createElement('canvas');
                   var ctx = canvas.getContext("2d");
+                  //creating an image object
                   var image = new Image();
 
                   image.onload = function () {
@@ -60,9 +63,14 @@ script.
                       ctx.drawImage(oc, 0, 0, oc.width, oc.height,
                       0, 0, canvas.width, canvas.height);
                   }
+                  //getting the source of the image from the gallery
                   image.src = "/gallery/" + element; //getting the file paths
                   var imageCard = document.getElementById("images#{neume.id}");//getting
+                  //add the image to the canvas
                   imageCard.appendChild(canvas);
                   canvas.appendChild(image);//the image is appended
+
+                  //We can create a delete button here 
+                  //We also append it tp the imageCard
                   });
 
