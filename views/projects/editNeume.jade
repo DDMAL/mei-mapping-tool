@@ -5,14 +5,14 @@ block content
         div(id = "dropzone#{neume.id}").dropzone(method='post', action='/image' name="image" required)
         .fallback
         p Images :
+        input(type="text", name="imageDeleted" id = "imageToDelete#{neume.id}" hidden)
         div(id = "images#{neume.id}")
           input(type='hidden',value='PUT',name='_method') 
           button#btnSubmit(type="submit") submit
-
-          input(type="text", name="imageDeleted" id = "imageToDelete#{neume.id}" hidden)
-          form(action='/neumes/#{neume._id}/editImage',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='hidden',value='DELETE',name='_method')
-                    div(id = "imageDeleted")
+    
+    form(action='/neumes/#{neume._id}/editImage',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageForm")
+              input(type='hidden',value='DELETE',name='_method')
+              button#submitImageDeleted(type="submit" hidden) submit
       
 script.
   Dropzone.autoDiscover = false;
@@ -68,7 +68,7 @@ script.
                   image.src = "/gallery/" + element; //getting the file paths
 
                   //This seems to be undefined. 
-                  var divImage = document.getElementById("divImage");
+                  var div = document.getElementById("imageDeleted");
                   var imageDeletedPath = document.getElementById("imageToDelete#{neume.id}");
                   imageDeletedPath.value = element;
                   imageDeletedPath.name = "imageDeleted";
@@ -85,8 +85,14 @@ script.
                   var button = document.createElement("BUTTON");
                   button.className = "button button3";
                   button.innerHTML = "x";
-                  button.type = "submit";
+                  button.onclick = function Function(){
+                    var submitImageDeletedForm = document.getElementById("submitImageDeleted");
+                    submitImageDeleteForm.click();
+                    //Check javascript value for code. 
+
+                  }
+                  
                   imageCard.appendChild(button);
-                  //We also append it to the imageCard
+                  //We also append it to the input element from the form
                   });
 
