@@ -176,7 +176,6 @@ router.get('/new', function(req, res) {
 
 /* Update edit images. */
 router.route('/:id/editImage')
-  //GET the individual neume by Mongo ID
   .get(function(req, res) {
       //search for the neume within Mongo
       mongoose.model('neume').findById(req.id, function (err, neume) {
@@ -187,6 +186,7 @@ router.route('/:id/editImage')
               console.log('GET Retrieving ID: ' + neume._id);
               var neumedob = neume.dob.toISOString();
               neumedob = neumedob.substring(0, neumedob.indexOf('T'))
+              imageArray = [];
               res.format({
                   //HTML response will render the 'edit.jade' template
                   html: function(){
@@ -201,8 +201,11 @@ router.route('/:id/editImage')
                   json: function(){
                          res.json(neume);
                    }
+
               });
+              imageArray = [];
               res.redirect('back');
+
           }
       }).populate('image').exec((err, posts) => {
       console.log("Populated Image " + posts);
@@ -246,15 +249,8 @@ router.route('/:id/editImage')
                              res.json(neume);
                        }
                     });
+                    imageArray = [];
              }
-             //Deletes the file from the folder
-             if(req.body.image == "deleted"){
-             const fs = require('fs');
-
-              fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
-                if (err) throw err;
-                console.log('successfully deleted');
-              }); }
           })
       });
   })
