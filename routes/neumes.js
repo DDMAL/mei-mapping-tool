@@ -264,11 +264,15 @@ router.route('/:id/editImage')
       //find neume by ID
       mongoose.model('neume').findById(req.id, function (err, neume) {
         var ID_project = neume.project;
-        //remove from neume array the imagepath = imageDeleted
 
           if (err) {
               return console.error(err);
           } else {
+            //remove from neume array the imagepath = imageDeleted
+            mongoose.model("neume").update( 
+      { _id: req.id },
+      { $pull: { imagePath : imageToDelete } },
+      { multi: true });
             //deleting the images from the image model 
               fs.unlink('uploads/' + imageToDelete, (err) => {
                 if (err) throw err;
@@ -288,7 +292,9 @@ router.route('/:id/editImage')
                              item : neume
                          });
                    }
+
                 });
+              imageArray = [];
                   }
               });
   });

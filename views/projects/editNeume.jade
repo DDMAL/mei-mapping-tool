@@ -8,10 +8,8 @@ block content
         input(type="text", name="imageDeleted" id = "imageToDelete#{neume.id}" hidden)
         div(id = "images#{neume.id}")
           form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='hidden',value='DELETE',name='_method')
-        input(type='hidden',value='PUT',name='_method') 
-
-        button#btnSubmit(type="submit") submit
+          input(type='hidden',value='PUT',name='_method') 
+          button#btnSubmit(type="submit") submit
 script.
   Dropzone.autoDiscover = false;
   if (document.getElementById('dropzone#{neume.id}')) {
@@ -32,8 +30,9 @@ script.
     //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
-                  //For each image in the neume
-                  imageArray.forEach(function(element){
+              
+              //For each image in the neume
+              imageArray.forEach(function(element){
                   //creating a canvas
                   var canvas = document.createElement('canvas');
                   var ctx = canvas.getContext("2d");
