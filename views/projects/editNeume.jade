@@ -5,11 +5,15 @@ block content
         div(id = "dropzone#{neume.id}").dropzone(method='post', action='/image' name="image" required)
         .fallback
         p Images :
-        input(type="text", name="imageDeleted" id = "imageToDelete#{neume.id}" hidden)
         div(id = "images#{neume.id}")
-          form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
           input(type='hidden',value='PUT',name='_method') 
           button#btnSubmit(type="submit") submit
+
+          input(type="text", name="imageDeleted" id = "imageToDelete#{neume.id}" hidden)
+          form(action='/neumes/#{neume._id}/editImage',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='hidden',value='DELETE',name='_method')
+                    div(id = "imageDeleted")
+      
 script.
   Dropzone.autoDiscover = false;
   if (document.getElementById('dropzone#{neume.id}')) {
