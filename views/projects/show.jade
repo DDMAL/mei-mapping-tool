@@ -104,7 +104,7 @@ div.headerStyle
 
 body
  div
-  // The Modal
+  // The add new neume Modal
   #myModal.modal
     // Modal content
     .modal-content
@@ -117,7 +117,7 @@ body
     input(type='hidden',value='PUT',name='_method')
     button#editDone(type='submit' value = 'update' href = "/projects") Edit name
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
-  button#newNeumeButton Add Neume
+  button#myBtn Add Neume
 
   br
   a#logging-out(href='/' name = "logout") Logout
@@ -125,7 +125,11 @@ body
     .roundedCorners
       ul
           - each neume in neumes
-            
+              .modal(id = "editImages#{neume.id}")
+                Modal content
+                .modal-content
+                  span.close x
+                   h3 Edit Images
               button.collapsible.padding(id = "collapsible#{neume.id}") #{neume.name}
               form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                   .column
@@ -134,6 +138,7 @@ body
                          .panel-body
                             div(id = "image#{neume.id}")
                               p Images: 
+                                button( id = "editImagesButton#{neume.id}" type="button" ) Edit Images
                                 //link(href='/stylesheets/dropzone.css', rel='stylesheet')
                                 //div#dropzone-new.dropzone(method='post', action='/image' name="image" required)
                                // .fallback
@@ -262,7 +267,7 @@ body
                   });
 
                   //COLLAPSIBLE ELEMEMTS javascript
-                  //This doesn't seem to work for the collapsible elements when there is more than 1 element. 
+                   
                     var coll = document.getElementById("collapsible#{neume.id}");
                     coll.addEventListener("click", function() {
                     this.classList.toggle("active");
@@ -274,13 +279,10 @@ body
                     }
                     });
 
-                  //Edit the project name:
-                  var projectInput = document.getElementById("projectName");
-                  var editProjectNameButton = document.getElementById("editProjectName")
-                  editProjectNameButton.onclick = function(){
-                     projectInput.disabled = false;
-                  };
-                  editDone.onclick = function(){
-                     projectInput.disabled = true;
-                  };
-                  
+                  //Modals event listeners for every modal
+                  window.addEventListener('load', function() {
+                      initializeModal('myModal', 'myBtn');
+                      initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                    });
+
+                                      
