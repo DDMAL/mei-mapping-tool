@@ -8,6 +8,7 @@ body   {
   padding: 0;
   line-height: 1.5;
   font-size: 16px;
+  color : black;
 }
 /* styling our overall page */
 body     {
@@ -21,7 +22,12 @@ header   {
   color: #FFF;
   padding: 20px 30px;
 }
-
+h3 {
+  color : black;
+}
+.color{
+  color: black;
+}
 /* logo */
 #logo         {
   display: inline-block;

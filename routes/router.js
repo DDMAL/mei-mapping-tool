@@ -11,6 +11,11 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.get('/', function (req, res, next) {
   return res.render('index');
 });
+/* GET New project page. */
+router.get('/about', function(req, res) {
+     res.render('about', { title: 'About' });
+     //Adding the new names lines
+});
 
 //POST route for updating data
 router.post('/', function (req, res, next) {
