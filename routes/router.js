@@ -70,6 +70,23 @@ router.post('/', function (req, res, next) {
       }
 
     });
+  } else if (req.body.username && req.body.logpassword) {
+      
+    User.authenticate(req.body.username, req.body.logpassword, function (error, user) {
+      if (error || !user) {
+        var err = new Error('Wrong email or password. Please try again.');
+        alert(err, 'yad');
+        return res.redirect('back');
+      } else {
+        if (user.role == "editor"){
+          req.session.userId = user._id;
+        return res.redirect('/projects');}
+
+        req.session.userId = user._id;
+        return res.redirect('/projects');
+      }
+
+    });
   } else {
     var err = new Error('All fields are required.');
         alert(err, 'yad');

@@ -25,6 +25,7 @@ var UserSchema = new mongoose.Schema({
 });
 
 //authenticate input against database
+//Add username to the schema too!
 UserSchema.statics.authenticate = function (email, password, callback) {
   User.findOne({ email: email })
     .exec(function (err, user) {
