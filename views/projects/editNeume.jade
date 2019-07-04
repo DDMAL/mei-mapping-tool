@@ -71,6 +71,10 @@ script.
                   canvas.appendChild(image);//the image is appended
 
                   //We can create a delete button here 
-                  //We also append it tp the imageCard
+                  var button = document.createElement("BUTTON");
+                  button.className = "button button3";
+                  button.innerHTML = "x";
+                  imageCard.appendChild(button);
+                  //We also append it to the imageCard
                   });
 
