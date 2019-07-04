@@ -129,7 +129,9 @@ body
                 Modal content
                 .modal-content
                   span.close x
-                   h3 Edit Images
+                  h4 Edit Images
+                  include editNeume.jade
+
               button.collapsible.padding(id = "collapsible#{neume.id}") #{neume.name}
               form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                   .column
@@ -139,9 +141,6 @@ body
                             div(id = "image#{neume.id}")
                               p Images: 
                                 button( id = "editImagesButton#{neume.id}" type="button" ) Edit Images
-                                //link(href='/stylesheets/dropzone.css', rel='stylesheet')
-                                //div#dropzone-new.dropzone(method='post', action='/image' name="image" required)
-                               // .fallback
                   .column
                     .height
                      .card 

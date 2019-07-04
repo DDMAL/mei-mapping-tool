@@ -1,0 +1,24 @@
+block content
+    h5.
+      #{neume.name}
+    form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+        div(id = "dropzone#{neume.id}").dropzone(method='post', action='/image' name="image" required)
+        .fallback
+        button#btnSubmit(type="submit") submit
+script.
+  Dropzone.autoDiscover = false;
+  if (document.getElementById('dropzone#{neume.id}')) {
+    var myDropzone = new Dropzone("div#dropzone#{neume.id}", {
+        maxFileSize: 100,
+        acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
+        addRemoveLinks: true,
+    });
+    }
+    myDropzone.on('removedfile', function (file) {
+    //Need to add the remove file to true from the dropzone.
+        var fs = require('fs');
+          console.log(file);
+
+        /* here do AJAX call to your server ... */
+        //try an ajax call with a php file
+        });
