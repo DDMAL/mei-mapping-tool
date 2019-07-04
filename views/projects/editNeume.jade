@@ -1,7 +1,7 @@
 block content
     h5.
       #{neume.name}
-    form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+    form(action='/neumes/#{neume._id}/editImage',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
         div(id = "dropzone#{neume.id}").dropzone(method='post', action='/image' name="image" required)
         .fallback
         p Images :
