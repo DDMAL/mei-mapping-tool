@@ -126,7 +126,7 @@ body
       ul
           - each neume in neumes
             
-              button.collapsible.padding #{neume.name}
+              button.collapsible.padding(id = "collapsible#{neume.id}") #{neume.name}
               form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                   .column
                      .card
@@ -226,7 +226,6 @@ body
                   canvas.appendChild(image);//the image is appended
                   });
 
-
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
                   //console.log(imageArray);
@@ -261,11 +260,11 @@ body
                   imageCard.appendChild(canvas);
                   canvas.appendChild(image);//the image is appended
                   });
-                    var coll = document.getElementsByClassName("collapsible");
-                    var i;
 
-                    for (i = 0; i < coll.length; i++) {
-                    coll[i].addEventListener("click", function() {
+                  //COLLAPSIBLE ELEMEMTS javascript
+                  //This doesn't seem to work for the collapsible elements when there is more than 1 element. 
+                    var coll = document.getElementById("collapsible#{neume.id}");
+                    coll.addEventListener("click", function() {
                     this.classList.toggle("active");
                     var content = this.nextElementSibling;
                     if (content.style.display === "none") {
@@ -274,7 +273,6 @@ body
                     content.style.display = "none";
                     }
                     });
-                    }
 
                   //Edit the project name:
                   var projectInput = document.getElementById("projectName");
