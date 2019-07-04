@@ -254,57 +254,43 @@ router.route('/:id/editImage')
           })
       });
   })
-  //DELETE a neume by ID
+  //DELETE an image by ID
   .delete(function (req, res){
+    //imageDeleted is the path of the image we want to delete.
+    var imageToDelete = req.body.imageDeleted;
+    //This is the p element
+     //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
+      //req.body.imageDeleted doesnt seem to work
       //find neume by ID
       mongoose.model('neume').findById(req.id, function (err, neume) {
         var ID_project = neume.project;
+        //remove from neume array the imagepath = imageDeleted
+
           if (err) {
               return console.error(err);
           } else {
-              //remove it from Mongo
-              neume.remove(function (err, neume) {
-                  if (err) {
-                      return console.error(err);
-                  } else {
-                      //Returning success messages saying it was deleted
-                      console.log('DELETE removing ID: ' + neume._id);
-                      mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
-                        neumeFinal = neumes;
-                        //console.log(neumeFinal);//This works!!!
-                      });
-                      // delete file named 'neumeID.xml'
-                        fs.unlink("xmlFiles/"+neume._id + '.xml',function(err){
-                            if(err) throw err;
-
-                            console.log('File deleted!');
-                        });
-                        //deleting the images if the neume is deleted
-                        neume.imagePath.forEach(function(image){
-                          fs.unlink('uploads/' + image, (err) => {
-                            if (err) throw err;
-                            console.log('successfully deleted');
-                         mongoose.model('image').remove({imagepath : image}, function (err, image) {
-                            console.log(image)});
-                          });
-                          })
-                
-                      res.format({
-                          //HTML returns us back to the main page, or you can create a success page
-                            html: function(){
-                                 res.redirect("back");
-                           },
-                           //JSON returns the item with the message that is has been deleted
-                          json: function(){
-                                 res.json({message : 'deleted',
-                                     item : neume
-                                 });
-                           }
-                        });
+            //deleting the images from the image model 
+              fs.unlink('uploads/' + imageToDelete, (err) => {
+                if (err) throw err;
+                console.log('successfully deleted');
+             mongoose.model('image').remove({imagepath : imageToDelete}, function (err, image) {
+                console.log(image)});
+              });
+        
+              res.format({
+                  //HTML returns us back to the main page, or you can create a success page
+                    html: function(){
+                         res.redirect("back");
+                   },
+                   //JSON returns the item with the message that is has been deleted
+                  json: function(){
+                         res.json({message : 'deleted',
+                             item : neume
+                         });
+                   }
+                });
                   }
               });
-          }
-      });
   });
 
 // route middleware to validate :id

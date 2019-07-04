@@ -5,13 +5,11 @@ block content
         div(id = "dropzone#{neume.id}").dropzone(method='post', action='/image' name="image" required)
         .fallback
         p Images :
+        input(type="text", name="imageDeleted" id = "imageToDelete#{neume.id}" hidden)
         div(id = "images#{neume.id}")
-        //These lignes are making the updated values null
-        //We just want to update the images, so we might need to create a new route that does the
-        //same thing as the update, but that simply updates the images instead of updating everything. 
-        input(type='hidden',value='PUT',name='_method')
-
-        //showing the images from the database and deleting them:
+          form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='hidden',value='DELETE',name='_method')
+        input(type='hidden',value='PUT',name='_method') 
 
         button#btnSubmit(type="submit") submit
 script.
@@ -65,15 +63,26 @@ script.
                   }
                   //getting the source of the image from the gallery
                   image.src = "/gallery/" + element; //getting the file paths
+
+                  //This seems to be undefined. 
+                  var divImage = document.getElementById("divImage");
+                  var imageDeletedPath = document.getElementById("imageToDelete#{neume.id}");
+                  imageDeletedPath.value = element;
+                  imageDeletedPath.name = "imageDeleted";
+                  imageDeletedPath.hidden = true;
+                  
                   var imageCard = document.getElementById("images#{neume.id}");//getting
                   //add the image to the canvas
+                  imageCard.appendChild(imageDeletedPath);
                   imageCard.appendChild(canvas);
+                  console.log(imageCard); //This is appended
                   canvas.appendChild(image);//the image is appended
 
                   //We can create a delete button here 
                   var button = document.createElement("BUTTON");
                   button.className = "button button3";
                   button.innerHTML = "x";
+                  button.type = "submit";
                   imageCard.appendChild(button);
                   //We also append it to the imageCard
                   });
