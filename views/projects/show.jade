@@ -157,14 +157,16 @@ body
                   .column
                      .card 
                       p Mei Snippet: 
-                      p Needs review?  #{neume.review}
-
-                         .panel.panel-default
-                          .panel-body
-                               div(id = "#{neume.id}")
-                                 p 
-                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-
+                       .panel.panel-default
+                        .panel-body
+                             div(id = "#{neume.id}")
+                               p 
+                              textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                          p Needs review? 
+                          select(name='review', style = 'display:block;')
+                            option(selected = "selected" hidden) #{neume.review}
+                            option(value='Yes') Yes
+                            option(value='No') No
                   input(type='hidden',value='PUT',name='_method')
                   button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
                   br
