@@ -13,7 +13,7 @@ body
   form(action='/neumes/#{neume._id}/deleteImage',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageForm")
             input(type="text", name="imageDeleted", id = "imageToDelete#{neume.id}" hidden required)     
             input(type='hidden',value='DELETE',name='_method')
-            button#deleteImagebutton(type = "submit" hidden) submit
+            button(type = "submit" id ="deleteImagebutton#{neume.id}" hidden) submit
             //submit button works
       
 script.
@@ -85,13 +85,14 @@ script.
 
                   //We can create a delete button here 
                   var buttonDeleteImage = document.createElement("BUTTON");
+                  buttonDeleteImage.id = "buttonDeleteImage#{neume.id}"
                   buttonDeleteImage.className = "button button3";
                   buttonDeleteImage.innerHTML = "x";
                   buttonDeleteImage.type = "button";
                   
                   imageCard.appendChild(buttonDeleteImage);
-                  $(buttonDeleteImage).click(function(){
-                      $("#deleteImagebutton").click();
+                  $("#buttonDeleteImage#{neume.id}").click(function(){
+                      $("#deleteImagebutton#{neume.id}").click();
                   })
                   //We also append it to the input element from the form
                   });
