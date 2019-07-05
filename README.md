@@ -1,4 +1,4 @@
-# Mei-mapping-tool
+# Cress 🎵
 Web-based app to map squiggles to MEI snippets (under construction)
 
 ## Requirements
@@ -35,7 +35,7 @@ Web-based app to map squiggles to MEI snippets (under construction)
   
   You should be able to see the message *node ./bin/www*
 
-You can get the most recent version of the mei-mapping-tool by accessing the page http://localhost:3000/neumes
+You can get the most recent version of the mei-mapping-tool by accessing the page http://localhost:3000/
 
 ## Mongodb installation
 
@@ -61,26 +61,28 @@ To make sure mongodb is running in your application, you can add this command to
  
 ## Instructions
 
-The mei-mapping-tool has 3 main parts : log-in, projects and mei mapping page.
+The mei-mapping-tool has 3 main parts : log-in, projects and classifier.
 
 ### Log-in
-To access the `log-in` page, you can go to the home page http://localhost:3000 . If you don't have an account, you'll need to create it in the sign up menu.
-Under the sign up menu, you can create your own username and password for your meiMapping project.
-After clicking the submit button, you will be redirected to the `projects` page :
+To access the `log-in` page, you can go to the home page http://localhost:3000 . If you don't have an account, you'll need to create it in the register menu.
+Under the sign up menu, you can create your own username and password for your mei-mapping project.
+After clicking the register button, you will be redirected to the `projects` page :
 http://localhost:3000/projects
 
 ### Projects
 To create a project, simply click on the add Project link and add a project name in the pop-up window. 
-Once the project has been created, a button with the name of the project will appear. To get access to the mei mapping tool, you can click on the button you created and you will be redirected to the `mapping editor page` http://localhost:3000/meiMapping
+Once the project has been created, a button with the name of the project will appear under `My Projects`. To get access to the classifier, you can click on the button you created and you will be redirected to the mapping editor page. `http://localhost:3000/projects/:id`
 
-### MEI Mapping (in development)
-The mei mapping page has 3 test elements. You can add elements by clicking on the `add` button and giving a name to your new element. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. 
+### Classifier (in development)
+The classifier has many features to create, update, delete and see the neumes. You can add neumes by clicking on the `add Neume` button and filling the information. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. 
 Starting from the left, the first section is the drag and drop section using `dropzone` where you can add images of your element. The second section is where you can add the `name, folio and description` of the element. The third section is the `Classifier label` that should have a proper syntax:
 
 `neume.pes.b.3` 
 
-The fourth element is the `MEI Snippet` that holds an `ace editor` where you can directly code the mei encoding related to your element. For the information to be stored in the database, you will need to press the save button.
+The fourth element is the `MEI Snippet` that holds an `ace editor` where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written down needs to be reviewed for mei errors.
+The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button `Update Name` to see your changes. 
 The home page of the header will redirect you to the projects page http://localhost:3000/projects
-
+## Edit image
+To add more images or delete previous images from the classifier, you can click on the `Edit images` button of the neume. A pop-up window with a view of the images and a dropzone to add images will appear. 
 ## Log-out
 To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://localhost:3000
