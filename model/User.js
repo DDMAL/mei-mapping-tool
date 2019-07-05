@@ -26,8 +26,27 @@ var UserSchema = new mongoose.Schema({
 
 //authenticate input against database
 //Add username to the schema too!
-UserSchema.statics.authenticate = function (email, password, callback) {
+UserSchema.statics.authenticateByEmail = function (email, password, callback) {
   User.findOne({ email: email })
+    .exec(function (err, user) {
+      if (err) {
+        return callback(err)
+      } else if (!user) {
+        var err = new Error('User not found.');
+        err.status = 401;
+        return callback(err);
+      }
+      bcrypt.compare(password, user.password, function (err, result) {
+        if (result === true) {
+          return callback(null, user);
+        } else {
+          return callback();
+        }
+      })
+    });
+}
+UserSchema.statics.authenticateByUsername = function (username, password, callback) {
+  User.findOne({ username: username })
     .exec(function (err, user) {
       if (err) {
         return callback(err)

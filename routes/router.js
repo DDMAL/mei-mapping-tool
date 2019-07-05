@@ -55,29 +55,24 @@ router.post('/', function (req, res, next) {
 
   } else if (req.body.logemail && req.body.logpassword) {
       
-    User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
+    User.authenticateByEmail(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
-        var err = new Error('Wrong email or password. Please try again.');
-        alert(err, 'yad');
-        return res.redirect('back');
-      } else {
-        if (user.role == "editor"){
-          req.session.userId = user._id;
-        return res.redirect('/projects');}
+        User.authenticateByUsername(req.body.logemail, req.body.logpassword, function (error, username) {
+        if (error || !username) {
+          var err = new Error('Wrong email/username or password. Please try again.');
+          alert(err, 'yad');
+          return res.redirect('back');
+        } else {
+          if (username.role == "editor"){
+            req.session.userId = username._id;
+          return res.redirect('/projects');}
 
-        req.session.userId = user._id;
-        return res.redirect('/projects');
-      }
+          req.session.userId = username._id;
+          return res.redirect('/projects');
+        }
 
-    });
-  } else if (req.body.username && req.body.logpassword) {
-      
-    User.authenticate(req.body.username, req.body.logpassword, function (error, user) {
-      if (error || !user) {
-        var err = new Error('Wrong email or password. Please try again.');
-        alert(err, 'yad');
-        return res.redirect('back');
-      } else {
+    }); 
+      }else {
         if (user.role == "editor"){
           req.session.userId = user._id;
         return res.redirect('/projects');}
