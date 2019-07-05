@@ -269,11 +269,6 @@ router.route('/:id/editImage')
           if (err) {
               return console.error(err);
           } else {
-            //remove from neume array the imagepath = imageDeleted
-            mongoose.model("neume").update( 
-      { _id: req.id },
-      { $pull: { imagePath : imageToDelete } },
-      { multi: true });
             //deleting the images from the image model 
               fs.unlink('uploads/' + imageToDelete, (err) => {
                 if (err) throw err;
@@ -316,6 +311,10 @@ router.route('/:id/deleteImage')
           if (err) {
               return console.error(err);
           } else {
+            //This works, when the page is reloaded.
+            mongoose.model('neume').findOneAndUpdate({_id: neume.id}, {$pull: {imagePath : imageToDelete}}, function(err, data){
+                console.log(err, data);
+              });
             //remove from neume array the imagepath = imageDeleted
             //deleting the images from the image model 
               fs.unlink('uploads/' + imageToDelete, (err) => {
