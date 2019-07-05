@@ -115,7 +115,7 @@ body
   form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
     input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
     input(type='hidden',value='PUT',name='_method')
-    button#editDone(type='submit' value = 'update' href = "/projects") Edit name
+    button#editDone(type='submit' value = 'update' href = "/projects") Update name
   a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
   button#myBtn Add Neume
 

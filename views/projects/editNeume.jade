@@ -68,19 +68,20 @@ script.
                   }
                   //getting the source of the image from the gallery
                   image.src = "/gallery/" + element; //getting the file paths
-
+                  var imageSrc = image.src;
+                  console.log(imageSrc);
                   //This element is linked to multiple neumes. We need to change 
                   //its id so that it is unique to the neume we want to delete the image from.
                   var imageDeletedPath = document.getElementById("imageToDelete#{neume.id}");
                   imageDeletedPath.value = element;
                   imageDeletedPath.name = "imageDeleted";
                   imageDeletedPath.hidden = true;
-                  console.log(imageDeletedPath);
+                  //console.log(imageDeletedPath);
                   
                   var imageCard = document.getElementById("images#{neume.id}");//getting
                   //add the image to the canvas
                   imageCard.appendChild(canvas);
-                  console.log(imageCard); //This is appended
+                  //console.log(imageCard); //This is appended
                   canvas.appendChild(image);//the image is appended
 
                   //We can create a delete button here 
@@ -89,10 +90,13 @@ script.
                   buttonDeleteImage.innerHTML = "x";
                   buttonDeleteImage.type = "button";
                   
+                  if (element == "") {
+                    console.log("no image");
+                    $(buttonDeleteImage).hide();
+                  }
                   imageCard.appendChild(buttonDeleteImage);
                   $(buttonDeleteImage).click(function(){
                       $("#deleteImagebutton#{neume.id}").click();
                   })
-                  //We also append it to the input element from the form
                   });
 
