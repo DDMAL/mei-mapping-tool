@@ -1,0 +1,54 @@
+body {
+  background: white;
+  background-image: url("paper.gif");	
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, system-ui;
+}
+
+a {
+  color: #000000;
+  padding-left: 10px;
+
+}
+.text{font: 14px "Lucida Grande", Helvetica, Arial, system-ui;}
+.buttonAdd
+{border-radius: 12px;
+padding: 10px 24px;
+}
+h1 { text-align: center;  font: 35px "Lucida Grande", Helvetica, Arial, system-ui;}
+h2{ text-align: left;  font: 24px "Lucida Grande", Helvetica, Arial, system-ui;}
+.container {
+  column-count: 10;
+}
+FlexMasonry.init('.grid');
+
+FlexMasonry.init('.grid',{
+	responsive: false,
+	numCols: 6
+	});
+
+FlexMasonry.refresh('.grid',{
+  // options
+});
+
+/* Style the button that is used to open and close the collapsible content */
+ .collapsible {
+    background-color:#01A7C2;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+    }
+    .active, .collapsible:hover {
+    background-color:#A3BAC3;
+    }
+    .content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    }

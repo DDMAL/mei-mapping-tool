@@ -1,0 +1,128 @@
+body { //Real body
+  background-color: #ffffff.;
+  font-family: 'Poppins', sans-serif;
+  border-width: 10px;
+}
+
+#container1 {
+  margin: auto;
+  width: 400px;
+  height: 400px;
+  background-color: #f0f0f0;
+  position: fixed;
+  display: flex;
+}
+
+.z_button {
+  background-color: #01A7C2;
+  height: 25px;
+  outline: 0;
+  position:absolute;
+  display: block;
+  margin: -40px 10px 0px 3px;
+  color: #fff;
+  border-radius: 100%;
+  width: 25px;
+}
+
+.z_button:hover {
+  cursor: default;
+  background-color:#81bcc6;
+}
+
+.z_button:focus {
+  animation-name: amazing_z_button, amazing_z_button2;
+  animation-delay: 0s, 0.25s;
+  animation-duration: 0.25s, 0.25s;
+  -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  animation-fill-mode: forwards;
+}
+
+.z_button:focus #z_plus {
+  animation-name: amazing_z_plus;
+  animation-delay: 0s;
+  animation-duration: 0.1s;
+  animation-fill-mode: forwards;
+}
+
+.z_button:focus ~ a.z_menu:nth-child(2) {
+  animation-name: amazing_z_menu;
+  animation-delay: 0.25s;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+.z_button:focus ~ a.z_menu:nth-child(3) {
+  animation-name: amazing_z_menu;
+  animation-delay: 0.30s;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+.z_button:focus ~ a.z_menu:nth-child(4) {
+  animation-name: amazing_z_menu;
+  animation-delay: 0.35s;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+.z_button:focus ~ a.z_menu:nth-child(5) {
+  animation-name: amazing_z_menu;
+  animation-delay: 0.40s;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+.z_plus {
+  text-align: center;
+  line-height: 24px;
+  font-size: 30px;
+}
+
+.z_menu {
+  z-index: 2;
+  width: 100px;
+  text-align: center;
+  margin-bottom: 17px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0);
+  align-self: flex-end;
+  visibility: hidden;
+}
+
+.z_menu:hover {
+  text-decoration: underline;
+}
+
+.z_menu:active {
+  visibility: visible;
+}
+
+@keyframes amazing_z_button {
+  to {
+    margin-top: 350px;
+    border-radius: 0%;
+  }
+}
+
+@keyframes amazing_z_button2 {
+  to {
+    margin-left: 0px;
+    width: 100%;
+  }
+}
+
+@keyframes amazing_z_plus {
+  to {
+    color: rgba(255, 255, 255, 0);
+    margin: 18px 200px 0px 18px;
+  }
+}
+
+@keyframes amazing_z_menu {
+  to {
+    color: rgb(255, 255, 255);
+    visibility: visible;
+  }
+}

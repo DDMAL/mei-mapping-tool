@@ -1,0 +1,74 @@
+doctype html
+html
+  head
+  .column
+    title MEI Mapping Projects
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    link(rel="images" href="/images/CF-005 (1).png")
+    //Column parameters
+  div
+    header
+      // our main logo
+      a#logo(href='#')
+        span MEI Mapping Projects
+      // main navigation links
+      nav
+        ul
+          li
+            a(href='/about') About
+          li
+            a(href='/projects') Projects
+          li
+            a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+          li
+            a(href='/') Log out
+    // the content
+    main
+      // hero content
+      .hero
+        // content for the hero
+        .hero-content
+
+          h1.hero-title 
+          h1.
+               #{title} 
+          p All of your mei-mapping projects, in one interface.
+          a(href='#section') Learn more
+          br
+          br
+          div     
+            // testimonials section
+            .site-section.site-section-third
+                div#section
+                 .site-section-inside
+                  .color
+                    .section-header
+                    h3 Log-in
+                    c To access the log-in page, you can go to the home page http://localhost:3000 . If you don't have an account, you'll need to create it in the sign up menu. Under the sign up menu, you can create your own username and password for your meiMapping project. After clicking the submit button, you will be redirected to the projects page : http://localhost:3000/projects
+
+                    h3 Projects
+                    c To create a project, simply click on the add Project link and add a project name in the pop-up window. Once the project has been created, a button with the name of the project will appear. To get access to the mei mapping tool, you can click on the button you created and you will be redirected to the mapping editor page http://localhost:3000/meiMapping
+
+                    h3 MEI Mapping (in development)
+                    c The mei mapping page has 3 test elements. You can add elements by clicking on the add button and giving a name to your new element. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. Starting from the left, the first section is the drag and drop section using dropzone where you can add images of your element. The second section is where you can add the name, folio and description of the element. The third section is the Classifier label that should have a proper syntax:
+
+                    c neume.pes.b.3
+
+                    c The fourth element is the MEI Snippet that holds an ace editor where you can directly code the mei encoding related to your element. For the information to be stored in the database, you will need to press the save button. The home page of the header will redirect you to the projects page http://localhost:3000/projects
+
+                    h3 Log-out
+                    c To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://localhost:3000
+
+              footer
+                //img(src='img/avatar.jpeg', alt='Footer Logo')
+                span
+                  | My Website
+                  br
+                  | Copyright © 2016-3010
+
+
+            script(type='text/javascript' src='/javascripts/addProject.js')

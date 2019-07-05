@@ -1,0 +1,71 @@
+doctype html
+html
+  head
+  .column
+    title MEI Mapping Projects
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    link(rel="images" href="/images/CF-005 (1).png")
+    //Column parameters
+  div
+    header
+      // our main logo
+      a#logo(href='#')
+        span MEI Mapping Projects
+      // main navigation links
+      nav
+        ul
+          li
+            a(href='/about') About
+          li
+            a(href='/projects') Projects
+          li
+            a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+          li
+            a(href='/') Log out
+    // the content
+    main
+      // hero content
+      .hero
+        // content for the hero
+        .hero-content
+
+          h1.hero-title 
+          h1.
+               #{title} 
+          p All of your mei-mapping projects, in one interface.
+          a#addingNeume(href='/projects/new') Add project  
+          a(href='#') Learn more
+          br
+          br
+          div     
+            // testimonials section
+            .site-section.site-section-secondary
+                 div#section
+                  .site-section-inside
+                    .section-header
+                      h2.projectHeader My Projects
+                      ul
+                          - each project, i in projects
+                             button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
+                             br
+                             form(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                               input(type='hidden',value='DELETE',name='_method')
+                               button(type='submit' class="button button3").
+                                      x
+                               br
+                               br
+
+              footer
+                //img(src='img/avatar.jpeg', alt='Footer Logo')
+                span
+                  | My Website
+                  br
+                  | Copyright © 2016-3010
+
+
+            script(type='text/javascript' src='/javascripts/addProject.js')
+                      
