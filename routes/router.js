@@ -58,6 +58,7 @@ router.post('/', function (req, res, next) {
     User.authenticateByEmail(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
         User.authenticateByUsername(req.body.logemail, req.body.logpassword, function (error, username) {
+          console.log(username);
         if (error || !username) {
           var err = new Error('Wrong email/username or password. Please try again.');
           alert(err, 'yad');
