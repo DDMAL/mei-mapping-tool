@@ -86,14 +86,17 @@ script.
 
                   //We can create a delete button here 
                   var buttonDeleteImage = document.createElement("BUTTON");
+                  buttonDeleteImage.id = "buttonDeleteImage" + element;
                   buttonDeleteImage.className = "button button3";
                   buttonDeleteImage.innerHTML = "x";
                   buttonDeleteImage.type = "button";
                   
+                  //Hide the button is there is no image
                   if (element == "") {
                     console.log("no image");
                     $(buttonDeleteImage).hide();
                   }
+                  //Append the button to the image card.
                   imageCard.appendChild(buttonDeleteImage);
                   $(buttonDeleteImage).click(function(){
                       $("#deleteImagebutton#{neume.id}").click();
