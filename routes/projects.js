@@ -14,7 +14,10 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
+//Arrays for the neumes and the users
 global.neumeFinal = [];
+global.userFinal = []; //The user needs to be added in all the routes
+
 
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
@@ -32,6 +35,10 @@ router.route('/')
                   neumeFinal = neumes;
                   //console.log(neumeFinal);//This works!!!
                 });
+                mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                userFinal = users;
+               // console.log(userFinal);//This works!!!
+              });
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -110,6 +117,10 @@ router.route('/')
                   neumeFinal = neumes;
                   //console.log(neumeFinal);//This works!!!
                 });
+                mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                userFinal = users;
+               // console.log(userFinal);//This works!!!
+              });
                   //project has been created
                   console.log('POST creating new project: ' + project);
               
@@ -167,6 +178,10 @@ router.param('id', function(req, res, next, id) {
             neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
           });
+          mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                userFinal = users;
+               // console.log(userFinal);//This works!!!
+              });
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
             //console.log(project);
             // once validation is done save the new item in the req
@@ -258,6 +273,10 @@ router.route('projects/:id/edit')
                       mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
+                      });
+                      mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                        userFinal = users;
+                       // console.log(userFinal);//This works!!!
                       });
                       res.format({
                           //HTML returns us back to the main page, or you can create a success page
@@ -541,6 +560,7 @@ router.route('/:id') //This is where the classifier would be
     var projectName = req.body.projectName;
     console.log(projectName);
     global.nameOfProject = projectName;
+  
     mongoose.model('project').findById(req.id, function (err, project) {
 
       if (err) {
@@ -550,6 +570,11 @@ router.route('/:id') //This is where the classifier would be
         //Getting the neumes for each project and showing them in the console!!
         //Element in face
         console.log(project._id);
+           mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                userFinal = users;
+               // console.log(userFinal);//This works!!!
+              });
+           //console.log(userFinal);//This works! 
            mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
             neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
@@ -558,13 +583,17 @@ router.route('/:id') //This is where the classifier would be
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+        
         res.format({
           html: function(){
-            console.log(neumeFinal)//This is shown on the console!
+            console.log(neumeFinal); //This is shown on the console!
+            console.log(userFinal)//This is shown on the console!
+            
               res.render('projects/show', {
                 "projectdob" : projectdob,
                 "project" : project,
-                "neumes" : neumeFinal
+                "neumes" : neumeFinal,
+                "users" : userFinal
               });
           },
           json: function(){
