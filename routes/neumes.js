@@ -258,6 +258,7 @@ router.route('/:id/editImage')
   .delete(function (req, res){
     //imageDeleted is the path of the image we want to delete.
     var imageToDelete = req.body.imageDeleted;
+    console.log(imageToDelete);
     //This is the p element
      //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
       //req.body.imageDeleted doesnt seem to work
@@ -298,7 +299,6 @@ router.route('/:id/editImage')
                   }
               });
   });
-
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');

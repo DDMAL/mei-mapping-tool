@@ -1,18 +1,20 @@
 block content
+body
     h5.
       #{neume.name}
     form(action='/neumes/#{neume._id}/editImage',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
         div(id = "dropzone#{neume.id}").dropzone(method='post', action='/image' name="image" required)
         .fallback
         p Images :
-        input(type="text", name="imageDeleted" id = "imageToDelete#{neume.id}" hidden)
-        div(id = "images#{neume.id}")
+          div(id = "images#{neume.id}")
           input(type='hidden',value='PUT',name='_method') 
           button#btnSubmit(type="submit") submit
     
-    form(action='/neumes/#{neume._id}/editImage',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageForm")
-              input(type='hidden',value='DELETE',name='_method')
-              button#submitImageDeleted(type="submit" hidden) submit
+  form(action='/neumes/#{neume._id}/deleteImage',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageForm")
+            input(type="text", name="imageDeleted", id = "imageToDelete#{neume.id}" hidden required)     
+            input(type='hidden',value='DELETE',name='_method')
+            button#deleteImagebutton(type = "submit" hidden) submit
+            //submit button works
       
 script.
   Dropzone.autoDiscover = false;
@@ -67,12 +69,12 @@ script.
                   //getting the source of the image from the gallery
                   image.src = "/gallery/" + element; //getting the file paths
 
-                  //This seems to be undefined. 
-                  var div = document.getElementById("imageDeleted");
+                  //This element is correct. 
                   var imageDeletedPath = document.getElementById("imageToDelete#{neume.id}");
                   imageDeletedPath.value = element;
                   imageDeletedPath.name = "imageDeleted";
                   imageDeletedPath.hidden = true;
+                  console.log(imageDeletedPath);
                   
                   var imageCard = document.getElementById("images#{neume.id}");//getting
                   //add the image to the canvas
@@ -82,17 +84,15 @@ script.
                   canvas.appendChild(image);//the image is appended
 
                   //We can create a delete button here 
-                  var button = document.createElement("BUTTON");
-                  button.className = "button button3";
-                  button.innerHTML = "x";
-                  button.onclick = function Function(){
-                    var submitImageDeletedForm = document.getElementById("submitImageDeleted");
-                    submitImageDeleteForm.click();
-                    //Check javascript value for code. 
-
-                  }
+                  var buttonDeleteImage = document.createElement("BUTTON");
+                  buttonDeleteImage.className = "button button3";
+                  buttonDeleteImage.innerHTML = "x";
+                  buttonDeleteImage.type = "button";
                   
-                  imageCard.appendChild(button);
+                  imageCard.appendChild(buttonDeleteImage);
+                  $(buttonDeleteImage).click(function(){
+                      $("#deleteImagebutton").click();
+                  })
                   //We also append it to the input element from the form
                   });
 
