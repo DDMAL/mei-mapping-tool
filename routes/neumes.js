@@ -112,6 +112,7 @@ router.route('/')
         var mei = req.body.mei;
         var dob = req.body.dob;
         var ID_project = req.body.ID_project;
+        var review = req.body.review;
 
         //call the create function for our database
         mongoose.model('neume').create({
@@ -120,6 +121,7 @@ router.route('/')
             description : description,
             classification : classification,
             mei : mei,
+            review : review,
             dob : dob,
             imagePath : imageArray,
             project : ID_project
@@ -219,6 +221,7 @@ router.route('/:id/editImage')
       var description = req.body.description;
       var classification = req.body.classification;
       var mei = req.body.mei;
+      var review = req.body.review;
       var dob = req.body.dob;
       var projectName = req.body.projectName;
       global.editArray = [];
@@ -315,7 +318,7 @@ router.route('/:id/deleteImage')
             mongoose.model('neume').findOneAndUpdate({_id: neume.id}, {$pull: {imagePath : imageToDelete}}, function(err, data){
                 console.log(err, data);
               });
-            
+
             //remove from neume array the imagepath = imageDeleted
             //deleting the images from the image model 
               fs.unlink('uploads/' + imageToDelete, (err) => {
@@ -439,6 +442,7 @@ router.route('/:id/edit')
 	    var folio = req.body.folio;
       var description = req.body.description;
       var classification = req.body.classification;
+      var review = req.body.review;
       var mei = req.body.mei;
 	    var dob = req.body.dob;
       var projectName = req.body.projectName;
@@ -455,6 +459,7 @@ router.route('/:id/edit')
               description : description,
               classification : classification,
               mei : mei,
+              review : review,
 	            dob : dob,
               imagePath : editArray //adding the image to the image array without reinitializng everything
 	        }, function (err, neumeID) {
