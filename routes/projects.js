@@ -27,7 +27,7 @@ router.route('/')
     .get(function(req, res, next) {
       projectIds = req.body._id;
         //retrieve all projects from Mongo
-        mongoose.model('project').find({}, function (err, projects) {
+        mongoose.model('project').find({userID : req.session.userId}, function (err, projects) {
               if (err) {
                   return console.error(err);
               } else {
@@ -105,9 +105,12 @@ router.route('/')
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         var name = req.body.name;
+        var projectUsername = req.session.userId;
+        console.log(projectUsername); //This is undefined. 
         //call the create function for our database
         mongoose.model('project').create({
-            name : name
+            name : name,
+            userID : projectUsername //This will be the userID
              
         }, function (err, project) {
               if (err) {
