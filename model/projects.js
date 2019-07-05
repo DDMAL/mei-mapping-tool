@@ -5,7 +5,7 @@ var projectSchema = new mongoose.Schema({
 //Make sure the image path is linked to the user id
 //The images always have a new id
   dob: { type: Date, default: Date.now },
-  userID : String
+  userID : [String]
 });
 
 mongoose.model('project', projectSchema);
