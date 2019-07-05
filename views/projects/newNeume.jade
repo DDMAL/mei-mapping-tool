@@ -28,11 +28,15 @@ block content
 			input#inputClassification(type="text", placeholder="ex. neume.punctum", name="classification")
 
 		p MEI Snippet:
-			//input#inputMei(type="text", placeholder="ex. <neume>", name="mei")
 			#editor(name = "aceEdit")
 			textarea#mei(name='mei', placeholder="ex. <neume>" style='display: none;')
+			p Put the MEI code under review?
+			select(name='review', style = 'display:block;')
+				option(value='yes') Yes
+				option(value='no') No
 			p#URL(style = 'display:none;')
 			input#inputID(type="text", name="ID_project")
+
 		script.
 			var url = window.location.href;
 			var urlDOM = document.getElementById("URL").innerHTML = url;

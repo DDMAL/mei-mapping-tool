@@ -69,7 +69,8 @@ script.
                   //getting the source of the image from the gallery
                   image.src = "/gallery/" + element; //getting the file paths
 
-                  //This element is correct. 
+                  //This element is linked to multiple neumes. We need to change 
+                  //its id so that it is unique to the neume we want to delete the image from.
                   var imageDeletedPath = document.getElementById("imageToDelete#{neume.id}");
                   imageDeletedPath.value = element;
                   imageDeletedPath.name = "imageDeleted";
