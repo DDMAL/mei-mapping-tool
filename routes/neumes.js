@@ -299,6 +299,50 @@ router.route('/:id/editImage')
                   }
               });
   });
+
+  /* Update edit images. */
+router.route('/:id/deleteImage')
+  //DELETE an image by ID
+  .delete(function (req, res){
+    //imageDeleted is the path of the image we want to delete.
+    var imageToDelete = req.body.imageDeleted; //this seems to be undefined.
+    //This is the p element
+     //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
+      //req.body.imageDeleted doesnt seem to work
+      //find neume by ID
+      mongoose.model('neume').findById(req.id, function (err, neume) {
+        var ID_project = neume.project;
+
+          if (err) {
+              return console.error(err);
+          } else {
+            //remove from neume array the imagepath = imageDeleted
+            //deleting the images from the image model 
+              fs.unlink('uploads/' + imageToDelete, (err) => {
+                if (err) throw err;
+                console.log('successfully deleted');
+             mongoose.model('image').remove({imagepath : imageToDelete}, function (err, image) {
+                console.log(imageToDelete)});
+              });
+        
+              res.format({
+                  //HTML returns us back to the main page, or you can create a success page
+                    html: function(){
+                         res.redirect("back");
+                   },
+                   //JSON returns the item with the message that is has been deleted
+                  json: function(){
+                         res.json({message : 'deleted',
+                             item : neume
+                         });
+                   }
+
+                });
+              imageArray = [];
+                  }
+              });
+  });
+
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');
