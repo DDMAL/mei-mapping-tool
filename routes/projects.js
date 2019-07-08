@@ -682,10 +682,7 @@ router.route('/:id/edit')
 	                if (err) {
 	                    return console.error(err);
 	                } else {
-                    mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
-                        neumes.remove().exec();
-                        //console.log(neumeFinal);//This works!!!
-                      });
+                    mongoose.model('neume').remove({project : project._id}).exec();
 	                    //Returning success messages saying it was deleted
 	                    console.log('DELETE removing ID: ' + project._id);
 	                    res.format({
