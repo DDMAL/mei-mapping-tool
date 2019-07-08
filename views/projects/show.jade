@@ -78,6 +78,7 @@ html
 
 
   link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
+  link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
 //Header parameters
 div.headerStyle
  ul
@@ -140,7 +141,7 @@ body
                          .panel-body
                             div(id = "image#{neume.id}")
                               p Images: 
-                                button( id = "editImagesButton#{neume.id}" type="button" ) Edit Images
+                                button( id = "editImagesButton#{neume.id}" type="button" class = "button button2") Edit Images
                   .column
                     .height
                      .card 
@@ -168,12 +169,12 @@ body
                             option(value='Yes') Yes
                             option(value='No') No
                   input(type='hidden',value='PUT',name='_method')
-                  button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
+                  button#btnSubmit(type='submit', value = 'update' href = "/neumes" class = "button button2Update") Update
                   br
                   br
                 form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='hidden',value='DELETE',name='_method')
-                    button(type='submit').
+                    button(type='submit' class = "button button3").
                         Delete
                   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
