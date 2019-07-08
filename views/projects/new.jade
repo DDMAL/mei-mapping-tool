@@ -1,13 +1,18 @@
-extends ../layout
-
-head
-block content
-	h1.
-		#{title}
-	form#formAddproject(name="addproject",method="post",action="/projects")
-		
-		p Name: 
-			input#inputName(type="text", placeholder="ex. Project", name="name" required)
-		p
-			button#btnSubmit(type="submit") submit
-			
+doctype html
+html(lang='en')
+    
+  body
+    .container
+      // Trigger the modal with a button
+      button.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Add project
+      // Modal
+      #myModal.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Modal Header
+            .modal-body
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
