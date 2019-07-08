@@ -32,8 +32,8 @@ block content
 			textarea#mei(name='mei', placeholder="ex. <neume>" style='display: none;')
 			p Put the MEI code under review?
 			select(name='review', style = 'display:block;' id = "underReview")
-				option(value='Yes') Yes
 				option(value='No') No
+				option(value='Yes') Yes
 			p#URL(style = 'display:none;')
 			input#inputID(type="text", name="ID_project")
 
@@ -73,6 +73,10 @@ block content
 				if (annotation === "error") {
 				has_error = true;
 				document.getElementById("btnSubmit").disabled = true;
+					if(document.getElementById("underReview").value == "Yes")
+						document.getElementById("btnSubmit").disabled = false;
+					if(document.getElementById("underReview").value == "No")
+						document.getElementById("btnSubmit").disabled = true;
 				}
 				else
 					document.getElementById("btnSubmit").disabled = false;
