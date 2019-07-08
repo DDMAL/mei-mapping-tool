@@ -28,7 +28,7 @@
   border: 2px solid #4caf50;
 }
 .button1UpdateName {
-  margin: auto;
+  margin : 0px 0px 10px 0px;
   float: right;
   background-color: white; 
   color: black; 
@@ -67,6 +67,7 @@
   color: black; 
   border: 2px solid #008CBA;
   width : 15%;
+   margin : 0px 0px 10px 0px;
 }
 .button2:hover {
   background-color: #008CBA;
