@@ -36,6 +36,11 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.project-input input[type="text"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 body {
   padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;

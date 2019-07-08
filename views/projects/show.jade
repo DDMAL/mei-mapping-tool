@@ -117,9 +117,9 @@ body
   form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
     input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
     input(type='hidden',value='PUT',name='_method')
-    button#editDone(type='submit' value = 'update' href = "/projects") Update name
-  a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
-  button#myBtn Add Neume
+    button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName") Update name
+  a#addingNeume(href='/projects/#{project._id}/new' hidden ) Add neume
+  button#myBtn(class = "button button2AddNeume") Add Neume
 
   br
   .bodyStyle
@@ -141,7 +141,7 @@ body
                          .panel-body
                             div(id = "image#{neume.id}")
                               p Images: 
-                                button( id = "editImagesButton#{neume.id}" type="button" class = "button button2") Edit Images
+                                button( id = "editImagesButton#{neume.id}" type="button" class = "button button1") Edit
                   .column
                     .height
                      .card 
@@ -175,7 +175,7 @@ body
                 form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='hidden',value='DELETE',name='_method')
                     button(type='submit' class = "button button3").
-                        Delete
+                        x
                   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 
