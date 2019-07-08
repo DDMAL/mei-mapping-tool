@@ -50,9 +50,9 @@ html
                 form#formAddproject(name="addproject",method="post",action="/projects")
 
                           p Name: 
-                             input#inputName(class = "project-input" type="text", placeholder="ex. Project", name="name" required)
+                             input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
                           p
-                             button#btnSubmit(type="submit") submit
+                             button#btnSubmit(type="submit" class = "button buttonAddProject") submit
             // Link to open the modal
           a(href='#ex1', rel='modal:open') Add project
 

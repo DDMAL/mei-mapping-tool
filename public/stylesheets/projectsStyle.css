@@ -25,6 +25,11 @@ header   {
 h3 {
   color : black;
 }
+.createProjectInput {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
 .color{
   color: black;
 }
@@ -273,6 +278,20 @@ ul {
 }
 
 .button5:hover {
+  background-color: #555555;
+  color: white;
+}
+.buttonAddProject {
+  background-color: white;
+  color: black;
+  height : 10%;
+  width : 30%;
+  border: 2px solid #555555;
+  margin : 0px;
+  padding: 5px; /* if you want space between the images */
+}
+
+.buttonAddProject:hover {
   background-color: #555555;
   color: white;
 }
