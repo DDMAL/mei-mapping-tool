@@ -31,7 +31,7 @@ block content
 			#editor(name = "aceEdit")
 			textarea#mei(name='mei', placeholder="ex. <neume>" style='display: none;')
 			p Put the MEI code under review?
-			select(name='review', style = 'display:block;')
+			select(name='review', style = 'display:block;' id = "underReview")
 				option(value='Yes') Yes
 				option(value='No') No
 			p#URL(style = 'display:none;')
@@ -59,6 +59,27 @@ block content
 		});
 		editor.setTheme("ace/theme/monokai");
 		editor.session.setMode("ace/mode/html");//Html mode parsing
+
+		//If the mei snippet has errors, disable the submit button
+		editor.getSession().on("changeAnnotation", function(){
+
+				var annotation_lists = editor.getSession().getAnnotations();
+				var has_error = false;
+
+				for (var l in annotation_lists) {
+				for (var a in annotation_lists[l]) {
+				var annotation = annotation_lists[l][a];
+				console.log(annotation);
+				if (annotation === "error") {
+				has_error = true;
+				document.getElementById("btnSubmit").disabled = true;
+				}
+				else
+					document.getElementById("btnSubmit").disabled = false;
+				}
+				}
+		});
+		
 		var aceEditor = localStorage.getItem("ace");
 		Dropzone.autoDiscover = false;
 		var myDropzone = new Dropzone("#dropzone-example", {
@@ -69,7 +90,7 @@ block content
 		myDropzone.on('removedfile', function (file) {
 		//Need to add the remove file to true from the dropzone.
 			var fs = require('fs');
-			  console.log(file);
+			  //console.log(file);
 
 			/* here do AJAX call to your server ... */
 			//try an ajax call with a php file
