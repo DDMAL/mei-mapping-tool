@@ -17,20 +17,23 @@ html
     //Column parameters
   div
     header
-      // our main logo
-      a#logo(href='#')
-        span Cress 🎵 
-      // main navigation links
-      nav
-        ul
-          li
-            a(href='/about') About
-          li
-            a(href='/projects') Projects
-          li
-            a(href='http://ddmal.music.mcgill.ca/') DDMAL 
-          li
-            a(href='/') Log out
+      - each user in users
+        // our main logo
+        a#logo(href='#')
+          span Cress 🎵 
+        // main navigation links
+        nav
+          ul
+            li
+              a(href='/about') About
+            li
+              a(href='/projects') Projects
+            li
+              a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+            li
+              a(href='/') Log out
+            li 
+                a(href='#') #{user.username}
     // the content
     main
       // hero content

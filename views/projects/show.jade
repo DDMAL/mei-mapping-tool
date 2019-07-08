@@ -80,29 +80,30 @@ html
   link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
   link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
 //Header parameters
-div.headerStyle
- ul
-    - each user in users
-      nav.navbar.navbar-inverse(role='navigation')
-        a#menu-icon(href='#')
+header
+  div
+   ul
+      - each user in users
+        nav.navbar.navbar-inverse.navNeume(role='navigation')
+          a#menu-icon(href='#')
 
-        ul.nav.navbar-nav
+          ul.nav.navbar-nav
 
-          li.active
-           
-            a(href='/projects')
-              | Home
-              span.sr-only
-          li
-            a(href='http://ddmal.music.mcgill.ca/') About us
-          li
-            a(href='/projects') Projects
-          li
-            a(href='http://ddmal.music.mcgill.ca/people') Contact
-          li
-            a(href='/') Log-out&nbsp;
-          li 
-            a(href='#') #{user.username}
+            li.active
+             
+              a(href='/projects')
+                | Home
+                span.sr-only
+            li
+              a(href='http://ddmal.music.mcgill.ca/') About us
+            li
+              a(href='/projects') Projects
+            li
+              a(href='http://ddmal.music.mcgill.ca/people') Contact
+            li
+              a(href='/') Log-out&nbsp;
+            li 
+              a(href='#') #{user.username}
 
 body
  div

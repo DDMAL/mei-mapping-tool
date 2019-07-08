@@ -79,6 +79,9 @@
   color: black; 
   border: 2px solid #f44336;
   width : 4.7%;
+  /*Adding the delete button to the collapsible element*/
+   margin :0px
+  z-index: 5000;
 }
 
 .button3:hover {
@@ -103,4 +106,7 @@
 .button5:hover {
   background-color: #555555;
   color: white;
+}
+.body{
+   padding : 0px;
 }

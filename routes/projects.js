@@ -31,6 +31,11 @@ router.route('/')
               if (err) {
                   return console.error(err);
               } else {
+                console.log(project._id);
+               mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                    userFinal = users;
+                   // console.log(userFinal);//This works!!!
+                  });
                 mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
                   neumeFinal = neumes;
                   //console.log(neumeFinal);//This works!!!
@@ -43,9 +48,11 @@ router.route('/')
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                     html: function(){
+                      console.log(userFinal);
                         res.render('projects/index', {
                               title: 'Projects',
-                              "projects" : projects
+                              "projects" : projects,
+                              "users" : userFinal
                           });
                     },
                     //JSON response will show all projects in JSON format
