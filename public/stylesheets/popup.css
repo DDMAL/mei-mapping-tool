@@ -1,7 +1,4 @@
-html, body
-{
-    min-height: 100%;
-}
+
 .modal {
   display: none; /* Hidden by default */
   z-index: 1000; /* Sit on top */

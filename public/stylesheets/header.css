@@ -1,0 +1,18 @@
+
+.b {
+  color: black;
+}
+body
+{top :0px;
+padding : 0px 0px;
+margin : auto;
+position: relative
+top: 0
+left: 0
+right: 0
+z-index: 100
+}
+.neumeSection{
+ padding : 15px;
+
+}

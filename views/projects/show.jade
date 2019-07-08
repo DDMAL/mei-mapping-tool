@@ -47,6 +47,7 @@ html
    
    script(src='/javascripts/worker-html.js', type='text/javascript')
    link(rel='stylesheet', href='/stylesheets/buttonNeume.css')
+   link(rel='stylesheet', href='/stylesheets/header.css')
    style(type='text/css', media='screen').
       #editor {
       height: 120px;
@@ -104,81 +105,81 @@ header
               a(href='/') Log-out&nbsp;
             li 
               a(href='#') #{user.username}
+div.neumeSection
+  body
+   div
+    // The add new neume Modal
+    #myModal.modal
+      // Modal content
+      .modal-content
+        span.close ×
+        include newNeume.jade
 
-body
- div
-  // The add new neume Modal
-  #myModal.modal
-    // Modal content
-    .modal-content
-      span.close ×
-      include newNeume.jade
+    h3 
+    form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
+      input(type='hidden',value='PUT',name='_method')
+      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName") Update name
+    a#addingNeume(href='/projects/#{project._id}/new' hidden ) Add neume
+    button#myBtn(class = "button button2AddNeume") Add Neume
 
-  h3 
-  form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
-    input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
-    input(type='hidden',value='PUT',name='_method')
-    button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName") Update name
-  a#addingNeume(href='/projects/#{project._id}/new' hidden ) Add neume
-  button#myBtn(class = "button button2AddNeume") Add Neume
+    br
+    .bodyStyle
+      .roundedCorners
+        ul
+            - each neume in neumes
+                .modal(id = "editImages#{neume.id}")
+                  Modal content
+                  .modal-content
+                    span.close x
+                    h4 Edit Images
+                    include editNeume.jade
 
-  br
-  .bodyStyle
-    .roundedCorners
-      ul
-          - each neume in neumes
-              .modal(id = "editImages#{neume.id}")
-                Modal content
-                .modal-content
-                  span.close x
-                  h4 Edit Images
-                  include editNeume.jade
-
-              button.collapsible.padding(id = "collapsible#{neume.id}") #{neume.name}
-              form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
-                  .column
-                     .card
-                       .panel.panel-default
-                         .panel-body
-                            div(id = "image#{neume.id}")
-                              p Images: 
-                                button( id = "editImagesButton#{neume.id}" type="button" class = "button button1") Edit
-                  .column
-                    .height
-                     .card 
-                      p Name: 
-                      input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
-                      p Folio:
-                       input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
-                      p Description:
-                      input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
-                  .column
-                     .card 
-                      p Classification: 
-                      input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
-                  .column
-                     .card 
-                      p Mei Snippet: 
-                       .panel.panel-default
-                        .panel-body
-                             div(id = "#{neume.id}")
-                               p 
-                              textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                          p Needs review? 
-                          select(name='review', style = 'display:block;')
-                            option(selected = "selected" hidden) #{neume.review}
-                            option(value='Yes') Yes
-                            option(value='No') No
-                  input(type='hidden',value='PUT',name='_method')
-                  button#btnSubmit(type='submit', value = 'update' href = "/neumes" class = "button button2Update") Update
-                  br
-                  br
-                form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='hidden',value='DELETE',name='_method')
-                    button(type='submit' class = "button button3").
-                        x
-                  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-                  script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                button.collapsible.padding(id = "collapsible#{neume.id}") #{neume.name}
+                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                    .column
+                       .card
+                         .panel.panel-default
+                           .panel-body
+                              div(id = "image#{neume.id}")
+                                p Images: 
+                                  button( id = "editImagesButton#{neume.id}" type="button" class = "button button1") Edit
+                    .column
+                      .height
+                       .card 
+                        p Name: 
+                        input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
+                        p Folio:
+                         input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
+                        p Description:
+                        input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
+                    .column
+                       .card 
+                        p Classification: 
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+                    .column
+                       .card 
+                        p Mei Snippet: 
+                         .panel.panel-default
+                          .panel-body
+                               div(id = "#{neume.id}")
+                                 p 
+                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                            p Needs review? 
+                            select(name='review', style = 'display:block;')
+                              option(selected = "selected" hidden) #{neume.review}
+                              option(value='Yes') Yes
+                              option(value='No') No
+                    input(type='hidden',value='PUT',name='_method')
+                    button#btnSubmit(type='submit', value = 'update' href = "/neumes" class = "button button2Update") Update
+                    br
+                    br
+                  form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                      input(type='hidden',value='DELETE',name='_method')
+                      button(type='submit' class = "button button3").
+                          x
+                    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                 
                 script.
 
