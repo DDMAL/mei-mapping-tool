@@ -37,11 +37,7 @@ html
           h1.
                #{title} 
           p All of your mei-mapping projects, in one interface.
-          button button5(id = "myBtn") Add project  
-           #myModal.modal
-            .modal-content
-              span.close ×
-              include new.jade
+          a#addingNeume(href='/projects/new') Add project  
           a(href='#') Learn more
           br
           br
@@ -72,10 +68,4 @@ html
 
 
             script(type='text/javascript' src='/javascripts/addProject.js')
-
-            script.
-              //Modals event listeners for every modal
-                  window.addEventListener('load', function() {
-                      initializeModal('myModal', 'myBtn');
-                    });
                       
