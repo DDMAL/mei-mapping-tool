@@ -28,7 +28,7 @@ script.
     myDropzone.on('removedfile', function (file) {
     //Need to add the remove file to true from the dropzone.
         var fs = require('fs');
-          console.log(file);
+          //console.log(file);
 
         /* here do AJAX call to your server ... */
         //try an ajax call with a php file
@@ -69,14 +69,17 @@ script.
                   //getting the source of the image from the gallery
                   image.src = "/gallery/" + element; //getting the file paths
                   var imageSrc = image.src;
-                  console.log(imageSrc);
+                  //console.log(imageSrc);
                   //This element is linked to multiple neumes. We need to change 
                   //its id so that it is unique to the neume we want to delete the image from.
                   var imageDeletedPath = document.getElementById("imageToDelete#{neume.id}");
+                  imageDeletedPath.id = "imageToDelete#{neume.id}" + element;
                   imageDeletedPath.value = element;
                   imageDeletedPath.name = "imageDeleted";
                   imageDeletedPath.hidden = true;
                   //console.log(imageDeletedPath);
+                  //console.log(imageDeletedPath)
+                  //This always gets the last one of the neume.
                   
                   var imageCard = document.getElementById("images#{neume.id}");//getting
                   //add the image to the canvas
@@ -85,12 +88,15 @@ script.
                   canvas.appendChild(image);//the image is appended
 
                   //We can create a delete button here 
+                  imageArray.forEach(function(element){
                   var buttonDeleteImage = document.createElement("BUTTON");
                   buttonDeleteImage.id = "buttonDeleteImage" + element;
                   buttonDeleteImage.className = "button button3";
                   buttonDeleteImage.innerHTML = "x";
                   buttonDeleteImage.type = "button";
-                  
+                  console.log(buttonDeleteImage);
+                  //The x button is only linked to the last image of the neume. Might be because of the neume array or because of the image array.
+
                   //Hide the button is there is no image
                   if (element == "") {
                     console.log("no image");
@@ -101,5 +107,6 @@ script.
                   $(buttonDeleteImage).click(function(){
                       $("#deleteImagebutton#{neume.id}").click();
                   })
+                  });
                   });
 

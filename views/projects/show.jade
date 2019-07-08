@@ -184,7 +184,7 @@ body
                   //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
                   var editor#{neume.id} = ace.edit('#{neume.id}');
                   var textarea = document.getElementById("textarea#{neume.id}");
-                  console.log(textarea);
+                  //console.log(textarea);
                     editor#{neume.id}.getSession().on("change", function () {
                       textarea = document.getElementById("textarea#{neume.id}");
                       textarea.value = editor#{neume.id}.getSession().getValue();
@@ -196,7 +196,7 @@ body
 
                   editor#{neume.id}.setValue(meiString);
                    var aceEditor = localStorage.getItem('ace');
-                  console.log('hey');
+                  //console.log('hey');
 
 
                   //Getting the canvas for the mei snippets : 
