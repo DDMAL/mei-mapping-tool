@@ -331,7 +331,8 @@ router.route('/:id/deleteImage')
               res.format({
                   //HTML returns us back to the main page, or you can create a success page
                     html: function(){
-                         res.status(204).send();
+                        //res.redirect("back");
+                        res.status(204).send()
                    },
                    //JSON returns the item with the message that is has been deleted
                   json: function(){

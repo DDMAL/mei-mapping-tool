@@ -8,7 +8,9 @@ body
         p Images :
           div(id = "images#{neume.id}")
           input(type='hidden',value='PUT',name='_method') 
-          button#btnSubmit(type="submit") submit
+
+        
+        button#btnSubmit(type="submit") submit
     
   form(action='/neumes/#{neume._id}/deleteImage',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageForm")
             input(type="text", name="imageDeleted", id = "imageToDelete#{neume.id}" hidden required)     
