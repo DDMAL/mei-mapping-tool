@@ -44,18 +44,6 @@ html
           h1.
                #{title} 
           p All of your mei-mapping projects, in one interface.
-          #ex1.modal
-              block content
-                h2.
-                 New Project
-                form#formAddproject(name="addproject",method="post",action="/projects")
-
-                          p Name: 
-                             input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
-                          p
-                             button#btnSubmit(type="submit" class = "button buttonAddProject") submit
-            // Link to open the modal
-          a(href='#ex1', rel='modal:open') Add project
 
           a(href='/about') Learn more
           br
