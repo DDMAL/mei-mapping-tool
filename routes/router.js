@@ -64,12 +64,9 @@ router.post('/', function (req, res, next) {
           alert(err, 'yad');
           return res.redirect('back');
         } else {
-          if (username.role == "editor"){
-            req.session.userId = username._id;
-          return res.redirect('/projects');}
-
           req.session.userId = username._id;
           return res.redirect('/projects');
+          return res.redirect('back');
         }
 
     }); 
