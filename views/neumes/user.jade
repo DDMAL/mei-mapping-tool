@@ -1,23 +1,86 @@
-extends ../layout
+doctype html
+html
+  head
+  .column
+    title  Cress 🎵 
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel="stylesheet" href="/stylesheets/modal.css")
 
-block content
-    h1.
-         #{title}
+    link(rel="images" href="/images/CF-005 (1).png")
+  div
+    header
+        // our main logo
+        a#logo(href='#')
+          span Cress 🎵 
+        // main navigation links
+        nav
+          ul
+              li
+                a(href='/about') About
+              li
+                a(href='/projects') Projects
+              li
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li
+                a(href='/') Log 
+              li
+                a(href='#') Public User
 
-    ul
-        - each neume, i in neumes
-            li
-                = neume.name
-                = neume.folio
-                = neume.description
-                = neume.classification
-                = neume.mei
-                = neume.dob
-                = neume._id
-                = neume.image
-                form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                p 
-                p
-                    a(href='/neumes/#{neume._id}') Show
-    br
-  
+    // the content
+    main
+      // hero content
+      .hero
+        // content for the hero
+        .hero-content
+
+          h1.hero-title 
+          h1.
+               #{title} 
+          p All of your mei-mapping projects, in one interface.
+          #ex1.modal
+              block content
+                h2.
+                 New Project
+                form#formAddproject(name="addproject",method="post",action="/projects")
+
+                          p Name: 
+                             input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
+                          p
+                             button#btnSubmit(type="submit" class = "button buttonAddProject") submit
+            // Link to open the modal
+          a(href='#ex1', rel='modal:open') Add project
+
+          a(href='/about') Learn more
+          br
+          br
+          div     
+            // testimonials section
+            .site-section.site-section-secondary
+                 div#section
+                  .site-section-inside
+                    .section-header
+                      h2.projectHeader My Projects
+                      ul
+                          - each project, i in projects
+                             button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
+                             br
+                             br
+                             br
+
+              footer
+                //img(src='img/avatar.jpeg', alt='Footer Logo')
+                span
+                  | Cress
+                  br
+                  | Copyright © 2019
+
+
+            script(type='text/javascript' src='/javascripts/addProject.js')
+                      

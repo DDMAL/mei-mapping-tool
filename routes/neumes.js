@@ -19,11 +19,11 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-router.route('/editor')
+router.route('/user')
     //GET all neumes
     .get(function(req, res, next) {
         //retrieve all neumes from Mongo
-        mongoose.model('neume').find({}, function (err, neumes) {
+        mongoose.model('project').find({}, function (err, projects) {
               if (err) {
                   return console.error(err);
               } else {
@@ -31,14 +31,14 @@ router.route('/editor')
                   res.format({
                       //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function(){
-                        res.render('neumes/editor', {
-                              title: 'Neumes',
-                              "neumes" : neumes
+                        res.render('neumes/user', {
+                              title: 'Project',
+                              "projects" : projects
                           });
                     },
                     //JSON response will show all neumes in JSON format
                     json: function(){
-                        res.json(neumes);
+                        res.json(projects);
                     }
                 });
               }     
