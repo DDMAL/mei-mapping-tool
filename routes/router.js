@@ -26,7 +26,7 @@ router.get('/about', function(req, res) {
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                     html: function(){
                       console.log(userFinal);
-                        res.redirect('/about', {
+                        res.render('about.jade', {
                               title: 'About',
                               "users" : userFinal
                           });
