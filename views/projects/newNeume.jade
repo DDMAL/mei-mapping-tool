@@ -7,6 +7,7 @@ head
 	link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
 	script(src='/javascripts/dropzone.js', type='text/javascript')
 	script(src='/javascripts/worker-html.js', type='text/javascript')
+	script(src='/javascripts/rm_image_dropzone.js', type='text/javascript')
 
 block content
 	h4.
@@ -36,6 +37,13 @@ block content
 				option(value='Yes') Yes
 			p#URL(style = 'display:none;')
 			input#inputID(type="text", name="ID_project")
+		p
+			button#btnSubmit(type="submit" class = "button button5") submit
+
+	form(action='/neumes/deleteImageDropzone',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageDropzoneForm")
+		input(type="text", name="imageDeletedDropzone", id = "imageToDeleteDropzone" hidden required)     
+		input(type='hidden',value='DELETE',name='_method')
+		button(type = "submit" id ="deleteImageButtonDropzone" hidden) submit
 
 		script.
 			var url = window.location.href;
@@ -46,8 +54,7 @@ block content
 			//console.log(array);
 			document.getElementById("inputID").value = projectID;
 			document.getElementById("inputID").style.visibility = "hidden";
-		p
-			button#btnSubmit(type="submit" class = "button button5") submit
+		
 		
 	//Add these lines to a javascript file:
 	script.
@@ -92,10 +99,8 @@ block content
 			addRemoveLinks: true,
 		});
 		myDropzone.on('removedfile', function (file) {
-		//Need to add the remove file to true from the dropzone.
-			var fs = require('fs');
-			  // fs.unlinkSync(file)
-
-			/* here do AJAX call to your server ... */
-			//try an ajax call with a php file
+		//Function from rm_image_dropzone.js to remove file from folder
+		//console.log(file);
+			document.getElementById("imageToDeleteDropzone").value = file.upload.uuid + ".jpg"; 
+				$("#deleteImageButtonDropzone").click();
 			});

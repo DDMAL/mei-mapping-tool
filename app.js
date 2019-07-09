@@ -112,8 +112,6 @@ app.post('/image', function (req, res) {
     //console.log (req.files);
    res.status(200).send('good Request');
 });
-//Routes for the images to be shown from the array : 
-
 
 //Route to show the image as gallery in edits : 
 /*

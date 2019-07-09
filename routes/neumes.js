@@ -346,6 +346,28 @@ router.route('/:id/deleteImage')
               });
   });
 
+/* Delete dropzone images. */
+router.route('/deleteImageDropzone')
+  //DELETE an image by ID
+  .delete(function (req, res){
+    //imageDeleted is the path of the image we want to delete.
+    var imageToDeleteDropzone = id;
+            //remove from neume array the imagepath = imageDeleted
+            //deleting the images from the image model 
+              fs.unlink('uploads/' + imageToDeleteDropzone, (err) => {
+                if (err) 
+                  throw err;
+                else
+                  console.log('successfully deleted');//This worked.
+                for( var i = 0; i < imageArray.length; i++){ 
+                     if ( imageArray[i] === imageToDeleteDropzone) {
+                       imageArray.splice(i, 1); 
+                     }
+                  }
+              });
+  });
+ 
+
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');
