@@ -166,12 +166,12 @@ div.neumeSection
                                  p 
                                 textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
                             p Needs review? 
-                            select(name='review', style = 'display:block;')
+                            select(name='review', style = 'display:block;' id = "underReview#{neume.id}")
                               option(selected = "selected" hidden) #{neume.review}
                               option(value='Yes') Yes
                               option(value='No') No
                     input(type='hidden',value='PUT',name='_method')
-                    button#btnSubmit(type='submit', value = 'update' href = "/neumes" class = "button button2Update") Update
+                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}") Update
                     br
                     br
                   form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
@@ -198,9 +198,8 @@ div.neumeSection
 
 
                   editor#{neume.id}.setValue(meiString);
-                   var aceEditor = localStorage.getItem('ace');
                   //console.log('hey');
-
+                  //If the mei snippet has errors, disable the submit button
 
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
