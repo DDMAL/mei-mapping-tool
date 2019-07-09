@@ -94,7 +94,7 @@ block content
 		myDropzone.on('removedfile', function (file) {
 		//Need to add the remove file to true from the dropzone.
 			var fs = require('fs');
-			  //console.log(file);
+			  // fs.unlinkSync(file)
 
 			/* here do AJAX call to your server ... */
 			//try an ajax call with a php file

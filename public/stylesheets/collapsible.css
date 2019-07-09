@@ -2,7 +2,7 @@
     background-color:#5680e9;
     color: white;
     cursor: pointer;
-    padding: 10px;
+    padding: 0px;
     width: 100%;
     border: none;
     text-align: left;
@@ -17,4 +17,7 @@
     display: none;
     overflow: hidden;
     background-color: #f1f1f1;
+    }
+    .padding{
+        padding: 0px;
     }
