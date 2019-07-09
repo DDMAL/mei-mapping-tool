@@ -11,10 +11,33 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.get('/', function (req, res, next) {
   return res.render('index');
 });
+var userFinal = [];
 /* GET New project page. */
 router.get('/about', function(req, res) {
-     res.render('about', { title: 'About' });
-     //Adding the new names lines
+      mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                    userFinal = users;
+                  });
+                mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                userFinal = users;
+               // console.log(userFinal);//This works!!!
+              });
+                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+                  res.format({
+                      //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
+                    html: function(){
+                      console.log(userFinal);
+                        res.redirect('/about', {
+                              title: 'About',
+                              "users" : userFinal
+                          });
+                    },
+                    //JSON response will show all projects in JSON format
+                    json: function(){
+                        res.json(projects);
+                    }
+                }); 
+              global.userFinal = []; //The user needs to be added in all the routes
+
 });
 
 //POST route for updating data
