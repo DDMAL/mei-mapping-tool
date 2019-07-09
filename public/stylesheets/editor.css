@@ -1,0 +1,12 @@
+/*Styles for the ace editors
+Used in the show.jade page*/
+
+#editor {
+   height: 120px;
+   width : 100%;
+}
+
+#editor2{
+   height: 120px;
+   width : 100%;
+}

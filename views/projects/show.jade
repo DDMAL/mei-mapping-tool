@@ -48,44 +48,17 @@ html
    script(src='/javascripts/worker-html.js', type='text/javascript')
    link(rel='stylesheet', href='/stylesheets/buttonNeume.css')
    link(rel='stylesheet', href='/stylesheets/header.css')
-   style(type='text/css', media='screen').
-      #editor {
-      height: 120px;
-      width : 100%;
-      }
-   style(type='text/css', media='screen').
-      #editor2{
-      height: 120px;
-      width : 100%;
-      }
-      .navbar {
-        background: black;
-        margin: 0;
-        border: 0;
-      }
-      .navbar .navbar-nav > li > a:hover, .navbar .navbar > li > a:focus {
-        background-color: #black;
-        color: gray;
-        }
-        .collapsible {
-          margin : -5px;
-          padding : 7px;
-        }
-        input{
-        margin : 0px;
-        padding: 0px;
-        font-size: 10px;
-        }
-
 
   link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
   link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
+  link(rel='stylesheet', href='/stylesheets/editor.css')
+
 //Header parameters
    //Column parameters
 - each user in users
   div
     header
-        // our main logo
+        // Main logo
         a#logo(href='#')
           span Cress 🎵 
         // main navigation links
@@ -101,38 +74,42 @@ html
                 a(href='/') Log out
               li
                 a(href='#') #{user.username}
-                
+
+//Title section : Adding a neume button and changing the title name                
 div.neumeSection
   body
    div
-    // The add new neume Modal
+    // Add New Neume Modal
     #myModal.modal
       // Modal content
       .modal-content
         span.close ×
         include newNeume.jade
 
-    h3 
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+      
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
       input(type='hidden',value='PUT',name='_method')
+      
       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName") Update name
-    a#addingNeume(href='/projects/#{project._id}/new' hidden ) Add neume
+
     button#myBtn(class = "button button2AddNeume") Add Neume
 
+    //Neume section : 4 components added for each new neume.   
     br
     .bodyStyle
       .roundedCorners
         ul
             - each neume in neumes
+                // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
                   Modal content
                   .modal-content
                     span.close x
                     h4 Edit Images
                     include editNeume.jade
-
-                button.collapsible.padding(id = "collapsible#{neume.id}") #{neume.name}
+                // Images Section
+                button.collapsible(id = "collapsible#{neume.id}") #{neume.name}
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                     .column
                        .card
@@ -141,6 +118,8 @@ div.neumeSection
                               div(id = "image#{neume.id}")
                                 p Images: 
                                   button( id = "editImagesButton#{neume.id}" type="button" class = "button button1") Edit
+
+                    // Name, Folio and Description Section
                     .column
                       .height
                        .card 
@@ -150,10 +129,14 @@ div.neumeSection
                          input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
                         p Description:
                         input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
+
+                    // Classification Section
                     .column
                        .card 
                         p Classification: 
                         input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+
+                    // Mei snippet Section
                     .column
                        .card 
                         p Mei Snippet: 
@@ -167,7 +150,10 @@ div.neumeSection
                               option(selected = "selected" hidden) #{neume.review}
                               option(value='Yes') Yes
                               option(value='No') No
+                    
+                    //Submitting the update form
                     input(type='hidden',value='PUT',name='_method')
+                    
                     button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}") Update
                     br
                     br
@@ -192,11 +178,7 @@ div.neumeSection
                   editor#{neume.id}.setTheme("ace/theme/monokai");
                   editor#{neume.id}.session.setMode("ace/mode/xml");
                   var meiString = textarea.value;
-
-
                   editor#{neume.id}.setValue(meiString);
-                  //console.log('hey');
-                  //If the mei snippet has errors, disable the submit button
 
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
