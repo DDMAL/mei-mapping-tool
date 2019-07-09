@@ -83,9 +83,8 @@
   border: 2px solid #f44336;
   width : 4.7%;
   /*Adding the delete button to the collapsible element*/
-   top : 0px;
    position : relative;
-   margin : 15px;
+   margin : 10px;
   /*Adding the neumes for the projects.*/
 }
 .button3DeleteImage {

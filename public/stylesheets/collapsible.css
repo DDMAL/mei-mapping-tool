@@ -18,6 +18,7 @@
     overflow: hidden;
     background-color: #f1f1f1;
     }
-    .padding{
-        padding: 10px;
-    }
+.paddingCollapsible{
+padding : 5px;
+margin : 0px;
+}
