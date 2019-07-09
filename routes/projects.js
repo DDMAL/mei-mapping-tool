@@ -18,7 +18,6 @@ router.use(methodOverride(function(req, res){
 global.neumeFinal = [];
 global.userFinal = []; //The user needs to be added in all the routes
 
-
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
@@ -609,6 +608,49 @@ router.route('/:id') //This is where the classifier would be
                 "project" : project,
                 "neumes" : neumeFinal,
                 "users" : userFinal
+              });
+          },
+          json: function(){
+              res.json(project);
+          }
+        });
+      }
+    });
+  });
+
+  router.route('/public/:id') //This is where the classifier would be
+  .get(function(req, res) {
+    var projectName = req.body.projectName;
+    console.log(projectName);
+    global.nameOfProject = projectName;
+  
+    mongoose.model('project').findById(req.id, function (err, project) {
+
+      if (err) {
+        console.log('GET Error: There was a problem retrieving: ' + err);
+      } else {
+        //Updating the name
+        //Getting the neumes for each project and showing them in the console!!
+        //Element in face
+           //console.log(userFinal);//This works! 
+           mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+            neumeFinal = neumes;
+            //console.log(neumeFinal);//This works!!!
+          });
+          // console.log(neumeFinal);
+        console.log('GET Retrieving ID: ' + project._id);
+        var projectdob = project.dob.toISOString();
+        projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+        
+        res.format({
+          html: function(){
+            console.log(neumeFinal); //This is shown on the console!
+            console.log(userFinal)//This is shown on the console!
+            
+              res.render('neumes/show', {
+                "projectdob" : projectdob,
+                "project" : project,
+                "neumes" : neumeFinal
               });
           },
           json: function(){

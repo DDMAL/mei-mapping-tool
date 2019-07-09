@@ -29,7 +29,7 @@ html
               li
                 a(href='http://ddmal.music.mcgill.ca/') DDMAL 
               li
-                a(href='/') Log 
+                a(href='/') Log-out
               li
                 a(href='#') Public User
 
@@ -54,10 +54,10 @@ html
                  div#section
                   .site-section-inside
                     .section-header
-                      h2.projectHeader My Projects
+                      h2.projectHeader Projects
                       ul
                           - each project, i in projects
-                             button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
+                             button.collapsible(onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
                              br
                              br
                              br
