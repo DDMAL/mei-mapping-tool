@@ -57,7 +57,7 @@ To make sure mongodb is running in your application, you can add this command to
  
  ### With the MongoDB Compass Community object
  1. Open the MongoDB compass community application and connect to the `localhost:27017`.
- 2. Open the Collections tab of the database titled userDatabase and you can see the information from the projects collection and the users collection.
+ 2. Open the Collections tab of the mei-mapping-tool database to see the information from the collections.
  
 ## Instructions
 
@@ -71,10 +71,10 @@ http://localhost:3000/projects
 
 ### Projects
 To create a project, simply click on the add Project link and add a project name in the pop-up window. 
-Once the project has been created, a button with the name of the project will appear under `My Projects`. To get access to the classifier, you can click on the button you created and you will be redirected to the mapping editor page. `http://localhost:3000/projects/:id`
+Once the project has been created, a button with the name of the project will appear under `My Projects`. To get access to the classifier, you can click on the button you created and you will be redirected to the classifier page. `http://localhost:3000/projects/:id`
 
 ### Classifier (in development)
-The classifier has many features to create, update, delete and see the neumes. You can add neumes by clicking on the `add Neume` button and filling the information. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. 
+With the classifier view, you can create, update and delete neume components. You can add neumes by clicking on the `add Neume` button and filling the information. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. 
 Starting from the left, the first section is the drag and drop section using `dropzone` where you can add images of your element. The second section is where you can add the `name, folio and description` of the element. The third section is the `Classifier label` that should have a proper syntax:
 
 `neume.pes.b.3` 
