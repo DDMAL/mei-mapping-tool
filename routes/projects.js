@@ -26,16 +26,17 @@ router.route('/')
     //Get all the neumes from the database : 
     .get(function(req, res, next) {
       projectIds = req.body._id;
+      mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                    userFinal = users;
+                   // console.log(userFinal);//This works!!!
+                  });
         //retrieve all projects from Mongo
         mongoose.model('project').find({userID : req.session.userId}, function (err, projects) {
               if (err) {
                   return console.error(err);
               } else {
                 console.log(project._id);
-               mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
-                    userFinal = users;
-                   // console.log(userFinal);//This works!!!
-                  });
+               
                 mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
                   neumeFinal = neumes;
                   //console.log(neumeFinal);//This works!!!
@@ -61,6 +62,8 @@ router.route('/')
                     }
                 });
               }     
+              global.userFinal = []; //The user needs to be added in all the routes
+
         });
 
     })

@@ -66,7 +66,6 @@ router.post('/', function (req, res, next) {
         } else {
           req.session.userId = username._id;
           return res.redirect('/projects');
-          return res.redirect('back');
         }
 
     }); 
