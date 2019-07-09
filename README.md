@@ -21,7 +21,7 @@ Web-based app to map squiggles to MEI snippets (under construction)
 
   `git clone https://github.com/DDMAL/mei-mapping-tool`
 
-2. Go to the myapp directory of the repository
+2. Go to the mei-mapping-tool repository
 
   `cd mei-mapping-tool`
 
