@@ -342,7 +342,6 @@ router.route('/:id/deleteImage')
                    }
 
                 });
-              imageArray = [];
                   }
               });
   });
