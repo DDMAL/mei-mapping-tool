@@ -26,6 +26,7 @@ script.
     });
     }
     myDropzone.on('removedfile', function (file) {
+    file.innerHTML = serverResponse.newfilename;
     //Need to add the remove file to true from the dropzone.
         var fs = require('fs');
           console.log(file);
@@ -101,5 +102,8 @@ script.
                   $(buttonDeleteImage).click(function(){
                        document.getElementById("imageToDelete#{neume.id}").value = element; 
                       $("#deleteImagebutton#{neume.id}").click();
+                      //Delete the image :
+                      canvas.style.display = "none";
+                      buttonDeleteImage.style.display = "none";
                   })
                   });

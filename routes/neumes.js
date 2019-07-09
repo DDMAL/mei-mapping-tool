@@ -331,7 +331,7 @@ router.route('/:id/deleteImage')
               res.format({
                   //HTML returns us back to the main page, or you can create a success page
                     html: function(){
-                         res.redirect("back");
+                         res.status(204).send();
                    },
                    //JSON returns the item with the message that is has been deleted
                   json: function(){
@@ -357,14 +357,18 @@ router.route('/deleteImageDropzone')
               fs.unlink('uploads/' + imageToDeleteDropzone, (err) => {
                 if (err) 
                   throw err;
-                else
+                else{
                   console.log('successfully deleted');//This worked.
+                
                 for( var i = 0; i < imageArray.length; i++){ 
                      if ( imageArray[i] === imageToDeleteDropzone) {
                        imageArray.splice(i, 1); 
                      }
                   }
+                  res.status(204).send()
+                  }
               });
+
   });
  
 
