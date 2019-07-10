@@ -15,8 +15,9 @@ router.use(methodOverride(function(req, res){
       }
 }))
 //Arrays for the neumes and the users
-global.neumeFinal = [];
+global.neumeFinal = []; //getting all the neumes from the project
 global.userFinal = []; //The user needs to be added in all the routes
+global.latestImage = []; //getting the latestImage from the database
 
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
@@ -593,6 +594,10 @@ router.route('/:id') //This is where the classifier would be
             neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
           });
+           mongoose.model('image').findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, latestImage) {
+              console.log( latestImage );
+              latestImage = image;
+            });
           // console.log(neumeFinal);
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
@@ -607,7 +612,9 @@ router.route('/:id') //This is where the classifier would be
                 "projectdob" : projectdob,
                 "project" : project,
                 "neumes" : neumeFinal,
-                "users" : userFinal
+                "users" : userFinal,
+                "image" : latestImage
+
               });
           },
           json: function(){

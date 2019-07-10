@@ -27,8 +27,11 @@ script.
         addRemoveLinks: true,
     });
     }
+    myDropzone.on("success", function(file, serverResponse) {
+      //file.upload.uuid = #{image.imagepath};
+    });
     myDropzone.on('removedfile', function (file) {
-    file.innerHTML = serverResponse.newfilename;
+    //document.getElementById
     //Need to add the remove file to true from the dropzone.
         var fs = require('fs');
           console.log(file);
