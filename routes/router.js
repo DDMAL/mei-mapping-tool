@@ -60,6 +60,7 @@ router.post('/', function (req, res, next) {
       username: req.body.username,
       password: req.body.password,
       role: req.body.role,
+      bio : req.body.bio
     }
   
     User.create(userData, function (error, user) {
@@ -125,7 +126,9 @@ router.get('/profile', function (req, res, next) {
           html: function(){           
               res.render('profile', {
                 "username" : user.username,
-                "email" : user.email
+                "email" : user.email,
+                "status" : user.role,
+                "bio": user.bio 
               });
           },
           json: function(){

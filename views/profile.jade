@@ -63,21 +63,27 @@ html
               section#bio
                 br
                 p Profile
-                p
+                p.activity
                   | Email : #{email}
-                p
-                  | Bio : Text
+                p.activity
+                  | Profile status : #{status}
+                p.activity
+                  | Bio : #{bio}
+                  textarea
               section#activity.hidden
                 br
                 p Most recent actions:
-                p.activity @10:15PM - Submitted a news article
-                p.activity @9:50PM - Submitted a news article
-                p.activity @8:15PM - Posted a comment
+                p.activity
+                  | @10:15PM - Submitted a 
+                  strong Punctum
+                  |  neume
+                p.activity @9:50PM - Updated a neume
+                p.activity @8:15PM - Added an MEI snippet
                 p.activity
                   | @4:30PM - Added 
-                  strong someusername
+                  strong Username
                   |  as a collaborator
-                p.activity @12:30PM - Submitted a news article
+                p.activity @12:30PM - Submitted a project
               section#friends.hidden
                 br
                 p Collaborators:
@@ -117,7 +123,7 @@ html
                   span
                     | Profile Status 
                     img(src='images/edit.png', alt='*Edit*')
-                  |  Public
+                  |  #{status}
 
   footer
     //img(src='img/avatar.jpeg', alt='Footer Logo')

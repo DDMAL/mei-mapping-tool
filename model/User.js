@@ -21,6 +21,9 @@ var UserSchema = new mongoose.Schema({
   },
    role: {
     type: String
+  },
+  bio: {
+    type: String
   }
 });
 
