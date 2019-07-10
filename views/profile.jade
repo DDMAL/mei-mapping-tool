@@ -1,0 +1,140 @@
+doctype html
+doctype html
+html
+  head
+  .column
+    title  Cress 🎵 
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel='stylesheet', type='text/css', media='all', href='stylesheets/profile.css')
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel='shortcut icon', href='http://designshack.net/favicon.ico')
+    link(rel='icon', href='http://designshack.net/favicon.ico')
+    
+    script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
+
+    link(rel="stylesheet" href="/stylesheets/modal.css")
+
+    link(rel="images" href="/images/CF-005 (1).png")
+    //Column parameters
+  div
+    header
+        // our main logo
+        a#logo(href='#')
+          span Cress 🎵 
+        // main navigation links
+        nav
+          ul
+              li
+                a(href='/about') About
+              li
+                a(href='/projects') Projects
+              li
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li
+                a(href='/') Log out
+              li
+                a(href='#') #{username}
+
+    // the content
+    main
+      // hero content
+      .hero
+          #w
+            #content.clearfix
+              #userphoto
+                img(src='images/avatar.png', alt='default avatar')
+              h1 #{username}
+              nav#profiletabs
+                ul.clearfix
+                  li.profiletab
+                    a.sel(href='#bio') Profile
+                  li.profiletab
+                    a(href='#activity') Activity
+                  li.profiletab
+                    a(href='#friends') Collaborators
+                  li.profiletab
+                    a(href='#settings') Settings
+              section#bio
+                br
+                p Profile
+                p
+                  | Email : #{email}
+                p
+                  | Bio : Text
+              section#activity.hidden
+                br
+                p Most recent actions:
+                p.activity @10:15PM - Submitted a news article
+                p.activity @9:50PM - Submitted a news article
+                p.activity @8:15PM - Posted a comment
+                p.activity
+                  | @4:30PM - Added 
+                  strong someusername
+                  |  as a collaborator
+                p.activity @12:30PM - Submitted a news article
+              section#friends.hidden
+                br
+                p Collaborators:
+                ul#friendslist.clearfix
+                  li
+                    a(href='#')
+                      img(src='images/avatar.png', width='22', height='22')
+                      |  Username
+                  li
+                    a(href='#')
+                      img(src='images/avatar.png', width='22', height='22')
+                      |  Username
+                  li
+                    a(href='#')
+                      img(src='images/avatar.png', width='22', height='22')
+                      |  Username
+              section#settings.hidden
+                br
+                br
+                p Edit your user settings:
+                p.setting
+                  span
+                    | Username
+                    img(src='images/edit.png', alt='*Edit*')
+                  |  #{username}
+                p.setting
+                  span
+                    | E-mail Address 
+                    img(src='images/edit.png', alt='*Edit*')
+                  |  #{email}
+                p.setting
+                  span
+                    | Language 
+                    img(src='images/edit.png', alt='*Edit*')
+                  |  English(US)
+                p.setting
+                  span
+                    | Profile Status 
+                    img(src='images/edit.png', alt='*Edit*')
+                  |  Public
+
+  footer
+    //img(src='img/avatar.jpeg', alt='Footer Logo')
+    span
+      | Cress
+      br
+      | Copyright © 2019
+script(type='text/javascript').
+  $(function(){
+  $('#profiletabs ul li a').on('click', function(e){
+  e.preventDefault();
+  var newcontent = $(this).attr('href');
+  $('#profiletabs ul li a').removeClass('sel');
+  $(this).addClass('sel');
+  $('#content section').each(function(){
+  if(!$(this).hasClass('hidden')) { $(this).addClass('hidden'); }
+  });
+  $(newcontent).removeClass('hidden');
+  });
+  });

@@ -121,7 +121,17 @@ router.get('/profile', function (req, res, next) {
         alert(err, 'yad');
         return res.redirect('back');
         } else {
-          return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
+         return res.format({
+          html: function(){           
+              res.render('profile', {
+                "username" : user.username,
+                "email" : user.email
+              });
+          },
+          json: function(){
+              res.json(project);
+          }
+        });
         }
       }
     });
