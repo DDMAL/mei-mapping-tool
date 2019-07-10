@@ -44,6 +44,31 @@ router.route('/user')
               }     
         });
     })
+router.route('/about')
+    //GET all neumes
+    .get(function(req, res, next) {
+        //retrieve all neumes from Mongo
+        mongoose.model('project').find({}, function (err, projects) {
+              if (err) {
+                  return console.error(err);
+              } else {
+                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+                  res.format({
+                      //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
+                    html: function(){
+                        res.render('neumes/about', {
+                              title: 'About',
+                              "projects" : projects
+                          });
+                    },
+                    //JSON response will show all neumes in JSON format
+                    json: function(){
+                        res.json(projects);
+                    }
+                });
+              }     
+        });
+    })
     
 //build the REST operations at the base for neumes
 //this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged

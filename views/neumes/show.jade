@@ -63,13 +63,15 @@ div
       nav
         ul
             li
-              a(href='/about') About
+              a(href='/neumes/about') About
             li
-              a(href='/projects') Projects
+              a(href='/neumes/user') Projects
             li
               a(href='http://ddmal.music.mcgill.ca/') DDMAL 
             li
               a(href='/') Log out
+            li
+              a(href='#') Public User
 
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection
@@ -86,7 +88,7 @@ div.neumeSection
             - each neume in neumes
                 // Images Section
                 button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}") #{neume.name}
-                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                form(name='updateneumepublic',enctype='application/x-www-form-urlencoded')
                     .column
                        .card
                          .panel.panel-default
@@ -129,7 +131,6 @@ div.neumeSection
                     //Submitting the update form
                     br
                     br
-                  form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                     script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
 
