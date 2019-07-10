@@ -139,6 +139,36 @@ router.get('/profile', function (req, res, next) {
       }
     });
 });
+// Update the information on the database
+router.post('/profile', function (req, res, next) {
+ 
+      var username = req.body.name;
+      var email = req.body.email;
+      var bio = req.body.bio;
+
+  User.findById(req.session.userId)
+    .exec(function (error, user) {
+      if (error) {
+        alert(error, 'yad');
+        return res.redirect('back');
+      } else {
+        if (user === null) {
+          var err = new Error('Not Authorized.');
+        alert(err, 'yad');
+        return res.redirect('back');
+        } else {
+         return res.format({
+          html: function(){           
+            res.redirect("back");
+          },
+          json: function(){
+              res.json(project);
+          }
+        });
+        }
+      }
+    });
+});
 
 // GET for logout logout
 router.get('/logout', function (req, res, next) {
