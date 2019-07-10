@@ -40,7 +40,7 @@ block content
 		p
 			button#btnSubmit(type="submit" class = "button button5") submit
 
-	form(action='/neumes/deleteImageDropzone',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageDropzoneForm")
+	form(action='/projects/deleteImageDropzone',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageDropzoneForm")
 		input(type="text", name="imageDeletedDropzone", id = "imageToDeleteDropzone" hidden required)     
 		input(type='hidden',value='DELETE',name='_method')
 		button(type = "submit" id ="deleteImageButtonDropzone" hidden) submit
@@ -95,8 +95,11 @@ block content
 		Dropzone.autoDiscover = false;
 		var myDropzone = new Dropzone("#dropzone-example", {
 			maxFileSize: 100,
-			acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
-			addRemoveLinks: true,
+			acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg"
+		});
+		myDropzone.on("success", function(file, serverResponse) {
+			console.log(file);
+			document.getElementById("imageToDeleteDropzone").value = file.upload.uuid + ".jpg"; 
 		});
 		myDropzone.on('removedfile', function (file) {
 		//Function from rm_image_dropzone.js to remove file from folder

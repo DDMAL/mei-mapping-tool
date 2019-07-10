@@ -23,12 +23,11 @@ script.
   if (document.getElementById('dropzone#{neume.id}')) {
     var myDropzone = new Dropzone("div#dropzone#{neume.id}", {
         maxFileSize: 100,
-        acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
-        addRemoveLinks: true,
+        acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg"
     });
     }
+
     myDropzone.on("success", function(file, serverResponse) {
-      //file.upload.uuid = #{image.imagepath};
     });
     myDropzone.on('removedfile', function (file) {
     //document.getElementById

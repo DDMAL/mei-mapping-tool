@@ -3,6 +3,7 @@ var express = require('express'),
     mongoose = require('mongoose'), //mongo connection
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
+    fs = require('fs');
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -567,6 +568,30 @@ router.route('/project/:id/edit')
       });
   });
 
+/* Delete dropzone images. */
+router.route('/deleteImageDropzone')
+  //DELETE an image by ID
+  .delete(function (req, res){
+    //imageDeleted is the path of the image we want to delete.
+    global.imageToDeleteDropzone = id;
+            //remove from neume array the imagepath = imageDeleted
+            //deleting the images from the image model 
+              fs.unlink('uploads/' + imageToDeleteDropzone, (err) => {
+                if (err) 
+                  throw err;
+                else{
+                  console.log('successfully deleted');//This worked.
+                
+                for( var i = 0; i < imageArray.length; i++){ 
+                     if ( imageArray[i] === imageToDeleteDropzone) {
+                       imageArray.splice(i, 1); 
+                     }
+                  }
+                  res.status(204).send()
+                  }
+              });
+
+  });
 /////ROUTE FOR THE ID!!!!!
 ////////////////////////////
 /**************************/
