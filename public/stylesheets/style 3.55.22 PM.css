@@ -36,18 +36,18 @@ FlexMasonry.refresh('.grid',{
     background-color:#01A7C2;
     color: white;
     cursor: pointer;
-    padding: 18px;
+    padding: 0px;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
     font-size: 20px;
+    margin: auto;
     }
     .active, .collapsible:hover {
     background-color:#A3BAC3;
     }
     .content {
-    padding: 0 18px;
     display: none;
     overflow: hidden;
     background-color: #f1f1f1;

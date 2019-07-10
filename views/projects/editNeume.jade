@@ -8,7 +8,9 @@ body
         p Images :
           div(id = "images#{neume.id}")
           input(type='hidden',value='PUT',name='_method') 
-          button#btnSubmit(type="submit") submit
+
+        
+        button#btnSubmit(type="submit") submit
     
   form(action='/neumes/#{neume._id}/deleteImage',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageForm")
             input(type="text", name="imageDeleted", id = "imageToDelete#{neume.id}" hidden required)     
@@ -25,7 +27,11 @@ script.
         addRemoveLinks: true,
     });
     }
+    myDropzone.on("success", function(file, serverResponse) {
+      //file.upload.uuid = #{image.imagepath};
+    });
     myDropzone.on('removedfile', function (file) {
+    //document.getElementById
     //Need to add the remove file to true from the dropzone.
         var fs = require('fs');
           console.log(file);
@@ -88,6 +94,7 @@ script.
                   var buttonDeleteImage = document.createElement("BUTTON");
                   buttonDeleteImage.id = "buttonDeleteImage" + element;
                   buttonDeleteImage.innerHTML = "x";
+                  buttonDeleteImage.className = "button3DeleteImage";
                   buttonDeleteImage.type = "button";
                   
                   //Hide the button is there is no image
@@ -100,5 +107,8 @@ script.
                   $(buttonDeleteImage).click(function(){
                        document.getElementById("imageToDelete#{neume.id}").value = element; 
                       $("#deleteImagebutton#{neume.id}").click();
+                      //Delete the image :
+                      canvas.style.display = "none";
+                      buttonDeleteImage.style.display = "none";
                   })
                   });

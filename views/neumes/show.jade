@@ -3,6 +3,7 @@ html
   head
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  script(src='/javascripts/popup.js', type='text/javascript')
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
@@ -15,70 +16,208 @@ html
    link(rel='stylesheet', href='/stylesheets/column.css')
    link(rel='stylesheet', href='/stylesheets/collapsible.css')
    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-body
+   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
 
-  button.collapsible #{neume.name}
+   script(src='/javascripts/dropzone.js')
+   link(rel='stylesheet', href='/stylesheets/dropzone.css')
+   script(type='text/javascript' src='/javascripts/ace.js')
+   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/stylesheets/column.css')
+   link(rel='stylesheet', href='/stylesheets/collapsible.css')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+   link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='/javascripts/dropzone.js', type='text/javascript')
 
- .column
-   .card
-     .panel.panel-default
-       .panel-body
-          div#images
-            p Images: 
- .column
-   .card 
-    h6 Name: #{neume.name}
-    br
-    h6 Folio: #{neume.folio}
-    br
-    h6 Description: #{neume.description}
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='/javascripts/dropzone.js', type='text/javascript')
+  script(src='/javascripts/worker-html.js', type='text/javascript')
+   
+   script(src='/javascripts/worker-html.js', type='text/javascript')
+   link(rel='stylesheet', href='/stylesheets/buttonNeume.css')
+   link(rel='stylesheet', href='/stylesheets/header.css')
 
- .column
-   .card 
-    p Classification: #{neume.classification}
-
- .column
-   .card 
-    p Mei Snippet: #{neume.mei}
+  link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
+  link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
+  link(rel='stylesheet', href='/stylesheets/editor.css')
 
 
-.column
-  form
-      input(type='button', value='Back', onclick='history.go(-1)')
-    script.
-      var imagePaths = "#{neume.imagePath}";
-      var imageArray = imagePaths.split(',');
-      console.log(imageArray);
-      imageArray.forEach(function(element) {
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext("2d");
-      var image = new Image();
+div
+  header
+      // Main logo
+      a#logo(href='#')
+        span Cress 🎵 
+      // main navigation links
+      nav
+        ul
+            li
+              a(href='/neumes/about') About
+            li
+              a(href='/neumes/user') Projects
+            li
+              a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+            li
+              a(href='/') Log out
+            li
+              a(href='#') Public User
 
-      image.onload = function () {
-
-          // set size proportional to image
-          canvas.height = 60;
-          canvas.width = 60;
-
-          // step 1 - resize to 50%
-          var oc = document.createElement('canvas'),
-              octx = oc.getContext('2d');
-
-          oc.width = image.width;
-          oc.height = image.height;
-          octx.drawImage(image, 0, 0, oc.width, oc.height);
-
-          // step 2
-          octx.drawImage(oc, 0, 0, oc.width, oc.height);
-
-          // step 3, resize to final size
-          ctx.drawImage(oc, 0, 0, oc.width, oc.height,
-          0, 0, canvas.width, canvas.height);
-      }
-      image.src = "/gallery/" + element; //getting the file paths
-      var imageCard = document.getElementById("images");
-      imageCard.appendChild(canvas);
-      canvas.appendChild(image);//the image is appended
-      });
+//Title section : Adding a neume button and changing the title name                
+div.neumeSection
+  body
+    form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
 
+    //Neume section : 4 components added for each new neume.   
+    br
+    .bodyStyle
+      .roundedCorners
+        ul
+            - each neume in neumes
+                // Images Section
+                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}") #{neume.name}
+                form(name='updateneumepublic',enctype='application/x-www-form-urlencoded')
+                    .column
+                       .card
+                         .panel.panel-default
+                           .panel-body
+                              div(id = "image#{neume.id}")
+                                p Images: 
+
+                    // Name, Folio and Description Section
+                    .column
+                      .height
+                       .card 
+                        p Name: 
+                        input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
+                        p Folio:
+                         input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
+                        p Description:
+                        input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
+
+                    // Classification Section
+                    .column
+                       .card 
+                        p Classification: 
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+
+                    // Mei snippet Section
+                    .column
+                       .card 
+                        p Mei Snippet: 
+                         .panel.panel-default
+                          .panel-body
+                               div(id = "#{neume.id}")
+                                 p 
+                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                            p Needs review? 
+                            select(name='review', style = 'display:block;' id = "underReview#{neume.id}")
+                              option(selected = "selected" hidden) #{neume.review}
+                              option(value='Yes') Yes
+                              option(value='No') No
+                    
+                    //Submitting the update form
+                    br
+                    br
+                    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+
+
+                script.
+
+                  //For each neume in the project :
+                  //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
+                  var editor#{neume.id} = ace.edit('#{neume.id}');
+                  var textarea = document.getElementById("textarea#{neume.id}");
+                  //console.log(textarea);
+                    editor#{neume.id}.getSession().on("change", function () {
+                      textarea = document.getElementById("textarea#{neume.id}");
+                      textarea.value = editor#{neume.id}.getSession().getValue();
+                    });
+                  editor#{neume.id}.setTheme("ace/theme/monokai");
+                  editor#{neume.id}.session.setMode("ace/mode/xml");
+                  var meiString = textarea.value;
+                  editor#{neume.id}.setValue(meiString);
+
+                  //Getting the canvas for the mei snippets : 
+                  var imagePaths = "#{neume.imagePath}";
+                  var imageArray = imagePaths.split(',');
+                  var canvas = document.createElement('canvas');
+                  var ctx = canvas.getContext("2d");
+                  var image = new Image();
+                  var imageCard = document.getElementById("#{neume.id}");//getting
+                  imageCard.appendChild(canvas);
+
+                  /*Function to create a canvas for each image inside of the imagepath array of the neume
+                  @param element : single imagepath of the array*/
+                    var imagePaths = "#{neume.imagePath}";
+                    var imageArray = imagePaths.split(',');
+                    //console.log(imageArray);
+                    imageArray.forEach(function(element) {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext("2d");
+                    var image = new Image();
+
+                    image.onload = function () {
+
+                        // set size proportional to image
+                        canvas.height = image.height*0.5;
+                        canvas.width = image.width*0.5;
+
+                        // step 1 - resize to 50%
+                        var oc = document.createElement('canvas'),
+                            octx = oc.getContext('2d');
+
+                        oc.width = image.width;
+                        oc.height = image.height;
+                        octx.drawImage(image, 0, 0, oc.width, oc.height);
+
+                        // step 2
+                        octx.drawImage(oc, 0, 0, oc.width, oc.height);
+
+                        // step 3, resize to final size
+                        ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                        0, 0, canvas.width, canvas.height);
+                    }
+                    image.src = "/gallery/" + element; //getting the file paths
+                    var imageCard = document.getElementById("image#{neume.id}");//getting
+                    imageCard.appendChild(canvas);
+                    canvas.appendChild(image);//the image is appended
+                    });
+
+                  /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
+                  appear if the collapsible button is clicked.*/ 
+                   
+                    var coll = document.getElementById("collapsible#{neume.id}");
+                    
+                    coll.addEventListener("click", function() {
+                     
+                      this.classList.toggle("active");
+                      var content = this.nextElementSibling;
+                      if (content.style.display === "none") {
+                        content.style.display = "block";
+                      } else {
+                        content.style.display = "none";
+                      }
+                      
+                    });
+
+                  //Modals event listeners for every modal
+                  window.addEventListener('load', function() {
+                      initializeModal('myModal', 'myBtn');
+                      initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                    });
+
+                                      

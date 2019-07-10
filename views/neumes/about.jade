@@ -10,7 +10,6 @@ html
     link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
     link(rel="images" href="/images/CF-005 (1).png")
     //Column parameters
- - each user in users
   div
     header
         // our main logo
@@ -20,15 +19,15 @@ html
         nav
           ul
               li
-                a(href='/about') About
+                a(href='/neumes/about') About
               li
-                a(href='/projects') Projects
+                a(href='/neumes/user') Projects
               li
                 a(href='http://ddmal.music.mcgill.ca/') DDMAL 
               li
                 a(href='/') Log out
               li
-                a(href='#') #{user.username}
+                a(href='#') Public User
     // the content
     main
       // hero content
@@ -40,7 +39,7 @@ html
           h1.
                #{title} 
           p All of your mei-mapping projects, in one interface.
-          a(href='/projects') Projects
+          a(href='/neumes/user') Projects
           a(href='#section') Learn more
           br
           br

@@ -15,9 +15,9 @@ router.use(methodOverride(function(req, res){
       }
 }))
 //Arrays for the neumes and the users
-global.neumeFinal = [];
+global.neumeFinal = []; //getting all the neumes from the project
 global.userFinal = []; //The user needs to be added in all the routes
-
+global.latestImage = []; //getting the latestImage from the database
 
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
@@ -26,11 +26,17 @@ router.route('/')
     //Get all the neumes from the database : 
     .get(function(req, res, next) {
       projectIds = req.body._id;
+      mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                    userFinal = users;
+                   // console.log(userFinal);//This works!!!
+                  });
         //retrieve all projects from Mongo
         mongoose.model('project').find({userID : req.session.userId}, function (err, projects) {
               if (err) {
                   return console.error(err);
               } else {
+                console.log(project._id);
+               
                 mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
                   neumeFinal = neumes;
                   //console.log(neumeFinal);//This works!!!
@@ -43,9 +49,11 @@ router.route('/')
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                     html: function(){
+                      console.log(userFinal);
                         res.render('projects/index', {
                               title: 'Projects',
-                              "projects" : projects
+                              "projects" : projects,
+                              "users" : userFinal
                           });
                     },
                     //JSON response will show all projects in JSON format
@@ -54,6 +62,8 @@ router.route('/')
                     }
                 });
               }     
+              global.userFinal = []; //The user needs to be added in all the routes
+
         });
 
     })
@@ -584,6 +594,10 @@ router.route('/:id') //This is where the classifier would be
             neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
           });
+           mongoose.model('image').findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, latestImage) {
+              console.log( latestImage );
+              latestImage = image;
+            });
           // console.log(neumeFinal);
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
@@ -598,7 +612,52 @@ router.route('/:id') //This is where the classifier would be
                 "projectdob" : projectdob,
                 "project" : project,
                 "neumes" : neumeFinal,
-                "users" : userFinal
+                "users" : userFinal,
+                "image" : latestImage
+
+              });
+          },
+          json: function(){
+              res.json(project);
+          }
+        });
+      }
+    });
+  });
+
+  router.route('/public/:id') //This is where the classifier would be
+  .get(function(req, res) {
+    var projectName = req.body.projectName;
+    console.log(projectName);
+    global.nameOfProject = projectName;
+  
+    mongoose.model('project').findById(req.id, function (err, project) {
+
+      if (err) {
+        console.log('GET Error: There was a problem retrieving: ' + err);
+      } else {
+        //Updating the name
+        //Getting the neumes for each project and showing them in the console!!
+        //Element in face
+           //console.log(userFinal);//This works! 
+           mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+            neumeFinal = neumes;
+            //console.log(neumeFinal);//This works!!!
+          });
+          // console.log(neumeFinal);
+        console.log('GET Retrieving ID: ' + project._id);
+        var projectdob = project.dob.toISOString();
+        projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+        
+        res.format({
+          html: function(){
+            console.log(neumeFinal); //This is shown on the console!
+            console.log(userFinal)//This is shown on the console!
+            
+              res.render('neumes/show', {
+                "projectdob" : projectdob,
+                "project" : project,
+                "neumes" : neumeFinal
               });
           },
           json: function(){
@@ -675,6 +734,7 @@ router.route('/:id/edit')
 	                if (err) {
 	                    return console.error(err);
 	                } else {
+                    mongoose.model('neume').remove({project : project._id}).exec();
 	                    //Returning success messages saying it was deleted
 	                    console.log('DELETE removing ID: ' + project._id);
 	                    res.format({

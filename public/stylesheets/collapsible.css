@@ -2,7 +2,7 @@
     background-color:#5680e9;
     color: white;
     cursor: pointer;
-    padding: 10px;
+    padding: 0px;
     width: 100%;
     border: none;
     text-align: left;
@@ -18,3 +18,7 @@
     overflow: hidden;
     background-color: #f1f1f1;
     }
+.paddingCollapsible{
+padding : 5px;
+margin : 0px;
+}

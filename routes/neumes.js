@@ -19,53 +19,51 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-router.route('/editor')
-    //GET all neumes
-    .get(function(req, res, next) {
-        //retrieve all neumes from Mongo
-        mongoose.model('neume').find({}, function (err, neumes) {
-              if (err) {
-                  return console.error(err);
-              } else {
-                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                  res.format({
-                      //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
-                    html: function(){
-                        res.render('neumes/editor', {
-                              title: 'Neumes',
-                              "neumes" : neumes
-                          });
-                    },
-                    //JSON response will show all neumes in JSON format
-                    json: function(){
-                        res.json(neumes);
-                    }
-                });
-              }     
-        });
-    })
-
 router.route('/user')
     //GET all neumes
     .get(function(req, res, next) {
         //retrieve all neumes from Mongo
-        mongoose.model('neume').find({}, function (err, neumes) {
+        mongoose.model('project').find({}, function (err, projects) {
               if (err) {
                   return console.error(err);
               } else {
-
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function(){
                         res.render('neumes/user', {
-                              title: 'Neumes',
-                              "neumes" : neumes
+                              title: 'Project',
+                              "projects" : projects
                           });
                     },
                     //JSON response will show all neumes in JSON format
                     json: function(){
-                        res.json(neumes);
+                        res.json(projects);
+                    }
+                });
+              }     
+        });
+    })
+router.route('/about')
+    //GET all neumes
+    .get(function(req, res, next) {
+        //retrieve all neumes from Mongo
+        mongoose.model('project').find({}, function (err, projects) {
+              if (err) {
+                  return console.error(err);
+              } else {
+                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+                  res.format({
+                      //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
+                    html: function(){
+                        res.render('neumes/about', {
+                              title: 'About',
+                              "projects" : projects
+                          });
+                    },
+                    //JSON response will show all neumes in JSON format
+                    json: function(){
+                        res.json(projects);
                     }
                 });
               }     
@@ -331,7 +329,8 @@ router.route('/:id/deleteImage')
               res.format({
                   //HTML returns us back to the main page, or you can create a success page
                     html: function(){
-                         res.redirect("back");
+                        //res.redirect("back");
+                        res.status(204).send()
                    },
                    //JSON returns the item with the message that is has been deleted
                   json: function(){
@@ -341,10 +340,35 @@ router.route('/:id/deleteImage')
                    }
 
                 });
-              imageArray = [];
                   }
               });
   });
+
+/* Delete dropzone images. */
+router.route('/deleteImageDropzone')
+  //DELETE an image by ID
+  .delete(function (req, res){
+    //imageDeleted is the path of the image we want to delete.
+    var imageToDeleteDropzone = id;
+            //remove from neume array the imagepath = imageDeleted
+            //deleting the images from the image model 
+              fs.unlink('uploads/' + imageToDeleteDropzone, (err) => {
+                if (err) 
+                  throw err;
+                else{
+                  console.log('successfully deleted');//This worked.
+                
+                for( var i = 0; i < imageArray.length; i++){ 
+                     if ( imageArray[i] === imageToDeleteDropzone) {
+                       imageArray.splice(i, 1); 
+                     }
+                  }
+                  res.status(204).send()
+                  }
+              });
+
+  });
+ 
 
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {

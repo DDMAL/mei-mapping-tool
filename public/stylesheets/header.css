@@ -7,12 +7,12 @@ body   {
   margin: 0;
   padding: 0;
   line-height: 1.5;
-  font-size: 16px;
+  font-size: 12px;
   color : black;
 }
 /* styling our overall page */
 body     {
-  background: black;
+  background: white;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -21,6 +21,7 @@ header   {
   background: #222;
   color: #FFF;
   padding: 20px 30px;
+  font-size: 16px;
 }
 h3 {
   color : black;
@@ -48,13 +49,30 @@ h3 {
 }
 #logo span   {
   display: inline-block;
+  top : 35px;
+  position : absolute;
+}
+.roundedCorners {
+  border: 2px black;
+  border-radius: 40px;
+  width : 100%;
+}
+
+.neumeSection {
+  border: 2px black;
+  border-radius: 25px;
+  width : 100%;
+  padding : 40px;
 }
 
 /* main navigation */
 nav     {
+  font-size: 16px;
   width: 50%;
+  height:40px;
   display: inline-block;
   text-align: right;
+  background: #222;
 }
 nav ul   {
   list-style: none;
@@ -64,6 +82,9 @@ nav ul li {
   display: inline-block;
 }
 nav ul li a    {
+	 font-size: 16px;
+  position : relative;
+  top : -18px;
   color: #FFF;
   text-decoration: none;
   display: block;
@@ -71,8 +92,9 @@ nav ul li a    {
   border-radius: 3px;
   transition: 0.3s ease all;
 }
-nav ul li a:hover   {
+nav ul a:hover   {
   background: #444;
+  height : 10%;
 }
 
 /* styling our footer */

@@ -47,137 +47,124 @@ html
    
    script(src='/javascripts/worker-html.js', type='text/javascript')
    link(rel='stylesheet', href='/stylesheets/buttonNeume.css')
-   style(type='text/css', media='screen').
-      #editor {
-      height: 120px;
-      width : 100%;
-      }
-   style(type='text/css', media='screen').
-      #editor2{
-      height: 120px;
-      width : 100%;
-      }
-      .navbar {
-        background: black;
-        margin: 0;
-        border: 0;
-      }
-      .navbar .navbar-nav > li > a:hover, .navbar .navbar > li > a:focus {
-        background-color: #black;
-        color: gray;
-        }
-        .collapsible {
-          margin : -5px;
-          padding : 7px;
-        }
-        input{
-        margin : 0px;
-        padding: 0px;
-        font-size: 10px;
-        }
-
+   link(rel='stylesheet', href='/stylesheets/header.css')
 
   link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
+  link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
+  link(rel='stylesheet', href='/stylesheets/editor.css')
+
 //Header parameters
-div.headerStyle
- ul
-    - each user in users
-      nav.navbar.navbar-inverse(role='navigation')
-        a#menu-icon(href='#')
+   //Column parameters
+- each user in users
+  div
+    header
+        // Main logo
+        a#logo(href='#')
+          span Cress 🎵 
+        // main navigation links
+        nav
+          ul
+              li
+                a(href='/about') About
+              li
+                a(href='/projects') Projects
+              li
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li
+                a(href='/') Log out
+              li
+                a(href='#') #{user.username}
 
-        ul.nav.navbar-nav
+//Title section : Adding a neume button and changing the title name                
+div.neumeSection
+  body
+   div
+    // Add New Neume Modal
+    #myModal.modal
+      // Modal content
+      .modal-content
+        span.close ×
+        include newNeume.jade
 
-          li.active
-           
-            a(href='/projects')
-              | Home
-              span.sr-only
-          li
-            a(href='http://ddmal.music.mcgill.ca/') About us
-          li
-            a(href='/projects') Projects
-          li
-            a(href='http://ddmal.music.mcgill.ca/people') Contact
-          li
-            a(href='/') Log-out&nbsp;
-          li 
-            a(href='#') #{user.username}
+    form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+      
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
+      input(type='hidden',value='PUT',name='_method')
+      
+      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName") Update name
 
-body
- div
-  // The add new neume Modal
-  #myModal.modal
-    // Modal content
-    .modal-content
-      span.close ×
-      include newNeume.jade
+    button#myBtn(class = "button button2AddNeume") Add Neume
 
-  h3 
-  form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
-    input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
-    input(type='hidden',value='PUT',name='_method')
-    button#editDone(type='submit' value = 'update' href = "/projects") Update name
-  a#addingNeume(href='/projects/#{project._id}/new' hidden) Add neume
-  button#myBtn Add Neume
+    //Neume section : 4 components added for each new neume.   
+    br
+    .bodyStyle
+      .roundedCorners
+        ul
+            - each neume in neumes
+                // Edit Images Modal
+                .modal(id = "editImages#{neume.id}")
+                  Modal content
+                  .modal-content
+                    span.close x
+                    h4 Edit Images
+                    include editNeume.jade
+                // Images Section
+                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}") #{neume.name}
+                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                    .column
+                       .card
+                         .panel.panel-default
+                           .panel-body
+                              div(id = "image#{neume.id}")
+                                p Images: 
+                                  button( id = "editImagesButton#{neume.id}" type="button" class = "button button1") Edit
 
-  br
-  .bodyStyle
-    .roundedCorners
-      ul
-          - each neume in neumes
-              .modal(id = "editImages#{neume.id}")
-                Modal content
-                .modal-content
-                  span.close x
-                  h4 Edit Images
-                  include editNeume.jade
+                    // Name, Folio and Description Section
+                    .column
+                      .height
+                       .card 
+                        p Name: 
+                        input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
+                        p Folio:
+                         input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
+                        p Description:
+                        input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
 
-              button.collapsible.padding(id = "collapsible#{neume.id}") #{neume.name}
-              form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
-                  .column
-                     .card
-                       .panel.panel-default
-                         .panel-body
-                            div(id = "image#{neume.id}")
-                              p Images: 
-                                button( id = "editImagesButton#{neume.id}" type="button" ) Edit Images
-                  .column
-                    .height
-                     .card 
-                      p Name: 
-                      input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
-                      p Folio:
-                       input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
-                      p Description:
-                      input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
-                  .column
-                     .card 
-                      p Classification: 
-                      input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
-                  .column
-                     .card 
-                      p Mei Snippet: 
-                       .panel.panel-default
-                        .panel-body
-                             div(id = "#{neume.id}")
-                               p 
-                              textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                          p Needs review? 
-                          select(name='review', style = 'display:block;')
-                            option(selected = "selected" hidden) #{neume.review}
-                            option(value='Yes') Yes
-                            option(value='No') No
-                  input(type='hidden',value='PUT',name='_method')
-                  button#btnSubmit(type='submit', value = 'update' href = "/neumes") Update
-                  br
-                  br
-                form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='hidden',value='DELETE',name='_method')
-                    button(type='submit').
-                        Delete
-                  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-                  script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
-                
+                    // Classification Section
+                    .column
+                       .card 
+                        p Classification: 
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+
+                    // Mei snippet Section
+                    .column
+                       .card 
+                        p Mei Snippet: 
+                         .panel.panel-default
+                          .panel-body
+                               div(id = "#{neume.id}")
+                                 p 
+                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                            p Needs review? 
+                            select(name='review', style = 'display:block;' id = "underReview#{neume.id}")
+                              option(selected = "selected" hidden) #{neume.review}
+                              option(value='Yes') Yes
+                              option(value='No') No
+                    
+                    //Submitting the update form
+                    input(type='hidden',value='PUT',name='_method')
+                    
+                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}") Update
+                    br
+                    br
+                  form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                      input(type='hidden',value='DELETE',name='_method')
+                      button(type='submit' class = "button button3").
+                          x
+                    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+
+
                 script.
 
                   //For each neume in the project :
@@ -192,94 +179,69 @@ body
                   editor#{neume.id}.setTheme("ace/theme/monokai");
                   editor#{neume.id}.session.setMode("ace/mode/xml");
                   var meiString = textarea.value;
-
-
                   editor#{neume.id}.setValue(meiString);
-                   var aceEditor = localStorage.getItem('ace');
-                  //console.log('hey');
-
 
                   //Getting the canvas for the mei snippets : 
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
-                  imageArray.forEach(function(element){
                   var canvas = document.createElement('canvas');
                   var ctx = canvas.getContext("2d");
                   var image = new Image();
-
-                  image.onload = function () {
-
-                      // set size proportional to image
-                      canvas.height = 95;
-                      canvas.width = 100;
-
-                      // step 1 - resize to 50%
-                      var oc = document.createElement('canvas'),
-                          octx = oc.getContext('2d');
-
-                      oc.width = image.width;
-                      oc.height = image.height;
-                      octx.drawImage(image, 0, 0, oc.width, oc.height);
-
-                      // step 2
-                      octx.drawImage(oc, 0, 0, oc.width, oc.height);
-
-                      // step 3, resize to final size
-                      ctx.drawImage(oc, 0, 0, oc.width, oc.height,
-                      0, 0, canvas.width, canvas.height);
-                  }
-                  image.src = "/gallery/" + element; //getting the file paths
                   var imageCard = document.getElementById("#{neume.id}");//getting
                   imageCard.appendChild(canvas);
-                  canvas.appendChild(image);//the image is appended
-                  });
 
-                  var imagePaths = "#{neume.imagePath}";
-                  var imageArray = imagePaths.split(',');
-                  //console.log(imageArray);
-                  imageArray.forEach(function(element) {
-                  var canvas = document.createElement('canvas');
-                  var ctx = canvas.getContext("2d");
-                  var image = new Image();
+                  /*Function to create a canvas for each image inside of the imagepath array of the neume
+                  @param element : single imagepath of the array*/
+                    var imagePaths = "#{neume.imagePath}";
+                    var imageArray = imagePaths.split(',');
+                    //console.log(imageArray);
+                    imageArray.forEach(function(element) {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext("2d");
+                    var image = new Image();
 
-                  image.onload = function () {
+                    image.onload = function () {
 
-                      // set size proportional to image
-                      canvas.height = image.height*0.5;
-                      canvas.width = image.width*0.5;
+                        // set size proportional to image
+                        canvas.height = image.height*0.5;
+                        canvas.width = image.width*0.5;
 
-                      // step 1 - resize to 50%
-                      var oc = document.createElement('canvas'),
-                          octx = oc.getContext('2d');
+                        // step 1 - resize to 50%
+                        var oc = document.createElement('canvas'),
+                            octx = oc.getContext('2d');
 
-                      oc.width = image.width;
-                      oc.height = image.height;
-                      octx.drawImage(image, 0, 0, oc.width, oc.height);
+                        oc.width = image.width;
+                        oc.height = image.height;
+                        octx.drawImage(image, 0, 0, oc.width, oc.height);
 
-                      // step 2
-                      octx.drawImage(oc, 0, 0, oc.width, oc.height);
+                        // step 2
+                        octx.drawImage(oc, 0, 0, oc.width, oc.height);
 
-                      // step 3, resize to final size
-                      ctx.drawImage(oc, 0, 0, oc.width, oc.height,
-                      0, 0, canvas.width, canvas.height);
-                  }
-                  image.src = "/gallery/" + element; //getting the file paths
-                  var imageCard = document.getElementById("image#{neume.id}");//getting
-                  imageCard.appendChild(canvas);
-                  canvas.appendChild(image);//the image is appended
-                  });
+                        // step 3, resize to final size
+                        ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                        0, 0, canvas.width, canvas.height);
+                    }
+                    image.src = "/gallery/" + element; //getting the file paths
+                    var imageCard = document.getElementById("image#{neume.id}");//getting
+                    imageCard.appendChild(canvas);
+                    canvas.appendChild(image);//the image is appended
+                    });
 
-                  //COLLAPSIBLE ELEMEMTS javascript
+                  /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
+                  appear if the collapsible button is clicked.*/ 
                    
                     var coll = document.getElementById("collapsible#{neume.id}");
+                    
                     coll.addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var content = this.nextElementSibling;
-                    if (content.style.display === "none") {
-                    content.style.display = "block";
-                    } else {
-                    content.style.display = "none";
-                    }
+                     
+                      this.classList.toggle("active");
+                      var content = this.nextElementSibling;
+                      if (content.style.display === "none") {
+                        content.style.display = "block";
+                      } else {
+                        content.style.display = "none";
+                      }
+                      
                     });
 
                   //Modals event listeners for every modal
