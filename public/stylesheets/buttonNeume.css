@@ -93,6 +93,18 @@
   border: 2px solid #f44336;
   border-radius: 15px;
 }
+.button3CancelImage {
+  background-color: white; 
+  width : 15%;
+  color: black; 
+  border: 2px solid #f44336;
+  border-radius: 15px;
+  height : 33px;
+}
+.button3CancelImage:hover {
+  background-color: #f44336;
+  color: white;
+}
 .button3DeleteImage:hover {
   background-color: #f44336;
   color: white;
