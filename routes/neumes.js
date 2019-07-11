@@ -8,6 +8,8 @@ global.neumes_array = [];
 
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
+
+//Change this for the users to go to the projects page
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(methodOverride(function(req, res){
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -17,8 +19,6 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
-
-//Route for cancelling the neume
 router.route('/cancel')
     //GET all neumes
     .get(function(req, res, next) {
@@ -42,8 +42,6 @@ router.route('/cancel')
               }     
         });
     })
-
-//Route for the public users
 router.route('/user')
     //GET all neumes
     .get(function(req, res, next) {
@@ -69,8 +67,6 @@ router.route('/user')
               }     
         });
     })
-
-//Route for the about page for public users
 router.route('/about')
     //GET all neumes
     .get(function(req, res, next) {
@@ -98,7 +94,7 @@ router.route('/about')
     })
     
 //build the REST operations at the base for neumes
-//this will be accessible from http://localhost:3000/neumes if the default route for / is left unchanged
+//this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
 router.route('/')
     //GET all neumes
     .get(function(req, res, next) {
@@ -155,8 +151,13 @@ router.route('/')
               if (err) {
                   res.send("There was a problem adding the information to the database.");
               } else {
+                  //neume has been created
+                  //console.log('POST creating new neume: ' + neume); //neume holds the new neume
+                  //Show neume array
+                  //Neume requests for the images inside of neumes
                   mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
                     neumeFinal = neumes;
+                    //console.log(neumeFinal);//This works!!!
                   });
                   //Creating an xml file to store mei for each neume => neume.mei and neume._id for the name of the file
                   //Making the xml files folder if it doesnt exist
@@ -170,6 +171,8 @@ router.route('/')
                       if(err) {
                           return console.log(err);
                       }
+
+                      //console.log("The file was saved!");
                   });
 
                   res.format({
@@ -188,6 +191,11 @@ router.route('/')
               }
         })
     });
+
+/* GET New neume page. */
+router.get('/new', function(req, res) {
+     res.render('neumes/new', { title: 'Add New Neume' });
+});
 
 /* Update edit images. */
 router.route('/:id/editImage')
@@ -418,4 +426,179 @@ router.param('id', function(req, res, next, id) {
     });
 });
 
+router.route('/:id')
+  .get(function(req, res) {
+    mongoose.model('neume').findById(req.id, function (err, neume) {
+      if (err) {
+        console.log('GET Error: There was a problem retrieving: ' + err);
+      } else {
+        //console.log('GET Retrieving ID: ' + neume._id);
+        var neumedob = neume.dob.toISOString();
+        neumedob = neumedob.substring(0, neumedob.indexOf('T'))
+        res.format({
+          html: function(){
+              res.render('neumes/show', {
+                "neumedob" : neumedob,
+                "neume" : neume
+              });
+          },
+          json: function(){
+              res.json(neume);
+          }
+        });
+      }
+    });
+  });
+  //The new projectID should be here. 
+
+router.route('/:id/edit')
+	//GET the individual neume by Mongo ID
+	.get(function(req, res) {
+	    //search for the neume within Mongo
+	    mongoose.model('neume').findById(req.id, function (err, neume) {
+	        if (err) {
+	            console.log('GET Error: There was a problem retrieving: ' + err);
+	        } else {
+	            //Return the neume
+	            //console.log('GET Retrieving ID: ' + neume._id);
+              var neumedob = neume.dob.toISOString();
+              neumedob = neumedob.substring(0, neumedob.indexOf('T'))
+	            res.format({
+	                //HTML response will render the 'edit.jade' template
+	                html: function(){
+	                       res.render('neumes/edit', {
+	                          title: 'neume' + neume._id,
+                            "neumedob" : neumedob,
+	                          "neume" : neume,
+                            "neumeImages" : neume.imagePath
+	                      });
+	                 },
+	                 //JSON response will return the JSON output
+	                json: function(){
+	                       res.json(neume);
+	                 }
+	            });
+              res.redirect('back');
+	        }
+	    }).populate('image').exec((err, posts) => {
+      //console.log("Populated Image " + posts);
+    });
+	})
+	//PUT to update a neume by ID
+	.put(function(req, res) {
+	    // Get our REST or form values. These rely on the "name" attributes from the edit page
+	    var name = req.body.name;
+	    var folio = req.body.folio;
+      var description = req.body.description;
+      var classification = req.body.classification;
+      var review = req.body.review;
+      var mei = req.body.mei;
+	    var dob = req.body.dob;
+      var projectName = req.body.projectName;
+	    global.editArray = [];
+
+	    //find the document by ID
+	    mongoose.model('neume').findById(req.id, function (err, neume) {
+          var ID_project = neume.project;
+	        //update it
+          editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
+	        neume.update({
+	            name : name,
+	            folio : folio,
+              description : description,
+              classification : classification,
+              mei : mei,
+              review : review,
+	            dob : dob,
+              imagePath : editArray //adding the image to the image array without reinitializng everything
+	        }, function (err, neumeID) {
+	          if (err) {
+	              res.send("There was a problem updating the information to the database: " + err);
+	          } 
+	          else {
+                  mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
+                        neumeFinal = neumes;
+                        //console.log(neumeFinal);//This works!!!
+                      });
+                  fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
+                      if(err) {
+                          return console.log(err);
+                      }
+
+                      //console.log("The file was saved!");
+                  });
+	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+	                  res.format({
+	                      html: function(){
+	                           res.redirect("back");
+	                     },
+	                     //JSON responds showing the updated values
+	                    json: function(){
+	                           res.json(neume);
+	                     }
+	                  });
+	           }
+             //Deletes the file from the folder
+             if(req.body.image == "deleted"){
+             const fs = require('fs');
+
+              fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
+                if (err) throw err;
+                //console.log('successfully deleted');
+              }); }
+	        })
+	    });
+	})
+	//DELETE a neume by ID
+	.delete(function (req, res){
+	    //find neume by ID
+	    mongoose.model('neume').findById(req.id, function (err, neume) {
+        var ID_project = neume.project;
+	        if (err) {
+	            return console.error(err);
+	        } else {
+	            //remove it from Mongo
+	            neume.remove(function (err, neume) {
+	                if (err) {
+	                    return console.error(err);
+	                } else {
+	                    //Returning success messages saying it was deleted
+	                    //console.log('DELETE removing ID: ' + neume._id);
+                      mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
+                        neumeFinal = neumes;
+                        //console.log(neumeFinal);//This works!!!
+                      });
+                      // delete file named 'neumeID.xml'
+                        fs.unlink("xmlFiles/"+neume._id + '.xml',function(err){
+                            if(err) throw err;
+
+                            //console.log('File deleted!');
+                        });
+                        //deleting the images if the neume is deleted
+                        neume.imagePath.forEach(function(image){
+                          fs.unlink('uploads/' + image, (err) => {
+                            if (err) throw err;
+                            //console.log('successfully deleted');
+                         mongoose.model('image').remove({imagepath : image}, function (err, image) {
+                            console.log(image)});
+                          });
+                          })
+                
+	                    res.format({
+	                        //HTML returns us back to the main page, or you can create a success page
+	                          html: function(){
+	                               res.redirect("back");
+	                         },
+	                         //JSON returns the item with the message that is has been deleted
+	                        json: function(){
+	                               res.json({message : 'deleted',
+	                                   item : neume
+	                               });
+	                         }
+	                      });
+	                }
+	            });
+	        }
+	    });
+	});
 module.exports = router;
