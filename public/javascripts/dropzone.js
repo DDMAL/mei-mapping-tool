@@ -369,7 +369,7 @@ var Dropzone = function (_Emitter) {
          * already uploading) the file. The `dictCancelUpload`, `dictCancelUploadConfirmation`
          * and `dictRemoveFile` options are used for the wording.
          */
-        addRemoveLinks: true,
+        addRemoveLinks: false,
 
         /**
          * Defines where to display the file previews – if `null` the
@@ -778,7 +778,7 @@ var Dropzone = function (_Emitter) {
               node.innerHTML = this.filesize(file.size);
             }
 
-            if (true) {
+            if (false) {
               file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
               file.previewElement.appendChild(file._removeLink);
             }

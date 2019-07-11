@@ -24,7 +24,7 @@ script.
     var myDropzone = new Dropzone("div#dropzone#{neume.id}", {
         maxFileSize: 100,
         acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
-        addRemoveLinks: true,
+        addRemoveLinks: false,
     });
     }
     myDropzone.on("success", function(file, serverResponse) {
