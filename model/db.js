@@ -1,4 +1,4 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/mei-mapping-tool');
+mongoose.createConnection('mongodb://localhost:27017/mei-mapping-tool');
 
