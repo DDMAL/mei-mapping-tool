@@ -10,8 +10,10 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.get('/', function (req, res, next) {
   return res.render('index');
 });
+
+//Array for the users
 var userFinal = [];
-/* GET New project page. */
+/* GET about page for registered users. */
 router.route('/about')
   .get(function(req, res) {
       mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
