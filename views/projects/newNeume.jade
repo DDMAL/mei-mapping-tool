@@ -40,10 +40,9 @@ block content
 		p
 			button#btnSubmit(type="submit" class = "button button5") submit
 
-	form(action='/neumes/deleteImageDropzone',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageDropzoneForm")
-		input(type="text", name="imageDeletedDropzone", id = "imageToDeleteDropzone" hidden required)     
-		input(type='hidden',value='DELETE',name='_method')
-		button(type = "submit" id ="deleteImageButtonDropzone" hidden) submit
+form(action='/neumes/cancel',method='post',enctype='application/x-www-form-urlencoded' id = "cancel")  
+	input(type='hidden',value='GET',name='_method')
+	button(type = "submit" id ="cancelButton") Cancel
 
 		script.
 			var url = window.location.href;
