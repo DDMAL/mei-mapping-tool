@@ -41,10 +41,6 @@ router.route('/')
                   neumeFinal = neumes;
                   //console.log(neumeFinal);//This works!!!
                 });
-                mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
-                userFinal = users;
-               // console.log(userFinal);//This works!!!
-              });
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view

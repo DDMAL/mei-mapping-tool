@@ -12,7 +12,8 @@ router.get('/', function (req, res, next) {
 });
 var userFinal = [];
 /* GET New project page. */
-router.get('/about', function(req, res) {
+router.route('/about')
+  .get(function(req, res) {
       mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
                     userFinal = users;
                   });
