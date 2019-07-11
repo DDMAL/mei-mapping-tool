@@ -152,7 +152,7 @@ router.route('/')
                   res.send("There was a problem adding the information to the database.");
               } else {
                   //neume has been created
-                  console.log('POST creating new neume: ' + neume); //neume holds the new neume
+                  //console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   //Show neume array
                   //Neume requests for the images inside of neumes
                   mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
@@ -172,7 +172,7 @@ router.route('/')
                           return console.log(err);
                       }
 
-                      console.log("The file was saved!");
+                      //console.log("The file was saved!");
                   });
 
                   res.format({
@@ -206,7 +206,7 @@ router.route('/:id/editImage')
               console.log('GET Error: There was a problem retrieving: ' + err);
           } else {
               //Return the neume
-              console.log('GET Retrieving ID: ' + neume._id);
+              //console.log('GET Retrieving ID: ' + neume._id);
               var neumedob = neume.dob.toISOString();
               neumedob = neumedob.substring(0, neumedob.indexOf('T'))
               imageArray = [];
@@ -231,7 +231,7 @@ router.route('/:id/editImage')
 
           }
       }).populate('image').exec((err, posts) => {
-      console.log("Populated Image " + posts);
+      //console.log("Populated Image " + posts);
     });
   })
   //PUT to update a neume by ID
@@ -282,7 +282,7 @@ router.route('/:id/editImage')
   .delete(function (req, res){
     //imageDeleted is the path of the image we want to delete.
     var imageToDelete = req.body.imageDeleted;
-    console.log(imageToDelete);
+    //console.log(imageToDelete);
     //This is the p element
      //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
       //req.body.imageDeleted doesnt seem to work
@@ -296,9 +296,10 @@ router.route('/:id/editImage')
             //deleting the images from the image model 
               fs.unlink('uploads/' + imageToDelete, (err) => {
                 if (err) throw err;
-                console.log('successfully deleted');
+                //console.log('successfully deleted');
              mongoose.model('image').remove({imagepath : imageToDelete}, function (err, image) {
-                console.log(image)});
+                //console.log(image)
+              });
               });
         
               res.format({
@@ -344,9 +345,10 @@ router.route('/:id/deleteImage')
             //deleting the images from the image model 
               fs.unlink('uploads/' + imageToDelete, (err) => {
                 if (err) throw err;
-                console.log('successfully deleted');
+                //console.log('successfully deleted');
              mongoose.model('image').remove({imagepath : imageToDelete}, function (err, image) {
-                console.log(imageToDelete)});
+                //console.log(imageToDelete)
+              });
               });
         
               res.format({
@@ -379,7 +381,7 @@ router.route('/deleteImageDropzone')
                 if (err) 
                   throw err;
                 else{
-                  console.log('successfully deleted');//This worked.
+                  //console.log('successfully deleted');//This worked.
                 
                 for( var i = 0; i < imageArray.length; i++){ 
                      if ( imageArray[i] === imageToDeleteDropzone) {
@@ -430,7 +432,7 @@ router.route('/:id')
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
-        console.log('GET Retrieving ID: ' + neume._id);
+        //console.log('GET Retrieving ID: ' + neume._id);
         var neumedob = neume.dob.toISOString();
         neumedob = neumedob.substring(0, neumedob.indexOf('T'))
         res.format({
@@ -458,7 +460,7 @@ router.route('/:id/edit')
 	            console.log('GET Error: There was a problem retrieving: ' + err);
 	        } else {
 	            //Return the neume
-	            console.log('GET Retrieving ID: ' + neume._id);
+	            //console.log('GET Retrieving ID: ' + neume._id);
               var neumedob = neume.dob.toISOString();
               neumedob = neumedob.substring(0, neumedob.indexOf('T'))
 	            res.format({
@@ -479,7 +481,7 @@ router.route('/:id/edit')
               res.redirect('back');
 	        }
 	    }).populate('image').exec((err, posts) => {
-      console.log("Populated Image " + posts);
+      //console.log("Populated Image " + posts);
     });
 	})
 	//PUT to update a neume by ID
@@ -523,7 +525,7 @@ router.route('/:id/edit')
                           return console.log(err);
                       }
 
-                      console.log("The file was saved!");
+                      //console.log("The file was saved!");
                   });
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
@@ -542,7 +544,7 @@ router.route('/:id/edit')
 
               fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
                 if (err) throw err;
-                console.log('successfully deleted');
+                //console.log('successfully deleted');
               }); }
 	        })
 	    });
@@ -561,7 +563,7 @@ router.route('/:id/edit')
 	                    return console.error(err);
 	                } else {
 	                    //Returning success messages saying it was deleted
-	                    console.log('DELETE removing ID: ' + neume._id);
+	                    //console.log('DELETE removing ID: ' + neume._id);
                       mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
@@ -570,13 +572,13 @@ router.route('/:id/edit')
                         fs.unlink("xmlFiles/"+neume._id + '.xml',function(err){
                             if(err) throw err;
 
-                            console.log('File deleted!');
+                            //console.log('File deleted!');
                         });
                         //deleting the images if the neume is deleted
                         neume.imagePath.forEach(function(image){
                           fs.unlink('uploads/' + image, (err) => {
                             if (err) throw err;
-                            console.log('successfully deleted');
+                            //console.log('successfully deleted');
                          mongoose.model('image').remove({imagepath : image}, function (err, image) {
                             console.log(image)});
                           });
