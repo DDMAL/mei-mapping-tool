@@ -38,16 +38,17 @@
 /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
 appear if the collapsible button is clicked.*/ 
  
-  var coll = document.getElementById("collapsible#{neume.id}");
+var coll = document.getElementById("collapsible#{neume.id}");
   
-  coll.addEventListener("click", function() {
+coll.addEventListener("click", function() {
    
     this.classList.toggle("active");
     var content = this.nextElementSibling;
     if (content.style.display === "none") {
       content.style.display = "block";
-    } else {
+    } 
+    else {
       content.style.display = "none";
     }
     
-  });
+});

@@ -15,6 +15,7 @@ editor.getSession().on("change", function () {
 editor.setTheme("ace/theme/monokai");
 editor.session.setMode("ace/mode/html");//Html mode parsing
 var aceEditor = localStorage.getItem("ace");
+
 Dropzone.autoDiscover = false;
 var myDropzone = new Dropzone("#dropzone-example", {
 	maxFileSize: 100,

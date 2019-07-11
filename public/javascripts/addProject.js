@@ -1,17 +1,18 @@
 
-  var coll = document.getElementsByClassName("collapsible");
-  var i;
-  for (i = 0; i < coll.length; i++) {
+var coll = document.getElementsByClassName("collapsible");
+var i;
+for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
-  this.classList.toggle("active");
-  var content = this.nextElementSibling;
-  if (content.style.display === "block") {
-  content.style.display = "none";
-  } else {
-  content.style.display = "block";
-  }
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } 
+    else {
+      content.style.display = "block";
+    }
   });
-  }
+}
 
 // Get the modal and cloned element
  var modal = document.getElementById("projectModal");
@@ -28,17 +29,17 @@ var newProject = document.createElement("BUTTON");
 
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
-modal.style.display = "block";
+  modal.style.display = "block";
 }
 span.onclick = function() {
-modal.style.display = "none";
+  modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-if (event.target == modal) {
-  modal.style.display = "none";
-}
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
 
 //Making a test button :
@@ -52,22 +53,22 @@ newProject.innerText = "Test Project";
 section.appendChild(newProject);  
 newProject.onclick = function(){
    window.location.href= '/meiMapping'
-  }
+}
   
 buttonSubmit.onclick = function() {
-var newProject = document.createElement("BUTTON");
-newProject.setAttribute("style", "   background-color: #659abb; border-radius: 10px; /* Green */ border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;");
+  var newProject = document.createElement("BUTTON");
+  newProject.setAttribute("style", "   background-color: #659abb; border-radius: 10px; /* Green */ border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;");
 
 //Submit button closes pop-up
- modal.style.display = "none";
-var name = document.getElementById("elementName").value; 
+  modal.style.display = "none";
+  var name = document.getElementById("elementName").value; 
 
 //name submitted by the person
-var section = document.getElementById("section");
-newProject.innerText = name;
-section.appendChild(newProject);  
-newProject.onclick = function(){
-   window.location.href= '/meiMapping'
-  }
+  var section = document.getElementById("section");
+  newProject.innerText = name;
+  section.appendChild(newProject);  
+  newProject.onclick = function(){
+     window.location.href= '/meiMapping'
+    }
 }
 
