@@ -1,4 +1,4 @@
-
+/*Popup css for the modals*/
 .modal {
   display: none; /* Hidden by default */
   z-index: 1000; /* Sit on top */
