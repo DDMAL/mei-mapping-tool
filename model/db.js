@@ -1,4 +1,4 @@
 var mongoose = require('mongoose');
 
-mongoose.createConnection('mongodb://github.com/mei-mapping-tool');
+mongoose.createConnection('mongodb://132.206.14.234:8800/mei-mapping-tool');
 
