@@ -52,6 +52,7 @@ html
   link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
   link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
   link(rel='stylesheet', href='/stylesheets/editor.css')
+  link(rel='stylesheet', href='/stylesheets/tooltip.css')
 
 //Header parameters
    //Column parameters
@@ -90,8 +91,11 @@ div.neumeSection
       
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
       input(type='hidden',value='PUT',name='_method')
-      
-      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName") Update name
+       
+      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip") Update name
+        span.tooltiptext You can directly change the project name on the page.   
+          br 
+          t When you are satisfied with the new project name, click here!
 
     button#myBtn(class = "button button2AddNeume") Add Neume
 
@@ -117,7 +121,8 @@ div.neumeSection
                            .panel-body
                               div(id = "image#{neume.id}")
                                 p Images: 
-                                  button( id = "editImagesButton#{neume.id}" type="button" class = "button button1") Edit
+                                  button( id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
+                                    span.tooltiptext To delete images or add more images to the neume, click here!   
 
                     // Name, Folio and Description Section
                     .column
