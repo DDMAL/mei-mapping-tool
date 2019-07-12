@@ -11,7 +11,7 @@ router.get('/', function (req, res, next) {
   return res.render('index');
 });
 var userFinal = [];
-/* GET New project page. */
+/* GET about page. */
 router.route('/about')
   .get(function(req, res) {
       mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
@@ -36,7 +36,7 @@ router.route('/about')
                         res.json(projects);
                     }
                 }); 
-              global.userFinal = []; //The user needs to be added in all the routes
+              //global.userFinal = []; //The user needs to be added in all the routes
 
 });
 

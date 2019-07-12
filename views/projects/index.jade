@@ -16,7 +16,6 @@ html
 
     link(rel="images" href="/images/CF-005 (1).png")
     //Column parameters
- - each user in users
   div
     header
         // our main logo
@@ -33,8 +32,7 @@ html
                 a(href='http://ddmal.music.mcgill.ca/') DDMAL 
               li
                 a(href='/') Log out
-              li
-                a(href='#') #{user.username}
+              
 
     // the content
     main
@@ -86,7 +84,7 @@ html
                 span
                   | Cress
                   br
-                  | Copyright © 2019
+                  | MIT License 2019
 
 
             script(type='text/javascript' src='/javascripts/addProject.js')

@@ -58,7 +58,7 @@ router.route('/')
                     }
                 });
               }     
-              global.userFinal = []; //The user needs to be added in all the routes
+              //global.userFinal = []; //The user needs to be added in all the routes
 
         });
 

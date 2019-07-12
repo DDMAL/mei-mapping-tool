@@ -67,6 +67,8 @@ router.route('/user')
               }     
         });
     })
+
+//Route for public user's about page
 router.route('/about')
     //GET all neumes
     .get(function(req, res, next) {
