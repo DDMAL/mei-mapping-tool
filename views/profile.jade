@@ -69,7 +69,10 @@ html
                   | Profile status : #{status}
                 p.activity
                   | Bio : #{bio}
-                  textarea
+                form(action='/updateBio', method='post')
+                  textarea(type='text', name='bio', required='') #{bio}
+                  input(type='hidden',value='PUT',name='_method')
+                  button(class = "button button2") Update
               section#activity.hidden
                 br
                 p Most recent actions:

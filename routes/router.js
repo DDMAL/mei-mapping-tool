@@ -39,6 +39,38 @@ router.get('/about', function(req, res) {
 
 });
 
+//Route to update the bio
+router.route('/updateBio')
+  //PUT to update a neume by ID
+  .post(function(req, res) {
+      // Get our REST or form values. These rely on the "name" attributes from the edit page
+      var bio = req.body.bio;
+
+      //find the document by ID
+      User.findById(req.session.userId)
+         .exec(function (error, user) {
+          //update it
+          user.update({
+              bio : bio //adding the image to the image array without reinitializng everything
+          }, function (err, user) {
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+                    //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    res.format({
+                        html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(user);
+                       }
+                    });
+             }
+          })
+      });
+  })
 //POST route for updating data
 router.post('/', function (req, res, next) {
   var editor = false;
