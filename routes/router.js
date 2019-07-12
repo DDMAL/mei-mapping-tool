@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('./model/user');
+var User = require('../model/user');
 var path = require('path');
 var bodyParser = require('body-parser');
 var alert = require('alert-node');
