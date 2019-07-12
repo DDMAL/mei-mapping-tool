@@ -52,24 +52,29 @@ html
                  .site-section-inside
                   .color
                     .section-header
-                    h3 Log-in
-                    c To access the log-in page, you can go to the home page http://localhost:3000 . If you don't have an account, you'll need to create it in the register menu. Under the sign up menu, you can create your own username and password for your mei-mapping project. After clicking the register button, you will be redirected to the projects page : http://localhost:3000/projects
+                    h2 Log-in
+                    c To access the log-in page, you can go to the home page http://132.206.14.234/. If you don't have an account, you'll need to create it in the register menu. Under the sign up menu, you can create your own username and password for your mei-mapping project. After clicking the register button, you will be redirected to the projects page : http://132.206.14.234/projects. After logging-in, editors of the mei-mapping-tool can create projects and edit neumes, but they cannot edit other projects if they have not been given permission by administrators. 
 
-                    h3 Projects
-                    c To create a project, simply click on the add Project link and add a project name in the pop-up window. Once the project has been created, a button with the name of the project will appear under My Projects. To get access to the classifier, you can click on the button you created and you will be redirected to the mapping editor page. http://localhost:3000/projects/:id
+                    h2 Public Users
+                    c Public users can view all the projects and the neumes they contain, but they cannot edit the neumes or delete projects. To log-in as a public user, simply click on the link in the log-in section of the app titled : 
+                    br
+                    strong "Continue as a public user ->" 
 
-                    h3 Classifier (in development)
-                    c The classifier has many features to create, update, delete and see the neumes. You can add neumes by clicking on the add Neume button and filling the information. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. Starting from the left, the first section is the drag and drop section using dropzone where you can add images of your element. The second section is where you can add the name, folio and description of the element. The third section is the Classifier label that should have a proper syntax:
+                    h2 Projects
+                    c To create a project, simply click on the add Project link and add a project name in the pop-up window. Once the project has been created, a button with the name of the project will appear under My Projects. To get access to the classifier, you can click on the button you created and you will be redirected to the mapping editor page. http://132.206.14.234/projects/:id
 
-                    c neume.pes.b.3
-
-                    c The fourth element is the MEI Snippet that holds an ace editor where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written down needs to be reviewed for mei errors. The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button Update Name to see your changes. The home page of the header will redirect you to the projects page http://localhost:3000/projects
+                    h2 Classifier (in development)
+                    c The classifier has many features to create, update, delete and see the neumes. You can add neumes by clicking on the add Neume button and filling the information. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. Starting from the left, the first section is the drag and drop section using dropzone where you can add images of your element. The second section is where you can add the name, folio and description of the element. The third section is the classifier label that should have a proper syntax : 
+                    br
+                    strong neume.pes.b.3
+                    br
+                    c The fourth element is the MEI Snippet that holds an ace editor where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written needs to be reviewed for mei errors. The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button Update Name to see your changes. The home page of the header will redirect you to the projects page http://localhost:3000/projects
 
                     h3 Edit image
-                    c To add more images or delete previous images from the classifier, you can click on the Edit images button of the neume. A pop-up window with a view of the images and a dropzone to add images will appear.
+                    c To add more images or delete previous images from the classifier, you can click on the Edit images button of the neume. A pop-up window with a view of the images and a dropzone to add images will appear. If you downloaded an image that you didn't want to add to the neume, simply click on the cancel button and you will be redirected to the classifier page. The information will not be saved in the database. 
                     
-                    h3 Log-out
-                    c To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://localhost:3000
+                    h2 Log-out
+                    c To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://132.206.14.234/
 
               footer
                 //img(src='img/avatar.jpeg', alt='Footer Logo')
