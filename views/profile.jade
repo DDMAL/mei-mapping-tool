@@ -13,6 +13,7 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel='stylesheet', href='/stylesheets/textarea.css')
     link(rel='shortcut icon', href='http://designshack.net/favicon.ico')
     link(rel='icon', href='http://designshack.net/favicon.ico')
     
@@ -66,12 +67,12 @@ html
                 p.activity
                   | Email : #{email}
                 p.activity
-                  | Profile status : #{status}
-                p.activity
-                  | Bio : #{bio}
+                  | Profile status : Editor
+                p.activity Bio
                 form(action='/updateBio', method='post')
-                  textarea(type='text', name='bio', required='') #{bio}
+                  textarea(type='text', name='bio', required='' rows="3" cols="5" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true") #{bio}
                   input(type='hidden',value='PUT',name='_method')
+                  br
                   button(class = "button button2") Update
               section#activity.hidden
                 br
