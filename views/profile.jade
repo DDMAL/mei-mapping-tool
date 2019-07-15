@@ -103,10 +103,10 @@ html
                   ul#friendslist.clearfix
                     li
                     p #{collaborator}
-                     form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")
-                        input(type="text", name="deleteCollab", id = "deleteCollabID" hidden required)     
+                     form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")   
+                        input(name="collabName" value = "#{collaborator}" hidden)
                         input(type='hidden',value='DELETE',name='_method')
-                        button#btnSubmit(type="submit" class = "button button3") x
+                        button(class = "button button3") x
                    br
                  #ex1.modal
                     h2.
