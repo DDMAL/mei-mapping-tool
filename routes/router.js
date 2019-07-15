@@ -4,6 +4,8 @@ var User = require('../model/user');
 var path = require('path');
 var bodyParser = require('body-parser');
 var alert = require('alert-node');
+
+global.userArray = [];
  
 router.use(bodyParser.urlencoded({ extended: true }));
 // GET route for reading data
@@ -52,6 +54,40 @@ router.route('/updateBio')
           //update it
           user.update({
               bio : bio //adding the image to the image array without reinitializng everything
+          }, function (err, user) {
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+                    //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    res.format({
+                        html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(user);
+                       }
+                    });
+             }
+          })
+      });
+  })
+
+//Route to update the bio
+router.route('/collabs')
+  //PUT to update a neume by ID
+  .post(function(req, res) {
+      // Get our REST or form values. These rely on the "name" attributes from the edit page
+      var user = req.body.name;
+      userArray.push(user);
+
+      //find the document by ID
+      User.findById(req.session.userId)
+         .exec(function (error, user) {
+          //update it
+          user.update({
+              collaborators : userArray //adding the image to the image array without reinitializng everything
           }, function (err, user) {
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
