@@ -25,9 +25,10 @@ var UserSchema = new mongoose.Schema({
   bio: {
     type: String
   },
-  collaborators: {
-    type: Array
-  }
+  collaborators: [{
+    nameCollab : String,
+    projectID : String
+     }]
 });
 
 //authenticate input against database

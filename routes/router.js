@@ -75,20 +75,25 @@ router.route('/updateBio')
       });
   })
 
-//Route to update the bio
+//Route to add a collab
 router.route('/collabs')
   //PUT to update a neume by ID
   .post(function(req, res) {
       // Get our REST or form values. These rely on the "name" attributes from the edit page
-      var user = req.body.name;
-      userArray.push(user);
+      var userCollab = req.body.collabName;
+      var project = req.body.project;
 
       //find the document by ID
       User.findById(req.session.userId)
          .exec(function (error, user) {
           //update it
           user.update({
-              collaborators : userArray //adding the image to the image array without reinitializng everything
+              $push : {
+                        collaborators :  {
+                                 nameCollab: userCollab,
+                                 projectID: project
+                               } //inserted data is the object to be inserted 
+                      }
           }, function (err, user) {
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
@@ -109,15 +114,12 @@ router.route('/collabs')
       });
   })
 
+//route to delete a collab
 router.route('/deleteCollab')
   //DELETE an image by ID
   .post(function (req, res){
-    //imageDeleted is the path of the image we want to delete.
-    var collab = req.body.collabName; //this seems to be undefined.
-    //This is the p element
-     //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
-      //req.body.imageDeleted doesnt seem to work
-      //find neume by ID
+
+    var collab = req.body.collabName; 
       mongoose.model('User').findById(req.session.userId, function (err, user) {
 
           if (err) {

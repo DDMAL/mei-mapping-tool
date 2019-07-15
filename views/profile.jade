@@ -102,7 +102,8 @@ html
                 - each collaborator in collaborators
                   ul#friendslist.clearfix
                     li
-                    p #{collaborator}
+                    p #{collaborator.nameCollab}
+                    p #{collaborator.projectID}
                      form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")   
                         input(name="collabName" value = "#{collaborator}" hidden)
                         input(type='hidden',value='DELETE',name='_method')
@@ -114,7 +115,7 @@ html
                     form#formAddproject(name="addCollab",method="post",action="/collabs")
 
                               p Name: 
-                                 select#inputName(class = "createProjectInput" name="name" required)
+                                 select#inputName(class = "createProjectInput" name="collabName" required)
                                   - each user in users
                                       option(value='#{user.username}') #{user.username}
 
