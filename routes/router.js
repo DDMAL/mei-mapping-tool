@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var alert = require('alert-node');
 
 global.userArray = [];
+global.userArray = [];
  
 router.use(bodyParser.urlencoded({ extended: true }));
 // GET route for reading data
@@ -223,6 +224,23 @@ router.post('/', function (req, res, next) {
 
 // GET route after registering
 router.get('/profile', function (req, res, next) {
+  var usersSelect = [];
+  global.projectsUsers = [];
+    mongoose.model('project').find({userID : req.session.userId}, function (err, projects) {
+                if (err) {
+                    return console.error(err);
+                } 
+                else { 
+                  projectsUsers = projects;
+              }});
+    mongoose.model('User').find({}, function (err, users) {
+                if (err) {
+                    return console.error(err);
+                } 
+                else { usersSelect = users;
+
+                }});
+
   User.findById(req.session.userId)
     .exec(function (error, user) {
       if (error) {
@@ -234,6 +252,7 @@ router.get('/profile', function (req, res, next) {
         alert(err, 'yad');
         return res.redirect('back');
         } else {
+          
          return res.format({
           html: function(){           
               res.render('profile', {
@@ -241,7 +260,9 @@ router.get('/profile', function (req, res, next) {
                 "email" : user.email,
                 "status" : user.role,
                 "bio": user.bio,
-                "collaborators" : user.collaborators
+                "collaborators" : user.collaborators,
+                "users" : usersSelect,
+                "projects" : projectsUsers
               });
           },
           json: function(){
