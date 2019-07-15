@@ -65,6 +65,12 @@
   border: 2px solid #008CBA;
   margin: 10px;
 }
+.button2Update {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+  width : 15%;
+}
 .button2AddNeume {
   background-color: white; 
   color: black; 
