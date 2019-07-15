@@ -24,6 +24,9 @@ var UserSchema = new mongoose.Schema({
   },
   bio: {
     type: String
+  },
+  collaborators: {
+    type: Array
   }
 });
 

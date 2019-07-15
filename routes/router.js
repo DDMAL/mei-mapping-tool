@@ -160,7 +160,8 @@ router.get('/profile', function (req, res, next) {
                 "username" : user.username,
                 "email" : user.email,
                 "status" : user.role,
-                "bio": user.bio 
+                "bio": user.bio,
+                "collaborators" : user.collaborators
               });
           },
           json: function(){
@@ -177,6 +178,7 @@ router.post('/profile', function (req, res, next) {
       var username = req.body.name;
       var email = req.body.email;
       var bio = req.body.bio;
+      var collaborators = req.body.collaborators;
 
   User.findById(req.session.userId)
     .exec(function (error, user) {

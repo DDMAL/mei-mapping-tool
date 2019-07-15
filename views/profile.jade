@@ -90,19 +90,15 @@ html
               section#friends.hidden
                 br
                 p Collaborators:
-                ul#friendslist.clearfix
-                  li
-                    a(href='#')
-                      img(src='images/avatar.png', width='22', height='22')
-                      |  Username
-                  li
-                    a(href='#')
-                      img(src='images/avatar.png', width='22', height='22')
-                      |  Username
-                  li
-                    a(href='#')
-                      img(src='images/avatar.png', width='22', height='22')
-                      |  Username
+                - each collaborator in collaborators
+                  ul#friendslist.clearfix
+                    li
+                      a(href='#')
+                        img(src='images/avatar.png', width='22', height='22')
+                        #{collaborator}
+                br
+                button(class = "button button2") Add a collaborator
+
               section#settings.hidden
                 br
                 br
