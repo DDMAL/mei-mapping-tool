@@ -16,6 +16,15 @@ html
     link(rel='stylesheet', href='/stylesheets/textarea.css')
     link(rel='shortcut icon', href='http://designshack.net/favicon.ico')
     link(rel='icon', href='http://designshack.net/favicon.ico')
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel="stylesheet" href="/stylesheets/modal.css")
     
     script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
 
@@ -96,8 +105,21 @@ html
                       a(href='#')
                         img(src='images/avatar.png', width='22', height='22')
                         #{collaborator}
-                br
-                button(class = "button button2") Add a collaborator
+                   br
+                 #ex1.modal
+                    h2.
+                     Add a Collaborator
+                    form#formAddproject(name="addCollab",method="post",action="/collabs")
+
+                              p Name: 
+                                 input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
+
+                              p Project: 
+                                 input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
+                              p
+                                 button#btnSubmit(type="submit" class = "button buttonAddProject") submit
+                  // Link to open the modal
+                a(href='#ex1', rel='modal:open') Add a Collaborator
 
               section#settings.hidden
                 br
@@ -138,3 +160,7 @@ script(type='text/javascript').
   $(newcontent).removeClass('hidden');
   });
   });
+       //Modals event listeners for every modal
+    window.addEventListener('load', function() {
+        initializeModal('myModal', 'collaboratorBtn');
+      });
