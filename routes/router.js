@@ -126,6 +126,13 @@ router.route('/deleteCollab')
             mongoose.model('User').findOneAndUpdate({_id: user._id}, {$pull: {collaborators : collab}}, function(err, data){
                 console.log(err, data);
               });
+
+            //Deleting the element from the userArray
+            for( var i = 0; i < userArray.length; i++){ 
+                 if ( userArray[i] === collab) {
+                   userArray.splice(i, 1); 
+                 }
+              }
         
               res.format({
                   //HTML returns us back to the main page, or you can create a success page
