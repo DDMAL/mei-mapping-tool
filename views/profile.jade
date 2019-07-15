@@ -114,10 +114,15 @@ html
                     form#formAddproject(name="addCollab",method="post",action="/collabs")
 
                               p Name: 
-                                 input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
+                                 select#inputName(class = "createProjectInput" name="name" required)
+                                  - each user in users
+                                      option(value='#{user.username}') #{user.username}
+
 
                               p Project: 
-                                 input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="project" required)
+                                 select(class = "createProjectInput" name="project" required)
+                                  - each project in projects
+                                      option(value='#{project.name}') #{project.name}
                               p
                                  button#btnSubmit(type="submit" class = "button buttonAddProject") submit
                   // Link to open the modal
