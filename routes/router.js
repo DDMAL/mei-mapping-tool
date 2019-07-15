@@ -107,6 +107,43 @@ router.route('/collabs')
           })
       });
   })
+
+router.route('/deleteCollab')
+  //DELETE an image by ID
+  .post(function (req, res){
+    //imageDeleted is the path of the image we want to delete.
+    var collab = req.body.collabName; //this seems to be undefined.
+    //This is the p element
+     //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
+      //req.body.imageDeleted doesnt seem to work
+      //find neume by ID
+      mongoose.model('User').findById(req.session.userId, function (err, user) {
+
+          if (err) {
+              return console.error(err);
+          } else {
+            //This works, when the page is reloaded
+            mongoose.model('User').findOneAndUpdate({_id: user._id}, {$pull: {collaborators : collab}}, function(err, data){
+                console.log(err, data);
+              });
+        
+              res.format({
+                  //HTML returns us back to the main page, or you can create a success page
+                    html: function(){
+                        //res.redirect("back");
+                        res.redirect("back");
+                   },
+                   //JSON returns the item with the message that is has been deleted
+                  json: function(){
+                         res.json({message : 'deleted',
+                             item : user
+                         });
+                   }
+
+                });
+                  }
+              });
+  });
 //POST route for updating data
 router.post('/', function (req, res, next) {
   var editor = false;
