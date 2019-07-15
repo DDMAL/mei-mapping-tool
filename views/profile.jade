@@ -102,8 +102,8 @@ html
                 - each collaborator in collaborators
                   ul#friendslist.clearfix
                     li
-                    p #{collaborator.nameCollab}
-                    p #{collaborator.projectID}
+                    p #{collaborator.collabUserName} 
+                    p #{collaborator.collabProjectName}
                      form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")   
                         input(name="collabName" value = "#{collaborator.nameCollab}" hidden)
                         input(name="collabProject" value = "#{collaborator.projectID}" hidden)
@@ -119,12 +119,14 @@ html
                                  select#inputName(class = "createProjectInput" name="collabName" required)
                                   - each user in users
                                       option(value='#{user.id}') #{user.username}
+                                  input(name = "collabUserName" hidden)
 
 
                               p Project: 
                                  select(class = "createProjectInput" name="project" required)
                                   - each project in projects
                                       option(value='#{project.id}') #{project.name}
+                                  input(name = "collabProjectName" hidden)
                               p
                                  button#btnSubmit(type="submit" class = "button buttonAddProject") submit
                   // Link to open the modal
@@ -148,7 +150,7 @@ html
                   span
                     | Language 
                     img(src='images/edit.png', alt='*Edit*')
-                  |  English(US)
+                  |  #{language}
 
   footer
     //img(src='img/avatar.jpeg', alt='Footer Logo')

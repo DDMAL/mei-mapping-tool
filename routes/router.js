@@ -82,6 +82,8 @@ router.route('/collabs')
       // Get our REST or form values. These rely on the "name" attributes from the edit page
       var userCollab = req.body.collabName;
       var project = req.body.project;
+      var userCollabName = req.body.collabUsername; 
+      var projectCollabName = req.body.collabProjectName;
       //Here, I also want to call the project schema model and ask for adding the name or the id of the element in the neume. 
       //Project schema : needs to be found by project id, then I add the user id of the user I just added to the project
       //to the array of the userID.
@@ -102,7 +104,9 @@ router.route('/collabs')
               $push : {
                         collaborators :  {
                                  nameCollab: userCollab,
-                                 projectID: project
+                                 projectID: project,
+                                 collabUserName : userCollabName,
+                                 collabProjectName : projectCollabName
                                } //inserted data is the object to be inserted 
                       }
           }, function (err, user) {
@@ -132,6 +136,7 @@ router.route('/deleteCollab')
 
     var userCollab = req.body.collabName; 
     var projectCollab = req.body.collabProject;
+    
       mongoose.model('User').findById(req.session.userId, function (err, user) {
 
           if (err) {

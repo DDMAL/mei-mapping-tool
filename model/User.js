@@ -27,7 +27,9 @@ var UserSchema = new mongoose.Schema({
   },
   collaborators: [{
     nameCollab : String,
-    projectID : String
+    projectID : String,
+    collabUserName : String,
+    collabProjectName : String
      }]
 });
 
