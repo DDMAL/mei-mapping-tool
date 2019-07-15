@@ -119,20 +119,29 @@ router.route('/deleteCollab')
   //DELETE an image by ID
   .post(function (req, res){
 
-    var collab = req.body.collabName; 
+    var userCollab = req.body.collabName; 
+    var projectCollab = req.body.collabProject;
       mongoose.model('User').findById(req.session.userId, function (err, user) {
 
           if (err) {
               return console.error(err);
           } else {
             //This works, when the page is reloaded
-            mongoose.model('User').findOneAndUpdate({_id: user._id}, {$pull: {collaborators : collab}}, function(err, data){
+            mongoose.model('User').findOneAndUpdate({_id: user._id}, 
+              {
+                $pull: {collaborators :  {
+                                 nameCollab: userCollab,
+                                 projectID: projectCollab
+                               } //inserted data is the object to be inserted 
+                             }}, 
+
+              function(err, data){
                 console.log(err, data);
               });
 
             //Deleting the element from the userArray
             for( var i = 0; i < userArray.length; i++){ 
-                 if ( userArray[i] === collab) {
+                 if ( userArray[i] === userCollab) {
                    userArray.splice(i, 1); 
                  }
               }
