@@ -82,6 +82,17 @@ router.route('/collabs')
       // Get our REST or form values. These rely on the "name" attributes from the edit page
       var userCollab = req.body.collabName;
       var project = req.body.project;
+      //Here, I also want to call the project schema model and ask for adding the name or the id of the element in the neume. 
+      //Project schema : needs to be found by project id, then I add the user id of the user I just added to the project
+      //to the array of the userID.
+            //This works, when the page is reloaded
+            mongoose.model('project').findOneAndUpdate({_id: project}, 
+              {
+                $push: {userID : userCollab}}, 
+
+              function(err, data){
+                console.log(err, data);
+              });
 
       //find the document by ID
       User.findById(req.session.userId)
