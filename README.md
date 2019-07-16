@@ -64,10 +64,10 @@ To make sure mongodb is running in your application, you can add this command to
 The mei-mapping-tool has 3 main parts : log-in, projects and classifier.
 
 ### Log-in
-To access the `log-in` page, you can go to the home page http://localhost:3000 . If you don't have an account, you'll need to create it in the register menu.
+To access the `log-in` page, you can go to the home page http://localhost:8800 . If you don't have an account, you'll need to create it in the register menu.
 Under the sign up menu, you can create your own username and password for your mei-mapping project.
 After clicking the register button, you will be redirected to the `projects` page :
-http://localhost:3000/projects
+http://localhost:8800/projects
 
 ### Projects
 To create a project, simply click on the add Project link and add a project name in the pop-up window. 
@@ -81,8 +81,8 @@ Starting from the left, the first section is the drag and drop section using `dr
 
 The fourth element is the `MEI Snippet` that holds an `ace editor` where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written down needs to be reviewed for mei errors.
 The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button `Update Name` to see your changes. 
-The home page of the header will redirect you to the projects page http://localhost:3000/projects
+The home page of the header will redirect you to the projects page http://localhost:8800/projects
 ## Edit image
 To add more images or delete previous images from the classifier, you can click on the `Edit images` button of the neume. A pop-up window with a view of the images and a dropzone to add images will appear. 
 ## Log-out
-To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://localhost:3000
+To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://localhost:8800
