@@ -66,8 +66,6 @@ html
                   li.profiletab
                     a.sel(href='#bio') Profile
                   li.profiletab
-                    a(href='#activity') Activity
-                  li.profiletab
                     a(href='#friends') Collaborators
                   li.profiletab
                     a(href='#settings') Settings
@@ -78,25 +76,12 @@ html
                   | Email : #{email}
                 p.activity
                   | Profile status : Editor
+                p Profile bio : Tell us about yourself!
                  form(action='/updateBio', method='post')
                   textarea(type='text', name='bio', required='' rows="0" cols="0" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true") #{bio}
                   input(type='hidden',value='PUT',name='_method')
                   br
                   button(class = "button button2") Update
-              section#activity.hidden
-                br
-                p Most recent actions:
-                p.activity
-                  | @10:15PM - Submitted a 
-                  strong Punctum
-                  |  neume
-                p.activity @9:50PM - Updated a neume
-                p.activity @8:15PM - Added an MEI snippet
-                p.activity
-                  | @4:30PM - Added 
-                  strong Username
-                  |  as a collaborator
-                p.activity @12:30PM - Submitted a project
               section#friends.hidden
                 br
                 p Collaborators:
@@ -139,12 +124,12 @@ html
                       img(src='images/edit.png', alt='*Edit*')
                       |  Username :                     
 
-                      input(name = "usernameSettings", value = "#{username}" required)
+                      input(name = "usernameSettings", value = "#{username}"  size="20" required)
                   p.setting
                       img(src='images/edit.png', alt='*Edit*')
                       |  E-mail Address :      
                         
-                      input(name = "emailSettings", value = "#{email}" required)
+                      input(name = "emailSettings", value = "#{email}"  size="20" required)
                   button(class = "button button2") Update Settings
 
   footer
