@@ -38,12 +38,11 @@ block content
 			p#URL(style = 'display:none;')
 			input#inputID(type="text", name="ID_project")
 		p
-			button#btnSubmit(type="submit" class = "button button5") submit
+			button#btnSubmit(type="submit" class = "button button5SubmitEdit") submit
 
-	form(action='/projects/deleteImageDropzone',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageDropzoneForm")
-		input(type="text", name="imageDeletedDropzone", id = "imageToDeleteDropzone" hidden required)     
-		input(type='hidden',value='DELETE',name='_method')
-		button(type = "submit" id ="deleteImageButtonDropzone" hidden) submit
+form(action='/neumes/cancel',method='post',enctype='application/x-www-form-urlencoded' id = "cancel")  
+	input(type='hidden',value='GET',name='_method')
+	button(type = "submit" id ="cancelButton" class = "button3CancelImage") Cancel
 
 		script.
 			var url = window.location.href;
@@ -95,15 +94,10 @@ block content
 		Dropzone.autoDiscover = false;
 		var myDropzone = new Dropzone("#dropzone-example", {
 			maxFileSize: 100,
-			acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg"
-		});
-		myDropzone.on("success", function(file, serverResponse) {
-			console.log(file);
-			document.getElementById("imageToDeleteDropzone").value = file.upload.uuid + ".jpg"; 
+			acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
+			addRemoveLinks: false,
 		});
 		myDropzone.on('removedfile', function (file) {
 		//Function from rm_image_dropzone.js to remove file from folder
 		//console.log(file);
-			document.getElementById("imageToDeleteDropzone").value = file.upload.uuid + ".jpg"; 
-				$("#deleteImageButtonDropzone").click();
 			});

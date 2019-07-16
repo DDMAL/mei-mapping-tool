@@ -1,4 +1,4 @@
-
+/*Popup css for the modals*/
 .modal {
   display: none; /* Hidden by default */
   z-index: 1000; /* Sit on top */
@@ -19,6 +19,7 @@
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+  z-index: 1000;
 }
 
 /* The Close Button */

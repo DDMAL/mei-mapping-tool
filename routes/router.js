@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../model/user');
+var User = require('../model/User');
 var path = require('path');
 var bodyParser = require('body-parser');
 var alert = require('alert-node');
@@ -14,8 +14,9 @@ router.get('/', function (req, res, next) {
   return res.render('index');
 });
 var userFinal = [];
-/* GET New project page. */
-router.get('/about', function(req, res) {
+/* GET about page. */
+router.route('/about')
+  .get(function(req, res) {
       mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
                     userFinal = users;
                   });
@@ -38,7 +39,7 @@ router.get('/about', function(req, res) {
                         res.json(projects);
                     }
                 }); 
-              global.userFinal = []; //The user needs to be added in all the routes
+              //global.userFinal = []; //The user needs to be added in all the routes
 
 });
 

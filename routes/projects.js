@@ -42,10 +42,6 @@ router.route('/')
                   neumeFinal = neumes;
                   //console.log(neumeFinal);//This works!!!
                 });
-                mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
-                userFinal = users;
-               // console.log(userFinal);//This works!!!
-              });
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -63,7 +59,7 @@ router.route('/')
                     }
                 });
               }     
-              global.userFinal = []; //The user needs to be added in all the routes
+              //global.userFinal = []; //The user needs to be added in all the routes
 
         });
 
@@ -173,7 +169,7 @@ router.get('/:id/new', function(req, res) {
 router.param('id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');
     //find the ID in the Database
-    mongoose.model('project').findById(id, function (err, project) {
+    mongoose.model('project').find({_id : id}, function (err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
             console.log(id + ' was not found');
