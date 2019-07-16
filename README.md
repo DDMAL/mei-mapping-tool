@@ -82,10 +82,10 @@ Starting from the left, the first section is the drag and drop section using `dr
 The fourth element is the `MEI Snippet` that holds an `ace editor` where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written down needs to be reviewed for mei errors.
 The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button `Update Name` to see your changes. 
 The home page of the header will redirect you to the projects page http://localhost:8800/projects
-## Edit image
+### Edit image
 To add more images or delete previous images from the classifier, you can click on the `Edit images` button of the neume. A pop-up window with a view of the images and a dropzone to add images will appear. 
 
-### Profile page
+## Profile page
 To access the profile page, you can click on your username button in the navigation bar. The profile page is divided in 3 sections. The profile section has information about your email, profile status and bio. You can change your bio by simply writing on the text area and clicking on the update button to see your changes. The collaborators section helps manage user access to your projects. To add a new editor to your project, you can press the `add a collaborator` link at the bottom of the screen and you will be prompted to choose the username of the user and the project to which you want to give access. The user will then be able to view and edit the project in their account. The settings section manages the changes a user might want to make to its email or username.
 
 ## Log-out
