@@ -83,6 +83,16 @@
   color: white;
 }
 
+.button3DeleteCollab {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #f44336;
+  width : 4.7%;
+  left : 470px;
+  bottom : 40px;
+  /*Adding the delete button to the collapsible element*/
+  /*Adding the neumes for the projects.*/
+}
 .button3 {
  background-color: white; 
   color: black; 
@@ -104,6 +114,10 @@
   color: white;
 }
 .button3:hover {
+  background-color: #f44336;
+  color: white;
+}
+.button3DeleteCollab:hover {
   background-color: #f44336;
   color: white;
 }
