@@ -73,13 +73,13 @@ html
                     a(href='#settings') Settings
               section#bio
                 br
-                p Profile
+                h2 - Profile -
                 p.activity
                   | Email : #{email}
                 p.activity
                   | Profile status : Editor
                  form(action='/updateBio', method='post')
-                  textarea(type='text', name='bio', required='' rows="2" cols="1" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true") #{bio}
+                  textarea(type='text', name='bio', required='' rows="0" cols="0" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true") #{bio}
                   input(type='hidden',value='PUT',name='_method')
                   br
                   button(class = "button button2") Update
@@ -136,20 +136,16 @@ html
                 p Edit your user settings:
                 form(action='/updateSettings', method='post')
                   p.setting
-                      | Username
                       img(src='images/edit.png', alt='*Edit*')
+                      |  Username :                     
 
-                      input(name = "usernameSettings", value = "#{username}")
+                      input(name = "usernameSettings", value = "#{username}" required)
                   p.setting
-                      | E-mail Address 
                       img(src='images/edit.png', alt='*Edit*')
-                      
-                      input(name = "emailSettings", value = "#{email}")
-                  //p.setting
-                    //span
-                      //| Language 
-                     // img(src='images/edit.png', alt='*Edit*')
-                    // |  #{language}
+                      |  E-mail Address :      
+                        
+                      input(name = "emailSettings", value = "#{email}" required)
+                  button(class = "button button2") Update Settings
 
   footer
     //img(src='img/avatar.jpeg', alt='Footer Logo')

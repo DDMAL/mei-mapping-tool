@@ -74,7 +74,41 @@ router.route('/updateBio')
           })
       });
   })
+//Route to update the bio
+router.route('/updateSettings')
+  //post to update our settings by ID
+  .post(function(req, res) {
+      // Get our REST or form values. These rely on the "name" attributes from the edit page
+      var userSettings = req.body.usernameSettings;
+      var emailSettings = req.body.emailSettings;
 
+      //find the document by ID
+      User.findById(req.session.userId)
+         .exec(function (error, user) {
+          //update it
+          user.update({
+              username : userSettings,
+              email : emailSettings
+
+          }, function (err, user) {
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+                    //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    res.format({
+                        html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(user);
+                       }
+                    });
+             }
+          })
+      });
+  })
 //Route to add a collab
 router.route('/collabs')
   //PUT to update a neume by ID

@@ -1,8 +1,8 @@
 textarea {
   margin-top: 10px;
   margin-left: 50px;
-  width: 500px;
-  height: 100px;
+  width: 30px;
+  height: 30px;
   -moz-border-bottom-colors: none;
   -moz-border-left-colors: none;
   -moz-border-right-colors: none;
@@ -20,6 +20,7 @@ textarea {
   line-height: 1.4em;
   padding: 5px 8px;
   transition: background-color 0.2s ease 0s;
+  position : relative;
 }
 
 
