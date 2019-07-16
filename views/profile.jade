@@ -102,8 +102,8 @@ html
                 - each collaborator in collaborators
                   ul#friendslist.clearfix
                     li
-                    p #{collaborator.collabUserName} 
-                    p #{collaborator.collabProjectName}
+                    p Username : #{collaborator.collabUserName} 
+                    p Project : #{collaborator.collabProjectName}
                      form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")   
                         input(name="collabName" value = "#{collaborator.nameCollab}" hidden)
                         input(name="collabProject" value = "#{collaborator.projectID}" hidden)
@@ -116,17 +116,14 @@ html
                     form#formAddproject(name="addCollab",method="post",action="/collabs")
 
                               p Name: 
-                                 select#inputName(class = "createProjectInput" name="collabName" required)
+                                 select(class = "createProjectInput" name="collabName" id = "selectUser" required)
                                   - each user in users
-                                      option(value='#{user.id}') #{user.username}
-                                  input(name = "collabUserName" hidden)
-
+                                      option(value='#{user.id}') #{user.username}                            
 
                               p Project: 
-                                 select(class = "createProjectInput" name="project" required)
+                                 select(class = "createProjectInput" name="project" id = "selectProject" required)
                                   - each project in projects
                                       option(value='#{project.id}') #{project.name}
-                                  input(name = "collabProjectName" hidden)
                               p
                                  button#btnSubmit(type="submit" class = "button buttonAddProject") submit
                   // Link to open the modal
@@ -158,20 +155,24 @@ html
       | Cress
       br
       | Copyright © 2019
+
 script(type='text/javascript').
-  $(function(){
+ $(function(){
   $('#profiletabs ul li a').on('click', function(e){
-  e.preventDefault();
-  var newcontent = $(this).attr('href');
-  $('#profiletabs ul li a').removeClass('sel');
-  $(this).addClass('sel');
-  $('#content section').each(function(){
-  if(!$(this).hasClass('hidden')) { $(this).addClass('hidden'); }
-  });
-  $(newcontent).removeClass('hidden');
-  });
-  });
-       //Modals event listeners for every modal
+     e.preventDefault();
+     var newcontent = $(this).attr('href');
+    $('#profiletabs ul li a').removeClass('sel');
+    $(this).addClass('sel');
+      $('#content section').each(function(){
+        if(!$(this).hasClass('hidden')) { $(this).addClass('hidden'); }
+        });
+        $(newcontent).removeClass('hidden');
+      });
+ });
+  
+  //Modals event listeners for every modal
     window.addEventListener('load', function() {
         initializeModal('myModal', 'collaboratorBtn');
       });
+
+
