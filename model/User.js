@@ -21,7 +21,16 @@ var UserSchema = new mongoose.Schema({
   },
    role: {
     type: String
-  }
+  },
+  bio: {
+    type: String
+  },
+  collaborators: [{
+    nameCollab : String,
+    projectID : String,
+    collabUserName : String,
+    collabProjectName : String
+     }]
 });
 
 //authenticate input against database

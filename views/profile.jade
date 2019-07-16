@@ -1,0 +1,161 @@
+doctype html
+doctype html
+html
+  head
+  .column
+    title  Cress 🎵 
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel='stylesheet', type='text/css', media='all', href='stylesheets/profile.css')
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel='stylesheet', href='/stylesheets/textarea.css')
+    link(rel='shortcut icon', href='http://designshack.net/favicon.ico')
+    link(rel='icon', href='http://designshack.net/favicon.ico')
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel="stylesheet" href="/stylesheets/modal.css")
+    link(rel="stylesheet" href="/stylesheets/buttonNeume.css")
+    
+    script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
+
+    link(rel="stylesheet" href="/stylesheets/modal.css")
+
+    link(rel="images" href="/images/CF-005 (1).png")
+    //Column parameters
+  div
+    header
+        // our main logo
+        a#logo(href='#')
+          span Cress 🎵 
+        // main navigation links
+        nav
+          ul
+              li
+                a(href='/about') About
+              li
+                a(href='/projects') Projects
+              li
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li
+                a(href='/') Log out
+              li
+                a(href='#') #{username}
+
+    // the content
+    main
+      // hero content
+      .hero
+          #w
+            #content.clearfix
+              #userphoto
+                img(src='images/avatar.png', alt='default avatar')
+              h1 #{username}
+              nav#profiletabs
+                ul.clearfix
+                  li.profiletab
+                    a.sel(href='#bio') Profile
+                  li.profiletab
+                    a(href='#friends') Collaborators
+                  li.profiletab
+                    a(href='#settings') Settings
+              section#bio
+                br
+                h2 - Profile -
+                p.activity
+                  | Email : #{email}
+                p.activity
+                  | Profile status : Editor
+                p Profile bio : Tell us about yourself!
+                 form(action='/updateBio', method='post')
+                  textarea(type='text', name='bio', required='' rows="0" cols="0" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true") #{bio}
+                  input(type='hidden',value='PUT',name='_method')
+                  br
+                  button(class = "button button2") Update
+              section#friends.hidden
+                br
+                p Collaborators:
+                - each collaborator in collaborators
+                  ul#friendslist.clearfix
+                    li
+                    h6 Username : #{collaborator.collabUserName} 
+                    h6 Project : #{collaborator.collabProjectName}
+                     form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")   
+                        input(name="collabName" value = "#{collaborator.nameCollab}" hidden)
+                        input(name="collabProject" value = "#{collaborator.projectID}" hidden)
+                        input(type='hidden',value='DELETE',name='_method')
+                        button(class = "button button3DeleteCollab") x
+                   br
+                 #ex1.modal
+                    h2.
+                     Add a Collaborator
+                    form#formAddproject(name="addCollab",method="post",action="/collabs")
+
+                              p Name: 
+                                 select(class = "createProjectInput" name="collabName" id = "selectUser" required)
+                                  - each user in users
+                                      option(value='#{user.id}') #{user.username}                            
+
+                              p Project: 
+                                 select(class = "createProjectInput" name="project" id = "selectProject" required)
+                                  - each project in projects
+                                      option(value='#{project.id}') #{project.name}
+                              p
+                                 button#btnSubmit(type="submit" class = "button buttonAddProject") submit
+                  // Link to open the modal
+                a(href='#ex1', rel='modal:open') Add a Collaborator
+
+              section#settings.hidden
+                br
+                br
+                p Edit your user settings:
+                form(action='/updateSettings', method='post')
+                  p.setting
+                      img(src='images/edit.png', alt='*Edit*')
+                      |  Username :                     
+
+                      input(name = "usernameSettings", value = "#{username}"  size="20" required)
+                  p.setting
+                      img(src='images/edit.png', alt='*Edit*')
+                      |  E-mail Address :      
+                        
+                      input(name = "emailSettings", value = "#{email}"  size="20" required)
+                  button(class = "button button2") Update Settings
+
+  footer
+    //img(src='img/avatar.jpeg', alt='Footer Logo')
+    span
+      | Cress
+      br
+      | Copyright © 2019
+
+script(type='text/javascript').
+ $(function(){
+  $('#profiletabs ul li a').on('click', function(e){
+     e.preventDefault();
+     var newcontent = $(this).attr('href');
+    $('#profiletabs ul li a').removeClass('sel');
+    $(this).addClass('sel');
+      $('#content section').each(function(){
+        if(!$(this).hasClass('hidden')) { $(this).addClass('hidden'); }
+        });
+        $(newcontent).removeClass('hidden');
+      });
+ });
+  
+  //Modals event listeners for every modal
+    window.addEventListener('load', function() {
+        initializeModal('myModal', 'collaboratorBtn');
+      });
+
+
