@@ -168,7 +168,7 @@ router.get('/:id/new', function(req, res) {
 router.param('id', function(req, res, next, id) {
     //console.log('validating ' + id + ' exists');
     //find the ID in the Database
-    mongoose.model('project').findById(id, function (err, project) {
+    mongoose.model('project').find({_id : id}, function (err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
             console.log(id + ' was not found');
