@@ -25,6 +25,7 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
     link(rel="stylesheet" href="/stylesheets/modal.css")
+    link(rel="stylesheet" href="/stylesheets/buttonNeume.css")
     
     script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
 
@@ -102,13 +103,13 @@ html
                 - each collaborator in collaborators
                   ul#friendslist.clearfix
                     li
-                    p Username : #{collaborator.collabUserName} 
-                    p Project : #{collaborator.collabProjectName}
+                    h6 Username : #{collaborator.collabUserName} 
+                    h6 Project : #{collaborator.collabProjectName}
                      form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")   
                         input(name="collabName" value = "#{collaborator.nameCollab}" hidden)
                         input(name="collabProject" value = "#{collaborator.projectID}" hidden)
                         input(type='hidden',value='DELETE',name='_method')
-                        button(class = "button button3") x
+                        button(class = "button button3DeleteCollab") x
                    br
                  #ex1.modal
                     h2.
@@ -133,21 +134,22 @@ html
                 br
                 br
                 p Edit your user settings:
-                p.setting
-                  span
-                    | Username
-                    img(src='images/edit.png', alt='*Edit*')
-                  |  #{username}
-                p.setting
-                  span
-                    | E-mail Address 
-                    img(src='images/edit.png', alt='*Edit*')
-                  |  #{email}
-                p.setting
-                  span
-                    | Language 
-                    img(src='images/edit.png', alt='*Edit*')
-                  |  #{language}
+                form(action='/updateSettings', method='post')
+                  p.setting
+                      | Username
+                      img(src='images/edit.png', alt='*Edit*')
+
+                      input(name = "usernameSettings", value = "#{username}")
+                  p.setting
+                      | E-mail Address 
+                      img(src='images/edit.png', alt='*Edit*')
+                      
+                      input(name = "emailSettings", value = "#{email}")
+                  //p.setting
+                    //span
+                      //| Language 
+                     // img(src='images/edit.png', alt='*Edit*')
+                    // |  #{language}
 
   footer
     //img(src='img/avatar.jpeg', alt='Footer Logo')
