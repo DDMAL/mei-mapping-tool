@@ -38,10 +38,6 @@ router.route('/')
               } else {
                 console.log(project._id);
                
-                mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
-                  neumeFinal = neumes;
-                  //console.log(neumeFinal);//This works!!!
-                });
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -125,10 +121,6 @@ router.route('/')
               if (err) {
                   res.send("There was a problem adding the information to the database.");
               } else {
-                mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
-                  neumeFinal = neumes;
-                  //console.log(neumeFinal);//This works!!!
-                });
                 mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
                 userFinal = users;
                // console.log(userFinal);//This works!!!
@@ -186,10 +178,6 @@ router.param('id', function(req, res, next, id) {
             });
         //if it is found we continue on
         } else {
-          mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
-            neumeFinal = neumes;
-            //console.log(neumeFinal);//This works!!!
-          });
           mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
                 userFinal = users;
                // console.log(userFinal);//This works!!!
