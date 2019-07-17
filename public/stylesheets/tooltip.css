@@ -20,6 +20,8 @@
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .tooltip:hover .tooltiptext {
