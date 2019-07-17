@@ -586,6 +586,8 @@ router.route('/:id') //This is where the classifier would be
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
+
+           
         //Updating the name
         //Getting the neumes for each project and showing them in the console!!
         //Element in face
@@ -597,20 +599,7 @@ router.route('/:id') //This is where the classifier would be
            //console.log(userFinal);//This works! 
            mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
             neumeFinal = neumes;
-            //console.log(neumeFinal);//This works!!!
-          });
-           mongoose.model('image').findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, latestImage) {
-              console.log( latestImage );
-              latestImage = image;
-            });
-
-           //We need to have a variable that is passed here and also on the show page :
-           //For now, let's try it out by showing one image on the screen. We'll think about the logic behind 
-           //Showing the right images on the screen afterwards.
-           //for each neume in neumeFinal
-           //Find the images that has as neume ID the id of the neume
-           //Add that image to an array field in the neume 
-           neumeFinal.forEach(function(neumeElement){
+            neumes.forEach(function(neumeElement){
             imageData = [];
            mongoose.model("storedImages").find({neumeID : neumeElement._id}, function (err, images) {
             imageData = [];
@@ -630,7 +619,8 @@ router.route('/:id') //This is where the classifier would be
 
            });
            });
-           imageData = [];
+            //console.log(neumeFinal);//This works!!!
+          });
 
            //Image data should be all of the images separated by commas.
            //1. Find by id the image depending on the id of the neume
@@ -649,8 +639,7 @@ router.route('/:id') //This is where the classifier would be
                 "projectdob" : projectdob,
                 "project" : project,
                 "neumes" : neumeFinal,
-                "users" : userFinal,
-                "image" : latestImage
+                "users" : userFinal
 
               });
           },

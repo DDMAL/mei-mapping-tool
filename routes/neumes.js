@@ -193,6 +193,7 @@ router.route('/')
                         a.neumeID = neume._id;
                         a.img.data = fs.readFileSync(imgPath);
                         a.img.contentType = 'image/png';
+                        a.imgBase64 = a.img.data.toString('base64');
                         a.save(function (err, a) {
                           if (err) throw err;
 
@@ -283,11 +284,30 @@ router.route('/:id/editImage')
           editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
           neume.update({
               imagePath : editArray //adding the image to the image array without reinitializng everything
-          }, function (err, neumeID) {
+          }, function (err, neumeElement) {
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
             } 
             else {
+
+              imageArray.forEach(function(image) {
+                    var imgPath = 'uploads/' + image;
+
+                    // our imageStored model
+                        var A = storedImages;
+                    // store an img in binary in mongo
+                        var a = new A;
+                        a.neumeID = neume._id;
+                        a.img.data = fs.readFileSync(imgPath);
+                        a.img.contentType = 'image/png';
+                        a.imgBase64 = a.img.data.toString('base64');
+                        a.save(function (err, a) {
+                          if (err) throw err;
+
+                          console.error('saved img to mongo');
+                        });
+
+                  });
                   mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
@@ -323,13 +343,11 @@ router.route('/:id/editImage')
               return console.error(err);
           } else {
             //deleting the images from the image model 
-              fs.unlink('uploads/' + imageToDelete, (err) => {
-                if (err) throw err;
+              
                 //console.log('successfully deleted');
-             mongoose.model('image').remove({imagepath : imageToDelete}, function (err, image) {
+            // mongoose.model('storedImages').remove({imagepath : imageToDelete}, function (err, image) {
                 //console.log(image)
-              });
-              });
+             // });
         
               res.format({
                   //HTML returns us back to the main page, or you can create a success page
@@ -355,6 +373,7 @@ router.route('/:id/deleteImage')
   .delete(function (req, res){
     //imageDeleted is the path of the image we want to delete.
     var imageToDelete = req.body.imageDeleted; //this seems to be undefined.
+
     //This is the p element
      //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
       //req.body.imageDeleted doesnt seem to work
@@ -366,19 +385,20 @@ router.route('/:id/deleteImage')
               return console.error(err);
           } else {
             //This works, when the page is reloaded
-            mongoose.model('neume').findOneAndUpdate({_id: neume.id}, {$pull: {imagePath : imageToDelete}}, function(err, data){
+            mongoose.model('neume').findOneAndUpdate({_id: neume.id}, {$pull: {imagesBinary : imageToDelete}}, function(err, data){
                 console.log(err, data);
               });
 
             //remove from neume array the imagepath = imageDeleted
             //deleting the images from the image model 
-              fs.unlink('uploads/' + imageToDelete, (err) => {
-                if (err) throw err;
+              //fs.unlink('uploads/' + imageToDelete, (err) => {
+                //if (err) throw err;
                 //console.log('successfully deleted');
-             mongoose.model('image').remove({imagepath : imageToDelete}, function (err, image) {
-                //console.log(imageToDelete)
+             mongoose.model('storedImages').remove({imgBase64 : imageToDelete}, function (err, data) {
+                console.log(err, data)
+                //I have to do this now tho
               });
-              });
+             // });
         
               res.format({
                   //HTML returns us back to the main page, or you can create a success page
@@ -584,14 +604,14 @@ router.route('/:id/edit')
                             //console.log('File deleted!');
                         //});
                         //deleting the images if the neume is deleted
-                        neume.imagePath.forEach(function(image){
+                        /*neume.imagePath.forEach(function(image){
                           fs.unlink('uploads/' + image, (err) => {
                             if (err) throw err;
                             //console.log('successfully deleted');
                          mongoose.model('image').remove({imagepath : image}, function (err, image) {
                             console.log(image)});
                           });
-                          })
+                          })*/
                 
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page
