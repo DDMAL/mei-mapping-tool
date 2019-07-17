@@ -55,6 +55,7 @@ html
   link(rel='stylesheet', href='/stylesheets/editor.css')
   link(rel="icon" href="/images/Favicon.png")
   script(src='/javascripts/pageReload.js', type='text/javascript')
+  link(rel='stylesheet', href='/stylesheets/tooltip.css')
 
 
 div
@@ -74,9 +75,11 @@ div
             li
               a(href='/') Log out
             li
+              a(href='#' class= "tooltip") Help
+               span.tooltiptext If you do not see the neumes on the page, reload the page once.
+            li
               a(href='#') Public User
-            li 
-              a(href='#') Help
+
 
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection
