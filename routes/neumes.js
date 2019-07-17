@@ -497,6 +497,10 @@ router.route('/:id/edit')
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
                       });
+
+                  /*There is no need for this function to write the xml files into a folder since it will not change
+                  the values in the database.
+                  We could leave this for mei history purposes for the user only*/ 
                   fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
                       if(err) {
                           return console.log(err);
@@ -545,12 +549,13 @@ router.route('/:id/edit')
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
                       });
-                      // delete file named 'neumeID.xml'
-                        fs.unlink("xmlFiles/"+neume._id + '.xml',function(err){
-                            if(err) throw err;
+                      // delete file named 'neumeID.xml' I took away this part since you should not be able to remove an xml file from another computer 
+                      //If you removed the neume. Since they are deleted from the database, the xml files do not need to be removed from the folder.
+                        //fs.unlink("xmlFiles/"+neume._id + '.xml',function(err){
+                           // if(err) throw err;
 
                             //console.log('File deleted!');
-                        });
+                        //});
                         //deleting the images if the neume is deleted
                         neume.imagePath.forEach(function(image){
                           fs.unlink('uploads/' + image, (err) => {
