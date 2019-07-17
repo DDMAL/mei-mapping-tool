@@ -10,7 +10,8 @@ var neumeSchema = new mongoose.Schema({
 //Make sure the image path is linked to the user id
   dob: { type: Date, default: Date.now },
   imagePath : [String],
-  project: String
+  project: String,
+  imagesBinary : [String]
 });
 var Neume = module.exports = mongoose.model('neume', neumeSchema);
 

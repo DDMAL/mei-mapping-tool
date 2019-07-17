@@ -19,6 +19,7 @@ router.use(methodOverride(function(req, res){
 global.neumeFinal = []; //getting all the neumes from the project
 global.userFinal = []; //The user needs to be added in all the routes
 global.latestImage = []; //getting the latestImage from the database
+global.imageData = [];
 
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
@@ -580,7 +581,6 @@ router.route('/:id') //This is where the classifier would be
     var projectName = req.body.projectName;
     console.log(projectName);
     global.nameOfProject = projectName;
-  
     mongoose.model('project').findById(req.id, function (err, project) {
 
       if (err) {
@@ -603,6 +603,38 @@ router.route('/:id') //This is where the classifier would be
               console.log( latestImage );
               latestImage = image;
             });
+
+           //We need to have a variable that is passed here and also on the show page :
+           //For now, let's try it out by showing one image on the screen. We'll think about the logic behind 
+           //Showing the right images on the screen afterwards.
+           //for each neume in neumeFinal
+           //Find the images that has as neume ID the id of the neume
+           //Add that image to an array field in the neume 
+           neumeFinal.forEach(function(neumeElement){
+            imageData = [];
+           mongoose.model("storedImages").find({neumeID : neumeElement._id}, function (err, images) {
+            imageData = [];
+            images.forEach(function(image){
+              imageData.push(image.img.data.toString('base64'));//This works for all the images stored in the database.
+
+            });
+            //All the images (images) need to be pushed to an array field in mongodb
+              mongoose.model('neume').findOneAndUpdate({_id: neumeElement._id}, 
+              {
+                imagesBinary : imageData}, 
+
+              function(err, data){
+                console.log(err, data);
+                imageData = [];
+              });
+
+           });
+           });
+           imageData = [];
+
+           //Image data should be all of the images separated by commas.
+           //1. Find by id the image depending on the id of the neume
+           //2. Send the data with an image name
           // console.log(neumeFinal);
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();

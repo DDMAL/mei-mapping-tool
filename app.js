@@ -11,6 +11,7 @@ var db = require('./model/db'),
     neume = require('./model/neumes');
     image = require('./model/images');
     project = require('./model/projects');
+    storedImages = require("./model/storedImages")
 
 
 var passport = require('passport');

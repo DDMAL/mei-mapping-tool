@@ -3,7 +3,8 @@ var express = require('express'),
     mongoose = require('mongoose'), //mongo connection
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
- var fs = require('fs');
+var storedImages = require('../model/storedImages');
+var fs = require('fs');
 global.neumes_array = [];
 
 //Any requests to this controller must pass through this 'use' function
@@ -169,6 +170,7 @@ router.route('/')
                         fs.mkdirSync(dir);
                     }
                   //Creating and writing the file with the information
+                  //Not really important, simply so that the user can have a history of the xml files they have written.
                   fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
                       if(err) {
                           return console.log(err);
@@ -176,6 +178,31 @@ router.route('/')
 
                       //console.log("The file was saved!");
                   });
+
+                  // example schema for saving images in the database
+                    
+
+                  //Saving the images in the database from the uploads folder. (for each images in the imageArray)
+                  imageArray.forEach(function(image) {
+                    var imgPath = 'uploads/' + image;
+
+                    // our imageStored model
+                        var A = storedImages;
+                    // store an img in binary in mongo
+                        var a = new A;
+                        a.neumeID = neume._id;
+                        a.img.data = fs.readFileSync(imgPath);
+                        a.img.contentType = 'image/png';
+                        a.save(function (err, a) {
+                          if (err) throw err;
+
+                          console.error('saved img to mongo');
+                        });
+
+                  });
+                  //Using GridFS, we can create a file, find that file in the uploads folder.
+                  //Then create a GridFSInputFile set that filename as the new name
+                  //Then save the file. 
 
                   res.format({
                     html: function(){
