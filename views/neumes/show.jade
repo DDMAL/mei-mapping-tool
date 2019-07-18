@@ -135,9 +135,9 @@ div.neumeSection
                               option(selected = "selected" hidden) #{neume.review}
                               option(value='Yes') Yes
                               option(value='No') No
-                form(action='/csv',method='get',enctype='application/x-www-form-urlencoded')
-
-                 button(type = 'submit') CSV Download    
+                form(action='/csv',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{neume.id}', name='IdOfNeume' hidden)
+                  button(type = 'submit') CSV Download    
                     //Submitting the update form
                     br
                     br
