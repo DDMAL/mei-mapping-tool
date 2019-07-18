@@ -587,7 +587,7 @@ router.route('/:id') //This is where the classifier would be
 
         mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
             neumeFinal = neumes;
-          });          
+               
         //Updating the name
         //Getting the neumes for each project and showing them in the console!!
         //Element in face
@@ -618,6 +618,7 @@ router.route('/:id') //This is where the classifier would be
               res.json(project);
           }
         });
+         });   
       }
     });
   });
@@ -645,33 +646,7 @@ router.route('/:id') //This is where the classifier would be
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
-         //We need to have a variable that is passed here and also on the show page :
-           //For now, let's try it out by showing one image on the screen. We'll think about the logic behind 
-           //Showing the right images on the screen afterwards.
-           //for each neume in neumeFinal
-           //Find the images that has as neume ID the id of the neume
-           //Add that image to an array field in the neume 
-           neumeFinal.forEach(function(neumeElement){
-            imageData = [];
-           mongoose.model("storedImages").find({neumeID : neumeElement._id}, function (err, images) {
-            imageData = [];
-            images.forEach(function(image){
-              imageData.push(image.img.data.toString('base64'));//This works for all the images stored in the database.
-
-            });
-            //All the images (images) need to be pushed to an array field in mongodb
-              mongoose.model('neume').findOneAndUpdate({_id: neumeElement._id}, 
-              {
-                imagesBinary : imageData}, 
-
-              function(err, data){
-                console.log(err, data);
-                imageData = [];
-              });
-
-           });
-           });
-           imageData = [];
+      
         res.format({
           html: function(){
             console.log(neumeFinal); //This is shown on the console!

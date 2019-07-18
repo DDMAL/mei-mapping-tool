@@ -556,15 +556,10 @@ router.route('/:id/edit')
 	              res.send("There was a problem updating the information to the database: " + err);
 	          } 
 	          else {
-
-                    /*There is no need for this function to write the xml files into a folder since it will not change
-                    the values in the database.
-                    We could leave this for mei history purposes for the user only*/ 
-
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
 	                      html: function(){
-	                           res.redirect("back");
+	                           res.redirect("/projects/" + ID_project);
 	                     },
 	                     //JSON responds showing the updated values
 	                    json: function(){
