@@ -59,6 +59,21 @@
   height : 5%;
   border: 2px solid #008CBA;
 }
+.button2CSV {
+  margin: 10px;
+  float: right;
+  background-color: DodgerBlue; 
+  color: white; 
+  border-radius: 30px;
+  width : 20%;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 5px;
+}
+.button2CSV:hover{
+  background-color: royalBlue; 
+}
 .button2Update {
   background-color: white; 
   color: black; 

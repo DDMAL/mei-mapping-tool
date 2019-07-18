@@ -4,7 +4,11 @@ var User = require('../model/User');
 var path = require('path');
 var bodyParser = require('body-parser');
 var alert = require('alert-node');
-
+const moment = require('moment');
+const mdq = require('mongo-date-query');
+const pathName = require('path'); //Already 
+const json2csv = require('json2csv').parse;
+const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'classification', 'mei', 'review', 'dob', 'project'];
 global.userArray = [];
 global.userArray = [];
  
@@ -43,6 +47,46 @@ router.route('/about')
 
 });
 
+router.route('/csv')
+  .post(function(req, res) {
+
+    var IdOfNeume = req.body.IdOfNeume;
+     console.log(IdOfNeume);//This is somehow undefined.
+
+    mongoose.model('neume').findById(IdOfNeume, function (err, neumeCSV) {
+      if (err) {
+        return res.status(500).json({ err });
+      }
+      else {
+        //var neume = neume;
+        console.log(neumeCSV);
+        let csv
+        try {
+          csv = json2csv(neumeCSV, {fields});
+        } catch (err) {
+          return res.status(500).json({ err });
+        }
+        const dateTime = moment().format('YYYYMMDDhhmmss');
+        const filePath = pathName.join(__dirname, "..", "exports", "csv-" + dateTime + ".csv")
+        var fs = require('fs');
+            var dir = './exports';
+
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
+            }
+        fs.writeFile(filePath, csv, function (err) {//This gives an error
+          if (err) {
+            return res.json(err).status(500);
+          }
+          else {
+            return res.redirect('back');
+          }
+        });
+
+      }
+    })//global.userFinal = []; //The user needs to be added in all the routes
+
+  });
 //Route to update the bio
 router.route('/updateBio')
   //PUT to update a neume by ID
