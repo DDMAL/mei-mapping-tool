@@ -270,9 +270,16 @@ router.route('/collabs')
 router.route('/deleteCollab')
   //DELETE an image by ID
   .post(function (req, res){
-
     var userCollab = req.body.collabName; 
     var projectCollab = req.body.collabProject;
+
+    mongoose.model('project').findOneAndUpdate({_id: projectCollab}, 
+              {
+                $pull: {userID : userCollab}}, 
+
+              function(err, data){
+                console.log(err, data);
+              });
     
       mongoose.model('User').findById(req.session.userId, function (err, user) {
 
