@@ -67,7 +67,7 @@ router.route('/csv')
           return res.status(500).json({ err });
         }
         const dateTime = moment().format('YYYYMMDDhhmmss');
-        const filePath = pathName.join(__dirname, "..", "exports", "csv-" + dateTime + ".csv")
+        const filePath = pathName.join(__dirname, "..", "exports", "csv-" + neumeCSV.name + ".csv")
         var fs = require('fs');
             var dir = './exports';
 
@@ -87,6 +87,47 @@ router.route('/csv')
     })//global.userFinal = []; //The user needs to be added in all the routes
 
   });
+
+router.route('/csvProject')
+.post(function(req, res) {
+
+  var IdOfProject = req.body.IdOfProject;
+  var nameOfProject = req.body.projectName;
+
+  mongoose.model('neume').find({project : IdOfProject}, function (err, neumeCSV) {
+    if (err) {
+      return res.status(500).json({ err });
+    }
+    else {
+      //var neume = neume;
+      console.log(neumeCSV);
+      let csv
+      try {
+        csv = json2csv(neumeCSV, {fields});
+      } catch (err) {
+        return res.status(500).json({ err });
+      }
+      const dateTime = moment().format('YYYYMMDDhhmmss');
+      const filePath = pathName.join(__dirname, "..", "exports", "csv-" + nameOfProject + "_" + dateTime + ".csv")
+      var fs = require('fs');
+          var dir = './exports';
+
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir);
+          }
+      fs.writeFile(filePath, csv, function (err) {//This gives an error
+        if (err) {
+          return res.json(err).status(500);
+        }
+        else {
+          return res.redirect('back');
+        }
+      });
+
+    }
+  })//global.userFinal = []; //The user needs to be added in all the routes
+
+});
 //Route to update the bio
 router.route('/updateBio')
   //PUT to update a neume by ID

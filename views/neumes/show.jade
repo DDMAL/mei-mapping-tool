@@ -88,6 +88,13 @@ div.neumeSection
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
+    form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                    i.fa.fa-download
+                    |  Project CSV file  
+                    span.tooltiptext To download the project as a .csv file, click here!
 
     //Neume section : 4 components added for each new neume.   
     br
@@ -138,9 +145,10 @@ div.neumeSection
                               option(value='No') No
                 form(action='/csv',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{neume.id}', name='IdOfNeume' hidden)
-                  button(type = 'submit' class = 'button button2CSV')
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-download
                     |  Download CSV file   
+                    span.tooltiptext To download the neume as a .csv file, click here! The file is added to the "exports" folder of the app. 
                     //Submitting the update form
                     br
                     br

@@ -56,6 +56,7 @@ html
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
   link(rel="icon" href="/images/Favicon.png")
   script(src='/javascripts/pageReload.js', type='text/javascript')
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 
 //Header parameters
    //Column parameters
@@ -104,6 +105,13 @@ div.neumeSection
         span.tooltiptext You can directly change the project name on the page.   
           br 
           t When you are satisfied with the new project name, click here!
+    form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                    i.fa.fa-download
+                    |  Project CSV file  
+                    span.tooltiptext To download the project as a .csv file, click here!
 
     button#myBtn(class = "button button2AddNeume") Add Neume
 
