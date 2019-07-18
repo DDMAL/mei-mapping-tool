@@ -164,20 +164,8 @@ router.route('/')
                   });
                   //Creating an xml file to store mei for each neume => neume.mei and neume._id for the name of the file
                   //Making the xml files folder if it doesnt exist
-                  var dir = './xmlFiles';
-
-                    if (!fs.existsSync(dir)){
-                        fs.mkdirSync(dir);
-                    }
                   //Creating and writing the file with the information
                   //Not really important, simply so that the user can have a history of the xml files they have written.
-                  fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
-                      if(err) {
-                          return console.log(err);
-                      }
-
-                      //console.log("The file was saved!");
-                  });
 
                   // example schema for saving images in the database
                     
@@ -572,10 +560,6 @@ router.route('/:id/edit')
                     /*There is no need for this function to write the xml files into a folder since it will not change
                     the values in the database.
                     We could leave this for mei history purposes for the user only*/ 
-                    fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
-                        if(err) {
-                            return console.log(err);
-                        }
 
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
@@ -588,14 +572,6 @@ router.route('/:id/edit')
 	                     }
 	                  });
                           //Deletes the file from the folder
-             if(req.body.image == "deleted"){
-             const fs = require('fs');
-
-              fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
-                if (err) throw err;
-                //console.log('successfully deleted');
-              }); }
-          })
       }  
 	    });
 	})
