@@ -4,6 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
     fs = require('fs');
+var reload = require('require-reload')(require);
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -577,55 +578,25 @@ router.route('/deleteImageDropzone')
 ////////////////////////////
 /**************************/
 router.route('/:id') //This is where the classifier would be
-  .get(function(req, res) {
-    var projectName = req.body.projectName;
-    console.log(projectName);
-    global.nameOfProject = projectName;
+  .get(function(req, res, next) {
     mongoose.model('project').findById(req.id, function (err, project) {
 
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
 
-           
+        mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+            neumeFinal = neumes;
+          });          
         //Updating the name
         //Getting the neumes for each project and showing them in the console!!
         //Element in face
-        console.log(project._id);
+        console.log(neumeFinal);
            mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
                 userFinal = users;
                // console.log(userFinal);//This works!!!
               });
-           //console.log(userFinal);//This works! 
-           mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
-            neumeFinal = neumes;
-            neumes.forEach(function(neumeElement){
-            imageData = [];
-           mongoose.model("storedImages").find({neumeID : neumeElement._id}, function (err, images) {
-            imageData = [];
-            images.forEach(function(image){
-              imageData.push(image.img.data.toString('base64'));//This works for all the images stored in the database.
 
-            });
-            //All the images (images) need to be pushed to an array field in mongodb
-              mongoose.model('neume').findOneAndUpdate({_id: neumeElement._id}, 
-              {
-                imagesBinary : imageData}, 
-
-              function(err, data){
-                console.log(err, data);
-                imageData = [];
-              });
-
-           });
-           });
-            //console.log(neumeFinal);//This works!!!
-          });
-
-           //Image data should be all of the images separated by commas.
-           //1. Find by id the image depending on the id of the neume
-           //2. Send the data with an image name
-          // console.log(neumeFinal);
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
         projectdob = projectdob.substring(0, projectdob.indexOf('T'))

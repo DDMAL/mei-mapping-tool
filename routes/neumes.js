@@ -194,6 +194,20 @@ router.route('/')
                         a.img.data = fs.readFileSync(imgPath);
                         a.img.contentType = 'image/png';
                         a.imgBase64 = a.img.data.toString('base64');
+                        imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+
+                    //All the images (images) need to be pushed to an array field in mongodb
+                        mongoose.model('neume').findOneAndUpdate({_id: neume._id}, 
+                        {
+                          //push the neumes into the imagesBinary array
+                          imagesBinary : imageData}, 
+
+                        function(err, data){
+                          //console.log(err, data);
+                          imageData = [];
+                        });
+
+           
                         a.save(function (err, a) {
                           if (err) throw err;
 
@@ -201,6 +215,8 @@ router.route('/')
                         });
 
                   });
+
+
                   //Using GridFS, we can create a file, find that file in the uploads folder.
                   //Then create a GridFSInputFile set that filename as the new name
                   //Then save the file. 
@@ -301,6 +317,18 @@ router.route('/:id/editImage')
                         a.img.data = fs.readFileSync(imgPath);
                         a.img.contentType = 'image/png';
                         a.imgBase64 = a.img.data.toString('base64');
+                        imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+
+                    //All the images (images) need to be pushed to an array field in mongodb
+                        mongoose.model('neume').findOneAndUpdate({_id: neume._id}, 
+                        {
+                          //push the neumes into the imagesBinary array
+                          $push: {imagesBinary : imageData}}, 
+
+                        function(err, data){
+                          //console.log(err, data);
+                          imageData = [];
+                        });
                         a.save(function (err, a) {
                           if (err) throw err;
 
@@ -540,21 +568,15 @@ router.route('/:id/edit')
 	              res.send("There was a problem updating the information to the database: " + err);
 	          } 
 	          else {
-                  mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
-                        neumeFinal = neumes;
-                        //console.log(neumeFinal);//This works!!!
-                      });
 
-                  /*There is no need for this function to write the xml files into a folder since it will not change
-                  the values in the database.
-                  We could leave this for mei history purposes for the user only*/ 
-                  fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
-                      if(err) {
-                          return console.log(err);
-                      }
+                    /*There is no need for this function to write the xml files into a folder since it will not change
+                    the values in the database.
+                    We could leave this for mei history purposes for the user only*/ 
+                    fs.writeFile("xmlFiles/" + neume._id + '.xml', mei , function(err) {
+                        if(err) {
+                            return console.log(err);
+                        }
 
-                      //console.log("The file was saved!");
-                  });
 	                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
 	                  res.format({
 	                      html: function(){
@@ -565,8 +587,7 @@ router.route('/:id/edit')
 	                           res.json(neume);
 	                     }
 	                  });
-	           }
-             //Deletes the file from the folder
+                          //Deletes the file from the folder
              if(req.body.image == "deleted"){
              const fs = require('fs');
 
@@ -574,9 +595,11 @@ router.route('/:id/edit')
                 if (err) throw err;
                 //console.log('successfully deleted');
               }); }
-	        })
+          })
+      }  
 	    });
 	})
+      })
 	//DELETE a neume by ID
 	.delete(function (req, res){
 	    //find neume by ID
