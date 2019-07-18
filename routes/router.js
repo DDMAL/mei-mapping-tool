@@ -351,7 +351,16 @@ router.post('/', function (req, res, next) {
       if (error) {
         var err = new Error('Username or Email already used. Please try again.');
         alert(err, 'yad');
-        return res.redirect('back');
+        return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
       } else {
         req.session.userId = user._id;
         if(req.body.role == "editor")
@@ -368,8 +377,16 @@ router.post('/', function (req, res, next) {
           console.log(username);
         if (error || !username) {
           var err = new Error('Wrong email/username or password. Please try again.');
-          alert(err, 'yad');
-          return res.redirect('back');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
         } else {
           req.session.userId = username._id;
           return res.redirect('/projects');
@@ -388,8 +405,16 @@ router.post('/', function (req, res, next) {
     });
   } else {
     var err = new Error('All fields are required.');
-        alert(err, 'yad');
-        return res.redirect('back');
+        return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
   }
 })
 
