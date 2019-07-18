@@ -641,7 +641,7 @@ router.route('/:id') //This is where the classifier would be
            mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
             neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
-          });
+        
           // console.log(neumeFinal);
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
@@ -662,6 +662,7 @@ router.route('/:id') //This is where the classifier would be
               res.json(project);
           }
         });
+          });
       }
     });
   });
