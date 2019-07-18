@@ -78,8 +78,10 @@ router.route('/csv')
           if (err) {
             return res.json(err).status(500);
           }
-          else {
-            return res.redirect('back');
+          else {setTimeout(function () {
+            fs.unlinkSync(filePath); // delete this file after 30 seconds
+          }, 30000)
+            return res.download(filePath);
           }
         });
 
@@ -119,8 +121,10 @@ router.route('/csvProject')
         if (err) {
           return res.json(err).status(500);
         }
-        else {
-          return res.redirect('back');
+        else {setTimeout(function () {
+            fs.unlinkSync(filePath); // delete this file after 30 seconds
+          }, 30000)
+          return res.download(filePath);
         }
       });
 
