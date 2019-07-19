@@ -153,28 +153,28 @@ router.route('/uploadCSV')
           console.log(file); //This is just the name
       }); 
 
-        const csv=require('csvtojson');
+        const csv = require('csvtojson');
 
       csv()
       .fromFile(req.file.path)
       .then((jsonObj)=>{
-          console.log(jsonObj);
-        /**
-          [ 
-            { _id: '1', name: 'Jack Smith', address: 'Massachusetts', age: '23' },
-            { _id: '2', name: 'Adam Johnson', address: 'New York', age: '27' },
-            { _id: '3', name: 'Katherin Carter', address: 'Washington DC', age: '26' },
-            { _id: '4', name: 'Jack London', address: 'Nevada', age: '33' },
-            { _id: '5', name: 'Jason Bourne', address: 'California', age: '36' } 
-          ]
-        */
-        
+
           mongoose.model("neume").insertMany(jsonObj)
             .then(function(jsonObj) {
                 res.redirect("back");
             })
             .catch(function(err) {
-                console.log("error")
+              err = "Please, only upload the csv file downloaded from the project."
+                return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
             });
         });
       })
