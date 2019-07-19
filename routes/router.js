@@ -102,7 +102,12 @@ router.route('/csvProject')
     }
     else {
       console.log(neumeCSV);
+//First, upload the file from the uploads folder.
+//How to upload a file from the client side to the server side?
 
+//After the file is uploaded, you will need to read the file and change it to json data
+
+//After the file is changed to csv data, you will download that to the database. 
       fs.readFile(filePath, {
             encoding: 'utf-8'
         }, function(err, csvData) {
@@ -126,7 +131,7 @@ router.route('/csvProject')
 
 });
 
-router.route('/openDocs')
+router.route('/uploadCSV')
 .post(function(req, res) {
 
   var IdOfProject = req.body.IdOfProject;
