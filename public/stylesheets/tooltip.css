@@ -38,3 +38,9 @@
   border-style: solid;
   border-color: transparent transparent  white transparent;
 }
+
+.resize {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
