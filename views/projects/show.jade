@@ -110,16 +110,19 @@ div.neumeSection
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-download
-                    |  Project CSV file  
+                    |  Download CSV  
                     span.tooltiptext To download the project as a .csv file, click here!
-
-      form(action='/openDocs',method='post',enctype='application/x-www-form-urlencoded')
-                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-                  input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
-                    i.fa.fa-upload
-                    |  Upload CSV 
-                    span.tooltiptext To upload neumes as a .csv file, click here!
+    
+    button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton')
+      i.fa.fa-upload
+      |  Upload CSV 
+      span.tooltiptext To upload neumes as a .csv file, click here!
+    .modal(id = "uploadCSV")
+                Modal content
+                .modal-content
+                  span.close x
+                  h4 Upload CSV
+                  include uploadCSV.jade
 
     button#myBtn(class = "button button2AddNeume") Add Neume
 
@@ -277,6 +280,7 @@ div.neumeSection
                   window.addEventListener('load', function() {
                       initializeModal('myModal', 'myBtn');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                      initializeModal('uploadCSV', 'uploadCSVButton');
                     });
 
 
