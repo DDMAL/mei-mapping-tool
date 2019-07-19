@@ -3,7 +3,7 @@ body
     h5.
       #{project.name}
 
- form(action='/uploadCSV',method='post',enctype='application/x-www-form-urlencoded')
+ form(action='/uploadCSV',method='post',enctype="multipart/form-data")
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   br

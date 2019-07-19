@@ -101,49 +101,8 @@ router.route('/csvProject')
       return res.status(500).json({ err });
     }
     else {
-      console.log(neumeCSV);
-//First, upload the file from the uploads folder.
-//How to upload a file from the client side to the server side?
-
-//After the file is uploaded, you will need to read the file and change it to json data
-
-//After the file is changed to csv data, you will download that to the database. 
-      fs.readFile(filePath, {
-            encoding: 'utf-8'
-        }, function(err, csvData) {
-            if (err) {
-                console.log(err);
-            }
-  
-            csvParser(csvData, {
-                delimiter: ',' 
-            }, function(err, data) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(data);
-                }
-            });
-        });
-
-    }
-  })//global.userFinal = []; //The user needs to be added in all the routes
-
-});
-
-router.route('/uploadCSV')
-.post(function(req, res) {
-
-  var IdOfProject = req.body.IdOfProject;
-  var nameOfProject = req.body.projectName;
-
-  mongoose.model('neume').find({project : IdOfProject}, function (err, neumeOpenDocs) {
-    if (err) {
-      return res.status(500).json({ err });
-    }
-    else {
       //var neume = neume;
-      console.log(neumeOpenDocs);
+      console.log(neumeCSV);
       let csv
       try {
         csv = json2csv(neumeCSV, {fields});
@@ -158,7 +117,7 @@ router.route('/uploadCSV')
           if (!fs.existsSync(dir)){
               fs.mkdirSync(dir);
           }
-      fs.writeFile(filePath, csv, function (err) {//This gives an error
+      fs.writeFile(filePath, csv, function (err) {
         if (err) {
           return res.json(err).status(500);
         }
@@ -173,6 +132,52 @@ router.route('/uploadCSV')
   })//global.userFinal = []; //The user needs to be added in all the routes
 
 });
+var multer  = require('multer')
+var uploadCSV = multer({ dest: 'exports/' })
+router.route('/uploadCSV')
+.post(uploadCSV.single('csvFile'), function(req, res) {
+
+  var IdOfProject = req.body.IdOfProject;
+  var nameOfProject = req.body.projectName;
+  var csvParser = require('csv-parse');
+  var file = req.file.buffer;
+
+  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+      var fs = require('fs');
+          var dir = './exports';
+
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir);
+          }
+      fs.writeFile(filePath, file, function (err) {
+          console.log(file); //This is just the name
+      }); 
+
+        const csv=require('csvtojson');
+
+      csv()
+      .fromFile(req.file.path)
+      .then((jsonObj)=>{
+          console.log(jsonObj);
+        /**
+          [ 
+            { _id: '1', name: 'Jack Smith', address: 'Massachusetts', age: '23' },
+            { _id: '2', name: 'Adam Johnson', address: 'New York', age: '27' },
+            { _id: '3', name: 'Katherin Carter', address: 'Washington DC', age: '26' },
+            { _id: '4', name: 'Jack London', address: 'Nevada', age: '33' },
+            { _id: '5', name: 'Jason Bourne', address: 'California', age: '36' } 
+          ]
+        */
+        
+          mongoose.model("neume").insertMany(jsonObj)
+            .then(function(jsonObj) {
+                res.redirect("back");
+            })
+            .catch(function(err) {
+                console.log("error")
+            });
+        });
+      })
 //Route to update the bio
 router.route('/updateBio')
   //PUT to update a neume by ID
