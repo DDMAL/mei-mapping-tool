@@ -95,6 +95,10 @@ div.neumeSection
       .modal-content
         span.close ×
         include newNeume.jade
+    .modal(id = "uploadCSV")
+      .modal-content
+        span.close x
+        include uploadCSV.jade
 
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
@@ -117,12 +121,7 @@ div.neumeSection
       i.fa.fa-upload
       |  Upload CSV 
       span.tooltiptext To upload neumes as a .csv file, click here!
-    .modal(id = "uploadCSV")
-                Modal content
-                .modal-content
-                  span.close x
-                  h4 Upload CSV
-                  include uploadCSV.jade
+    
 
     button#myBtn(class = "button button2AddNeume") Add Neume
 
@@ -278,9 +277,9 @@ div.neumeSection
 
                   //Modals event listeners for every modal
                   window.addEventListener('load', function() {
+                      initializeModal('uploadCSV', 'uploadCSVButton');
                       initializeModal('myModal', 'myBtn');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
-                      initializeModal('uploadCSV', 'uploadCSVButton');
                     });
 
 
