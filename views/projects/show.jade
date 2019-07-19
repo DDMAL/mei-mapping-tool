@@ -57,6 +57,7 @@ html
   link(rel="icon" href="/images/Favicon.png")
   script(src='/javascripts/pageReload.js', type='text/javascript')
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel='stylesheet', href='/stylesheets/tooltip.css')
 
 //Header parameters
    //Column parameters
@@ -219,6 +220,7 @@ div.neumeSection
                     imageArray.forEach(function(element) {
                     var canvas = document.createElement('canvas');
                     var ctx = canvas.getContext("2d");
+                    canvas.className += "resize";
                     var image = new Image();
 
                     image.onload = function () {
