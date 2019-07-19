@@ -101,8 +101,44 @@ router.route('/csvProject')
       return res.status(500).json({ err });
     }
     else {
-      //var neume = neume;
       console.log(neumeCSV);
+
+      fs.readFile(filePath, {
+            encoding: 'utf-8'
+        }, function(err, csvData) {
+            if (err) {
+                console.log(err);
+            }
+  
+            csvParser(csvData, {
+                delimiter: ',' 
+            }, function(err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(data);
+                }
+            });
+        });
+
+    }
+  })//global.userFinal = []; //The user needs to be added in all the routes
+
+});
+
+router.route('/openDocs')
+.post(function(req, res) {
+
+  var IdOfProject = req.body.IdOfProject;
+  var nameOfProject = req.body.projectName;
+
+  mongoose.model('neume').find({project : IdOfProject}, function (err, neumeOpenDocs) {
+    if (err) {
+      return res.status(500).json({ err });
+    }
+    else {
+      //var neume = neume;
+      console.log(neumeOpenDocs);
       let csv
       try {
         csv = json2csv(neumeCSV, {fields});
