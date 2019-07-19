@@ -90,7 +90,7 @@ To access the profile page, you can click on your username button in the navigat
 
 The profile page is divided in 3 sections. The profile section has information about your email, profile status and bio. You can change your bio by simply writing on the text area and clicking on the update button to see your changes. 
 
-The collaborators section helps manage user access to your projects. To add a new editor to your project, you can press the `add a collaborator` link at the bottom of the screen and you will be prompted to choose the username of the user and the project to which you want to give access. The user will then be able to view and edit the project in their account. The `settings` section manages the changes a user might want to make to its email or username.
+The collaborators section helps manage user access to your projects. To add a new editor to your project, you can press the `add a collaborator` link at the bottom of the screen and you will be prompted to choose the username of the user and the project to which you want to give access. The user will then be able to view and edit the project in their account. The `settings` section manages the changes a user might want to make to its email or username. 
 
 ## Log-out
 To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://localhost:8800
