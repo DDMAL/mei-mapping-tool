@@ -41,7 +41,7 @@
   position:relative;
   border-width: 10px;
   background-color : white;
-  color: black;
+  color: red;
 }
 .button2No : hover{
   background-color: red; /* pale blue */
