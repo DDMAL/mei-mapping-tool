@@ -76,6 +76,7 @@ xnugget info
 .cd-popup-container .cd-buttons li {
   float: left;
   width: 50%;
+  /*Add a container for the object*/
 }
 .cd-popup-container .cd-buttons a {
   display: block;
@@ -123,6 +124,7 @@ xpopup
   -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
   -moz-transition: opacity 0.3s 0s, visibility 0s 0.3s;
   transition: opacity 0.3s 0s, visibility 0s 0.3s;
+  z-index: 1000;
 }
 
 .cd-popup.is-visible {
@@ -156,21 +158,39 @@ xpopup
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-.cd-popup-container p {
+.cd-popup-container h3 {
   padding: 2em 1em;
   margin : 0px;
 }
 .cd-popup-container .cd-buttons:after {
+    left : 10px;
   content: "";
   display: table;
   clear: both;
 }
 .cd-popup-container .cd-buttons li {
+    left : 10px;
+  float: left;
+  list-style: none;
+  width : 100%%;
+}
+.cd-popup-container .cd-buttons a { /*We need a new a for the projects page*/
+  display: block;
+  height: 40px;
+  width : 100%;
+  line-height: 60px;
+  text-transform: uppercase;
+  color: #FFF;
+  -webkit-transition: background-color 0.2s;
+  -moz-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.elementLi {
   float: left;
   list-style: none;
   width : 50%;
 }
-.cd-popup-container .cd-buttons a {
+.elementA { /*We need a new a for the projects page*/
   display: block;
   height: 40px;
   width : 100%;
