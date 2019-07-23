@@ -39,6 +39,10 @@ router.route('/')
                   return console.error(err);
               } else {
                 console.log(project._id);
+                mongoose.model('project').find( { userID: { $nin: [ req.session.userId ] } }, function (err, projectsAll) {
+              if (err) {
+                  return console.error(err);
+              } else {
                
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
@@ -48,7 +52,8 @@ router.route('/')
                         res.render('projects/index', {
                               title: 'Projects',
                               "projects" : projects,
-                              "users" : userFinal
+                              "users" : userFinal,
+                              "allProject" : projectsAll
                           });
                     },
                     //JSON response will show all projects in JSON format
@@ -56,6 +61,8 @@ router.route('/')
                         res.json(projects);
                     }
                 });
+                }
+              });
               }     
               //global.userFinal = []; //The user needs to be added in all the routes
 
@@ -662,6 +669,55 @@ router.route('/:id') //This is where the classifier would be
               res.json(project);
           }
         });
+          });
+      }
+    });
+  });
+
+    router.route('/forkPublic/:id') //This is where the classifier would be
+  .get(function(req, res) {
+    var projectName = req.body.projectName;
+    console.log(projectName);
+    global.nameOfProject = projectName;
+    var userFinal = [];
+    mongoose.model('project').findById(req.id, function (err, project) {
+
+      if (err) {
+        console.log('GET Error: There was a problem retrieving: ' + err);
+      } else {
+        //Updating the name
+        //Getting the neumes for each project and showing them in the console!!
+        //Element in face
+           //console.log(userFinal);//This works! 
+           mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+            neumeFinal = neumes;
+            //console.log(neumeFinal);//This works!!!
+          mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                  userFinal = users;
+                 // console.log(userFinal);//This works!!!
+              
+          // console.log(neumeFinal);
+        console.log('GET Retrieving ID: ' + project._id);
+        var projectdob = project.dob.toISOString();
+        projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+      
+        res.format({
+          html: function(){
+            console.log(neumeFinal); //This is shown on the console!
+            console.log(userFinal)//This is shown on the console!
+            
+              res.render('projects/showFork.jade', {
+                "projectdob" : projectdob,
+                "project" : project,
+                "neumes" : neumeFinal, 
+                "users" : userFinal
+              });
+          },
+          json: function(){
+              res.json(project);
+          }
+        });
+          });
           });
       }
     });

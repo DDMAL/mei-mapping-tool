@@ -44,23 +44,20 @@ html
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
   script(src='/javascripts/dropzone.js', type='text/javascript')
-  script(src='/javascripts/worker-html.js', type='text/javascript')
+  script(src='/javascripts/worker-xml.js', type='text/javascript')
    
-   script(src='/javascripts/worker-html.js', type='text/javascript')
+   script(src='/javascripts/worker-xml.js', type='text/javascript')
    link(rel='stylesheet', href='/stylesheets/buttonNeume.css')
    link(rel='stylesheet', href='/stylesheets/header.css')
 
   link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
   link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
   link(rel='stylesheet', href='/stylesheets/editor.css')
-  link(rel='stylesheet', href='/stylesheets/tooltip.css')
   link(rel="icon" href="/images/Favicon.png")
   script(src='/javascripts/pageReload.js', type='text/javascript')
-  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 
-//Header parameters
-   //Column parameters
 - each user in users
   div
     header
@@ -78,34 +75,19 @@ html
                 a(href='http://ddmal.music.mcgill.ca/') DDMAL 
               li
                 a(href='/') Log out
-              li 
-                a(href='#' class = "tooltip" ) Help 
-                 span.tooltiptext If you do not see the neumes on the page, reload the page once.  
+              li
+                a(href='#' class= "tooltip") Help
+                 span.tooltiptext If you do not see the neumes on the page, reload the page once.
               li
                 a(href='/profile') #{user.username}
-
 
 
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection
   body
-   div
-    // Add New Neume Modal
-    #myModal.modal
-      // Modal content
-      .modal-content
-        span.close ×
-        include newNeume.jade
-
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
-      input(type='hidden',value='PUT',name='_method')
-       
-      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip") Update name
-        span.tooltiptext You can directly change the project name on the page.   
-          br 
-          t When you are satisfied with the new project name, click here!
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
@@ -113,15 +95,14 @@ div.neumeSection
                     i.fa.fa-download
                     |  Project CSV file  
                     span.tooltiptext To download the project as a .csv file, click here!
-    form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
-                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-                  input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
-                    i.fa.fa-download
-                    |  Fork
-                    span.tooltiptext To fork the project as your own, click here!
 
-    button#myBtn(class = "button button2AddNeume") Add Neume
+    form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
+              input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+              input(type='text',value='#{project.name}', name='projectName' hidden)
+              button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                i.fa.fa-download
+                |  Fork
+                span.tooltiptext To fork the project as your own, click here!
 
     //Neume section : 4 components added for each new neume.   
     br
@@ -129,24 +110,15 @@ div.neumeSection
       .roundedCorners
         ul
             - each neume in neumes
-                // Edit Images Modal
-                .modal(id = "editImages#{neume.id}")
-                  Modal content
-                  .modal-content
-                    span.close x
-                    h4 Edit Images
-                    include editNeume.jade
                 // Images Section
                 button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}") #{neume.name}
-                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                form(name='updateneumepublic',enctype='application/x-www-form-urlencoded')
                     .column
                        .card
                          .panel.panel-default
                            .panel-body
                               div(id = "image#{neume.id}")
                                 p Images: 
-                                  button( id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
-                                    span.tooltiptext To delete images or add more images to the neume, click here!   
 
                     // Name, Folio and Description Section
                     .column
@@ -179,17 +151,15 @@ div.neumeSection
                               option(selected = "selected" hidden) #{neume.review}
                               option(value='Yes') Yes
                               option(value='No') No
-
+                form(action='/csv',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{neume.id}', name='IdOfNeume' hidden)
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                    i.fa.fa-download
+                    |  Download CSV file   
+                    span.tooltiptext To download the neume as a .csv file, click here! The file is added to the "exports" folder of the app. 
                     //Submitting the update form
-                    input(type='hidden',value='PUT',name='_method')
-                    
-                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}") Update
                     br
                     br
-                  form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                      input(type='hidden',value='DELETE',name='_method')
-                      button(type='submit' class = "button button3").
-                          x
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                     script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
 
@@ -211,7 +181,7 @@ div.neumeSection
                   editor#{neume.id}.setValue(meiString);
 
                   //Getting the canvas for the mei snippets : 
-                  var imagePaths = "#{neume.imagePath}";
+                  var imagePaths = "#{neume.imagesBinary}";
                   var imageArray = imagePaths.split(',');
                   var canvas = document.createElement('canvas');
                   var ctx = canvas.getContext("2d");
@@ -279,6 +249,5 @@ div.neumeSection
                       initializeModal('myModal', 'myBtn');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
                     });
-
 
                                       

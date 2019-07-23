@@ -81,6 +81,12 @@ html
                                br
                                br
 
+                      h2.projectHeader Other Projects
+                      ul
+                          - each project, i in allProject
+                             button.collapsible(onclick = "window.location='/projects/forkPublic/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
+                             br
+
               footer
                 //img(src='img/avatar.jpeg', alt='Footer Logo')
                 span
