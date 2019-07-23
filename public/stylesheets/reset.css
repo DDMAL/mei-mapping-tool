@@ -118,7 +118,7 @@ xpopup
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(94, 110, 141, 0.9);
+  background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
   -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
