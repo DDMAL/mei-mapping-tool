@@ -103,13 +103,15 @@ html
 
                               p Name: 
                                  select(class = "createProjectInput" name="collabName" id = "selectUser" required)
-                                  - each user in users
-                                      option(value='#{user.id}') #{user.username}                            
+                                      option(disabled='', selected='', value='')  -- select an option -- 
+                                      - each user in users
+                                          option(value='#{user.id}') #{user.username}                            
 
                               p Project: 
                                  select(class = "createProjectInput" name="project" id = "selectProject" required)
-                                  - each project in projects
-                                      option(value='#{project.id}') #{project.name}
+                                      option(disabled='', selected='', value='')  -- select an option -- 
+                                      - each project in projects
+                                          option(value='#{project.id}') #{project.name}
                               p
                                  button#btnSubmit(type="submit" class = "button buttonAddProject") submit
                   // Link to open the modal
