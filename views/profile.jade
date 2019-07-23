@@ -26,6 +26,9 @@ html
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
     link(rel="stylesheet" href="/stylesheets/modal.css")
     link(rel="stylesheet" href="/stylesheets/buttonNeume.css")
+    link(rel="stylesheet" href="/stylesheets/reset.css")
+    script(type='text/javascript' src='/javascripts/reset.js')
+
     
     script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
 
@@ -94,7 +97,20 @@ html
                         input(name="collabName" value = "#{collaborator.nameCollab}" hidden)
                         input(name="collabProject" value = "#{collaborator.projectID}" hidden)
                         input(type='hidden',value='DELETE',name='_method')
-                        button(class = "button button3DeleteCollab") x
+                        button(class = "button button3DeleteCollab" class = "cd-popup-trigger") x
+                        
+                        .cd-popup(role='alert')
+                          .cd-popup-container
+                            p Are you sure you want to delete this collaborator?
+                            ul.cd-buttons
+                              li
+                                a(href='#0' onclick="$('#DeleteCollab').submit();") Yes
+                              li
+                                a.no(href='#0') No
+                            a.cd-popup-close.img-replace(href='#0') Close
+                          // cd-popup-container
+                        // cd-popup
+
                    br
                  #ex1.modal
                     h2.
