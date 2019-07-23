@@ -559,14 +559,12 @@ router.get('/profile', function (req, res, next) {
                 } 
                 else { 
                   projectsUsers = projects;
-              }});
+             
     mongoose.model('User').find({}, function (err, users) {
                 if (err) {
                     return console.error(err);
                 } 
                 else { usersSelect = users;
-
-                }});
 
   User.findById(req.session.userId)
     .exec(function (error, user) {
@@ -596,7 +594,10 @@ router.get('/profile', function (req, res, next) {
               res.json(project);
           }
         });
+
         }
+        }});
+     }});
       }
     });
 });
