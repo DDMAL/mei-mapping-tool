@@ -39,6 +39,10 @@ router.route('/')
                   return console.error(err);
               } else {
                 console.log(project._id);
+                mongoose.model('project').find( { userID: { $nin: [ req.session.userId ] } }, function (err, projectsAll) {
+              if (err) {
+                  return console.error(err);
+              } else {
                
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
@@ -48,7 +52,8 @@ router.route('/')
                         res.render('projects/index', {
                               title: 'Projects',
                               "projects" : projects,
-                              "users" : userFinal
+                              "users" : userFinal,
+                              "allProject" : projectsAll
                           });
                     },
                     //JSON response will show all projects in JSON format
@@ -56,6 +61,8 @@ router.route('/')
                         res.json(projects);
                     }
                 });
+                }
+              });
               }     
               //global.userFinal = []; //The user needs to be added in all the routes
 
