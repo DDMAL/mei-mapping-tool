@@ -144,9 +144,14 @@ router.route('/fork')
       return res.status(500).json({ err });
     }
     else {
+       mongoose.model('User').findById(req.session.userId, function (err, user) {
+                if (err) {
+                    return console.error(err);
+                } 
+                else { 
 
       //1.We need to create a copy of the project
-        var name = nameOfProject + "/" + req.session.userID; //We'll start with the userID added to the name, then we'll change it to the username
+        var name = nameOfProject + "/" + user.username; //We'll start with the userID added to the name, then we'll change it to the username
         var projectUserID = req.session.userId; 
         var projectArray = [];
         projectArray.push(projectUserID) //3.Add that project to the user. 
@@ -254,10 +259,10 @@ router.route('/fork')
                        }
                     });
   }//global.userFinal = []; //The user needs to be added in all the routes
-
+})
+};
 });
 });
-
 //Route to update the bio
 router.route('/updateBio')
   //PUT to update a neume by ID
