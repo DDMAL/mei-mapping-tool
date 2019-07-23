@@ -114,13 +114,21 @@ div.neumeSection
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-download
-                    |  Download CSV  
+                    |  CSV  
+                    span.tooltiptext To download the project as a .csv file, click here!
+
+    form(action='/downloadOpenDocument',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                    i.fa.fa-download
+                    |  OpenDocs  
                     span.tooltiptext To download the project as a .csv file, click here!
     
     button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton')
       i.fa.fa-upload
       |  Upload CSV 
-      span.tooltiptext To upload neumes as a .csv file, click here!
+      span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
     
 
     button#myBtn(class = "button button2AddNeume") Add Neume

@@ -90,6 +90,8 @@ router.route('/csv')
 
   });
 
+
+
 router.route('/csvProject')
 .post(function(req, res) {
 
@@ -132,6 +134,52 @@ router.route('/csvProject')
   })//global.userFinal = []; //The user needs to be added in all the routes
 
 });
+
+//Code for uploading a .ods file as json : 
+
+
+/*var conv = require('ods2json');
+c = new conv;
+var json = c.convert('sheet.ods', false, true);*/
+
+
+//Route for downloading the neumes as opendocument files
+router.route('/downloadOpenDocument')
+.post(function(req, res) {
+
+
+  //1) Create a template with carbone.io (Thank you carbone!)
+  //2) Add the json as fields to the carbone template
+  const fs = require('fs');
+  const carbone = require('carbone');
+
+  mongoose.model('neume').find({project : IdOfProject}, function (err, neumesOdt) {
+    if (err) {
+      return res.status(500).json({ err });
+    }
+    else {
+      //var neume = neume;
+      
+       // Data to inject
+  var data = neumesOdt;
+
+  // Generate a report using the sample template provided by carbone module
+  // This LibreOffice template contains "Hello {d.firstname} {d.lastname} !"
+  // Of course, you can create your own templates!
+  carbone.render('./template/template.odt', data, function(err, result){
+    if (err) {
+      return console.log(err);
+    }
+    // write the result
+    fs.writeFileSync('result.odt', result);
+  });
+
+    }
+  })//global.userFinal = []; //The user needs to be added in all the routes
+
+});
+
+
 var multer  = require('multer')
 var uploadCSV = multer({ dest: 'exports/' })
 router.route('/uploadCSV')
