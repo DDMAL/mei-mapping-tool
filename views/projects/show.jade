@@ -191,7 +191,7 @@ div.neumeSection
                       button(type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
                           x
 
-                      #DeleteNeume.modal
+                      .modal(id = "DeleteModal#{neume.id}")
                         // Modal content
                         .modal-content
                           span.close ×
@@ -289,7 +289,7 @@ div.neumeSection
                   //Modals event listeners for every modal
                   window.addEventListener('load', function() {
                       initializeModal('myModal', 'myBtn');
-                      initializeModal('DeleteNeume', 'deleteNeumeButton#{neume.id}');
+                      initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
                     });
 

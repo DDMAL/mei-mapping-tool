@@ -34,6 +34,7 @@ function initializeModal(modalID, buttonID) {
 
   // Get the <span> element that closes the modal
   var span = modal.querySelector('.close');
+  var close = document.getElementById("closed");
 
   // When the user clicks on the button, open the modal
   btn.addEventListener('click', function() {
