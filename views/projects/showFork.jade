@@ -58,28 +58,28 @@ html
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 
-
-div
-  header
-      // Main logo
-      a#logo(href='#')
-        span Cress 🎵 
-      // main navigation links
-      nav
-        ul
-            li
-              a(href='/neumes/about') About
-            li
-              a(href='/neumes/user') Projects
-            li
-              a(href='http://ddmal.music.mcgill.ca/') DDMAL 
-            li
-              a(href='/') Log out
-            li
-              a(href='#' class= "tooltip") Help
-               span.tooltiptext If you do not see the neumes on the page, reload the page once.
-            li
-              a(href='#') Public User
+- each user in users
+  div
+    header
+        // Main logo
+        a#logo(href='#')
+          span Cress 🎵 
+        // main navigation links
+        nav
+          ul
+              li
+                a(href='/about') About
+              li
+                a(href='/projects') Projects
+              li
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li
+                a(href='/') Log out
+              li
+                a(href='#' class= "tooltip") Help
+                 span.tooltiptext If you do not see the neumes on the page, reload the page once.
+              li
+                a(href='/profile') #{user.username}
 
 
 //Title section : Adding a neume button and changing the title name                

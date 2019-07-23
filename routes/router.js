@@ -18,6 +18,7 @@ router.get('/', function (req, res, next) {
   return res.render('index');
 });
 var userFinal = [];
+
 /* GET about page. */
 router.route('/about')
   .get(function(req, res) {

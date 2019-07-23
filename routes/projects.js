@@ -674,6 +674,55 @@ router.route('/:id') //This is where the classifier would be
     });
   });
 
+    router.route('/forkPublic/:id') //This is where the classifier would be
+  .get(function(req, res) {
+    var projectName = req.body.projectName;
+    console.log(projectName);
+    global.nameOfProject = projectName;
+    var userFinal = [];
+    mongoose.model('project').findById(req.id, function (err, project) {
+
+      if (err) {
+        console.log('GET Error: There was a problem retrieving: ' + err);
+      } else {
+        //Updating the name
+        //Getting the neumes for each project and showing them in the console!!
+        //Element in face
+           //console.log(userFinal);//This works! 
+           mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+            neumeFinal = neumes;
+            //console.log(neumeFinal);//This works!!!
+          mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
+                  userFinal = users;
+                 // console.log(userFinal);//This works!!!
+              
+          // console.log(neumeFinal);
+        console.log('GET Retrieving ID: ' + project._id);
+        var projectdob = project.dob.toISOString();
+        projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+      
+        res.format({
+          html: function(){
+            console.log(neumeFinal); //This is shown on the console!
+            console.log(userFinal)//This is shown on the console!
+            
+              res.render('projects/showFork.jade', {
+                "projectdob" : projectdob,
+                "project" : project,
+                "neumes" : neumeFinal, 
+                "users" : userFinal
+              });
+          },
+          json: function(){
+              res.json(project);
+          }
+        });
+          });
+          });
+      }
+    });
+  });
+
 router.route('/:id/edit')
 	//GET the individual project by Mongo ID
 	.get(function(req, res) {
