@@ -132,6 +132,132 @@ router.route('/csvProject')
   })//global.userFinal = []; //The user needs to be added in all the routes
 
 });
+
+router.route('/fork')
+.post(function(req, res) {
+
+  var IdOfProject = req.body.IdOfProject;
+  var nameOfProject = req.body.projectName;
+
+  mongoose.model('neume').find({project : IdOfProject}, function (err, neumeCSV) { //This gets all the neumes from the project
+    if (err) {
+      return res.status(500).json({ err });
+    }
+    else {
+
+      //1.We need to create a copy of the project
+        var name = nameOfProject + "/" + req.session.userID; //We'll start with the userID added to the name, then we'll change it to the username
+        var projectUserID = req.session.userId; 
+        var projectArray = [];
+        projectArray.push(projectUserID) //3.Add that project to the user. 
+        //console.log(projectUsername); //This is undefined. 
+        //call the create function for our database
+        mongoose.model('project').create({
+            name : name,
+            userID : projectArray //This will be the userID
+             
+        }, function (err, project) {
+              if (err) {
+                  res.send("There was a problem adding the information to the database.");
+              } else {
+                  //project has been created
+                  console.log('POST creating new project: ' + project);
+                  //2.1 Get the id of the project we just created
+      // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+            neumeCSV.forEach(function(neumeFork) {
+            var name = neumeFork.name;
+            var folio = neumeFork.folio;
+            var description = neumeFork.description;
+            
+            var classification 
+            = neumeFork.classification;
+            var mei = neumeFork.mei;
+            var dob = neumeFork.dob;
+            var ID_project = project._id;
+            var review = neumeFork.review;
+
+            //call the create function for our database
+            mongoose.model('neume').create({
+                name : name,
+                folio : folio,
+                description : description,
+                classification : classification,
+                mei : mei,
+                review : review,
+                dob : dob,
+                imagePath : imageArray,
+                project : ID_project
+
+            }, function (err, neume) {
+                  if (err) {
+                      res.send("There was a problem adding the information to the database.");
+                  } else {
+                      //neume has been created
+                      //console.log('POST creating new neume: ' + neume); //neume holds the new neume
+                      //Show neume array
+                      //Neume requests for the images inside of neumes
+                      mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
+                        neumeFinal = neumes;
+                        //console.log(neumeFinal);//This works!!!
+                      });
+
+                      //Saving the images in the database from the uploads folder. (for each images in the imageArray)
+                      imageArray.forEach(function(image) {
+                        var imgPath = 'uploads/' + image;
+
+                        // our imageStored model
+                            var A = storedImages;
+                        // store an img in binary in mongo
+                            var a = new A;
+                            a.neumeID = neume._id;
+                            a.img.data = fs.readFileSync(imgPath);
+                            a.img.contentType = 'image/png';
+                            a.imgBase64 = a.img.data.toString('base64');
+                            imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+
+                        //All the images (images) need to be pushed to an array field in mongodb
+                            mongoose.model('neume').findOneAndUpdate({_id: neume._id}, 
+                            {
+                              //push the neumes into the imagesBinary array
+                              imagesBinary : imageData}, 
+
+                            function(err, data){
+                              //console.log(err, data);
+                              imageData = [];
+                            });
+
+               
+                            a.save(function (err, a) {
+                              if (err) throw err;
+
+                              console.error('saved img to mongo');
+                            });
+
+                      });
+
+                    imageArray = [];
+
+                  }
+            })
+
+        })
+        }
+
+    })
+        res.format({
+                        html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(user);
+                       }
+                    });
+  }//global.userFinal = []; //The user needs to be added in all the routes
+
+});
+});
+
 //Route to update the bio
 router.route('/updateBio')
   //PUT to update a neume by ID
