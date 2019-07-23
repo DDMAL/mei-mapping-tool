@@ -74,7 +74,7 @@ div
             li
               a(href='http://ddmal.music.mcgill.ca/') DDMAL 
             li
-              a(href='/') Log out
+              a(href='/') Log in
             li
               a(href='#' class= "tooltip") Help
                span.tooltiptext If you do not see the neumes on the page, reload the page once.
@@ -95,14 +95,6 @@ div.neumeSection
                     i.fa.fa-download
                     |  Project CSV file  
                     span.tooltiptext To download the project as a .csv file, click here!
-
-    form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
-              input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-              input(type='text',value='#{project.name}', name='projectName' hidden)
-              button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
-                i.fa.fa-download
-                |  Fork
-                span.tooltiptext To fork the project as your own, click here!
 
     //Neume section : 4 components added for each new neume.   
     br
