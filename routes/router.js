@@ -250,7 +250,7 @@ router.route('/fork')
     })
         res.format({
                         html: function(){
-                             res.redirect("back");
+                             res.redirect("/projects/");
                        },
                        //JSON responds showing the updated values
                       json: function(){
