@@ -13,7 +13,6 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
     link(rel="stylesheet" href="/stylesheets/modal.css")
-    link(rel="stylesheet" href="/stylesheets/reset.css")
     script(type='text/javascript' src='/javascripts/reset.js')
     meta(http-equiv='refresh', CONTENT="NO-CACHE")
 
@@ -78,21 +77,10 @@ html
                              br
                              form#formProjectDelete(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                                input(type='hidden',value='DELETE',name='_method')
-                               button(type='submit' class="button button3" class = "cd-popup-trigger").
+                               button(type='submit' class="button button3").
                                       x
                                br
                                br
-
-                             .cd-popup(role='alert')
-                              .cd-popup-container
-                                h3 Are you sure you want to delete this project?
-                                ul.cd-buttons
-                                  button(href='#0' onclick="$('#formProjectDelete').submit();" class = "button button1") Yes
-                                  button.no(href='#0' class = "button button4") No
-                                b.cd-popup-close.img-replace(href='#0') Close
-                              // cd-popup-container
-                            // cd-popup
-
 
                       h2.projectHeader Other Projects
                       ul
