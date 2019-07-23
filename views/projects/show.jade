@@ -188,7 +188,7 @@ div.neumeSection
                     br
                   form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                       input(type='hidden',value='DELETE',name='_method')
-                      button#deleteNeume(type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal').
+                      button(type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
                           x
 
                       #DeleteNeume.modal
@@ -289,7 +289,7 @@ div.neumeSection
                   //Modals event listeners for every modal
                   window.addEventListener('load', function() {
                       initializeModal('myModal', 'myBtn');
-                      initializeModal('DeleteNeume', 'deleteNeume');
+                      initializeModal('DeleteNeume', 'deleteNeumeButton#{neume.id}');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
                     });
 
