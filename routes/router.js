@@ -173,7 +173,7 @@ router.route('/fork')
             var name = neumeFork.name;
             var folio = neumeFork.folio;
             var description = neumeFork.description;
-            
+            var imageArray = neumeFork.imagesBinary;
             var classification 
             = neumeFork.classification;
             var mei = neumeFork.mei;
@@ -205,20 +205,19 @@ router.route('/fork')
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
                       });
+                      var imageData = [];
 
                       //Saving the images in the database from the uploads folder. (for each images in the imageArray)
                       imageArray.forEach(function(image) {
-                        var imgPath = 'uploads/' + image;
 
                         // our imageStored model
                             var A = storedImages;
                         // store an img in binary in mongo
                             var a = new A;
-                            a.neumeID = neume._id;
-                            a.img.data = fs.readFileSync(imgPath);
+                            a.neumeID = neume._id;//This is the neume id of the element
                             a.img.contentType = 'image/png';
-                            a.imgBase64 = a.img.data.toString('base64');
-                            imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+                            a.imgBase64 = image;
+                            imageData.push(a.imgBase64);//This works for all the images stored in the database.
 
                         //All the images (images) need to be pushed to an array field in mongodb
                             mongoose.model('neume').findOneAndUpdate({_id: neume._id}, 
