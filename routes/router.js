@@ -11,6 +11,7 @@ const json2csv = require('json2csv').parse;
 const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'classification', 'mei', 'review', 'dob', 'project'];
 global.userArray = [];
 global.userArray = [];
+var dialog = require('dialog');
  
 router.use(bodyParser.json({limit: '50mb'}));
 router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
@@ -298,40 +299,109 @@ router.route('/updateBio')
           })
       });
   })
-//Route to update the bio
-router.route('/updateSettings')
+//Route to update the username
+router.route('/updateUsername')
   //post to update our settings by ID
   .post(function(req, res) {
-      // Get our REST or form values. These rely on the "name" attributes from the edit page
+      // Get our REST or form values. These rely on the "name" attributes from the profile settings page
       var userSettings = req.body.usernameSettings;
+
+      //1)First, we need to find whether the username or email is already used.
+
+      User.findOne({ username : userSettings })
+        .exec(function (err, user) {
+          if (err) {
+            return dialog.info("error");
+          } else{
+
+            if(user == null){
+            //find the document by ID
+                User.findById(req.session.userId)
+                   .exec(function (error, user) {
+                    //update it
+                    user.update({
+                        username : userSettings
+
+                    }, function (err, user) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {
+                              //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                              res.format({
+                                  html: function(){
+                                       res.redirect("back");
+                                 },
+                                 //JSON responds showing the updated values
+                                json: function(){
+                                       res.json(user);
+                               }
+                        });
+                       }
+                    })
+                });
+          }
+          else{
+           dialog.info("Username already taken. Please try again.")
+           return  res.status(204).send();
+          }
+          }
+      });
+    
+  })
+
+  //Route to update the email
+router.route('/updateEmail')
+  //post to update our settings by ID
+  .post(function(req, res) {
+      // Get our REST or form values. These rely on the "name" attributes from the profile settings page
       var emailSettings = req.body.emailSettings;
 
-      //find the document by ID
-      User.findById(req.session.userId)
-         .exec(function (error, user) {
-          //update it
-          user.update({
-              username : userSettings,
-              email : emailSettings
+      //1)First, we need to find whether the username or email is already used.
+     User.findOne( { email: emailSettings} )
+        .exec(function (err, userEmail) {
+          if (err) {
+            return dialog.info("error");
+          } else{
+          
+          if(userEmail == null){
+            //find the document by ID
+                User.findById(req.session.userId)
+                   .exec(function (error, user) {
+                    //update it
+                    user.update({
+                        email : emailSettings
 
-          }, function (err, user) {
-            if (err) {
-                res.send("There was a problem updating the information to the database: " + err);
-            } 
-            else {
-                    //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
-                    res.format({
-                        html: function(){
-                             res.redirect("back");
-                       },
-                       //JSON responds showing the updated values
-                      json: function(){
-                             res.json(user);
+                    }, function (err, user) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {
+                              //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                              res.format({
+                                  html: function(){
+                                       res.redirect("back");
+                                 },
+                                 //JSON responds showing the updated values
+                                json: function(){
+                                       res.json(user);
+                               }
+                        });
                        }
-                    });
-             }
-          })
+                    })
+                });
+          }
+          else{
+           dialog.info("Email already taken. Please try again.")
+           return  res.status(204).send();
+          }
+          }
       });
+
+      //2)If so, we cannot change the username or email of the user and we need to give the error
+      //"Username or Email already used, please use another username or email"
+      //using dialog.info('error');!!
+    
   })
 //Route to add a collab
 router.route('/collabs')
