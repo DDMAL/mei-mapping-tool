@@ -2,6 +2,7 @@ doctype html
 doctype html
 html
   head
+    link(rel="icon" href="/images/Favicon.png")
   .column
     title  Cress 🎵 
     link(rel="stylesheet" href="/stylesheets/style.css")
@@ -70,8 +71,8 @@ html
                     a.sel(href='#bio') Profile
                   li.profiletab
                     a(href='#friends') Collaborators
-                  //li.profiletab
-                   // a(href='#settings') Settings
+                  li.profiletab
+                    a(href='#settings') Settings
               section#bio
                 br
                 h2 - Profile -
@@ -152,18 +153,22 @@ html
                 br
                 br
                 p Edit your user settings:
-                form(action='/updateSettings', method='post')
+                
                   p.setting
+                    form(action='/updateUsername', method='post')
                       img(src='images/edit.png', alt='*Edit*')
                       |  Username :                     
-
                       input(name = "usernameSettings", value = "#{username}"  size="20" required)
+                      button(class = "button button2" ) Update username
+                      br
+                      br
                   p.setting
+                    form(action='/updateEmail', method='post')
                       img(src='images/edit.png', alt='*Edit*')
                       |  E-mail Address :      
                         
                       input(name = "emailSettings", value = "#{email}"  size="20" required)
-                  button(class = "button button2" disabled) Update Settings
+                      button(class = "button button2" ) Update email
 
   footer
     //img(src='img/avatar.jpeg', alt='Footer Logo')
