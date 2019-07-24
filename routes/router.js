@@ -562,7 +562,7 @@ router.get('/profile', function (req, res, next) {
                 else { 
                   projectsUsers = projects;
              
-    mongoose.model('User').find({}, function (err, users) {
+    mongoose.model('User').find({ _id : { $nin: [req.session.userId] } }, function (err, users) {
                 if (err) {
                     return console.error(err);
                 } 
