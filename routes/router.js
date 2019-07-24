@@ -152,7 +152,7 @@ router.route('/fork')
                 else { 
 
       //1.We need to create a copy of the project
-        var name = nameOfProject + "/" + user.username; //We'll start with the userID added to the name, then we'll change it to the username
+        var name = user.username + "/" + nameOfProject; //We'll start with the userID added to the name, then we'll change it to the username
         var projectUserID = req.session.userId; 
         var projectArray = [];
         projectArray.push(projectUserID) //3.Add that project to the user. 
@@ -243,21 +243,23 @@ router.route('/fork')
                     imageArray = [];
 
                   }
+
             })
 
         })
-        }
-
-    })
-        res.format({
+            res.format({
                         html: function(){
-                             res.redirect("back");
+                             res.redirect("/projects/");
                        },
                        //JSON responds showing the updated values
                       json: function(){
                              res.json(user);
                        }
                     });
+        }
+
+    })
+        
   }//global.userFinal = []; //The user needs to be added in all the routes
 })
 };
