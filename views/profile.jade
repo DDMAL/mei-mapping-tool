@@ -134,17 +134,17 @@ html
 
                               p Name: 
                                  select(class = "createProjectInput" name="collabName" id = "selectUser" required)
-                                      option(disabled='', selected='', value='')  -- select an option -- 
+                                      option(disabled='', selected='', value='')  -- select a username -- 
                                       - each user in users
                                           option(value='#{user.id}') #{user.username}                            
 
                               p Project: 
                                  select(class = "createProjectInput" name="project" id = "selectProject" required)
-                                      option(disabled='', selected='', value='')  -- select an option -- 
+                                      option(disabled='', selected='', value='')  -- select a project -- 
                                       - each project in projects
                                           option(value='#{project.id}') #{project.name}
                               p
-                                 button#btnSubmit(type="submit" class = "button buttonAddProject") submit
+                                 button#btnSubmit(type="submit" class = "buttonAddProject" style = "border-radius : 5px") submit
                   // Link to open the modal
                 a(href='#ex1', rel='modal:open') Add a Collaborator
 
