@@ -27,7 +27,7 @@ html
     link(rel="stylesheet" href="/stylesheets/modal.css")
     link(rel="stylesheet" href="/stylesheets/buttonNeume.css")
     link(rel="stylesheet" href="/stylesheets/reset.css")
-    script(type='text/javascript' src='/javascripts/reset.js')
+    script(type='text/javascript' src='/javascripts/modals.js')
 
     
     script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
@@ -93,24 +93,33 @@ html
                     li
                     h6 Username : #{collaborator.collabUserName} 
                     h6 Project : #{collaborator.collabProjectName}
-                     form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteCollab")   
+                     form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded')   
                         input(name="collabName" value = "#{collaborator.nameCollab}" hidden)
                         input(name="collabProject" value = "#{collaborator.projectID}" hidden)
                         input(type='hidden',value='DELETE',name='_method')
-                        button(class = "button button3DeleteCollab" class = "cd-popup-trigger") x
+                        button(class = "button button3DeleteCollab" class = "cd-popup-trigger" id = "buttonCollab#{collaborator._id}" type = 'button') x
                         
-                        .cd-popup(role='alert')
-                          .cd-popup-container
+                        .modalDeleteCollab(id = "DeleteModal#{collaborator._id}")
+                          // Modal content
+                          .modalDeleteCollab-content
+                            span.closeDeleteCollab(id = "closingModal") ×
+                            h4 Are you sure you want to delete this collaborator? 
                             br
-                            p Are you sure you want to delete this collaborator?
-                            ul.cd-buttons
-                              li
-                                a(href='#0' onclick="$('#DeleteCollab').submit();") Yes
-                              li
-                                a.no(href='#0') No
-                            a.cd-popup-close.img-replace(href='#0') Close
-                          // cd-popup-container
-                        // cd-popup
+                            p
+                             button(type='submit' class = "button button3DeleteImage") Yes
+                             button(type = "button" class = "button button4" id = "NoButton#{collaborator._id}") No
+
+                           script.
+                               //Modals event listeners for every modal
+                                window.addEventListener('load', function() {
+                                  
+                                    initializeModal('DeleteModal#{collaborator.id}', 'buttonCollab#{collaborator._id}');
+                               
+                                  });
+
+                                     document.getElementById("NoButton#{collaborator._id}").onclick = function(){
+                                                document.getElementById("DeleteModal#{collaborator._id}").style.display = 'none';
+                                                };
 
                    br
                  #ex1.modal
@@ -172,9 +181,6 @@ script(type='text/javascript').
       });
  });
   
-  //Modals event listeners for every modal
-    window.addEventListener('load', function() {
-        initializeModal('myModal', 'collaboratorBtn');
-      });
+
 
 
