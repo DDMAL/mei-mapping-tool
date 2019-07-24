@@ -200,7 +200,7 @@ div.neumeSection
                           h3(style = "text-align : center") #{neume.name}
                           p
                            button(type='submit' class = "button button3DeleteImage") Yes
-                           button(type = "button" class = "button button4" onclick = 'myFunction()') No
+                           button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
                            br
                            br
 
@@ -287,9 +287,9 @@ div.neumeSection
                       }
                       
                     });
-                    function myFunction(){
-                    document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
-                    }
+                    document.getElementById("NoButton#{neume._id}").onclick = function(){
+                                                document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
+                                                };
                   //Modals event listeners for every modal
                   window.addEventListener('load', function() {
                       initializeModal('myModal', 'myBtn');

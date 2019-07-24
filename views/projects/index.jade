@@ -85,7 +85,7 @@ html
                                .modalDeleteCollab(id = "DeleteProjectModal#{project._id}")
                                   // Modal content
                                   .modalDeleteCollab-content
-                                    span.closeDeleteCollab(id = "closingModal") ×
+                                    span.closeDeleteCollab(id = "closingModal#{project._id}") ×
                                     h3 Are you sure you want to delete this project? 
                                     h3 #{project.name}
                                     p
@@ -104,6 +104,9 @@ html
                                                document.getElementById("NoButton#{project._id}").onclick = function(){
                                                           document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
                                                           };
+                                               document.getElementById("closingModal#{project._id}").onclick = function(){
+                                                document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
+                                                };
 
                       h2.projectHeader Other Projects
                       ul

@@ -102,7 +102,7 @@ html
                         .modalDeleteCollab(id = "DeleteModal#{collaborator._id}")
                           // Modal content
                           .modalDeleteCollab-content
-                            span.closeDeleteCollab(id = "closingModal") ×
+                            span.closeDeleteCollab(id = "closingModal#{collaborator._id}") ×
                             h4 Are you sure you want to delete this collaborator? 
                             br
                             h3 #{collaborator.collabUserName}
@@ -120,6 +120,9 @@ html
                                   });
 
                                      document.getElementById("NoButton#{collaborator._id}").onclick = function(){
+                                                document.getElementById("DeleteModal#{collaborator._id}").style.display = 'none';
+                                                };
+                                     document.getElementById("closingModal#{collaborator._id}").onclick = function(){
                                                 document.getElementById("DeleteModal#{collaborator._id}").style.display = 'none';
                                                 };
 
