@@ -33,15 +33,41 @@
    margin : 10px;
   /*Adding the neumes for the projects.*/
 }
-.button3DeleteImage:hover {
+.button3DeleteProject:hover {
   background-color: #f44336;
   color: white;
 }
-.button3DeleteImage {
- background-color: white; 
+.button3DeleteProject {
+  border-radius: 5px;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  text-align: center;
+  background-color:white;
+  height: 50px;
+  width : 30%;
+  position:relative;
+  border-width: 10px;
   color: black; 
   border: 2px solid #f44336;
-  border-radius: 15px;
+  font-size: 14px;
+  margin-right : 10px;
+}
+p {margin : 10px;}
+.buttonNo{
+  border-radius: 5px;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  text-align: center;
+  background-color:white;
+  height: 50px;
+  width : 30%;
+  position:relative;
+  border-width: 10px;
+  color: black; 
+  border: 2px solid #e7e7e7;
+  font-size: 14px;
+}
+.buttonNo:hover {
+  background-color: #e7e7e7;
+  color: white;
 }
 
 .button:hover {
