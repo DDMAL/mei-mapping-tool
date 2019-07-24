@@ -99,7 +99,6 @@ app.use(passport.session())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(multer({storage}).any()); // dest is not necessary if you are happy with the default: /tmp
 app.use(express.static(path.join(__dirname, 'bower_components')));
-
 // routes for Dropzone element
 app.get('/image', function (req, res) {
     res.send('<html><head><title>Dropzone example</title><link href="/stylesheets/dropzone.css" rel="stylesheet"></head><body><h1>Using Dropzone</h1><form method="post" action="/" class="dropzone" id="dropzone-example"><div class="fallback"><input name="file" type="file" multiple /></div></form><p><a href="/old">Old form version</a></p><script src="/javascripts/dropzone.js"></script></body></html>');
@@ -154,10 +153,7 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-//Components to add a bigger limit to express webserver (It will accept to delete bigger pictures)
-var bodyParser = require('body-parser');
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+
 //On click example of the deleted image (Still working on it)
 app.post('/clicked', (req, res) => {
   console.log("work");
