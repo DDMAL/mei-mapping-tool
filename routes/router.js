@@ -12,7 +12,8 @@ const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'cl
 global.userArray = [];
 global.userArray = [];
  
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json({limit: '50mb'}));
+router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 // GET route for reading data
 router.get('/', function (req, res, next) {
   return res.render('index');
@@ -33,7 +34,7 @@ router.route('/about')
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                     html: function(){
-                      console.log(userFinal);
+                      //console.log(userFinal);
                         res.render('about.jade', {
                               title: 'About',
                               "users" : userFinal
@@ -52,7 +53,7 @@ router.route('/csv')
   .post(function(req, res) {
 
     var IdOfNeume = req.body.IdOfNeume;
-     console.log(IdOfNeume);//This is somehow undefined.
+     //console.log(IdOfNeume);//This is somehow undefined.
 
     mongoose.model('neume').findById(IdOfNeume, function (err, neumeCSV) {
       if (err) {
@@ -60,7 +61,7 @@ router.route('/csv')
       }
       else {
         //var neume = neume;
-        console.log(neumeCSV);
+        //console.log(neumeCSV);
         let csv
         try {
           csv = json2csv(neumeCSV, {fields});
@@ -103,7 +104,7 @@ router.route('/csvProject')
     }
     else {
       //var neume = neume;
-      console.log(neumeCSV);
+      //console.log(neumeCSV);
       let csv
       try {
         csv = json2csv(neumeCSV, {fields});
