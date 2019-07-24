@@ -85,6 +85,9 @@ The home page of the header will redirect you to the projects page http://localh
 ### Edit image
 To add more images or delete previous images from the classifier, you can click on the `Edit images` button of the neume. A pop-up window with a view of the images and a dropzone to add images will appear. 
 
+### Fork a project
+You can fork a project to your own account by clicking on the fork button of a project under the `other projects` section. This will create a new project in your repository titled `username/projectName` and you will be able to see and edit all the neumes of the project your forked. 
+
 ## Profile page
 To access the profile page, you can click on your username button in the navigation bar. You will be redirected to http://localhost:8800/profile
 
