@@ -143,6 +143,8 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+var flash = require('express-flash');
+app.use(flash());
 
 
 // serve static files from template
