@@ -339,8 +339,8 @@ router.route('/collabs')
       // Get our REST or form values. These rely on the "name" attributes from the edit page
       var userCollab = req.body.collabName;
       var project = req.body.project;
-      var userCollabName;
-      var projectCollabName;
+      global.userCollabName;
+      global.projectCollabName;
       //Here, I also want to call the project schema model and ask for adding the name or the id of the element in the neume. 
       //Project schema : needs to be found by project id, then I add the user id of the user I just added to the project
       //to the array of the userID.
