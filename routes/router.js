@@ -12,7 +12,8 @@ const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'cl
 global.userArray = [];
 global.userArray = [];
  
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json({limit: '50mb'}));
+router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 // GET route for reading data
 router.get('/', function (req, res, next) {
   return res.render('index');

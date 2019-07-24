@@ -11,7 +11,8 @@ global.neumes_array = [];
 //Copy and pasted from method-override
 
 //Change this for the users to go to the projects page
-router.use(bodyParser.urlencoded({ extended: true }))
+router.use(bodyParser.json({limit: '50mb'}));
+router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 router.use(methodOverride(function(req, res){
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
