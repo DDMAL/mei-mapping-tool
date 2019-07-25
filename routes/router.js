@@ -42,8 +42,16 @@ router.get('/forgot', function(req, res) {
       } else {
         if (user === null) {
           var err = new Error('Not Authorized.');
-        alert(err, 'yad');
-        return res.redirect('back');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
         } else {
           
          return res.format({
@@ -73,8 +81,17 @@ router.post('/forgot', function(req, res, next) {
     function(token, done) {
       User.findOne({ email: req.body.email }, function(err, user) {
         if (!user) {
-          dialog.info('No account with that email address exists.');
-          return res.redirect('/forgot');
+          var err = new Error('No account with that email address exists.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
         }
 
         user.resetPasswordToken = token;
@@ -99,11 +116,21 @@ router.post('/forgot', function(req, res, next) {
         html: '<strong>You are receiving this because you (or someone else) have requested the reset of the password for your account.  Please click on the following link, or paste this into your browser to complete the process: http://' + req.headers.host + '/reset/' + token + '  . If you did not request this, please ignore this email and your password will remain unchanged. </strong> ',
       };
       sgMail.send(msg);
-      res.status(204).send();
+      var err = 'Success!! The email has been sent!';
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
     }
   ], function(err) {
     if (err) return next(err);
-    res.redirect('/forgot');
+    res.redirect('/');
   });
 });
 
@@ -111,8 +138,17 @@ router.post('/forgot', function(req, res, next) {
 router.get('/reset/:token', function(req, res) {
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      req.flash('error', 'Password reset token is invalid or has expired.');
-      return res.redirect('/forgot');
+      var err = new Error('Password reset token is invalid or has expired.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
     }
     res.render('reset', {
       user: req.user
@@ -126,8 +162,17 @@ router.post('/reset/:token', function(req, res) {
     function(done) {
       User.findOne({ resetPasswordToken: req.params.token }, function(err, user) {
         if (!user) {
-          req.flash('error', 'Password reset token is invalid or has expired.');
-          return res.redirect('back');
+          var err = new Error('Password reset token is invalid or has expired.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
         }
 
         user.password = req.body.password;
@@ -484,8 +529,17 @@ router.route('/updateUsername')
                 });
           }
           else{
-           dialog.info("Username already taken. Please try again.")
-           return  res.status(204).send();
+           var err = new Error('Username already taken. Please try again');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
           }
           }
       });
@@ -534,8 +588,17 @@ router.route('/updateEmail')
                 });
           }
           else{
-           dialog.info("Email already taken. Please try again.")
-           return  res.status(204).send();
+           var err = new Error('Email already taken. Please try again.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
           }
           }
       });

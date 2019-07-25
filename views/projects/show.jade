@@ -118,8 +118,8 @@ div.neumeSection
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-code-fork
-                    |  Fork
-                    span.tooltiptext To fork the project as your own, click here!
+                    |  Save as
+                    span.tooltiptext To save the project as your own and start working on it, click here!
 
     button#myBtn(class = "button button2AddNeume") Add Neume
 
@@ -168,7 +168,17 @@ div.neumeSection
                     // Mei snippet Section
                     .column
                        .card 
-                        p Mei Snippet: 
+                        p(class = 'tooltipMEI') Mei Snippet : Hover here for a model to follow!
+                         span.tooltiptext 
+                           | How the pitches should be encoded :
+                           br 
+                           | &lt;neume&gt; 
+                           br
+                           | &nbsp;&lt;nc/&gt; 
+                           br
+                           | &nbsp;&lt;nc intm="1S"/&gt; 
+                           br
+                           | &lt;/neume&gt;
                          .panel.panel-default
                           .panel-body
                                div(id = "#{neume.id}")
