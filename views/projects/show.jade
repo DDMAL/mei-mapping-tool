@@ -168,7 +168,17 @@ div.neumeSection
                     // Mei snippet Section
                     .column
                        .card 
-                        p Mei Snippet: 
+                        p(class = 'tooltipMEI') Mei Snippet : Hover here to have a model to follow!
+                         span.tooltiptext 
+                           | How the pitches should be encoded :
+                           br 
+                           | &lt;neume&gt; 
+                           br
+                           | &nbsp;&lt;nc/&gt; 
+                           br
+                           | &nbsp;&lt;nc intm="1S"/&gt; 
+                           br
+                           | &lt;/neume&gt;
                          .panel.panel-default
                           .panel-body
                                div(id = "#{neume.id}")
