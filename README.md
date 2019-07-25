@@ -1,6 +1,8 @@
 # Cress 🎵
 Web-based app to map squiggles to MEI snippets (under construction)
 
+You can get the development version of the mei-mapping-tool by accessing the page http://132.206.14.209:8800/
+
 ## Requirements
 * [Node.js](https://nodejs.org/en/download/)
 * [Homebrew](https://brew.sh/) *for mac users*
@@ -35,7 +37,7 @@ Web-based app to map squiggles to MEI snippets (under construction)
   
   You should be able to see the message *node ./bin/www*
 
-You can get the most recent version of the mei-mapping-tool by accessing the page http://localhost:3000/
+You can get the most recent version of the mei-mapping-tool by accessing the page http://132.206.14.209:8800/
 
 ## Mongodb installation
 
