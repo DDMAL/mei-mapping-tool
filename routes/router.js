@@ -73,8 +73,17 @@ router.post('/forgot', function(req, res, next) {
     function(token, done) {
       User.findOne({ email: req.body.email }, function(err, user) {
         if (!user) {
-          dialog.info('No account with that email address exists.');
-          return res.redirect('/forgot');
+          var err = new Error('No account with that email address exists.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
         }
 
         user.resetPasswordToken = token;
@@ -111,8 +120,17 @@ router.post('/forgot', function(req, res, next) {
 router.get('/reset/:token', function(req, res) {
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      req.flash('error', 'Password reset token is invalid or has expired.');
-      return res.redirect('/forgot');
+      var err = new Error('Password reset token is invalid or has expired.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
     }
     res.render('reset', {
       user: req.user
@@ -126,8 +144,17 @@ router.post('/reset/:token', function(req, res) {
     function(done) {
       User.findOne({ resetPasswordToken: req.params.token }, function(err, user) {
         if (!user) {
-          req.flash('error', 'Password reset token is invalid or has expired.');
-          return res.redirect('back');
+          var err = new Error('Password reset token is invalid or has expired.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
         }
 
         user.password = req.body.password;
