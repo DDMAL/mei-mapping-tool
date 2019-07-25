@@ -64,7 +64,7 @@ form(action='/neumes/cancel',method='post',enctype='application/x-www-form-urlen
 			localStorage.setItem("ace",textareaNew.val());
 		});
 		editor.setTheme("ace/theme/monokai");
-		editor.session.setMode("ace/mode/html");//Html mode parsing
+		editor.session.setMode("ace/mode/xml");//Html mode parsing
 
 		//If the mei snippet has errors, disable the submit button
 		editor.getSession().on("changeAnnotation", function(){
