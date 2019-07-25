@@ -116,7 +116,7 @@ router.post('/forgot', function(req, res, next) {
         html: '<strong>You are receiving this because you (or someone else) have requested the reset of the password for your account.  Please click on the following link, or paste this into your browser to complete the process: http://' + req.headers.host + '/reset/' + token + '  . If you did not request this, please ignore this email and your password will remain unchanged. </strong> ',
       };
       sgMail.send(msg);
-      var err = new Error('Success!! The email has been sent!');
+      var err = 'Success!! The email has been sent!';
           return res.format({
           html: function(){           
               res.render('errorLog', {
