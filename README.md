@@ -39,6 +39,8 @@ You can get the development version of the mei-mapping-tool by accessing the pag
 
 You can get the most recent version of the mei-mapping-tool by accessing the page http://132.206.14.209:8800/
 
+You can work on the developement version of the mei-mapping-tool by accessing the page http://localhost:8800/
+
 ## Mongodb installation
 
 To make sure mongodb is running in your application, you can add this command to the terminal :
