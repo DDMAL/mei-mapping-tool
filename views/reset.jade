@@ -66,17 +66,30 @@ html
                 br
                 p.activity
                   block content
-                    form(method='POST')
+                    form(method='POST' id = "passwordForm" onsubmit='event.preventDefault(); validateMyForm();')
                       .form-group
                         label(for='password') New Password : 
-                        input.form-control(type='password', name='password', value='', placeholder='New password', autofocus=true)
+                        input.form-control(type='password', name='password', value='', placeholder='New password', autofocus=true id = "password")
                         br
                       .form-group
                         label(for='confirm') Confirm Password : 
-                        input.form-control(type='password', name='confirm', value='', placeholder='Confirm password')
+                        input.form-control(type='password', name='confirm', value='', placeholder='Confirm password' id = "password_conf")
                         br
                       .form-group
                         button.btn.btn-primary(type='submit' class = "button button2") Update Password
+
+                        script(type='text/javascript').
+                          var passWordField = document.getElementById('password')
+                          var passWordConfirmField = document.getElementById('password_conf')
+                          var form = document.getElementById('passwordForm')
+                          function validateMyForm(){
+                          if(passWordField.value != passWordConfirmField.value){
+                          window.alert("Passwords do not match. Please try again.");
+                          } else {
+                          form.submit();
+                          location.href = '/';
+                          }
+                          }
   footer
     span
       | Cress  |  Copyright © 2019
