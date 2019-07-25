@@ -484,8 +484,17 @@ router.route('/updateUsername')
                 });
           }
           else{
-           dialog.info("Username already taken. Please try again.")
-           return  res.status(204).send();
+           var err = new Error('Username already taken. Please try again');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
           }
           }
       });
@@ -534,8 +543,17 @@ router.route('/updateEmail')
                 });
           }
           else{
-           dialog.info("Email already taken. Please try again.")
-           return  res.status(204).send();
+           var err = new Error('Email already taken. Please try again.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
           }
           }
       });
