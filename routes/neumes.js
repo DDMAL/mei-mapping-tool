@@ -21,6 +21,9 @@ router.use(methodOverride(function(req, res){
         return method
       }
 }))
+
+//I also need a route for making the zip files.
+//Route for the cancel button
 router.route('/cancel')
     //GET all neumes
     .get(function(req, res, next) {
@@ -44,6 +47,8 @@ router.route('/cancel')
               }     
         });
     })
+
+//Route for the users
 router.route('/user')
     //GET all neumes
     .get(function(req, res, next) {
