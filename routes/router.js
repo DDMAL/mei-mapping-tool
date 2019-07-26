@@ -617,17 +617,34 @@ router.route('/collabs')
       var project = req.body.project;
       var userCollabName;
       var projectCollabName;
+
       //Here, I also want to call the project schema model and ask for adding the name or the id of the element in the neume. 
       //Project schema : needs to be found by project id, then I add the user id of the user I just added to the project
       //to the array of the userID.
             //This works, when the page is reloaded
-            mongoose.model('project').findOneAndUpdate({_id: project}, 
-              {
-                $push: {userID : userCollab}}, 
+            mongoose.model('project').findOneAndUpdate({_id: project}, {$push: {userID : userCollab}})
+                  .exec(function (err, data) {
+                
+                if(data.admin == userCollab){
+                  //find the document by ID
+                      var err = new Error('The collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.');
+                      return res.format({
+                      html: function(){           
+                          res.render('errorLog', {
+                            "error" : err,
+                          });
+                      },
+                      json: function(){
+                          res.json(err);
+                      }
+                    });
+                }
+                else{
+                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                  //This is not being updated
+                 // data.update(
+                   //{ $push: { userID : userCollab } }); 
 
-              function(err, data){
-                console.log(err, data);
-              });
 
       //Get the username from searching the database with the id
       //Do the same thing for the project name
@@ -673,8 +690,10 @@ router.route('/collabs')
              }
           })
       });
-      });   
+      });  
+      }; 
   })
+                });
 
 //route to delete a collab
 router.route('/deleteCollab')
@@ -843,7 +862,7 @@ router.get('/profile', function (req, res, next) {
                 if (err) {
                     return console.error(err);
                 } 
-                else { usersSelect = users;
+                else { usersSelect = users;             
 
   User.findById(req.session.userId)
     .exec(function (error, user) {
