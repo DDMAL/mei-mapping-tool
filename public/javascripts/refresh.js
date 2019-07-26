@@ -7,7 +7,7 @@
          if(new Date().getTime() - time >= 300000) 
              window.location.reload(true);
          else 
-             setTimeout(refresh, 300000);
+             setTimeout(refresh, 50000);
      }
 
-     setTimeout(refresh, 300000);
+     setTimeout(refresh, 50000);
