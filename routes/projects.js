@@ -120,12 +120,14 @@ router.route('/')
         var name = req.body.name;
         var projectUserID = req.session.userId;
         var projectArray = [];
+        var admin = req.session.userId; //This is the admin id that created the project
         projectArray.push(projectUserID)
         //console.log(projectUsername); //This is undefined. 
         //call the create function for our database
         mongoose.model('project').create({
             name : name,
-            userID : projectArray //This will be the userID
+            userID : projectArray,
+            admin : admin //This will be the userID
              
         }, function (err, project) {
               if (err) {

@@ -617,16 +617,35 @@ router.route('/collabs')
       var project = req.body.project;
       var userCollabName;
       var projectCollabName;
+
       //Here, I also want to call the project schema model and ask for adding the name or the id of the element in the neume. 
       //Project schema : needs to be found by project id, then I add the user id of the user I just added to the project
       //to the array of the userID.
             //This works, when the page is reloaded
             mongoose.model('project').findOneAndUpdate({_id: project}, 
               {
+               //If the user chosen in the name section (userCollab) is the admin of the project chosen in the projects section(project), 
+               //Then you cannot add him as a collaborator.  
                 $push: {userID : userCollab}}, 
 
               function(err, data){
-                console.log(err, data);
+                  
+                  if(data.admin == userCollab){
+                    //Alert and goes back to the page (The Collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.)
+                  var err = new Error('The collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.');
+                      return res.format({
+                      html: function(){           
+                          res.render('errorLog', {
+                            "error" : err,
+                          });
+                      },
+                      json: function(){
+                          res.json(err);
+                      }
+                    });
+                  }
+                  else
+                     console.log(err, data);
               });
 
       //Get the username from searching the database with the id
@@ -843,7 +862,7 @@ router.get('/profile', function (req, res, next) {
                 if (err) {
                     return console.error(err);
                 } 
-                else { usersSelect = users;
+                else { usersSelect = users;             
 
   User.findById(req.session.userId)
     .exec(function (error, user) {
