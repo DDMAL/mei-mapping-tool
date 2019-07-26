@@ -622,7 +622,7 @@ router.route('/collabs')
       //Project schema : needs to be found by project id, then I add the user id of the user I just added to the project
       //to the array of the userID.
             //This works, when the page is reloaded
-            mongoose.model('project').findOne({_id: project})
+            mongoose.model('project').findOneAndUpdate({_id: project}, {$push: {userID : userCollab}})
                   .exec(function (err, data) {
                 
                 if(data.admin == userCollab){
@@ -641,8 +641,9 @@ router.route('/collabs')
                 }
                 else{
                   //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
-                  data.update(
-                   { $push: { userID : userCollab } }); };
+                  //This is not being updated
+                 // data.update(
+                   //{ $push: { userID : userCollab } }); 
 
 
       //Get the username from searching the database with the id
@@ -689,7 +690,8 @@ router.route('/collabs')
              }
           })
       });
-      });   
+      });  
+      }; 
   })
                 });
 
