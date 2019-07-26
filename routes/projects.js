@@ -790,7 +790,7 @@ router.route('/:id/edit')
 	        })
 	    });
 	})
-	//DELETE a project by ID
+	//~~~> Function used to DELETE a project by ID (This is the only one that has action on the project)
 	.delete(function (req, res){
 	    //find project by ID
 	    mongoose.model('project').findById(req.id, function (err, project) {
@@ -802,6 +802,30 @@ router.route('/:id/edit')
 	                if (err) {
 	                    return console.error(err);
 	                } else {
+
+                    //1. Find the project ID that we are deleting inside of the users collection  == our project.id  == projectID (We have collab projectID)
+                      mongoose.model('User').find({collaborators: {projectID : project._id} }, function (err, users) { //Find all users that have in their collaborator's the project
+                         if (err) {
+                            return console.error(err);
+                      } else {
+                        //For each user in users (For each user that has the projectID in their collaborators)
+                          users.forEach(function(user) {
+                          mongoose.model('User').findOneAndUpdate({_id: user._id}, 
+                           {
+                             $pull: {collaborators : { projectID: project_id}
+                                    }
+                            }
+                          , 
+
+                            function(err, data){
+                              console.log(err, data);
+                            })});
+
+
+                          }});
+                    //2. Once we have that, pull all the documents from the array that correspond to the projectID of the project.id
+
+                    //That's it. 
                     mongoose.model('neume').remove({project : project._id}).exec();
 	                    //Returning success messages saying it was deleted
 	                    console.log('DELETE removing ID: ' + project._id);
