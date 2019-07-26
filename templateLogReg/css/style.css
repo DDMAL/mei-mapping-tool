@@ -446,4 +446,14 @@ h1 {
     background: url(../images/google.png)no-repeat 12px 6px #ff4b3b;
 }
 }
+
+.footerElement {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
 /*--//responsive-design---*/
