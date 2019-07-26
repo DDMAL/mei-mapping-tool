@@ -622,17 +622,12 @@ router.route('/collabs')
       //Project schema : needs to be found by project id, then I add the user id of the user I just added to the project
       //to the array of the userID.
             //This works, when the page is reloaded
-            mongoose.model('project').findOneAndUpdate({_id: project}, 
-              {
-               //If the user chosen in the name section (userCollab) is the admin of the project chosen in the projects section(project), 
-               //Then you cannot add him as a collaborator.  
-                $push: {userID : userCollab}}, 
-
-              function(err, data){
-                  
-                  if(data.admin == userCollab){
-                    //Alert and goes back to the page (The Collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.)
-                  var err = new Error('The collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.');
+            mongoose.model('project').findOne({_id: project})
+                  .exec(function (err, data) {
+                
+                if(data.admin == userCollab){
+                  //find the document by ID
+                      var err = new Error('The collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.');
                       return res.format({
                       html: function(){           
                           res.render('errorLog', {
@@ -643,10 +638,12 @@ router.route('/collabs')
                           res.json(err);
                       }
                     });
-                  }
-                  else
-                     console.log(err, data);
-              });
+                }
+                else{
+                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                  data.update(
+                   { $push: { userID : userCollab } }); };
+
 
       //Get the username from searching the database with the id
       //Do the same thing for the project name
@@ -694,6 +691,7 @@ router.route('/collabs')
       });
       });   
   })
+                });
 
 //route to delete a collab
 router.route('/deleteCollab')
