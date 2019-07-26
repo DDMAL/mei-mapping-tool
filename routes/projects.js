@@ -595,7 +595,12 @@ router.route('/:id') //This is where the classifier would be
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
 
+        if(project == null){
+            res.redirect("/");
+          }
+          else{
         mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
+
             neumeFinal = neumes;
                
         //Updating the name
@@ -630,6 +635,7 @@ router.route('/:id') //This is where the classifier would be
         });
          });   
       }
+      }
     });
   });
 
@@ -644,10 +650,14 @@ router.route('/:id') //This is where the classifier would be
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
+        if(project == null){
+            res.redirect("/");
+          }
         //Updating the name
         //Getting the neumes for each project and showing them in the console!!
         //Element in face
            //console.log(userFinal);//This works! 
+           else{
            mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
             neumeFinal = neumes;
             //console.log(neumeFinal);//This works!!!
@@ -673,7 +683,7 @@ router.route('/:id') //This is where the classifier would be
           }
         });
           });
-      }
+      }}
     });
   });
 
