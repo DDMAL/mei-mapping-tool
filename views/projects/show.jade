@@ -144,7 +144,6 @@ div.neumeSection
                          .panel.panel-default
                            .panel-body
                               div(id = "image#{neume.id}")
-                                p Images: 
                                   button( id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
                                     span.tooltiptext To delete images or add more images to the neume, click here!   
 
@@ -152,7 +151,6 @@ div.neumeSection
                     .column
                       .height
                        .card 
-                        p Name: 
                         input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
                         p Folio:
                          input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
@@ -162,13 +160,12 @@ div.neumeSection
                     // Classification Section
                     .column
                        .card 
-                        p Classification: 
                         input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
 
                     // Mei snippet Section
                     .column
                        .card 
-                        p(class = 'tooltipMEI') Mei Snippet : Hover here for a model to follow!
+                        p(class = 'tooltipMEI')
                          span.tooltiptext 
                            | How the pitches should be encoded :
                            br 
