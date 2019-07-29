@@ -143,15 +143,6 @@ div.neumeSection
                               option(selected = "selected" hidden) #{neume.review}
                               option(value='Yes') Yes
                               option(value='No') No
-                form(action='/csv',method='post',enctype='application/x-www-form-urlencoded')
-                  input(type='text',value='#{neume.id}', name='IdOfNeume' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
-                    i.fa.fa-download
-                    |  Download CSV file   
-                    span.tooltiptext To download the neume as a .csv file, click here! The file is added to the "exports" folder of the app. 
-                    //Submitting the update form
-                    br
-                    br
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                     script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
 
