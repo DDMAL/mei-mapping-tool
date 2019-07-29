@@ -86,9 +86,8 @@ html
                 a(href='/profile') #{user.username}
 
 
-
 //Title section : Adding a neume button and changing the title name                
-div.neumeSection
+div.neumeSection(style = "padding-bottom : 3px")
   body
    div
     // Add New Neume Modal
@@ -126,8 +125,9 @@ div.neumeSection
     button#myBtn(class = "button button2AddNeume") 
       i.fa.fa-plus.fa-sm
 
-    //Neume section : 4 components added for each new neume.   
-    br
+    button.collapsible.paddingCollapsible 
+      div(id = "menu")
+     //Neume section : 4 components added for each new neume.   
     .bodyStyle(style = "position : relative")
       .roundedCorners(style = "position : relative; display : inline-block")
         ul

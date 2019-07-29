@@ -81,6 +81,14 @@
   color: black; 
   border: 2px solid #008CBA;
   margin: 10px;
+  position : relative;
+
+  top : -312px;
+  left : 90%;
+  height : 30px;
+  width : 30px;
+  padding : 0px;
+  margin-right : 10px; 
 }
 .button2Update {
   background-color: white; 
@@ -94,7 +102,8 @@
   border: 2px solid #008CBA;
   width : 5%;
   margin : 0px 0px 10px 0px;
-  float : left;
+  float : right;
+  top : -52px;
   position : relative;
 }
 .button2:hover {
@@ -120,8 +129,9 @@
   /*Adding the delete button to the collapsible element*/
    position :  absolute;
    height : 30px;
-   left : 93%;
-   margin-top : -32px;
+   left : 96%;
+   margin-top : -68px;
+   margin-left : 5px;
    padding : 0px;
   /*Adding the neumes for the projects.*/
 }
