@@ -103,7 +103,8 @@ div.neumeSection
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10')
       input(type='hidden',value='PUT',name='_method')
        
-      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block') Update name
+      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
+        i.fa.fa-pencil
         span.tooltiptext You can directly change the project name on the page.   
           br 
           t When you are satisfied with the new project name, click here!
@@ -112,17 +113,18 @@ div.neumeSection
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-download
-                    |  Download CSV 
+                    |  CSV 
                     span.tooltiptext To download the project as a .csv file, click here!
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-code-fork
-                    |  Save as
+                    |  Fork
                     span.tooltiptext To save the project as your own and start working on it, click here!
 
-    button#myBtn(class = "button button2AddNeume" style = "position : absolute") Add Neume
+    button#myBtn(class = "button button2AddNeume") 
+      i.fa.fa-plus.fa-sm
 
     //Neume section : 4 components added for each new neume.   
     br
@@ -194,7 +196,8 @@ div.neumeSection
                     //Submitting the update form
                     input(type='hidden',value='PUT',name='_method')
                     
-                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}") Update
+                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%") 
+                      i.fa.fa-pencil
                     br
                     br
                   form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
