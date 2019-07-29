@@ -18,7 +18,7 @@ var aceEditor = localStorage.getItem("ace");
 
 Dropzone.autoDiscover = false;
 var myDropzone = new Dropzone("#dropzone-example", {
-	maxFileSize: 100,
+	maxFileSize: 10,
 	acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
 	addRemoveLinks: true,
 });
