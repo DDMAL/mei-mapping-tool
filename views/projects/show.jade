@@ -128,8 +128,8 @@ div.neumeSection
 
     //Neume section : 4 components added for each new neume.   
     br
-    .bodyStyle
-      .roundedCorners
+    .bodyStyle(style = "position : relative")
+      .roundedCorners(style = "position : relative; display : inline-block")
         ul
             - each neume in neumes
                 // Edit Images Modal
@@ -202,7 +202,7 @@ div.neumeSection
                     br
                   form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                       input(type='hidden',value='DELETE',name='_method')
-                      button(type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
+                      button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
                           x
 
                       .modal(id = "DeleteModal#{neume.id}")
