@@ -268,9 +268,7 @@ router.route('/csv')
           if (err) {
             return res.json(err).status(500);
           }
-          else {setTimeout(function () {
-            fs.unlinkSync(filePath); // delete this file after 30 seconds
-          }, 30000)
+          else {
             return res.download(filePath);
           }
         });
@@ -300,7 +298,7 @@ router.route('/csvProject')
         return res.status(500).json({ err });
       }
       const dateTime = moment().format('YYYYMMDDhhmmss');
-      const filePath = pathName.join(__dirname, "..", "exports", "csv-" + nameOfProject + "_" + dateTime + ".csv")
+      const filePath = pathName.join(__dirname, "..", "exports", "csv-" + IdOfProject + "_" + dateTime + ".csv")
       var fs = require('fs');
           var dir = './exports';
 
