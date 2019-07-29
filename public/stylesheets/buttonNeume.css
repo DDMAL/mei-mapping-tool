@@ -60,7 +60,9 @@
 }
 .button2CSV {
   margin: 10px;
-  float: right;
+  float: left;
+  left : 40%;
+  top : -59px;
   background-color: DodgerBlue; 
   color: white; 
   border-radius: 30px;
@@ -91,6 +93,7 @@
   border: 2px solid #008CBA;
   width : 12%;
    margin : 0px 0px 10px 0px;
+   float : left;
 }
 .button2:hover {
   background-color: #008CBA;

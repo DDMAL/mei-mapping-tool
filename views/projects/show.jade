@@ -100,7 +100,7 @@ div.neumeSection
 
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 60%; display : inline-block;" size = '10')
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10')
       input(type='hidden',value='PUT',name='_method')
        
       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block') Update name
@@ -110,19 +110,19 @@ div.neumeSection
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = ' max-width: 120px; max-width: 120px; position : absolute;')
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-download
                     |  Download CSV 
                     span.tooltiptext To download the project as a .csv file, click here!
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = ' width : 20%; max-width: 90px; position : absolute; margin : 120px')
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                     i.fa.fa-code-fork
                     |  Save as
                     span.tooltiptext To save the project as your own and start working on it, click here!
 
-    button#myBtn(class = "button button2AddNeume") Add Neume
+    button#myBtn(class = "button button2AddNeume" style = "position : absolute") Add Neume
 
     //Neume section : 4 components added for each new neume.   
     br
