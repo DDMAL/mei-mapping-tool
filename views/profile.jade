@@ -29,6 +29,9 @@ html
     link(rel="stylesheet" href="/stylesheets/buttonNeume.css")
     link(rel="stylesheet" href="/stylesheets/reset.css")
     script(type='text/javascript' src='/javascripts/modals.js')
+    link(rel="stylesheet" href="/stylesheets/inputCss.css")
+
+
 
     
     script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
@@ -154,19 +157,20 @@ html
                 p Edit your user settings:
                 
                   p.setting
-                    form(action='/updateUsername', method='post')
-                      img(src='images/edit.png', alt='*Edit*')
-                      |  Username :                     
-                      input(name = "usernameSettings", value = "#{username}"  size="20" required)
+                    form(action='/updateUsername', method='post')        
+                      .page
+                        label.field.a-field.a-field_a1.page__field
+                          input.field__input.a-field__input(name = "usernameSettings" value = "#{username}" size="20" required type = 'text')
+                          span.a-field__label-wrap
+                            span.a-field__label Username
                       button(class = "button button2" ) Update username
-                      br
-                      br
-                  p.setting
+
                     form(action='/updateEmail', method='post')
-                      img(src='images/edit.png', alt='*Edit*')
-                      |  E-mail Address :      
-                        
-                      input(name = "emailSettings", value = "#{email}"  size="20" required)
+                      .page
+                        label.field.a-field.a-field_a1.page__field
+                          input.field__input.a-field__input(name = "emailSettings" value = "#{email}" size="20" required type = 'text')
+                          span.a-field__label-wrap
+                            span.a-field__label Email     
                       button(class = "button button2" ) Update email
 
                    
