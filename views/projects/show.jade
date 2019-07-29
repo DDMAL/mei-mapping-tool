@@ -152,8 +152,8 @@ div.neumeSection
                       .height
                        .card 
                         input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
-                        p Folio:
-                         input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
+                        p(style = "display : inline-block") Folio:
+                         input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; display : inline-block" )
                         p Description:
                         input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
 
