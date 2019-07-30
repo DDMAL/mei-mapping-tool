@@ -58,6 +58,7 @@ html
   script(src='/javascripts/pageReload.js', type='text/javascript')
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
+  link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
 
 
 //Header parameters
@@ -72,7 +73,7 @@ html
         nav
           ul
               li
-                a(href='/about') About
+                a(href='/about' ) About
               li
                 a(href='/projects') Projects
               li
@@ -99,7 +100,7 @@ div.neumeSection(style = "padding-bottom : 3px")
 
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10')
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
       input(type='hidden',value='PUT',name='_method')
        
       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
@@ -125,7 +126,17 @@ div.neumeSection(style = "padding-bottom : 3px")
     button#myBtn(class = "button button2AddNeume") 
       i.fa.fa-plus.fa-sm
 
-    button.collapsible.paddingCollapsible 
+    //Four Equal Columns
+    .row(class = "sticky-top")
+      .column(style='background-color:#B0C4DE; margin-top : 47px')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+      .column(style='background-color:#a5bcd9; margin-top : 47px')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+      .column(style='background-color:   #93aed2;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+      .column(style='background-color:#81a1ca;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center; ") MEI encoding
+
       div(id = "menu")
      //Neume section : 4 components added for each new neume.   
     .bodyStyle(style = "position : relative")
@@ -140,7 +151,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     h4 Edit Images
                     include editNeume.jade
                 // Images Section
-                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}") #{neume.name}
+                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;") #{neume.name}
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                     .column
                        .card
