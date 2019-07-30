@@ -11,7 +11,7 @@ body {
 .column {
   float: left;
   width: 25%;
-  padding: 0 10px;
+  padding: 0 2px;
   color :black;
 }
 .btn-dropzon-cre{
@@ -43,13 +43,19 @@ body {
 
 /* Style the counter cards */
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-  padding: 4px;
+  box-shadow: 0 4px 2px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 10px;
   text-align: center;
   background-color: #f1f1f1;
   height: 90%;
   position:relative;
-  border-width: 3px;
+  border-width: 2px;
+  margin : 1px;
+  border-radius : 20px;
+  border-top-left-radius : 0px;
+  border-top-right-radius : 0px;
+  border-color : black;
+
 
 }
 
