@@ -128,13 +128,13 @@ div.neumeSection(style = "padding-bottom : 3px")
 
     //Four Equal Columns
     .row(class="position-sticky" style = "position : fixed; width :100%; top : 195px; z-index : 200; padding-left:5px; padding-right : 75px;")
-      .column(style='background-color:#cdd9ff; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
         h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
-      .column(style='background-color:#cdd9ff; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
         h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
-      .column(style='background-color:   #cdd9ff; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
         h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
-      .column(style='background-color:#cdd9ff; width : 35% ; right : 110px')
+      .column(style='background-color:#afcfee; width : 35% ; right : 110px')
         h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
 
       div(id = "menu")
@@ -307,13 +307,16 @@ div.neumeSection(style = "padding-bottom : 3px")
                     var coll = document.getElementById("collapsible#{neume.id}");
                     
                     coll.addEventListener("click", function() {
+                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                      
                       this.classList.toggle("active");
                       var content = this.nextElementSibling;
                       if (content.style.display === "none") {
                         content.style.display = "block";
+                        deleteButtonCollapse.style.display = "block"
                       } else {
                         content.style.display = "none";
+                        deleteButtonCollapse.style.display = "none"
                       }
                       
                     });
