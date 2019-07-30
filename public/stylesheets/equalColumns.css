@@ -8,6 +8,9 @@
   width: 25%;
   padding: 10px;
   text-align: center;
+  border-style : solid;
+  border-color : #85144b;
+  background-color : white;
 }
 
 /* The sticky */
