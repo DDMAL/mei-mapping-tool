@@ -773,12 +773,31 @@ router.post('/', function (req, res, next) {
       role: req.body.role,
       bio : req.body.bio
     }
-  
-    User.create(userData, function (error, user) {
-      if (error) {
-        var err = new Error('Username or Email already used. Please try again.');
-        alert(err, 'yad');
-        return res.format({
+    User.findOne({ username : req.body.username })
+        .exec(function (err, user) {
+          if (err) {
+            return dialog.info("error");
+          } else{
+
+            if(user == null){
+            //find the document by ID
+                User.findById(req.session.userId)
+                   .exec(function (error, user) {
+                    //update it
+                    User.create(userData, function (err, user) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {
+                                req.session.userId = user._id;
+                                return res.redirect('/projects');
+                       }
+                    })
+                });
+          }
+          else{
+           var err = new Error('Username already taken. Please try again');
+          return res.format({
           html: function(){           
               res.render('errorLog', {
                 "error" : err,
@@ -788,13 +807,11 @@ router.post('/', function (req, res, next) {
               res.json(err);
           }
         });
-      } else {
-        req.session.userId = user._id;
-        if(req.body.role == "editor")
-          return res.redirect("/projects");
-        return res.redirect('/projects');
-      }
-    });
+          }
+          }
+      });
+  
+    
 
   } else if (req.body.logemail && req.body.logpassword) {
       
