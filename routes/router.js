@@ -796,7 +796,7 @@ router.post('/', function (req, res, next) {
                 });
           }
           else{
-           var err = new Error('Username already taken. Please try again');
+           var err = new Error('Email/Username already taken. Please try again');
           return res.format({
           html: function(){           
               res.render('errorLog', {
