@@ -127,15 +127,15 @@ div.neumeSection(style = "padding-bottom : 3px")
       i.fa.fa-plus.fa-sm
 
     //Four Equal Columns
-    .row(class="position-sticky" style = "position : fixed; width :91%; top : 195px; z-index : 200; left : 44px; ")
+    .row(class="position-sticky" style = "position : fixed; width :100%; top : 195px; z-index : 200; padding-left:5px; padding-right : 75px;")
       .column(style='background-color:#cdd9ff; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
         h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
       .column(style='background-color:#cdd9ff; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
         h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
       .column(style='background-color:   #cdd9ff; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
         h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
-      .column(style='background-color:#cdd9ff; width : 35%')
-        h5(style = " font: 18px Avenir, sans-serif; text-align: center; ") MEI encoding
+      .column(style='background-color:#cdd9ff; width : 35% ; right : 110px')
+        h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
 
       div(id = "menu")
      //Neume section : 4 components added for each new neume.   
@@ -151,7 +151,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     h4(style = "font:30px Avenir, sans-serif;") Edit Images
                     include editNeume.jade
                 // Images Section
-                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;") #{neume.name}
+                input.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;" value = "#{neume.name}", type = "button") 
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                     .column
                        .card
@@ -167,13 +167,14 @@ div.neumeSection(style = "padding-bottom : 3px")
                        .card(style = "overflow : hidden; text-align : left")
                             input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
                             .column
-                             p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px ") Folio:
-                            .column
-                             input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 100%; font: 14px Avenir, sans-serif;" )
+                             p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
+                            .column 
+                             input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute" )
                              br
-                            p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description: 
+                            p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
                             .column
-                             input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif;")
+                             input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
+                             br
                              br
                              br
 
@@ -181,7 +182,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     // Classification Section
                     .column(style = "width : 20%")
                        .card
-                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 18px Avenir, sans-serif;")
 
                     // Mei snippet Section
                     .column(style = "width : 35%")
