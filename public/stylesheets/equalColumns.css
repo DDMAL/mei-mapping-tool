@@ -10,6 +10,12 @@
   text-align: center;
 }
 
+/* The sticky */
+.column {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 15px;
+}
 
 /* Clear floats after the columns */
 .row:after {
@@ -20,4 +26,10 @@
 
 h5{
 	font : "Courier New", monospace;
+}
+.wrapper {
+  margin-top: 100px;
+}
+.scroll {
+  overflow: scroll;
 }
