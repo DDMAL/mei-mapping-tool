@@ -33,3 +33,15 @@ h5{
 .scroll {
   overflow: scroll;
 }
+
+.column1 {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row1:after {
+  content: "";
+  display: table;
+  clear: both;
+}
