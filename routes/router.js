@@ -773,7 +773,7 @@ router.post('/', function (req, res, next) {
       role: req.body.role,
       bio : req.body.bio
     }
-    User.findOne({ username : req.body.username })
+    User.findOne({ $or:[{username : req.body.username}, {email : req.body.email}] })
         .exec(function (err, user) {
           if (err) {
             return dialog.info("error");
