@@ -30,13 +30,14 @@
 }
 .button1UpdateName {
   margin : 0px 0px 10px 0px;
-  float: right;
+  float: left;
   background-color: white; 
   color: black; 
   border-radius: 30px;
-  width : 12%;
+  width : 5%;
   height : 1%;
   border: 2px solid #4caf50;
+  margin-right : 10px;
 }
 .button1UpdateName:hover {
   background-color: #4caf50;
@@ -61,14 +62,16 @@
 .button2CSV {
   margin: 10px;
   float: right;
+  top : -59px;
   background-color: DodgerBlue; 
   color: white; 
   border-radius: 30px;
-  width : 20%;
+  width : 15%;
   text-align: center;
   vertical-align: middle;
   display: inline-block;
   line-height: 5px;
+  float : right;
 }
 .button2CSV:hover{
   background-color: royalBlue; 
@@ -78,6 +81,14 @@
   color: black; 
   border: 2px solid #008CBA;
   margin: 10px;
+  position : relative;
+
+  top : -312px;
+  left : 90%;
+  height : 30px;
+  width : 30px;
+  padding : 0px;
+  margin-right : 10px; 
 }
 .button2Update {
   background-color: white; 
@@ -89,8 +100,11 @@
   background-color: white; 
   color: black; 
   border: 2px solid #008CBA;
-  width : 12%;
-   margin : 0px 0px 10px 0px;
+  width : 5%;
+  margin : 0px 0px 10px 0px;
+  float : right;
+  top : -52px;
+  position : relative;
 }
 .button2:hover {
   background-color: #008CBA;
@@ -111,10 +125,14 @@
  background-color: white; 
   color: black; 
   border: 2px solid #f44336;
-  width : 4.7%;
+  width : 3%;
   /*Adding the delete button to the collapsible element*/
-   position : relative;
-   margin : 10px;
+   position :  absolute;
+   height : 30px;
+   left : 96%;
+   margin-top : -68px;
+   margin-left : 5px;
+   padding : 0px;
   /*Adding the neumes for the projects.*/
 }
 .button3DeleteImage {

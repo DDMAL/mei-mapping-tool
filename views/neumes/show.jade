@@ -87,7 +87,7 @@ div.neumeSection
   body
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px width : 100px" )
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)

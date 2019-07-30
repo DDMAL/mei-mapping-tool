@@ -58,11 +58,13 @@ html
   script(src='/javascripts/pageReload.js', type='text/javascript')
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
+  link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
+
 
 //Header parameters
    //Column parameters
 - each user in users
-  div
+  div.navigation
     header
         // Main logo
         a#logo(href='#')
@@ -71,7 +73,7 @@ html
         nav
           ul
               li
-                a(href='/about') About
+                a(href='/about' ) About
               li
                 a(href='/projects') Projects
               li
@@ -85,9 +87,8 @@ html
                 a(href='/profile') #{user.username}
 
 
-
 //Title section : Adding a neume button and changing the title name                
-div.neumeSection
+div.neumeSection(style = "padding-bottom : 3px")
   body
    div
     // Add New Neume Modal
@@ -99,34 +100,47 @@ div.neumeSection
 
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px")
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
       input(type='hidden',value='PUT',name='_method')
        
-      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip") Update name
+      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
+        i.fa.fa-pencil
         span.tooltiptext You can directly change the project name on the page.   
           br 
           t When you are satisfied with the new project name, click here!
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif;")
                     i.fa.fa-download
-                    |  Project CSV file  
+                    |  CSV 
                     span.tooltiptext To download the project as a .csv file, click here!
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif;")
                     i.fa.fa-code-fork
-                    |  Save as
+                    |  Fork
                     span.tooltiptext To save the project as your own and start working on it, click here!
 
-    button#myBtn(class = "button button2AddNeume") Add Neume
+    button#myBtn(class = "button button2AddNeume") 
+      i.fa.fa-plus.fa-sm
 
-    //Neume section : 4 components added for each new neume.   
-    br
-    .bodyStyle
-      .roundedCorners
+    //Four Equal Columns
+    .row(class="position-sticky" style = "position : fixed; width :100%; top : 195px; z-index : 200; padding-left:5px; padding-right : 75px;")
+      .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+      .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+      .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+      .column(style='background-color:#afcfee; width : 35% ; right : 110px')
+        h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
+
+      div(id = "menu")
+     //Neume section : 4 components added for each new neume.   
+    .bodyStyle(style = "position : relative")
+      .roundedCorners(style = "position : relative; display : inline-block")
         ul
             - each neume in neumes
                 // Edit Images Modal
@@ -134,36 +148,44 @@ div.neumeSection
                   Modal content
                   .modal-content
                     span.close x
-                    h4 Edit Images
+                    h4(style = "font:30px Avenir, sans-serif;") Edit Images
                     include editNeume.jade
                 // Images Section
-                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}") #{neume.name}
+                input.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;" value = "#{neume.name}", type = "button") 
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                     .column
                        .card
                          .panel.panel-default
                            .panel-body
                               div(id = "image#{neume.id}")
-                                  button( id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
+                                  button( style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
                                     span.tooltiptext To delete images or add more images to the neume, click here!   
 
                     // Name, Folio and Description Section
-                    .column
+                    .column(style = "width : 20%;")
                       .height
-                       .card 
-                        input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
-                        p Folio:
-                         input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
-                        p Description:
-                        input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
+                       .card(style = "overflow : hidden; text-align : left")
+                            input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+                            .column
+                             p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
+                            .column 
+                             input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute" )
+                             br
+                            p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
+                            .column
+                             input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
+                             br
+                             br
+                             br
+
 
                     // Classification Section
-                    .column
-                       .card 
-                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+                    .column(style = "width : 20%")
+                       .card
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 18px Avenir, sans-serif;")
 
                     // Mei snippet Section
-                    .column
+                    .column(style = "width : 35%")
                        .card 
                         p(class = 'tooltipMEI')
                          span.tooltiptext 
@@ -181,7 +203,7 @@ div.neumeSection
                                div(id = "#{neume.id}")
                                  p 
                                 textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                            p Needs review? 
+                            p(style = "font: 14px Avenir, sans-serif;") Needs review? 
                             select(name='review', style = 'display:block;' id = "underReview#{neume.id}")
                               option(selected = "selected" hidden) #{neume.review}
                               option(value='Yes') Yes
@@ -190,12 +212,13 @@ div.neumeSection
                     //Submitting the update form
                     input(type='hidden',value='PUT',name='_method')
                     
-                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}") Update
+                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%") 
+                      i.fa.fa-pencil
                     br
                     br
                   form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                       input(type='hidden',value='DELETE',name='_method')
-                      button(type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
+                      button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
                           x
 
                       .modal(id = "DeleteModal#{neume.id}")
@@ -284,25 +307,36 @@ div.neumeSection
                     var coll = document.getElementById("collapsible#{neume.id}");
                     
                     coll.addEventListener("click", function() {
+                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                      
                       this.classList.toggle("active");
                       var content = this.nextElementSibling;
                       if (content.style.display === "none") {
                         content.style.display = "block";
+                        deleteButtonCollapse.style.display = "block"
                       } else {
                         content.style.display = "none";
+                        deleteButtonCollapse.style.display = "none"
                       }
                       
                     });
                     document.getElementById("NoButton#{neume._id}").onclick = function(){
-                                                document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
-                                                };
+                    document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
+                    };
                   //Modals event listeners for every modal
                   window.addEventListener('load', function() {
                       initializeModal('myModal', 'myBtn');
                       initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
                     });
+                  $(document).scroll(function() {
+                    var y = $(document).scrollTop(), //get page y value 
+                        header = $(".row");
+                    if(y >= 50)  {
+                        header.css({position: "fixed", "top" : "0"});
+                    } else {
+                        header.css({position: "fixed", "top" : "196px"});
+                    }
+                    });   
 
-
-                                      
+                    //Add a footer                                           
