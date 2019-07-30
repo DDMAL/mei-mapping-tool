@@ -76,8 +76,8 @@ div
             li
               a(href='/') Log-in
             li
-              a(href='#' class= "tooltip") Help
-               span.tooltiptext If you do not see the neumes on the page, reload the page once.
+              a(href='#' class= "tooltip" style = "z-index : 10000;") Help
+               span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.
             li
               a(href='#') Public User
 
@@ -87,7 +87,7 @@ div.neumeSection
   body
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px width : 100px" )
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px;width : 60%; font: 35px Avenir, sans-serif; " )
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
@@ -95,7 +95,16 @@ div.neumeSection
                     i.fa.fa-download
                     |  Project CSV file  
                     span.tooltiptext To download the project as a .csv file, click here!
-
+      //Four Equal Columns
+    .row(class="position-sticky" style = "position : fixed; width :100%; top : 188px; z-index : 200; padding-left:5px; padding-right : 75px;")
+      .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+      .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+      .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+      .column(style='background-color:#afcfee; width : 35% ; right : 110px')
+        h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI Encoding
     //Neume section : 4 components added for each new neume.   
     br
     .bodyStyle
@@ -113,32 +122,36 @@ div.neumeSection
                                 p Images: 
 
                     // Name, Folio and Description Section
-                    .column
+                    .column(style = "width : 20%;")
                       .height
-                       .card 
-                        p Name: 
-                        input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px")
-                        p Folio:
-                         input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px;")
-                        p Description:
-                        input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;")
+                       .card(style = "overflow : hidden; text-align : left")
+                            input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+                            .column
+                             p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
+                            .column 
+                             input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute" )
+                             br
+                            p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
+                            .column
+                             input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
+                             br
+                             br
+                             br
 
                     // Classification Section
-                    .column
+                    .column(style = "width : 20%;")
                        .card 
-                        p Classification: 
-                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px;")
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 16px Avenir, sans-serif;")
 
                     // Mei snippet Section
-                    .column
+                    .column(style = "width : 35%")
                        .card 
-                        p Mei Snippet: 
                          .panel.panel-default
                           .panel-body
                                div(id = "#{neume.id}")
                                  p 
                                 textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                            p Needs review? 
+                            p(style = "font: 14px Avenir, sans-serif;") Needs review? 
                             select(name='review', style = 'display:block;' id = "underReview#{neume.id}")
                               option(selected = "selected" hidden) #{neume.review}
                               option(value='Yes') Yes
@@ -232,5 +245,19 @@ div.neumeSection
                       initializeModal('myModal', 'myBtn');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
                     });
+                  //Modals event listeners for every modal
+                  window.addEventListener('load', function() {
+                      initializeModal('myModal', 'myBtn');
+                      initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                    });
+                  $(document).scroll(function() {
+                    var y = $(document).scrollTop(), //get page y value 
+                        header = $(".row");
+                    if(y >= 50)  {
+                        header.css({position: "fixed", "top" : "0"});
+                    } else {
+                        header.css({position: "fixed", "top" : "188px"});
+                    }
+                    }); 
 
                                       
