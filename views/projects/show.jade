@@ -4,6 +4,7 @@ html
    title Cress 🎵 
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
   script(src='/javascripts/popup.js', type='text/javascript')
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
@@ -59,6 +60,7 @@ html
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
   link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
+  link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
 
 
 //Header parameters
@@ -202,11 +204,14 @@ div.neumeSection(style = "padding-bottom : 3px")
                                  div(id = "#{neume.id}")
                                    p 
                                   textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                              p(style = "font: 14px Avenir, sans-serif;") Needs review? 
-                              select(name='review', style = 'display:block;' id = "underReview#{neume.id}")
+                              p(style = "font: 12px Avenir, sans-serif;") Review : 
+                              select(name='review', style = 'display:inline-block; height : 15px; font-size : 10px; display : none' id = "underReview#{neume.id}")
                                 option(selected = "selected" hidden) #{neume.review}
                                 option(value='Yes') Yes
                                 option(value='No') No
+                              label.switch
+                                input(type='checkbox', checked='' value = "#{neume.review}")
+                                span.slider.round
 
                       //Submitting the update form
                       input(type='hidden',value='PUT',name='_method')
