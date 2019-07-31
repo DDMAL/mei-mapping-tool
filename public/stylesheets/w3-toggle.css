@@ -3,8 +3,8 @@
   display: inline-block;
   width: 48px;
   height: 10%;
-  top : -218px;
-  left : 10px;
+  top : -163px;
+  left : 13%;
 }
 
 .switch input { 
@@ -39,11 +39,11 @@
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #9FD6AE;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #9FD6AE;
 }
 
 input:checked + .slider:before {

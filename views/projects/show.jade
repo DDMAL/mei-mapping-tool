@@ -186,7 +186,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                           input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
 
                       // Mei snippet Section
-                      .column(style = "width : 35%")
+                      .column(style = "width : 35%;")
                          .card 
                           p(class = 'tooltipMEI')
                            span.tooltiptext 
@@ -201,7 +201,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                              | &lt;/neume&gt;
                            .panel.panel-default
                             .panel-body
-                                 div(id = "#{neume.id}")
+                                 div(id = "#{neume.id}" style = "height : 100px;")
                                    p 
                                   textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
                               label.switch
