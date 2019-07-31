@@ -204,7 +204,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                                  div(id = "#{neume.id}")
                                    p 
                                   textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                              p(style = "font: 12px Avenir, sans-serif;") Review : 
+                              p(style = "font: 12px Avenir, sans-serif;")
                               label.switch
                                 input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
                                 span.slider.round
@@ -212,7 +212,7 @@ div.neumeSection(style = "padding-bottom : 3px")
 
                       //Submitting the update form
                       input(type='hidden',value='PUT',name='_method')
-                      
+                     div.updateButtonPosition 
                       button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
                         i.fa.fa-pencil
                         span.tooltiptext You can directly edit the fields on the page. Once you're satisfied with the changes, click here!  
