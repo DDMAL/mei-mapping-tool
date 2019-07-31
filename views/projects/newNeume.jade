@@ -32,9 +32,9 @@ block content
 			#editor(name = "aceEdit")
 			textarea#mei(name='mei', placeholder="ex. <neume>" style='display: none;')
 			p Put the MEI code under review?
-			select(name='review', style = 'display:block;' id = "underReview")
-				option(value='No') No
-				option(value='Yes') Yes
+			label.switch1
+				input(type='checkbox' name = "review" id = "toggle" value = "Yes")
+				span.slider1.round1
 			p#URL(style = 'display:none;')
 			input#inputID(type="text", name="ID_project")
 		p
