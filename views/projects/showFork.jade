@@ -57,6 +57,7 @@ html
   script(src='/javascripts/pageReload.js', type='text/javascript')
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
 
 - each user in users
   div
@@ -156,14 +157,13 @@ div.neumeSection
                        .card 
                          .panel.panel-default
                           .panel-body
-                               div(id = "#{neume.id}")
+                               div(id = "#{neume.id}" style = "height : 100px;")
                                  p 
                                 textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                            p(style = "font: 14px Avenir, sans-serif;") Needs review? 
-                            select(name='review', style = 'display:block;' id = "underReview#{neume.id}")
-                              option(selected = "selected" hidden) #{neume.review}
-                              option(value='Yes') Yes
-                              option(value='No') No
+                            label.switch(style = "top : -150px; left : 40%;")
+                                input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
+                                span.slider.round
+                                input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                     script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
 
