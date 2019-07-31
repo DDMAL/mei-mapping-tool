@@ -46,6 +46,7 @@
     "require-reload": "^0.2.2",
     "resize-image": "^0.1.0",
     "serve-favicon": "~2.2.0",
+    "sortablejs": "^1.10.0-rc3",
     "uuid": "^3.3.2"
   }
 }
