@@ -49,6 +49,7 @@
 }
 
 .tooltip:hover .tooltiptext {
+  z-index : 2000000;
   visibility: visible;
 }
 .tooltipMEI:hover .tooltiptext {
