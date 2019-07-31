@@ -204,7 +204,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                                  div(id = "#{neume.id}")
                                    p 
                                   textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                              p(style = "font: 12px Avenir, sans-serif;") Review : 
                               label.switch
                                 input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
                                 span.slider.round
