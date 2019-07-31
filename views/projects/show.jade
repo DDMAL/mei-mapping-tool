@@ -84,7 +84,8 @@ html
                 a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
                  span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
               li
-                a(href='/profile') #{user.username}
+                a(href='/profile') #{user.username}     
+                 i.fa.fa-user.fa-lg
 
 
 //Title section : Adding a neume button and changing the title name                
@@ -105,7 +106,7 @@ div.neumeSection(style = "padding-bottom : 3px")
        
       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
         i.fa.fa-pencil
-        span.tooltiptext You can directly change the project name on the page.   
+        //span.tooltiptext You can directly change the project name on the page.   
           br 
           t When you are satisfied with the new project name, click here!
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
@@ -114,18 +115,18 @@ div.neumeSection(style = "padding-bottom : 3px")
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif;")
                     i.fa.fa-download
                     |  CSV 
-                    span.tooltiptext To download the project as a .csv file, click here!
+                    //span.tooltiptext To download the project as a .csv file, click here!
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif;")
                     i.fa.fa-code-fork
                     |  Fork
-                    span.tooltiptext To save the project as your own and start working on it, click here!
+                    //span.tooltiptext To save the project as your own and start working on it, click here!
 
     button#myBtn(class = "button button2AddNeume" class = 'tooltip') 
       i.fa.fa-plus.fa-sm
-      span.tooltiptext To add a new neume, click here!
+      //span.tooltiptext To add a new neume, click here!
 
     //Four Equal Columns
     .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
