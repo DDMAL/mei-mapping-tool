@@ -123,8 +123,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                     |  Fork
                     span.tooltiptext To save the project as your own and start working on it, click here!
 
-    button#myBtn(class = "button button2AddNeume") 
+    button#myBtn(class = "button button2AddNeume" class = 'tooltip') 
       i.fa.fa-plus.fa-sm
+      span.tooltiptext To add a new neume, click here!
 
     //Four Equal Columns
     .row(class="position-sticky" style = "position : fixed; width :100%; top : 195px; z-index : 200; padding-left:5px; padding-right : 75px;")
@@ -212,8 +213,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                     //Submitting the update form
                     input(type='hidden',value='PUT',name='_method')
                     
-                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%") 
+                    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
                       i.fa.fa-pencil
+                      span.tooltiptext You can directly edit the fields on the page. Once you're satisfied with the changes, click here!  
                     br
                     br
                   form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
