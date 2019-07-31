@@ -207,7 +207,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                               label.switch
                                 input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
                                 span.slider.round
-                                input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden)
+                                input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
 
                       //Submitting the update form
                       input(type='hidden',value='PUT',name='_method')
@@ -368,9 +368,19 @@ div.neumeSection(style = "padding-bottom : 3px")
                       if (document.getElementById('toggle#{neume.id}').checked) 
                       {
                          document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                         document.getElementById('toggle#{neume.id}').checked = true;
                       } else {
-                          document.getElementById('inputCheckbox#{neume.id}').value = "";
+                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
                       }
                     }
-                    
+                    function load#{neume.id}()
+                    {
+                      if (document.getElementById('toggle#{neume.id}').checked) 
+                      {
+                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                         document.getElementById('toggle#{neume.id}').checked = true;
+                      } else {
+                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                      }
+                    }
                     //Add a footer                                           
