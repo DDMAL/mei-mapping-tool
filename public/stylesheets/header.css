@@ -88,13 +88,14 @@ nav ul li a    {
   color: #FFF;
   text-decoration: none;
   display: block;
-  padding: 10px 15px;
+  padding:10px 15px;
+  height : 10px;
   border-radius: 3px;
   transition: 0.3s ease all;
 }
 nav ul a:hover   {
   background: #444;
-  height : 10%;
+  height : 70px;
 }
 
 /* styling our footer */
