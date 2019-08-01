@@ -365,9 +365,11 @@ div.neumeSection(style = "padding-bottom : 3px")
                         over : function(){
                               console.log("hovered!");
                               modalSectionButton.click();
+                              document.body.classList.add('freeze');
                            },
-                        stop : function(){
+                        out : function(){
                                 document.getElementById("modalSection").style.display = "none";
+                                document.body.classList.remove('freeze');
                            },
                       //On load page, get the position of the neume
                       //On stop sorting, set the position of the neume as the new index.
