@@ -86,7 +86,7 @@ div
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection
   body
-    form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+    form()
       
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; margin : 0px padding : 0px;width : 60%; font: 35px Avenir, sans-serif; " )
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
@@ -259,5 +259,21 @@ div.neumeSection
                         header.css({position: "fixed", "top" : "158px"});
                     }
                     }); 
+                    //Get toggle value : 
+                    console.log(document.getElementById("toggle#{neume.id}").value);
+                    if(document.getElementById("toggle#{neume.id}").value == "Yes"){
+                    document.getElementById("toggle#{neume.id}").checked = true;
+                    }
+
+                    function check#{neume.id}()
+                    {
+                      if (document.getElementById('toggle#{neume.id}').checked) 
+                      {
+                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                         document.getElementById('toggle#{neume.id}').checked = true;
+                      } else {
+                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                      }
+                    }
 
                                       
