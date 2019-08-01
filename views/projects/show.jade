@@ -124,6 +124,12 @@ div.neumeSection(style = "padding-bottom : 3px")
                     |  Fork
                     //span.tooltiptext To save the project as your own and start working on it, click here!
 
+    form(action='/SavePositions',method='post',enctype='application/x-www-form-urlencoded')
+          input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+          button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 10%")
+            i.fa.fa-save
+            |   Save
+
     button#myBtn(class = "button button2AddNeume" class = 'tooltip') 
       i.fa.fa-plus.fa-sm
       //span.tooltiptext To add a new neume, click here!
@@ -186,6 +192,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                          .card
                           input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
                           input(type='text',value='#{neume.position}', name='position' id = "inputPosition#{neume.id}" hidden)
+                          
 
                       // Mei snippet Section
                       .column(style = "width : 35%;")
@@ -236,6 +243,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                              button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
                              br
                              br
+
 
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                     script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
@@ -349,9 +357,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                       //On load page, get the position of the neume
                       //On stop sorting, set the position of the neume as the new index.
                       //Send this on update button.
-                        stop: function(event, ui) {
-                            console.log(ui.item.index());//This is the position of the index
-                            document.getElementById("inputPosition#{neume.id}").value = ui.item.index();
+                        update: function(event, ui) {
+                            console.log(ui.item.index().toString());//This is the position of the index
+                            document.getElementById("inputPosition#{neume.id}").value = "ui.item.index().toString()";
                         },
                         cancel: 'input,textarea,select,option',
                         connectWith: ".connectedSortable",
