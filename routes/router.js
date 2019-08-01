@@ -237,6 +237,45 @@ router.route('/about')
 
 });
 
+router.route('/savePosition')
+  .post(function(req, res) { 
+
+  //We want to get all the neumes from the mongoose.model, and for each neume in neumes
+  //update the position field from the req.body.position of each neume. (maybe the position will be the same, 
+  //or, we could make the name of the field as position#{neume.id} so that the position would be updated
+  //to the position if id = #{neume.id})
+
+  // Get our REST or form values. These rely on the "name" attributes from the edit page
+      var position = req.body.position;
+
+      //find the document by ID
+      mongoose.model('neume').find({}, function (err, neumes) {
+          //update it
+         neumes.forEach(function(neume){
+          neume.update({
+              position : position //adding the image to the image array without reinitializng everything
+          }, function (err, neumeElement) {
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {console.log(neume);
+             }
+          })
+      });
+         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    res.format({
+                        html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                      json: function(){
+                             res.json(neume);
+                       }
+                    });
+         })
+
+  });
+
 router.route('/csv')
   .post(function(req, res) {
 
