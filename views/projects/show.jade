@@ -62,6 +62,7 @@ html
   link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
   link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
   script(src='/javascripts/scroll-keep.js', type='text/javascript')
+  script(src='/javascripts/neumeDropSections.js', type='text/javascript')
 
 
 //Header parameters
@@ -99,6 +100,13 @@ div.neumeSection(style = "padding-bottom : 3px")
       .modal-content
         span.close ×
         include newNeume.jade
+
+    #modalSection.modal
+      // Modal content
+      .modal-content
+        span.close ×
+        include section.jade
+    button#modalSectionButton(type = "button" hidden)
 
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
@@ -148,7 +156,7 @@ div.neumeSection(style = "padding-bottom : 3px")
      //Neume section : 4 components added for each new neume.   
     .bodyStyle(style = "position : relative")
       .roundedCorners(style = "position : relative; display : inline-block")
-        ul(id = "sortable1" class = "connectedSortable")
+        ul(id = "sortable1" class = "connectedSortable" ondragover="allowDrop(event)")
             - each neume in neumes
                 // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
@@ -339,6 +347,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                       initializeModal('myModal', 'myBtn');
                       initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                      initializeModal('modalSection', 'modalSectionButton');
                     });
                   $(document).scroll(function() {
                     var y = $(document).scrollTop(), //get page y value 
@@ -353,6 +362,10 @@ div.neumeSection(style = "padding-bottom : 3px")
                     $(function() {
                       t1 = window.performance.now()
                       var $sortable1 = $( "#sortable1" ).sortable({
+                        over : function(){
+                              console.log("hovered!");
+                              modalSectionButton.click();
+                           },
                       //On load page, get the position of the neume
                       //On stop sorting, set the position of the neume as the new index.
                       //Send this on update button.

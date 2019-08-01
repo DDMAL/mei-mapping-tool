@@ -1,4 +1,4 @@
-
+//Collapsible function for each neume element
 var coll = document.getElementsByClassName("collapsible");
 var i;
 for (i = 0; i < coll.length; i++) {
@@ -31,6 +31,7 @@ var newProject = document.createElement("BUTTON");
 btn.onclick = function() {
   modal.style.display = "block";
 }
+//On click of the x button, the modal disappears. 
 span.onclick = function() {
   modal.style.display = "none";
 }
