@@ -61,9 +61,9 @@ html
 
 - each user in users
   div
-    header
+    header(style = "padding : 5px")
         // Main logo
-        a#logo(href='#')
+        a#logo(href='#' style = "padding-left : 30px; position : relative; top : -60px")
           span Cress 🎵 
         // main navigation links
         nav
@@ -80,13 +80,14 @@ html
                 a(href='#' class= "tooltip" style = "z-index : 10000;") Help
                  span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.
               li
-                a(href='/profile') #{user.username}
+                a(href='/profile') #{user.username} 
+                 i.fa.fa-user.fa-lg
 
 
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection
   body
-    form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+    form()
       
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; font: 35px Avenir, sans-serif; width : 60%; margin : 0px padding : 0px")
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
@@ -105,7 +106,7 @@ div.neumeSection
                 |  Fork
                 span.tooltiptext To save the project as your own, click here!
     //Four Equal Columns
-    .row(class="position-sticky" style = "position : fixed; width :100%; top : 188px; z-index : 200; padding-left:5px; padding-right : 75px;")
+    .row(class="position-sticky" style = "position : fixed; width :100%; top : 159px; z-index : 200; padding-left:5px; padding-right : 75px;")
       .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
         h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
       .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
@@ -259,8 +260,24 @@ div.neumeSection
                     if(y >= 50)  {
                         header.css({position: "fixed", "top" : "0"});
                     } else {
-                        header.css({position: "fixed", "top" : "188px"});
+                        header.css({position: "fixed", "top" : "159px"});
                     }
                     }); 
+                    //Get toggle value : 
+                    console.log(document.getElementById("toggle#{neume.id}").value);
+                    if(document.getElementById("toggle#{neume.id}").value == "Yes"){
+                    document.getElementById("toggle#{neume.id}").checked = true;
+                    }
+
+                    function check#{neume.id}()
+                    {
+                      if (document.getElementById('toggle#{neume.id}').checked) 
+                      {
+                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                         document.getElementById('toggle#{neume.id}').checked = true;
+                      } else {
+                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                      }
+                    }
 
                                       
