@@ -61,6 +61,7 @@ html
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
   link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
   link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
+  script(src='/javascripts/scroll-keep.js', type='text/javascript')
 
 
 //Header parameters
@@ -227,9 +228,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                         input(type='hidden',value='DELETE',name='_method')
                         button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
                             x
-                    form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
-                            input(type='text',value='#{neume.position}', name='position' id = "inputPosition#{neume.id}" hidden)
-
                         .modal(id = "DeleteModal#{neume.id}")
                           // Modal content
                           .modal-content
@@ -242,6 +240,8 @@ div.neumeSection(style = "padding-bottom : 3px")
                              button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
                              br
                              br
+                  form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
+                         input(type='text',value='#{neume.position}', name='position' id = "inputPosition#{neume.id}" hidden)
 
 
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
@@ -399,9 +399,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                           document.getElementById('inputCheckbox#{neume.id}').value = "No";
                       }
                     }
+                    //submits the position of the neumes on click of the button
                     function buttonSaveLoad(){
                       document.getElementById("position#{neume.id}").submit();
-
-
                     }
+
                     //Add a footer                                           
