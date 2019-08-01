@@ -48,9 +48,9 @@
 }
 
 .footerElement {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+  position : absolute;
+  margin-top : -50px;
+  bottom: 10%;
   left: 0;
   padding: 1rem;
   background-color: #efefef;

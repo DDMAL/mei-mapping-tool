@@ -185,6 +185,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                       .column(style = "width : 20%")
                          .card
                           input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
+                          input(type='text',value='#{neume.position}', name='position' id = "inputPosition#{neume.id}" hidden)
 
                       // Mei snippet Section
                       .column(style = "width : 35%;")
@@ -345,6 +346,13 @@ div.neumeSection(style = "padding-bottom : 3px")
                     $(function() {
                       t1 = window.performance.now()
                       var $sortable1 = $( "#sortable1" ).sortable({
+                      //On load page, get the position of the neume
+                      //On stop sorting, set the position of the neume as the new index.
+                      //Send this on update button.
+                        stop: function(event, ui) {
+                            console.log(ui.item.index());//This is the position of the index
+                            document.getElementById("inputPosition#{neume.id}").value = ui.item.index();
+                        },
                         cancel: 'input,textarea,select,option',
                         connectWith: ".connectedSortable",
                           items: ".sorting-initialize"

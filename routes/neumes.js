@@ -284,6 +284,7 @@ router.route('/:id/editImage')
       var mei = req.body.mei;
       var review = req.body.review;
       var dob = req.body.dob;
+      var position = req.body.position;
       var projectName = req.body.projectName;
       global.editArray = [];
 
@@ -541,6 +542,7 @@ router.route('/:id/edit')
       var mei = req.body.mei;
 	    var dob = req.body.dob;
       var projectName = req.body.projectName;
+      var position = req.body.position;
 	    global.editArray = [];
 
 	    //find the document by ID
@@ -556,6 +558,7 @@ router.route('/:id/edit')
               mei : mei,
               review : review,
 	            dob : dob,
+              position : position,
               imagePath : editArray //adding the image to the image array without reinitializng everything
 	        }, function (err, neumeID) {
 	          if (err) {
