@@ -1,0 +1,8 @@
+    
+div.boxSection
+     //neumeSection section : 4 components added for each new neumeSection.   
+    .bodyStyle(style = "position : relative")
+      .roundedCorners(style = "position : relative; display : inline-block")
+        ul(id = "sortable1" class = "connectedSortable")
+            - each neumeSection in neumeSections
+                p neumeSection.name

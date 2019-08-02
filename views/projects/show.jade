@@ -62,6 +62,7 @@ html
   link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
   link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
   script(src='/javascripts/scroll-keep.js', type='text/javascript')
+  link(rel='stylesheet', href='/stylesheets/boxSection.css')
 
 
 //Header parameters
@@ -451,4 +452,8 @@ div.neumeSection(style = "padding-bottom : 3px")
                       }
                     });
 
-                    //Add a footer                                           
+    ul
+        - each section in sections
+            include sectionShow.jade
+   
+                                                 

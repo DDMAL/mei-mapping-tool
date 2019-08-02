@@ -611,6 +611,18 @@ router.route('/:id') //This is where the classifier would be
                 userFinal = users;
                // console.log(userFinal);//This works!!!
               });
+           var neumeSectionArray = [];
+           mongoose.model("section").find({}, function(err, sections){
+            
+            sections.forEach(function(sectionNeume){
+              sectionNeume.neumeIDs.forEach(function(neumeID){
+             mongoose.model('neume').find({_id : neumeID }, function(err, neumeSection){
+              neumeSectionArray.push(neumeSection);
+             })
+            })
+           });
+
+             var sections = sections;
 
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
@@ -625,7 +637,9 @@ router.route('/:id') //This is where the classifier would be
                 "projectdob" : projectdob,
                 "project" : project,
                 "neumes" : neumeFinal,
-                "users" : userFinal
+                "users" : userFinal,
+                "sections" : sections,
+                "neumeSections" : neumeSectionArray
 
               });
           },
@@ -633,6 +647,7 @@ router.route('/:id') //This is where the classifier would be
               res.json(project);
           }
         });
+      })
          });   
       }
       }
