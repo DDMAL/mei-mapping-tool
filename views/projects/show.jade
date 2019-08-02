@@ -62,7 +62,6 @@ html
   link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
   link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
   script(src='/javascripts/scroll-keep.js', type='text/javascript')
-  script(src='/javascripts/neumeDropSections.js', type='text/javascript')
 
 
 //Header parameters
@@ -100,13 +99,6 @@ div.neumeSection(style = "padding-bottom : 3px")
       .modal-content
         span.close ×
         include newNeume.jade
-
-    #modalSection.modal
-      // Modal content
-      .modal-content
-        span.close ×
-        include section.jade
-    button#modalSectionButton(type = "button" hidden)
 
     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
       
@@ -156,7 +148,7 @@ div.neumeSection(style = "padding-bottom : 3px")
      //Neume section : 4 components added for each new neume.   
     .bodyStyle(style = "position : relative")
       .roundedCorners(style = "position : relative; display : inline-block")
-        ul(id = "sortable1" class = "connectedSortable" ondragover="allowDrop(event)")
+        ul(id = "sortable1" class = "connectedSortable")
             - each neume in neumes
                 // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
@@ -165,7 +157,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                     span.close x
                     h4(style = "font:30px Avenir, sans-serif;") Edit Images
                     include editNeume.jade
-                div.ui-state-default
+                div(class="droptarget")
+                div(draggable="true"  id="dragtarget")
+                div.ui-state-default(id = "drop#{neume.id}")
                   button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}
                   form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                       .column
@@ -347,7 +341,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                       initializeModal('myModal', 'myBtn');
                       initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
                       initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
-                      initializeModal('modalSection', 'modalSectionButton');
                     });
                   $(document).scroll(function() {
                     var y = $(document).scrollTop(), //get page y value 
@@ -362,14 +355,14 @@ div.neumeSection(style = "padding-bottom : 3px")
                     $(function() {
                       t1 = window.performance.now()
                       var $sortable1 = $( "#sortable1" ).sortable({
-                        over : function(){
+                        helper: 'clone',
+                        over : function(event){
                               console.log("hovered!");
-                              modalSectionButton.click();
-                              document.body.classList.add('freeze');
+                              //We need to create the rectangle element
+                               var myDroppable = event.target; //This is the element where it's being dropped
                            },
                         out : function(){
-                                document.getElementById("modalSection").style.display = "none";
-                                document.body.classList.remove('freeze');
+                                //Delete the rectangle element
                            },
                       //On load page, get the position of the neume
                       //On stop sorting, set the position of the neume as the new index.
@@ -379,8 +372,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                             document.getElementById("inputPosition#{neume.id}").value = ui.item.index().toString();
                         },
                         cancel: 'input,textarea,select,option',
-                        connectWith: ".connectedSortable",
+                        connectWith: ".connectedSortable, .ui-state-default",
                           items: ".sorting-initialize"
+                          
                       });
                       $sortable1.find(".ui-state-default").one("mouseenter",function(){
                           $(this).addClass("sorting-initialize");
@@ -390,6 +384,21 @@ div.neumeSection(style = "padding-bottom : 3px")
                       t2 = window.performance.now()
                       console.log(t2-t1)
                     });
+                    $(".ui-state-default").droppable({
+                          over: function (event, ui) { event.target.style.border = "4px dotted red";
+                          event.target.style.height = "100px"}, //This worked!
+                          out: function (event, ui) {event.target.style.border = "none";
+                          event.target.style.height = "35px";
+                          var id = ui.draggable.attr("id");
+                          $(this).children(id).remove();},
+                          drop: function (event, ui) {
+                            var id = ui.draggable.attr("id");
+                            var draggableElement = document.getElementById(id);
+                            draggableElement.style.top = "500px";
+                          },
+                          greedy: true,
+                          hoverClass: 'highlight'
+                      });
 
                     //Get toggle value : 
                     console.log(document.getElementById("toggle#{neume.id}").value);
@@ -421,5 +430,20 @@ div.neumeSection(style = "padding-bottom : 3px")
                     function buttonSaveLoad(){
                       document.getElementById("position#{neume.id}").submit();
                     }
+
+                    document.addEventListener("dragstart", function(event) {
+                        // The dataTransfer.setData() method sets the data type and the value of the dragged data
+                        event.dataTransfer.setData("Text", event.target.id);
+                        
+                        // Change the opacity of the draggable element
+                        event.target.style.opacity = "0.4";
+                      });
+
+                    // When the draggable p element enters the droptarget, change the DIVS's border style
+                    document.addEventListener("dragenter", function(event) {
+                      if ( event.target.className == "droptarget" ) {
+                        event.target.style.border = "3px dotted red";
+                      }
+                    });
 
                     //Add a footer                                           
