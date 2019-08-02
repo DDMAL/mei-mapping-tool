@@ -384,17 +384,25 @@ div.neumeSection(style = "padding-bottom : 3px")
                       t2 = window.performance.now()
                       console.log(t2-t1)
                     });
+                    var height = " ";
                     $(".ui-state-default").droppable({
                           over: function (event, ui) { event.target.style.border = "4px dotted red";
-                          event.target.style.height = "45px"}, //This worked!
+                          height = 90;
+                          event.target.style.height = "90px"}, //This worked!
                           out: function (event, ui) {event.target.style.border = "none";
                           event.target.style.height = "35px";
                           var id = ui.draggable.attr("id");
                           $(this).children(id).remove();},
                           drop: function (event, ui) {
-                            var id = ui.draggable.attr("id");
-                            var draggableElement = document.getElementById(id);
-                            draggableElement.style.border = "4px dotted red";
+                            var id = ui.draggable.attr("id"); //This is the element we have. 
+                            //We want to first delete the element from the page
+                            //Then get the same element but now inside of the div
+                            //It doesnt need to happen simuntenously
+                             alert(id);
+                             var container = $(this);
+                             container.append(document.getElementById(id));
+                             height = height+45;
+                             container.css = ("height", "100px");
                           },
                           greedy: true,
                           hoverClass: 'highlight'
