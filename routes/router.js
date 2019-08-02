@@ -279,28 +279,29 @@ router.route('/savePosition')
 router.route('/section')
   .post(function(req, res) { 
 
-  //We want to get all the neumes from the mongoose.model, and for each neume in neumes
-  //update the position field from the req.body.position of each neume. (maybe the position will be the same, 
-  //or, we could make the name of the field as position#{neume.id} so that the position would be updated
-  //to the position if id = #{neume.id})
+  //We want to get the sections collection and add a new section with the 2 neumes inside.
 
   // Get our REST or form values. These rely on the "name" attributes from the edit page
-      var position = req.body.position;
+      var name = req.body.nameSection;
+      var firstNeume = req.body.firstNeume;
+      var secondNeume = req.body.secondNeume;
+      var sectionArray = [];
+      sectionArray.push(firstNeume);
+      sectionArray.push(secondNeume);
 
       //find the document by ID
-      mongoose.model('neume').find({}, function (err, neumes) {
-          //update it
-         neumes.forEach(function(neume){
-          neume.update({
-              position : position //adding the image to the image array without reinitializng everything
-          }, function (err, neumeElement) {
-            if (err) {
-                res.send("There was a problem updating the information to the database: " + err);
-            } 
-            else {console.log(neume);
-             }
-          })
-      });
+       //call the create function for our database
+        mongoose.model('section').create({
+            name : name,
+            neumeIDs : sectionArray
+
+        }, function (err, section) {
+              if (err) {
+                  res.send("There was a problem adding the information to the database.");
+              } else {
+                  //neume has been created
+                  //console.log('POST creating new neume: ' + neume); //neume holds the new neume
+                  //
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
                         html: function(){
@@ -311,8 +312,8 @@ router.route('/section')
                              res.json(neume);
                        }
                     });
-         })
-
+                  }
+                });
   });
 
 router.route('/csv')
