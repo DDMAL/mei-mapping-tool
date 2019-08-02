@@ -393,7 +393,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     });
                     var height = " ";
                     $(".ui-state-default").droppable({
-                          over: function (event, ui) { event.target.style.border = "5px dotted red";}, //This worked!
+                          over: function (event, ui) { event.target.style.border = "4px solid #ffa1a1";}, //This worked!
                           out: function (event, ui) {event.target.style.border = "none";
                           var id = ui.draggable.attr("id");
                           $(this).children(id).remove();},
