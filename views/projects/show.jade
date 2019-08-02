@@ -372,7 +372,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                             document.getElementById("inputPosition#{neume.id}").value = ui.item.index().toString();
                         },
                         cancel: 'input,textarea,select,option',
-                        connectWith: ".connectedSortable, .ui-state-default",
+                        connectWith: ".ui-state-default",
                           items: ".sorting-initialize"
                           
                       });
@@ -386,7 +386,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     });
                     $(".ui-state-default").droppable({
                           over: function (event, ui) { event.target.style.border = "4px dotted red";
-                          event.target.style.height = "100px"}, //This worked!
+                          event.target.style.height = "45px"}, //This worked!
                           out: function (event, ui) {event.target.style.border = "none";
                           event.target.style.height = "35px";
                           var id = ui.draggable.attr("id");
@@ -394,7 +394,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                           drop: function (event, ui) {
                             var id = ui.draggable.attr("id");
                             var draggableElement = document.getElementById(id);
-                            draggableElement.style.top = "500px";
+                            draggableElement.style.border = "4px dotted red";
                           },
                           greedy: true,
                           hoverClass: 'highlight'
