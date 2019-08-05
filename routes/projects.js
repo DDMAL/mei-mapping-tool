@@ -592,6 +592,8 @@ router.route('/:id') //This is where the classifier would be
   .get(function(req, res, next) {
     mongoose.model('project').findById(req.id, function (err, project) {
 
+      var positionArray = project.positionArray;
+
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
@@ -616,7 +618,7 @@ router.route('/:id') //This is where the classifier would be
 
             //Here, we need a logic that will produce a variable neumeSection which is all the neumes for each 
             //section, which is different for each section.
-            
+
 
 
              var sections = sections;
@@ -635,7 +637,8 @@ router.route('/:id') //This is where the classifier would be
                 "neumes" : neumeFinal,
                 "users" : userFinal,
                 "sections" : sections,
-                "neumeSections" : neumeSectionArray
+                "neumeSections" : neumeSectionArray,
+                "positionArray" : positionArray
 
               });
           },

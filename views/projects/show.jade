@@ -155,7 +155,7 @@ div.neumeSection(style = "padding-bottom : 3px")
       div(id = "menu")
      //Neume section : 4 components added for each new neume.   
     .bodyStyle(style = "position : relative")
-      .roundedCorners(style = "position : relative; display : inline-block")
+      .roundedCorners(style = "position : relative; display : inline-block" id = "roundedCorners")
         ul(id = "sortable1" class = "connectedSortable")
             - each neume in neumes
                 // Edit Images Modal
@@ -251,7 +251,8 @@ div.neumeSection(style = "padding-bottom : 3px")
                              br
                              br
                   form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
-                         input(type='text',value='#{neume.position}', name='position' id = "inputPosition#{neume.id}" hidden)
+                         input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
+                         input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
 
 
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
@@ -363,8 +364,14 @@ div.neumeSection(style = "padding-bottom : 3px")
                     //Function to get collapsibles sorted
                     $(function() {
                       t1 = window.performance.now()
+                      $("#sortable1").sortable().disableSelection();
+
+                      var array = "#{project.positionArray}".split(',');
+
+                      array.forEach(function(element){
+                        document.getElementById("roundedCorners").appendChild(document.getElementById(element));})
                       var $sortable1 = $( "#sortable1" ).sortable({
-                        helper: 'clone',
+                        axis: 'y',
                         over : function(event){
                               console.log("hovered!");
                               //We need to create the rectangle element
@@ -377,8 +384,24 @@ div.neumeSection(style = "padding-bottom : 3px")
                       //On stop sorting, set the position of the neume as the new index.
                       //Send this on update button.
                         update: function(event, ui) {
-                            console.log(ui.item.index().toString());//This is the position of the index
-                            document.getElementById("inputPosition#{neume.id}").value = ui.item.index().toString();
+                              var changedList = this.id;
+                              var order = $(this).sortable('toArray');
+                              var positionArray = [];
+                              order.forEach(function(element){
+                                positionArray.push(element);
+                              })
+                              var positions = order.join(';');
+
+                              console.log({
+                                id: changedList,
+                                positions: positions
+                              });
+  
+                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                        },
+                        stop: function (event, ui) {
+                                var data = $(this).sortable('serialize');
+                                  console.log(data);
                         },
                         cancel: 'input,textarea,select,option',
                         connectWith: ".ui-state-default",

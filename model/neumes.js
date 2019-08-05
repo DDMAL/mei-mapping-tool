@@ -12,7 +12,6 @@ var neumeSchema = new mongoose.Schema({
   imagePath : [String],
   project: String,
   imagesBinary : [String],
-  position : String, //Position for the sortable elements
   neumeSection : String,
   neumeSectionName : String
 });
