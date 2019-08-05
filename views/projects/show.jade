@@ -366,11 +366,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                       t1 = window.performance.now()
                       //$("#sortable1").sortable().disableSelection();
                        // $("#sortable1").sortable().enableSelection();
-                       
-                      var array = "#{project.positionArray}".split(',');
 
-                      array.forEach(function(element){
-                        document.getElementById("roundedCorners").appendChild(document.getElementById(element));})
+                        //Everytime a neume is added or deleted, the drop array needs to be updated too!
+
                       var $sortable1 = $( "#sortable1" ).sortable({
                         axis: 'y',
                         over : function(event){
@@ -421,8 +419,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     $(".ui-state-default").droppable({
                           over: function (event, ui) { event.target.style.border = "4px solid #ffa1a1";}, //This worked!
                           out: function (event, ui) {event.target.style.border = "none";
-                          var id = ui.draggable.attr("id");
-                          $(this).children(id).remove();},
+                          var id = ui.draggable.attr("id");},
                           drop: function (event, ui) {
                             var id = ui.draggable.attr("id"); //This is the element we have. 
                             document.getElementById("modalSectionButton").click();
@@ -430,7 +427,30 @@ div.neumeSection(style = "padding-bottom : 3px")
                           greedy: true,
                           hoverClass: 'highlight'
                       });
+                      var array = "#{project.positionArray}".split(',');
 
+                      array.forEach(function(element){
+                        document.getElementById("roundedCorners").appendChild(document.getElementById(element));
+                        var elementNeume = document.getElementById(element);
+                        var lastElement = $('elementNeume').last();
+                        $(elementNeume).parent().sortable({
+                        cancel: 'input,textarea,select,option',
+                        connectWith: "lastElement",                  
+                        update: function(event, ui) {
+                              var order = $(this).sortable('toArray');
+                              var positionArray = [];
+                              order.forEach(function(element){
+                                positionArray.push(element);
+                              })
+                              var positions = order.join(';');
+
+                              console.log({
+                                positions: positions
+                              });
+  
+                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                        }
+                        });})
                     //Get toggle value : 
                     console.log(document.getElementById("toggle#{neume.id}").value);
                     if(document.getElementById("toggle#{neume.id}").value == "Yes"){
