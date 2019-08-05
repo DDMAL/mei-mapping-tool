@@ -487,6 +487,17 @@ div.neumeSection(style = "padding-bottom : 3px")
                         document.getElementById("roundedCorners").appendChild(document.getElementById(element));
                         var elementNeume = document.getElementById(element);
                         $(elementNeume).parent().sortable({
+                        axis: 'y',
+                        over : function(event){
+                              console.log("hovered!");
+                              //We need to create the rectangle element
+                               var myDroppable = event.target; //This is the element where it's being dropped
+                           },
+                        out : function(){
+                                //Delete the rectangle element
+                           },
+                        connectWith: $(this),
+                          //items: ".sorting-initialize",
                         cancel: 'input,textarea,select,option',                 
                         update: function(event, ui) {
                               var order = $(this).sortable('toArray');
@@ -505,6 +516,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                         stop: function (event, ui) {
                                 var data = $(this).sortable('serialize');
                                   console.log(data);
+                            document.getElementById(element).style.margintop = "200px";
                         }
                         });})
 
