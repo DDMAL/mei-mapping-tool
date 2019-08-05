@@ -306,7 +306,8 @@ router.route('/section')
                 section.neumeIDs.forEach(function(neumeId){
 
                   mongoose.model("neume").find({_id : neumeId}).update({
-                      neumeSection : section._id //adding the image to the image array without reinitializng everything
+                      neumeSection : section._id,
+                      neumeSectionName : " - " + name //adding the image to the image array without reinitializng everything
                     }, function (err, neumeElement) {
                       if (err) {
                           res.send("There was a problem updating the information to the database: " + err);

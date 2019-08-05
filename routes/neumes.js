@@ -45,8 +45,8 @@ router.route('/cancel')
                     }
                 });
               }     
-        });
-    })
+    });
+})
 
 //Route for the users
 router.route('/user')
@@ -136,6 +136,8 @@ router.route('/')
         var name = req.body.name;
         var folio = req.body.folio;
         var description = req.body.description;
+        var neumeSection = req.body.neumeSection;
+        var neumeSectionName = req.body.neumeSectionName;
         
         var classification 
         = req.body.classification;
@@ -154,7 +156,9 @@ router.route('/')
             review : review,
             dob : dob,
             imagePath : imageArray,
-            project : ID_project
+            project : ID_project,
+            neumeSection : neumeSection,
+            neumeSectionName : neumeSectionName
 
         }, function (err, neume) {
               if (err) {

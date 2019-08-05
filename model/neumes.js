@@ -13,7 +13,8 @@ var neumeSchema = new mongoose.Schema({
   project: String,
   imagesBinary : [String],
   position : String, //Position for the sortable elements
-  neumeSection : String
+  neumeSection : String,
+  neumeSectionName : String
 });
 var Neume = module.exports = mongoose.model('neume', neumeSchema);
 

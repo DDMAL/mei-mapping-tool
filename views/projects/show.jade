@@ -168,7 +168,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                 div(class="droptarget")
                 div(draggable="true"  id="dragtarget")
                 div.ui-state-default(id = "drop#{neume.id}")
-                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}
+                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}#{neume.neumeSectionName}
                   form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                       .column
                          .card
@@ -452,8 +452,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                       }
                     });
 
-    ul
-        - each section in sections
-            include sectionShow.jade
+                    if("#{neume.neumeSection}" != " "){
+                     document.getElementById("collapsible#{neume.id}").style.border = "2px solid #ffa1a1";
+                    }
+
    
                                                  

@@ -1,9 +1,13 @@
 function allowDrop(event) {
+
+//User  hoverClass: for the sortable 
+
   event.preventDefault();
   //Here we want to have a popup, ask for the section name and 
   var modal = document.getElementById("modalSection");
 
   // When the user clicks on the button, open the modal
+  //Show the names of the neumes when the popup opens. 
   modal.style.display = "block";
 
   var span = modal.querySelector('.closingSectionModal');
