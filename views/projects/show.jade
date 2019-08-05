@@ -366,6 +366,11 @@ div.neumeSection(style = "padding-bottom : 3px")
                       t1 = window.performance.now()
                       //$("#sortable1").sortable().disableSelection();
                        // $("#sortable1").sortable().enableSelection();
+                       
+                      var array = "#{project.positionArray}".split(',');
+
+                      array.forEach(function(element){
+                        document.getElementById("roundedCorners").appendChild(document.getElementById(element));})
                       var $sortable1 = $( "#sortable1" ).sortable({
                         axis: 'y',
                         over : function(event){
@@ -426,12 +431,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                           hoverClass: 'highlight'
                       });
 
-
-                      var array = "#{project.positionArray}".split(',');
-
                       array.forEach(function(element){
-                        document.getElementById("roundedCorners").appendChild(document.getElementById(element));})
-                        
                     //Get toggle value : 
                     console.log(document.getElementById("toggle#{neume.id}").value);
                     if(document.getElementById("toggle#{neume.id}").value == "Yes"){
