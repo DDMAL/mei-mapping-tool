@@ -487,8 +487,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                         document.getElementById("roundedCorners").appendChild(document.getElementById(element));
                         var elementNeume = document.getElementById(element);
                         $(elementNeume).parent().sortable({
-                        cancel: 'input,textarea,select,option',
-                        connectWith: "elementNeume",                  
+                        cancel: 'input,textarea,select,option',                 
                         update: function(event, ui) {
                               var order = $(this).sortable('toArray');
                               var positionArray = [];
@@ -502,6 +501,10 @@ div.neumeSection(style = "padding-bottom : 3px")
                               });
   
                             document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                        },
+                        stop: function (event, ui) {
+                                var data = $(this).sortable('serialize');
+                                  console.log(data);
                         }
                         });})
 
