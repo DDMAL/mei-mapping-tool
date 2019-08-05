@@ -305,8 +305,7 @@ router.route('/section')
 
                 section.neumeIDs.forEach(function(neumeId){
 
-                  mongoose.model("neume").find({_id : neumeId}, function(err, neume){
-                    neume.update({
+                  mongoose.model("neume").find({_id : neumeId}).update({
                       sectionNeume : section._id //adding the image to the image array without reinitializng everything
                     }, function (err, neumeElement) {
                       if (err) {
@@ -317,7 +316,6 @@ router.route('/section')
                     })
 
                   })
-                })
                   //neume has been created
                   //console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   //
