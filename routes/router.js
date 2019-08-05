@@ -306,7 +306,7 @@ router.route('/section')
                 section.neumeIDs.forEach(function(neumeId){
 
                   mongoose.model("neume").find({_id : neumeId}).update({
-                      sectionNeume : section._id //adding the image to the image array without reinitializng everything
+                      neumeSection : section._id //adding the image to the image array without reinitializng everything
                     }, function (err, neumeElement) {
                       if (err) {
                           res.send("There was a problem updating the information to the database: " + err);
@@ -316,7 +316,7 @@ router.route('/section')
                     })
 
                   })
-                  //neume has been created
+                  //This works, it sends the id of the section to the neume
                   //console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   //
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.

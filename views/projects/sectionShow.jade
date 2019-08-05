@@ -1,9 +1,14 @@
     
 div.boxSection
-    p #{section.name}
-     //neumeSection section : 4 components added for each new neumeSection.   
-    .bodyStyle(style = "position : relative")
-     .roundedCorners(style = "position : relative; display : inline-block" id = "Neume")
-        ul(id = "sortable1" class = "connectedSortable")
-            - each neumeSection in neumeSections
-                p #{neumeSection}
+		p #{section.name}
+		ul
+			- each neume in neumes
+				p(id = "showNeume#{neume.id}" hidden) #{neume.neumeSection}
+
+				script.
+					if("#{neume.neumeSection}" == "#{section.id}"){
+					document.getElementById("showNeume#{neume.id}").style.display = "block";
+
+					}
+					//Show that neume in the boxSection. 
+

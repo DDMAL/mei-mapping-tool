@@ -614,16 +614,9 @@ router.route('/:id') //This is where the classifier would be
               });
            mongoose.model("section").find({projectID : project._id}, function(err, sections){
 
-            sections.forEach(function(sectionNeume){
-            sectionNeume.neumeIDs.forEach(function(neumeID){
-             mongoose.model('neume').find({_id : neumeID }, function(err, neumeSection){
-              var temp = [];
-              temp.push(neumeSection);
-              neumeSectionArray = temp;
-              //console.log(neumeSectionArray);
-             })
-            })
-           });
+            //Here, we need a logic that will produce a variable neumeSection which is all the neumes for each 
+            //section, which is different for each section.
+            
 
 
              var sections = sections;
