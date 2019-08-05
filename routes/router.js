@@ -285,6 +285,7 @@ router.route('/section')
       var name = req.body.nameSection;
       var firstNeume = req.body.firstNeume;
       var secondNeume = req.body.secondNeume;
+      var projectID = req.body.ID_project;
       var sectionArray = [];
       sectionArray.push(firstNeume);
       sectionArray.push(secondNeume);
@@ -293,12 +294,30 @@ router.route('/section')
        //call the create function for our database
         mongoose.model('section').create({
             name : name,
-            neumeIDs : sectionArray
+            neumeIDs : sectionArray,
+            projectID : projectID
 
         }, function (err, section) {
               if (err) {
                   res.send("There was a problem adding the information to the database.");
               } else {
+                //Now, we must add section._id for each neume in their sectionNeume
+
+                section.neumeIDs.forEach(function(neumeId){
+
+                  mongoose.model("neume").find({_id : neumeId}, function(err, neume){
+                    neume.update({
+                      sectionNeume : section._id //adding the image to the image array without reinitializng everything
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
+
+                  })
+                })
                   //neume has been created
                   //console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   //

@@ -22,6 +22,7 @@ global.neumeFinal = []; //getting all the neumes from the project
 global.userFinal = []; //The user needs to be added in all the routes
 global.latestImage = []; //getting the latestImage from the database
 global.imageData = [];
+global.neumeSectionArray = [];//Array to keep the neumes in the section
 
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
@@ -611,18 +612,22 @@ router.route('/:id') //This is where the classifier would be
                 userFinal = users;
                // console.log(userFinal);//This works!!!
               });
-           var neumeSectionArray = [];
-           mongoose.model("section").find({}, function(err, sections){
-            
+           mongoose.model("section").find({projectID : project._id}, function(err, sections){
+
             sections.forEach(function(sectionNeume){
-              sectionNeume.neumeIDs.forEach(function(neumeID){
+            sectionNeume.neumeIDs.forEach(function(neumeID){
              mongoose.model('neume').find({_id : neumeID }, function(err, neumeSection){
-              neumeSectionArray.push(neumeSection);
+              var temp = [];
+              temp.push(neumeSection);
+              neumeSectionArray = temp;
+              //console.log(neumeSectionArray);
              })
             })
            });
 
+
              var sections = sections;
+             console.log(neumeSectionArray);//This is still empty
 
         console.log('GET Retrieving ID: ' + project._id);
         var projectdob = project.dob.toISOString();
@@ -630,8 +635,6 @@ router.route('/:id') //This is where the classifier would be
         
         res.format({
           html: function(){
-            console.log(neumeFinal); //This is shown on the console!
-            console.log(userFinal)//This is shown on the console!
             
               res.render('projects/show', {
                 "projectdob" : projectdob,

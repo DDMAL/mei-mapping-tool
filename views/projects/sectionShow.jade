@@ -1,8 +1,9 @@
     
 div.boxSection
+    p #{section.name}
      //neumeSection section : 4 components added for each new neumeSection.   
     .bodyStyle(style = "position : relative")
-      .roundedCorners(style = "position : relative; display : inline-block")
+     .roundedCorners(style = "position : relative; display : inline-block" id = "Neume")
         ul(id = "sortable1" class = "connectedSortable")
             - each neumeSection in neumeSections
-                p neumeSection.name
+                p #{neumeSection}

@@ -3,6 +3,7 @@ h3 Create Section
 form(action='/section',method='post',enctype='application/x-www-form-urlencoded' id = "section1")  
    h5 Name : 
    input#inputName(class = "createProjectInput" type="text", placeholder="ex. Section-1", name = "nameSection" required)
+   input#inputProject(name = "ID_project" value = "#{project._id}" hidden)
    
    p Select a first neume
     select(style = "display : block" name="firstNeume" id = "selectFirstNeume" required)
