@@ -922,7 +922,6 @@ router.post('/', function (req, res, next) {
     if (err) return next(err);
     res.redirect('/');
   });
-                                req.session.userId = user._id;
                       var err = new Error('Success! A confirmation email has been sent to your email. Please confirm your email before logging-in.');
                       return res.format({
                       html: function(){           
@@ -974,7 +973,8 @@ router.post('/', function (req, res, next) {
               res.json(err);
           }
         });
-        } else {
+        } })}
+        else {
           req.session.userId = username._id;
            User.findOne({ _id : req.session.userId }, function (error, user) {
           if(user.active == false){
@@ -992,35 +992,13 @@ router.post('/', function (req, res, next) {
 
           }
           })
-
+           req.session.userId = user._id;
           return res.redirect('/projects');
         }
 
-    }); 
-      }else {
-        if (user.role == "editor"){
-          req.session.userId = user._id;
-        return res.redirect('/projects');}
-
-        req.session.userId = user._id;
-        return res.redirect('/projects');
-      }
-
-    });
-  } else {
-    var err = new Error('All fields are required.');
-        return res.format({
-          html: function(){           
-              res.render('errorLog', {
-                "error" : err,
-              });
-          },
-          json: function(){
-              res.json(err);
-          }
-        });
-  }
 })
+}
+});
 
 router.get('/confirm/:token', function(req, res) {
   User.findOneAndUpdate({ activeToken: req.params.token, resetActiveTokendExpires: { $gt: Date.now() } }, {active : true}, function(err, user) {
