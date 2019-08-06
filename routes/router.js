@@ -887,7 +887,7 @@ router.post('/', function (req, res, next) {
                       else {
     async.waterfall([
     function(done) {
-      crypto.randomBytes(20, function(err, buf) {
+      crypto.randomBytes(30, function(err, buf) {
         var token = buf.toString('hex');
         done(err, token);
       });
@@ -913,7 +913,7 @@ router.post('/', function (req, res, next) {
         text:'You are receiving this because you have created an account with Cress.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process and activate your account:\n\n' +
           'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+          'If you did not request this, please ignore this email and your account will be deleted automatically.\n',
         html: '<strong>You are receiving this because you have created an account with Cress. Please click on the following link, or paste this into your browser to complete the process and activate your account: http://' + req.headers.host + '/confirm/' + token + '  . If you did not request this, please ignore this email and your password will remain unchanged. </strong> ',
       };
       sgMail.send(msg);
@@ -974,8 +974,10 @@ router.post('/', function (req, res, next) {
               res.json(err);
           }
         });
-        }
-        if(user.active == false){
+        } else {
+          req.session.userId = username._id;
+           User.findOne({ _id : req.session.userId }, function (error, user) {
+          if(user.active == false){
           var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceedign.');
             return res.format({
           html: function(){           
@@ -988,8 +990,9 @@ router.post('/', function (req, res, next) {
           }
         });
 
-          } else {
-          req.session.userId = username._id;
+          }
+          })
+
           return res.redirect('/projects');
         }
 
