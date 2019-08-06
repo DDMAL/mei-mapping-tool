@@ -136,7 +136,7 @@ div.neumeSection(style = "padding-bottom : 3px")
        i.fa.fa-save
        |   Save
 
-    button#myBtnElement(class = "button button2AddNeume" class = 'tooltip') 
+    button#myBtnElement(class = "button button2AddNeume" class = 'tooltip' onclick="undo();") 
       i.fa.fa-undo.fa-sm &nbsp;
       //span.tooltiptext To undo a position change, click here!
       br
@@ -402,6 +402,10 @@ div.neumeSection(style = "padding-bottom : 3px")
                               });
   
                             document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                            if(undoValue == true){
+                              $(this).sortable('cancel');
+
+                            };
                         },
                         stop: function (event, ui) {
                                 var data = $(this).sortable('serialize');
@@ -481,11 +485,19 @@ div.neumeSection(style = "padding-bottom : 3px")
                     if("#{neume.neumeSection}" != " "){
                      document.getElementById("collapsible#{neume.id}").style.border = "2px solid #ffa1a1";
                     }
+                    //Array for the position of elements from the database. split into the drop#{neume.id}
+                    //Values of div and changing their positions by appending them depending on the order in the database.
+                    //(The string is already ordered in the database from the neume sortable positions)
                     var array = "#{project.positionArray}".split(',');
 
                       array.forEach(function(element){
                         document.getElementById("sortable1").appendChild(document.getElementById(element));
                         var elementNeume = document.getElementById(element);})
+                    var undoValue = "";
+                    function undo(){
+                      $("#sortable1").sortable('cancel');
+                    }
+
 
    
                                                  
