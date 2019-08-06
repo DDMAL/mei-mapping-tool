@@ -885,8 +885,55 @@ router.post('/', function (req, res, next) {
                           res.send("There was a problem updating the information to the database: " + err);
                       } 
                       else {
+    async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        var token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+    function(token, done) {
+
+        user.activeToken = token;
+        user.active = false;
+        user.resetActiveTokendExpires = Date.now() + 3600000; // 1 hour
+
+        user.save(function(err) {
+          done(err, token, user);
+        });
+
+    },
+    function(token, user, done) {
+      const sgMail = require('@sendgrid/mail');
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      const msg = {
+        to: user.email,
+        from: 'cress-noreply@demo.com',
+        subject: 'Cress Confirmation Email',
+        text:'You are receiving this because you have created an account with Cress.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process and activate your account:\n\n' +
+          'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+        html: '<strong>You are receiving this because you have created an account with Cress. Please click on the following link, or paste this into your browser to complete the process and activate your account: http://' + req.headers.host + '/confirm/' + token + '  . If you did not request this, please ignore this email and your password will remain unchanged. </strong> ',
+      };
+      sgMail.send(msg);
+    }
+  ], function(err) {
+    if (err) return next(err);
+    res.redirect('/');
+  });
                                 req.session.userId = user._id;
-                                return res.redirect('/projects');
+                      var err = new Error('Success! A confirmation email has been sent to your email. Please confirm your email before logging-in.');
+                      return res.format({
+                      html: function(){           
+                          res.render('errorLog', {
+                            "error" : err,
+                          });
+                      },
+                      json: function(){
+                          res.json(err);
+                      }
+                    });
                        }
                     })
                 });
@@ -927,7 +974,21 @@ router.post('/', function (req, res, next) {
               res.json(err);
           }
         });
-        } else {
+        }
+        if(user.active == false){
+          var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceedign.');
+            return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
+
+          } else {
           req.session.userId = username._id;
           return res.redirect('/projects');
         }
@@ -958,6 +1019,34 @@ router.post('/', function (req, res, next) {
   }
 })
 
+router.get('/confirm/:token', function(req, res) {
+  User.findOneAndUpdate({ activeToken: req.params.token, resetActiveTokendExpires: { $gt: Date.now() } }, {active : true}, function(err, user) {
+    if (!user) {
+      var err = new Error('Confirmation reset token is invalid or has expired.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
+    }
+    var err = new Error('Success! Your account has been activated, you can now log-in to Cress.');
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
+  });
+});
 // GET route after registering
 router.get('/profile', function (req, res, next) {
   var usersSelect = [];
