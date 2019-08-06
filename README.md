@@ -63,41 +63,6 @@ To make sure mongodb is running in your application, you can add this command to
  1. Open the MongoDB compass community application and connect to the `localhost:27017`.
  2. Open the Collections tab of the mei-mapping-tool database to see the information from the collections.
  
-## Instructions
+For more information about how the application works, you can go to the Cress [wiki](https://github.com/DDMAL/mei-mapping-tool/wiki/Issues). 
 
-The mei-mapping-tool has 3 main parts : log-in, projects and classifier.
-
-### Log-in
-To access the `log-in` page, you can go to the home page http://localhost:8800 . If you don't have an account, you'll need to create it in the register menu.
-Under the sign up menu, you can create your own username and password for your mei-mapping project.
-After clicking the register button, you will be redirected to the `projects` page :
-http://localhost:8800/projects
-
-### Projects
-To create a project, simply click on the add Project link and add a project name in the pop-up window. 
-Once the project has been created, a button with the name of the project will appear under `My Projects`. To get access to the classifier, you can click on the button you created and you will be redirected to the classifier page. `http://localhost:3000/projects/:id`
-
-### Classifier (in development)
-With the classifier view, you can create, update and delete neume components. You can add neumes by clicking on the `add Neume` button and filling the information. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. 
-Starting from the left, the first section is the drag and drop section using `dropzone` where you can add images of your element. The second section is where you can add the `name, folio and description` of the element. The third section is the `Classifier label` that should have a proper syntax:
-
-`neume.pes.b.3` 
-
-The fourth element is the `MEI Snippet` that holds an `ace editor` where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written down needs to be reviewed for mei errors.
-The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button `Update Name` to see your changes. 
-The home page of the header will redirect you to the projects page http://localhost:8800/projects
-### Edit image
-To add more images or delete previous images from the classifier, you can click on the `Edit images` button of the neume. A pop-up window with a view of the images and a dropzone to add images will appear. 
-
-### Fork a project
-You can fork a project to your own account by clicking on the fork button of a project under the `other projects` section. This will create a new project in your repository titled `username/projectName` and you will be able to see and edit all the neumes of the project your forked. 
-
-## Profile page
-To access the profile page, you can click on your username button in the navigation bar. You will be redirected to http://localhost:8800/profile
-
-The profile page is divided in 3 sections. The profile section has information about your email, profile status and bio. You can change your bio by simply writing on the text area and clicking on the update button to see your changes. 
-
-The collaborators section helps manage user access to your projects. To add a new editor to your project, you can press the `add a collaborator` link at the bottom of the screen and you will be prompted to choose the username of the user and the project to which you want to give access. The user will then be able to view and edit the project in their account. The `settings` section manages the changes a user might want to make to its email or username. 
-
-## Log-out
-To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://localhost:8800
+Reporting an issue? Click [here](https://github.com/DDMAL/mei-mapping-tool/wiki/Issues)!
