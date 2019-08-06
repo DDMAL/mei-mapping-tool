@@ -132,7 +132,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     i.fa.fa-code-fork
                     |  Fork
                     //span.tooltiptext To save the project as your own and start working on it, click here!
-     button(type = 'button' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 10%" onclick = "buttonSaveLoad()")
+     button(type = 'button' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 10%" onclick = "buttonSaveLoad()" id = "buttonSavePosition" disabled)
        i.fa.fa-save
        |   Save
 
@@ -388,6 +388,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                       //On stop sorting, set the position of the neume as the new index.
                       //Send this on update button.
                         update: function(event, ui) {
+                              document.getElementById("buttonSavePosition").disabled = false;
                               var changedList = this.id;
                               var order = $(this).sortable('toArray');
                               var positionArray = [];
@@ -395,7 +396,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                                 positionArray.push(element);
                               })
                               var positions = order.join(';');
-
                               console.log({
                                 id: changedList,
                                 positions: positions
@@ -484,41 +484,8 @@ div.neumeSection(style = "padding-bottom : 3px")
                     var array = "#{project.positionArray}".split(',');
 
                       array.forEach(function(element){
-                        document.getElementById("roundedCorners").appendChild(document.getElementById(element));
-                        var elementNeume = document.getElementById(element);
-                        $(elementNeume).parent().sortable({
-                        axis: 'y',
-                        over : function(event){
-                              console.log("hovered!");
-                              //We need to create the rectangle element
-                               var myDroppable = event.target; //This is the element where it's being dropped
-                           },
-                        out : function(){
-                                //Delete the rectangle element
-                           },
-                        connectWith: $(this),
-                          //items: ".sorting-initialize",
-                        cancel: 'input,textarea,select,option',                 
-                        update: function(event, ui) {
-                              var order = $(this).sortable('toArray');
-                              var positionArray = [];
-                              order.forEach(function(element){
-                                positionArray.push(element);
-                              })
-                              var positions = order.join(';');
-
-                              console.log({
-                                positions: positions
-                              });
-  
-                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
-                        },
-                        stop: function (event, ui) {
-                                var data = $(this).sortable('serialize');
-                                  console.log(data);
-                            document.getElementById(element).style.margintop = "200px";
-                        }
-                        });})
+                        document.getElementById("sortable1").appendChild(document.getElementById(element));
+                        var elementNeume = document.getElementById(element);})
 
    
                                                  
