@@ -282,6 +282,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                   editor#{neume.id}.setValue(meiString);
 
                   //Getting the canvas for the mei snippets : 
+
                   var imagePaths = "#{neume.imagePath}";
                   var imageArray = imagePaths.split(',');
                   var canvas = document.createElement('canvas');
@@ -332,7 +333,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                   appear if the collapsible button is clicked.*/ 
                    
                     var coll = document.getElementById("collapsible#{neume.id}");
-                    
+                     coll.nextElementSibling.style.display = "none";
+                     var deleteButton = document.getElementById("deleteNeumeButton#{neume.id}");
+                     deleteButton.style.display = "none";
                     coll.addEventListener("click", function() {
                       var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                      
@@ -478,9 +481,10 @@ div.neumeSection(style = "padding-bottom : 3px")
                       }
                     });
 
-                    if("#{neume.neumeSection}" != " "){
-                     document.getElementById("collapsible#{neume.id}").style.border = "2px solid #ffa1a1";
-                    }
+
+                    //if("#{neume.neumeSection}" != " "){
+                    // document.getElementById("collapsible#{neume.id}").style.border = "2px solid #ffa1a1";
+                    //}
                     //Array for the position of elements from the database. split into the drop#{neume.id}
                     //Values of div and changing their positions by appending them depending on the order in the database.
                     //(The string is already ordered in the database from the neume sortable positions)
