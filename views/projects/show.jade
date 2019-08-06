@@ -402,10 +402,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                               });
   
                             document.getElementById("inputPosition#{neume.id}").value = positionArray;
-                            if(undoValue == true){
-                              $(this).sortable('cancel');
-
-                            };
                         },
                         stop: function (event, ui) {
                                 var data = $(this).sortable('serialize');
@@ -496,7 +492,23 @@ div.neumeSection(style = "padding-bottom : 3px")
                     var undoValue = "";
                     function undo(){
                       $("#sortable1").sortable('cancel');
-                    }
+                      var changedList = this.id;
+                       var $sortable1 = $( "#sortable1" ).sortable({
+                        update: function(event, ui) {
+                              var order = $(this).sortable('toArray');
+                              var positionArray = [];
+                              order.forEach(function(element){
+                                positionArray.push(element);
+                              })
+                              var positions = order.join(';');
+                              console.log({
+                                id: changedList,
+                                positions: positions
+                              });
+  
+                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                            }
+                    })}
 
 
    
