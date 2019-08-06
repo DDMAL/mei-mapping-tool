@@ -333,9 +333,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                   appear if the collapsible button is clicked.*/ 
                    
                     var coll = document.getElementById("collapsible#{neume.id}");
-                     coll.nextElementSibling.style.display = "none";
-                     var deleteButton = document.getElementById("deleteNeumeButton#{neume.id}");
-                     deleteButton.style.display = "none";
                     coll.addEventListener("click", function() {
                       var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                      

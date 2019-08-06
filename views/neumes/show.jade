@@ -227,9 +227,7 @@ div.neumeSection
                   /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
                   appear if the collapsible button is clicked.*/ 
                    
-                    var coll = document.getElementById("collapsible#{neume.id}");
-                       var coll = document.getElementById("collapsible#{neume.id}");
-                       coll.nextElementSibling.style.display = "none";
+                    var coll = document.getElementById("collapsible#{neume.id}")
                     
                     coll.addEventListener("click", function() {
                      
