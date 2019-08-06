@@ -6,7 +6,8 @@ var projectSchema = new mongoose.Schema({
 //The images always have a new id
   dob: { type: Date, default: Date.now },
   userID : [String],
-  admin : String
+  admin : String,
+  positionArray : [String]
 });
 
 mongoose.model('project', projectSchema);

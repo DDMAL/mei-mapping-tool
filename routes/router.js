@@ -247,21 +247,20 @@ router.route('/savePosition')
 
   // Get our REST or form values. These rely on the "name" attributes from the edit page
       var position = req.body.position;
+      var projectID = req.body.projectIDPosition;
 
       //find the document by ID
-      mongoose.model('neume').find({}, function (err, neumes) {
+      mongoose.model('project').findById(projectID, function (err, project) {
           //update it
-         neumes.forEach(function(neume){
-          neume.update({
-              position : position //adding the image to the image array without reinitializng everything
-          }, function (err, neumeElement) {
+          project.update({
+              positionArray : position //adding the image to the image array without reinitializng everything
+          }, function (err, project) {
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
             } 
-            else {console.log(neume);
+            else {console.log(project.positionArray);
              }
           })
-      });
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
                         html: function(){
@@ -269,7 +268,7 @@ router.route('/savePosition')
                        },
                        //JSON responds showing the updated values
                       json: function(){
-                             res.json(neume);
+                             res.json(project);
                        }
                     });
          })
