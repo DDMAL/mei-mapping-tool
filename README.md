@@ -63,6 +63,6 @@ To make sure mongodb is running in your application, you can add this command to
  1. Open the MongoDB compass community application and connect to the `localhost:27017`.
  2. Open the Collections tab of the mei-mapping-tool database to see the information from the collections.
  
-For more information about how the application works, you can go to the Cress [wiki](https://github.com/DDMAL/mei-mapping-tool/wiki/Issues). 
+For more information about how the application works, you can go to the Cress [wiki](https://github.com/DDMAL/mei-mapping-tool/wiki). 
 
 Reporting an issue? Click [here](https://github.com/DDMAL/mei-mapping-tool/wiki/Issues)!
