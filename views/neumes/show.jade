@@ -96,6 +96,10 @@ div.neumeSection
                     i.fa.fa-download
                     |  CSV 
                     span.tooltiptext To download the project as a .csv file, click here!
+    button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "collapseAll();" id = "buttonSavePosition")
+       i(id = "compress").fa.fa-compress.fa-sm 
+       i(id = "expand" style = "display : none").fa.fa-expand.fa-sm 
+
       //Four Equal Columns
     .row(class="position-sticky" style = "position : fixed; width :100%; top : 158px; z-index : 200; padding-left:5px; padding-right : 75px;")
       .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
@@ -281,5 +285,35 @@ div.neumeSection
                       array.forEach(function(element){
                         document.getElementById("roundedCorners").appendChild(document.getElementById(element));
                         var elementNeume = document.getElementById(element);})
+                    function collapseAll(){
+                    var elements = document.getElementsByClassName("paddingCollapsible");
+                    console.log(elements)
+                    for(var x=0; x < elements.length; x++)
+                    {
+                        var content = elements[x].nextElementSibling;
+                        if (content.style.display === "none") {
+                        document.getElementById("compress").style.display = "block";
+                        document.getElementById("expand").style.display = "none";
+                        content.style.display = "block";
+                      } else {
+                        content.style.display = "none";
+                        document.getElementById("expand").style.display = "block";
+                        document.getElementById("compress").style.display = "none";
+                      }
+                      
+                    }
+                    var deleteButtonCollapse = document.getElementsByClassName("button3");
+                    console.log(elements)
+                    for(var x=0; x < deleteButtonCollapse.length; x++)
+                    {
+                       var content = deleteButtonCollapse[x];
+                        if (content.style.display === "none") {
+                        content.style.display = "block";
+                      } else {
+                        content.style.display = "none";
+                      }
+                    }
+                  
+                     }
 
                                       
