@@ -379,7 +379,7 @@ var uploadCSV = multer({ dest: 'exports/' })
 router.route('/uploadCSV')
 .post(uploadCSV.single('csvFile'), function(req, res) {
 
-  var IdOfProject = req.body.IdOfProject;
+  var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
   var nameOfProject = req.body.projectName;
   var csvParser = require('csv-parse');
   var file = req.file.buffer;
@@ -403,6 +403,23 @@ router.route('/uploadCSV')
 
           mongoose.model("neume").insertMany(jsonObj)
             .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
+
+              })
+
+
+
+
                 res.redirect("back");
             })
             .catch(function(err) {
