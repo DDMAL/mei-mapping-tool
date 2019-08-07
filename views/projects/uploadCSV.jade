@@ -9,5 +9,14 @@ body
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   br
-                  input(type = 'file' name = "csvFile" accept=".csv")
-                  button(type = 'submit' class = 'button button1') Upload
+                  input(type = 'file' name = "csvFile" accept=".csv" id = "uploadFile")
+                  button(type = 'submit' class = 'button button1' id = "uploadCSVSubmitbutton" disabled) Upload
+script.
+ $('input[type=file]').change(function(){
+    if($('input[type=file]').val()==''){
+    	$('#uploadCSVSubmitbutton').attr('disabled',true)
+    } 
+    else{
+      $('#uploadCSVSubmitbutton').attr('disabled',false);
+    }
+  })
