@@ -6,6 +6,7 @@ html
    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
   meta(name='viewport', content='width=device-width, initial-scale=1')
   script(src='/javascripts/popup.js', type='text/javascript')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
@@ -63,7 +64,7 @@ html
   link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
   script(src='/javascripts/scroll-keep.js', type='text/javascript')
   link(rel='stylesheet', href='/stylesheets/boxSection.css')
-
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
 //Header parameters
    //Column parameters
@@ -267,6 +268,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                     script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
                     script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
+                    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
 
                 script.
@@ -338,19 +340,42 @@ div.neumeSection(style = "padding-bottom : 3px")
 
                     var coll = document.getElementById("collapsible#{neume.id}");
                     coll.addEventListener("click", function() {
+
                       var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                      
                       this.classList.toggle("active");
                       var content = this.nextElementSibling;
                       if (content.style.display === "none") {
+                      $.cookie(this.id, "true")
+                      console.log($.cookie(this.id)) 
+
                         content.style.display = "block";
+
                         deleteButtonCollapse.style.display = "block"
                       } else {
+                        $.cookie(this.id, "false")
+                        console.log($.cookie(this.id)) 
                         content.style.display = "none";
-                        deleteButtonCollapse.style.display = "none"
+                        deleteButtonCollapse.style.display = "none";
                       }
                       
                     });
+
+                    //To save the collapsible state of the neumes
+                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
+                      var element = "collapsible#{neume.id}";
+                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                      if ($.cookie(element) == "false") {
+
+                        content.style.display = "none";
+
+                        deleteButtonCollapse.style.display = "none"
+                      } else {
+                        content.style.display = "block";
+
+                        deleteButtonCollapse.style.display = "block"
+                      }
+
                     document.getElementById("NoButton#{neume._id}").onclick = function(){
                     document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
                     };
@@ -363,10 +388,12 @@ div.neumeSection(style = "padding-bottom : 3px")
                         var content = elements[x].nextElementSibling;
                         if (content.style.display === "none") {
                         document.getElementById("compress").style.display = "block";
+                        $.cookie(elements[x].id, "true");
                         document.getElementById("expand").style.display = "none";
                         content.style.display = "block";
                       } else {
                         content.style.display = "none";
+                        $.cookie(elements[x].id, "false");
                         document.getElementById("expand").style.display = "block";
                         document.getElementById("compress").style.display = "none";
                       }
@@ -542,8 +569,14 @@ div.neumeSection(style = "padding-bottom : 3px")
   
                             document.getElementById("inputPosition#{neume.id}").value = positionArray;
                             
-                    }
+                    } 
+                    <!-- Cookie Consent by https://www.TermsFeed.com -->
+script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
+script.
+  document.addEventListener('DOMContentLoaded', function () {
+  cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","change_preferences_selector":"#changePreferences","language":"en","website_name":"Cress"});
+  });
 
-
-   
-                                                 
+<noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
+<!-- End Cookie Consent -->                                          
+                                       

@@ -163,6 +163,7 @@ div.neumeSection
                                   input(type = "text" id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
                       script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                       script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                      script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
 
                 script.
@@ -244,6 +245,21 @@ div.neumeSection
                       }
                       
                     });
+                    //To save the collapsible state of the neumes
+                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
+                      var element = "collapsible#{neume.id}";
+                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                      if ($.cookie(element) == "false") {
+
+                        content.style.display = "none";
+
+                        deleteButtonCollapse.style.display = "none"
+                      } else {
+                        content.style.display = "block";
+
+                        deleteButtonCollapse.style.display = "block"
+                      }
+
 
                   //Modals event listeners for every modal
                   window.addEventListener('load', function() {
@@ -315,5 +331,14 @@ div.neumeSection
                     }
                   
                      }
+                    <!-- Cookie Consent by https://www.TermsFeed.com -->
+script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
+script.
+  document.addEventListener('DOMContentLoaded', function () {
+  cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","change_preferences_selector":"#changePreferences","language":"en","website_name":"Cress"});
+  });
+
+<noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
+<!-- End Cookie Consent -->   
 
                                       
