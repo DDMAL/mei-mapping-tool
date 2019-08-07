@@ -32,7 +32,10 @@ var UserSchema = new mongoose.Schema({
     collabProjectName : String
      }],
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  activeToken: String,
+  resetActiveTokendExpires: Date,
+  active : Boolean
 });
 
 //authenticate input against database
