@@ -392,10 +392,12 @@ div.neumeSection(style = "padding-bottom : 3px")
                         var content = elements[x].nextElementSibling;
                         if (content.style.display === "none") {
                         document.getElementById("compress").style.display = "block";
+                        $.cookie(elements[x].id, "true");
                         document.getElementById("expand").style.display = "none";
                         content.style.display = "block";
                       } else {
                         content.style.display = "none";
+                        $.cookie(elements[x].id, "false");
                         document.getElementById("expand").style.display = "block";
                         document.getElementById("compress").style.display = "none";
                       }
