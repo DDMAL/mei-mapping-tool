@@ -346,17 +346,40 @@ div.neumeSection(style = "padding-bottom : 3px")
                       this.classList.toggle("active");
                       var content = this.nextElementSibling;
                       if (content.style.display === "none") {
-                      document.cookie = "true";
+                      $.cookie(this.id, "true")
+                      console.log($.cookie(this.id)) 
 
                         content.style.display = "block";
 
                         deleteButtonCollapse.style.display = "block"
                       } else {
+                        $.cookie(this.id, "false")
+                        console.log($.cookie(this.id)) 
                         content.style.display = "none";
                         deleteButtonCollapse.style.display = "none";
                       }
                       
                     });
+
+                    //To save the collapsible state of the neumes
+                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
+                      var element = "collapsible#{neume.id}";
+                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                      if ($.cookie(element) == "false") {
+
+                        content.style.display = "none";
+
+                        deleteButtonCollapse.style.display = "none"
+                      } else {
+                        content.style.display = "block";
+
+                        deleteButtonCollapse.style.display = "block"
+                      }
+
+
+
+
+
                     document.getElementById("NoButton#{neume._id}").onclick = function(){
                     document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
                     };
@@ -548,4 +571,4 @@ div.neumeSection(style = "padding-bottom : 3px")
   
                             document.getElementById("inputPosition#{neume.id}").value = positionArray;
                             
-                    }                                            
+                    }                                           
