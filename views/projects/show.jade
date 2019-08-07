@@ -133,10 +133,10 @@ div.neumeSection(style = "padding-bottom : 3px")
                     |  CSV 
                     //span.tooltiptext To download the project as a .csv file, click here!
     
-    button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton')
+    button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton' style = "font: 14px Avenir, sans-serif; width : 4%")
       i.fa.fa-upload
-      |  Upload CSV 
-      span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
+      | 
+      //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
     
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
@@ -430,7 +430,8 @@ div.neumeSection(style = "padding-bottom : 3px")
                       initializeModal('myModal', 'myBtn');
                       initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
                       initializeModal('modalSection', 'modalSectionButton');
-                      initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}")
+                      initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
+                      initializeModal('uploadCSV', 'uploadCSVButton');
                     });
                   $(document).scroll(function() {
                     var y = $(document).scrollTop(), //get page y value 

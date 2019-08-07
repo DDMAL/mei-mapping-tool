@@ -374,6 +374,53 @@ router.route('/csv')
 
   });
 
+var multer  = require('multer')
+var uploadCSV = multer({ dest: 'exports/' })
+router.route('/uploadCSV')
+.post(uploadCSV.single('csvFile'), function(req, res) {
+
+  var IdOfProject = req.body.IdOfProject;
+  var nameOfProject = req.body.projectName;
+  var csvParser = require('csv-parse');
+  var file = req.file.buffer;
+
+  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+      var fs = require('fs');
+          var dir = './exports';
+
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir);
+          }
+      fs.writeFile(filePath, file, function (err) {
+          console.log(file); //This is just the name
+      }); 
+
+        const csv = require('csvtojson');
+
+      csv()
+      .fromFile(req.file.path)
+      .then((jsonObj)=>{
+
+          mongoose.model("neume").insertMany(jsonObj)
+            .then(function(jsonObj) {
+                res.redirect("back");
+            })
+            .catch(function(err) {
+              err = "Please, only upload the csv file downloaded from the project."
+                return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
+            });
+        });
+      })
+
 router.route('/csvProject')
 .post(function(req, res) {
 
