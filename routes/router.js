@@ -867,7 +867,8 @@ router.post('/', function (req, res, next) {
       username: req.body.username,
       password: req.body.password,
       role: req.body.role,
-      bio : req.body.bio
+      bio : req.body.bio,
+      active : false
     }
     User.findOne({ $or:[{username : req.body.username}, {email : req.body.email}] })
         .exec(function (err, user) {
@@ -894,6 +895,7 @@ router.post('/', function (req, res, next) {
     },
     function(token, done) {
 
+        user.password = req.body.password;
         user.activeToken = token;
         user.active = false;
         user.resetActiveTokendExpires = Date.now() + 3600000; // 1 hour
@@ -957,12 +959,12 @@ router.post('/', function (req, res, next) {
 
   } else if (req.body.logemail && req.body.logpassword) {
       
-    User.authenticateByEmail(req.body.logemail, req.body.logpassword, function (error, user) {
+      User.authenticateByEmail(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
         User.authenticateByUsername(req.body.logemail, req.body.logpassword, function (error, username) {
-          console.log(username);
+          console.log(username); //This is undefined
         if (error || !username) {
-          var err = new Error('Wrong email/username or password. Please try again.');
+          var err = new Error('Wrong email/username or password. Please try again.'); //When entering the right email/user/password, this is going on.
           return res.format({
           html: function(){           
               res.render('errorLog', {
@@ -973,12 +975,9 @@ router.post('/', function (req, res, next) {
               res.json(err);
           }
         });
-        } })}
-        else {
-          req.session.userId = username._id;
-           User.findOne({ _id : req.session.userId }, function (error, user) {
-          if(user.active == false){
-          var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceedign.');
+        } else {
+          if(username.active == false){
+          var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
             return res.format({
           html: function(){           
               res.render('errorLog', {
@@ -991,14 +990,35 @@ router.post('/', function (req, res, next) {
         });
 
           }
-          })
-           req.session.userId = user._id;
+          req.session.userId = username._id;
           return res.redirect('/projects');
         }
 
+    }); 
+      }else {
+        if (user.role == "editor"){
+          req.session.userId = user._id;
+        return res.redirect('/projects');}
+
+        req.session.userId = user._id;
+        return res.redirect('/projects');
+      }
+
+    });
+  } else {
+    var err = new Error('All fields are required.');
+        return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
+  }
 })
-}
-});
 
 router.get('/confirm/:token', function(req, res) {
   User.findOneAndUpdate({ activeToken: req.params.token, resetActiveTokendExpires: { $gt: Date.now() } }, {active : true}, function(err, user) {
