@@ -1,0 +1,13 @@
+block content
+body
+  h4 Upload CSV 
+    br
+    h5.
+      #{project.name}
+
+ form(action='/uploadCSV',method='post',enctype="multipart/form-data")
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  br
+                  input(type = 'file' name = "csvFile" accept=".csv")
+                  button(type = 'submit' class = 'button button1') Upload
