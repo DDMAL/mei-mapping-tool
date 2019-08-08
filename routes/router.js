@@ -491,9 +491,22 @@ router.route('/imageCSV')
 
               })
 
+              //What I need to do for tomorrow : 
+
+              //1. Get the images from the input name = images and add them to a folder created here
+              //2. Change the images to base 64 and add them to the storageImages collection
+              //3. Show the images in the neumes depending on the order in their name (001, 002, ect..)
+
               //This takes the xls files and adds them to the neumes. 
               //But without the neume images since the xls to json changes the images binary to nothing.
+              var base64 = require('file-base64');
+               
+              base64.encode(req.file.path, function(err, base64String) {
 
+                var Base64 = require('js-base64').Base64;
+                var json = Base64.decode(base64String); 
+                console.log(json);
+              });
 
                 res.redirect("back");
             })

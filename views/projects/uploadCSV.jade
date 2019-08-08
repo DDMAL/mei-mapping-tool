@@ -17,7 +17,14 @@ body
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   br
+                  h5 Upload CSV file
                   input(type = 'file' name = "csvFile" accept=".csv" id = "uploadFile")
+                  br
+                  br
+
+                  h5 Upload Images
+                  p To add images, simply save your xlsx file as an html file, and upload the folder titled "yourSpreadsheetName.fld" here!
+                  input(type = 'file' name = "images" id = "uploadFile" webkitdirectory mozdirectory)
                   button(type = 'submit' class = 'button button1' id = "uploadCSVSubmitbutton" disabled) Upload
                   br
                   br
