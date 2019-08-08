@@ -441,14 +441,14 @@ router.route('/uploadCSV')
 var multer  = require('multer')
 var uploadCSV = multer({ dest: 'exports/' })
 router.route('/imageCSV')
-.post(uploadCSV.single('csvFile'), function(req, res) {
+.post(uploadCSV.single('fileImage'), function(req, res) {
 
   var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
   var nameOfProject = req.body.projectName;
   var csvParser = require('csv-parse');
     var file = req.file.buffer;
-    const filePath = pathName.join(__dirname, "..", "exports", req.file.path)
 
+  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
       var fs = require('fs');
           var dir = './exports';
 
@@ -458,13 +458,6 @@ router.route('/imageCSV')
       fs.writeFile(filePath, file, function (err) {
           console.log(file); //This is just the name
       }); 
-
-  var zip = new require('node-zip')();
-  zip.file('test.file', 'hello there');
-  var data = zip.generate({base64:false,compression:'DEFLATE'});
-  var zip = new require('node-zip')(data, {base64: false, checkCRC32: true});
-  console.log(zip.files['test.file']._data); // hello there, it works.
-
   return res.redirect("back");
 
 })

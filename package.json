@@ -53,6 +53,10 @@
     "serve-favicon": "~2.2.0",
     "simple-undo": "^1.0.2",
     "sortablejs": "^1.10.0-rc3",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "xls-to-json-lc": "^0.3.4",
+    "xlsx-extract-js": "0.0.6",
+    "xlsx-to-json-lc": "^0.5.0",
+    "xml-js": "^1.6.11"
   }
 }
