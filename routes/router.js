@@ -457,16 +457,48 @@ router.route('/imageCSV')
           }
       fs.writeFile(filePath, file, function (err) {
           console.log(file); //This is just the name
+
+       //Keep information for the classifier file here. 
+       //the folder should be added in a separate input
+       //In the folder, only keep the .png images
+       //They are labeled as image068.png
+
+
       }); 
+  node_xj = require("xls-to-json");
+  node_xj({
+    input: req.file.path,  // input xls
+    output: "output.json", // output json // specific sheetname
+    rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
+  }, function(err, result) {
+    if(err) {
+      console.error(err);
+    } else {
+      console.log("works");
+      mongoose.model("neume").insertMany(result)
+            .then(function(jsonObj) {
 
-  //We could download the file as an .ods file
-  //Transform the file to a json format
-  //Get the database to add it to the neumes
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
 
-  //Or download it as a html file
-  //Get the filelist.xml from the excel file
-  //
-  return res.redirect("back");
+              })
+
+              //This takes the xls files and adds them to the neumes. 
+              //But without the neume images since the xls to json changes the images binary to nothing.
+
+
+                res.redirect("back");
+            })
+    }
+  });
 
 })
 
