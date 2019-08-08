@@ -458,6 +458,14 @@ router.route('/imageCSV')
       fs.writeFile(filePath, file, function (err) {
           console.log(file); //This is just the name
       }); 
+
+  //We could download the file as an .ods file
+  //Transform the file to a json format
+  //Get the database to add it to the neumes
+
+  //Or download it as a html file
+  //Get the filelist.xml from the excel file
+  //
   return res.redirect("back");
 
 })
