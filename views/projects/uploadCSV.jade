@@ -11,6 +11,12 @@ body
                   br
                   input(type = 'file' name = "csvFile" accept=".csv" id = "uploadFile")
                   button(type = 'submit' class = 'button button1' id = "uploadCSVSubmitbutton" disabled) Upload
+                  br
+                  br
+ h4 CSV Format
+ p For the neumes to be added to the project, this is how the excel file should be formatted as before saving it as a .csv file : 
+img(src="/images/Model.png" alt="Model for neumes")
+
 script.
  $('input[type=file]').change(function(){
     if($('input[type=file]').val()==''){
