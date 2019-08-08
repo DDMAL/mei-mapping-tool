@@ -1,0 +1,16 @@
+block content
+body
+  h4(style = "font: 30px Avenir, sans-serif; text-align: left;") Upload Excel File 
+    br
+    h5(style = "font: 23px Avenir, sans-serif; text-align: left;").
+      #{project.name}
+
+
+ form(action='/imageCSV',method='post',enctype="multipart/form-data")
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  br
+                  input(type = 'file' name = "csvFile" id = "uploadFile")
+                  button(type = 'submit' class = 'button button1' id = "imageCSVSubmitbutton") Upload
+                  br
+                  br

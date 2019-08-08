@@ -107,6 +107,11 @@ div.neumeSection(style = "padding-bottom : 3px")
         span.close x
         include uploadCSV.jade
 
+    .modal(id = "imageCSV")
+      .modal-content
+        span.close x
+        include imageCSV.jade
+
       // Add New Neume Modal
     #modalSection.modal
       // Modal content
@@ -128,6 +133,11 @@ div.neumeSection(style = "padding-bottom : 3px")
     button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "initializeModal('uploadCSV', 'uploadCSVButton');")
       i.fa.fa-upload
       | 
+
+    button(class = 'button button2CSV' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 10%" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
+      i.fa.fa-upload
+      |  Img
+
       //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
     form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
