@@ -439,25 +439,97 @@ router.route('/uploadCSV')
       })
 
 var multer  = require('multer')
-var uploadCSV = multer({ dest: 'exports/' })
-var upload = multer({ dest: 'exports/' })
-var AdmZip = require('adm-zip'); // a module for extracting files
+var uploadCSV = multer({storage: multer.diskStorage({
+    destination: function (req, file, callback) { callback(null, './exports');},
+    filename: function (req, file, callback) { callback(null, file.originalname);}})
+}).single('fileImage');
 router.route('/imageCSV')
-.post(upload.single('fileImage'),function(req,res){
-   console.log('The file uploaded to:' + req.file.path)
-   var zip = new AdmZip(req.file.path); 
-   zip.extractAllTo( "exports/");
-    res.redirect("back");
-})
+.post(uploadCSV, function(req, res) {
+
+  var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+  var nameOfProject = req.body.projectName;
+
+ //1. I need to upload the excel file here
+     var originalFileName = req.file.originalname
+     console.log(originalFileName);
+     node_xj = require("xls-to-json");
+  node_xj({
+    input: req.file.path,  // input xls
+    output: "output.json", // output json // specific sheetname
+    rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
+  }, function(err, result) {
+    if(err) {
+      console.error(err);
+    } else {
+      console.log("works");
+      mongoose.model("neume").insertMany(result)
+            .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject
+                      //I also need to add the classifier name as a field
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
+
+              })
+
+ //2. I need to unzip the file and add the unzipped content to a directory
+    var unzip = require('unzip');
+    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+    //We now have all the folders from the zip file into the exports folder.
+ //3. I need to go to dir/xl/media to get all the images
+    //passsing directoryPath and callback function
+    fs.readdir("./exports/xl/media", function (err, files) {
+        //handling error
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        } 
+        //listing all files using forEach
+        files.forEach(function (file) {
+            // Do whatever you want to do with the file
+            //indice = 1;
+            //file.name = indice + ".png";
+            //indice++;
+
+            //4. I need to add the images to the neumes by image name "image01, ect..."
+               //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+               //I need to mongoose.model("neume").find(they will have a field with the classifier name)
+               //var indice = 1;
+               //Then for each neume add a field called  indice + 'png'
+                  //if(file.name == neume.field)
+                  //push the file in binary to the neume.imagesBinary
+               //inside the for each : indice++;
+               //mongoose.update
+               //When this is done,
+                   //Then another mongoose.find()
+
+              
+
+
+
+            console.log(file); 
+        });
+    });
+
+ //4. I need to add the images to the neumes by image name "image01, ect..."
+   //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+//5. Redirect the page to the project page
+     res.redirect("back");
+
+
+      }); 
+
 
        //Keep information for the classifier file here. 
        //the folder should be added in a separate input
        //In the folder, only keep the .png images
        //They are labeled as image068.png
-
-
-    
-  
   /*node_xj = require("xls-to-json");
   node_xj({
     input: req.file.path,  // input xls
@@ -482,7 +554,7 @@ router.route('/imageCSV')
                        }
                     })
 
-              })
+              })*/
 
               //What I need to do for tomorrow : 
 
@@ -492,12 +564,21 @@ router.route('/imageCSV')
 
               //This takes the xls files and adds them to the neumes. 
               //But without the neume images since the xls to json changes the images binary to nothing.
+             /*var base64 = require('file-base64');
+               
+              base64.encode(req.file.path, function(err, base64String) {
+
+                var Base64 = require('js-base64').Base64;
+                var json = Base64.decode(base64String); 
+                console.log(json);
+              });
 
                 res.redirect("back");
-            })
-    }
-  });*/
+            })*/
+  //  }
+ // });
 
+//})
 
 router.route('/csvProject')
 .post(function(req, res) {
