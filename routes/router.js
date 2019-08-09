@@ -496,6 +496,7 @@ router.route('/imageCSV')
             var fileNameIndice = indice + ".png";
             file.name = indice + ".png";
             
+            //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
                //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
                mongoose.model("neume").find({classifier : originalFileName}, function (err, neumes) {
