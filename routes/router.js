@@ -440,23 +440,15 @@ router.route('/uploadCSV')
 
 var multer  = require('multer')
 var uploadCSV = multer({ dest: 'exports/' })
+var upload = multer({ dest: 'exports/' })
+var AdmZip = require('adm-zip'); // a module for extracting files
 router.route('/imageCSV')
-.post(uploadCSV.single('fileImage'), function(req, res) {
-
-  var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
-  var nameOfProject = req.body.projectName;
-  var csvParser = require('csv-parse');
-    var file = req.file.buffer;
-
-  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
-      var fs = require('fs');
-          var dir = './exports';
-
-          if (!fs.existsSync(dir)){
-              fs.mkdirSync(dir);
-          }
-      fs.writeFile(filePath, file, function (err) {
-          console.log(file); //This is just the name
+.post(upload.single('fileImage'),function(req,res){
+   console.log('The file uploaded to:' + req.file.path)
+   var zip = new AdmZip(req.file.path); 
+   zip.extractAllTo( "exports/");
+    res.redirect("back");
+})
 
        //Keep information for the classifier file here. 
        //the folder should be added in a separate input
@@ -464,8 +456,9 @@ router.route('/imageCSV')
        //They are labeled as image068.png
 
 
-      }); 
-  node_xj = require("xls-to-json");
+    
+  
+  /*node_xj = require("xls-to-json");
   node_xj({
     input: req.file.path,  // input xls
     output: "output.json", // output json // specific sheetname
@@ -499,21 +492,12 @@ router.route('/imageCSV')
 
               //This takes the xls files and adds them to the neumes. 
               //But without the neume images since the xls to json changes the images binary to nothing.
-              var base64 = require('file-base64');
-               
-              base64.encode(req.file.path, function(err, base64String) {
-
-                var Base64 = require('js-base64').Base64;
-                var json = Base64.decode(base64String); 
-                console.log(json);
-              });
 
                 res.redirect("back");
             })
     }
-  });
+  });*/
 
-})
 
 router.route('/csvProject')
 .post(function(req, res) {

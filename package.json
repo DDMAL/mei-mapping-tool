@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
+    "adm-zip": "^0.4.13",
     "alert-node": "^1.2.5",
     "async": "^3.1.0",
     "base64json": "^1.0.3",
@@ -58,6 +59,7 @@
     "serve-favicon": "~2.2.0",
     "simple-undo": "^1.0.2",
     "sortablejs": "^1.10.0-rc3",
+    "unzip": "^0.1.11",
     "uuid": "^3.3.2",
     "xls-to-json": "^0.5.2",
     "xls-to-json-lc": "^0.3.4",
