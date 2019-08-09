@@ -21,6 +21,7 @@ var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
 var crypto = require('crypto');
 var flash = require('express-flash');
+var storedImages = require('../model/storedImages');
 
 router.use(flash()); 
 router.use(bodyParser.json({limit: '50mb'}));
@@ -450,7 +451,7 @@ router.route('/imageCSV')
   var nameOfProject = req.body.projectName;
 
  //1. I need to upload the excel file here
-     var originalFileName = req.file.originalname
+     var originalFileName = req.file.originalname;
      console.log(originalFileName);
      node_xj = require("xls-to-json");
   node_xj({
@@ -467,17 +468,15 @@ router.route('/imageCSV')
 
               jsonObj.forEach(function(neume){
                 mongoose.model("neume").find({_id : neume.id}).update({
-                      project : IdOfProject
+                      project : IdOfProject,
+                      classifier : originalFileName
                       //I also need to add the classifier name as a field
                     }, function (err, neumeElement) {
                       if (err) {
                           res.send("There was a problem updating the information to the database: " + err);
                       } 
                       else {console.log(neumeElement);
-                       }
-                    })
-
-              })
+             
 
  //2. I need to unzip the file and add the unzipped content to a directory
     var unzip = require('unzip');
@@ -491,38 +490,103 @@ router.route('/imageCSV')
             return console.log('Unable to scan directory: ' + err);
         } 
         //listing all files using forEach
+        var indice = 1;
         files.forEach(function (file) {
             // Do whatever you want to do with the file
-            //indice = 1;
-            //file.name = indice + ".png";
-            //indice++;
-
+            var fileNameIndice = indice + ".png";
+            file.name = indice + ".png";
+            
             //4. I need to add the images to the neumes by image name "image01, ect..."
                //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
-               //I need to mongoose.model("neume").find(they will have a field with the classifier name)
-               //var indice = 1;
+               mongoose.model("neume").find({classifier : originalFileName}, function (err, neumes) {
+
                //Then for each neume add a field called  indice + 'png'
-                  //if(file.name == neume.field)
-                  //push the file in binary to the neume.imagesBinary
-               //inside the for each : indice++;
-               //mongoose.update
-               //When this is done,
-                   //Then another mongoose.find()
+               neumes.forEach(function(neume){
+          //update it
+          mongoose.model('neume').find({_id : neume._id}).update({
+              indice : indice + ".png" //adding the image to the image array without reinitializng everything
+          }, function (err, neume) {
+
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+              //if(file.name == neume.field)
+             if(neume.indice == fileNameIndice){
+                var imgPath = './exports/xl/media/' + fileNameIndice;
+
+                    // our imageStored model
+                        var A = storedImages;
+                    // store an img in binary in mongo
+                        var a = new A;
+                        a.neumeID = neume._id;
+                        a.img.data = fs.readFileSync(imgPath);
+                        a.img.contentType = 'image/png';
+                        a.imgBase64 = a.img.data.toString('base64');
+                        var imageData = [];
+                        imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+
+                    //All the images (images) need to be pushed to an array field in mongodb
+                        mongoose.model('neume').findOneAndUpdate({_id: neume._id}, 
+                        {
+                          //push the neumes into the imagesBinary array
+                          imagesBinary : imageData}, 
+
+                        function(err, data){
+                          //console.log(err, data);
+                          imageData = [];
+                        });
+
+           
+                        a.save(function (err, a) {
+                          if (err) throw err;
+
+                          console.error('saved img to mongo');
+                        });
 
               
+             }
+                  //push the file in binary to the neume.imagesBinary
+                  //Create a new document for the image with field neumeID as the neumeID
+                  //Also needs a imgBase64 as a field. 
 
+               //inside the for each : indice++;
+               //mongoose.update
+               //When this is done, res.redirect back
+               indice++;
 
+              console.log(project.positionArray);
+             }
+             })
+          })
+         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    
+         });
 
             console.log(file); 
         });
+
+    });
+          }
+                })
+
+          })
+        })
+      }
     });
 
  //4. I need to add the images to the neumes by image name "image01, ect..."
    //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
 //5. Redirect the page to the project page
-     res.redirect("back");
-
-
+     res.format({
+                  html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                  json: function(){
+                             res.json(project);
+                       }
+                    });
       }); 
 
 

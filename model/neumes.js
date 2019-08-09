@@ -13,7 +13,9 @@ var neumeSchema = new mongoose.Schema({
   project: String,
   imagesBinary : [String],
   neumeSection : String,
-  neumeSectionName : String
+  neumeSectionName : String,
+  classifier : String,
+  indice : String
 });
 var Neume = module.exports = mongoose.model('neume', neumeSchema);
 
