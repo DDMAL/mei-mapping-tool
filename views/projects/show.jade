@@ -190,7 +190,7 @@ div.neumeSection(style = "padding-bottom : 3px")
      //Neume section : 4 components added for each new neume.   
     .bodyStyle(style = "position : relative")
       .roundedCorners(style = "position : relative; display : inline-block" id = "roundedCorners")
-        ul(id = "sortable1" class = "connectedSortable")
+        ul(id = "sortable1" class = "connectedSortable" class = "drag")
             - each neume in neumes
                 // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
@@ -510,7 +510,8 @@ div.neumeSection(style = "padding-bottom : 3px")
                     });
                     var height = " ";
                     $(".ui-state-default").droppable({
-                          over: function (event, ui) { event.target.style.border = "4px solid #ffa1a1";}, //This worked!
+                          over: function (event, ui) {}, //This worked!
+
                           out: function (event, ui) {event.target.style.border = "none";
                           var id = ui.draggable.attr("id");},
                           drop: function (event, ui) {
@@ -598,7 +599,7 @@ div.neumeSection(style = "padding-bottom : 3px")
 div(id = "section")
    ul
         - each section in sections
-          div(id = "section").boxSection
+          div(id = "section" class = "drop").boxSection
               p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
    
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
@@ -610,6 +611,28 @@ script.
   function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
+
+  $('.drag').draggable({
+    cursor: "move",
+    revert: true,
+    appendTo: "body",
+    containment: "document",
+    distance: 50
+  });
+
+  $('.drop').droppable({
+        over: function (event, ui) { event.target.style.border = "4px solid #ffa1a1";}, //This worked!
+        
+        out: function (event, ui) {event.target.style.border = "none";
+        var id = ui.draggable.attr("id");},
+        drop: function (event, ui) {
+          var id = ui.draggable.attr("id"); //This is the element we have. 
+          //Move the element that we have to be appended under (inserted) to the section.
+          insertAfter(id, this)
+        },
+        greedy: true,
+        hoverClass: 'highlight'
+                      });
 <noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
 <!-- End Cookie Consent -->                                          
                                        
