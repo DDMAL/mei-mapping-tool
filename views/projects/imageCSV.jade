@@ -17,7 +17,7 @@ body
                   br
                   h5 Upload file
                   p Choose the type of file to upload : 
-                  select(style = "display : block" name="fileType" id = "fileType" required)
+                  select(style = "display : block" name="fileType" id = "fileTypeSelect" required onchange="getVal(this)")
                     option(disabled='', selected='', value='')  -- select a file type --
                     option(value = ".xlsx") .xlsx
                     option(value = ".xls") .xls
@@ -31,5 +31,32 @@ body
                   br
                   br
 
-script.
-  var fileSelection = document.getElementById("fileType");
+ script.
+    function getVal(sel){
+      var fileSelection = document.getElementById("fileTypeSelect");
+      var inputFile = document.getElementById("uploadFile");
+
+      if(sel.value == ".xlsx"){
+        $('#uploadFile').attr("accept",".xlsx")
+        console.log('xlsx')
+      }
+      else if(sel.value == ".xls"){
+        inputFile.accept = ".xls";
+        console.log('xls')
+      }
+      else if(sel.value == ".csv"){
+        $('#uploadFile').attr("accept",".csv")
+        console.log('csv')
+      }
+      else if(sel.value == ".html"){
+        inputFile.accept = "text/html";
+        console.log('html')
+      }
+      else if(sel.value == ".odt"){
+        $('#uploadFile').attr("accept",".odt")
+        console.log('odt')
+      }
+    else
+      console.log("hey");
+    }
+
