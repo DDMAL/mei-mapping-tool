@@ -439,6 +439,12 @@ router.route('/uploadCSV')
         });
       })
 
+var fs = require('fs');
+var dir = './exports';
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
 var multer  = require('multer')
 var uploadCSV = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './exports');},
@@ -494,7 +500,10 @@ router.route('/imageCSV')
         files.forEach(function (file) {
             // Do whatever you want to do with the file
             var fileNameIndice = "image" + indice + ".png";
-            file.filename = "image" + indice + ".png";
+            var fs = require('fs');
+            fs.rename("./exports/xl/media" + file, "./exports/xl/media" + fileNameIndice, function(err) {
+                if ( err ) console.log('ERROR: ' + err);
+            });
             
             //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
@@ -567,11 +576,19 @@ router.route('/imageCSV')
              }
              })
           })
+               //var fs = require("fs");
+                setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
+               //Here I need to delete everything in the exports folder. 
+                //fs.unlink("./exports/", callbackFunction)
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     
          });
 
             console.log(file); 
+
         });
 
     });
