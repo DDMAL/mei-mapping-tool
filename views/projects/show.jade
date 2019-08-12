@@ -595,17 +595,21 @@ div.neumeSection(style = "padding-bottom : 3px")
                             
                     } 
                     <!-- Cookie Consent by https://www.TermsFeed.com -->
- ul
-      - each section in sections
-        div.boxSection
-            p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
+div(id = "section")
+   ul
+        - each section in sections
+          div(id = "section").boxSection
+              p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
    
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.
   document.addEventListener('DOMContentLoaded', function () {
   cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","change_preferences_selector":"#changePreferences","language":"en","website_name":"Cress"});
   });
-
+  insertAfter(document.getElementById("section"), document.getElementById("roundedCorners"));
+  function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
 <noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
 <!-- End Cookie Consent -->                                          
                                        
