@@ -496,7 +496,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                                   console.log(data);
                         },
                         cancel: 'input,textarea,select,option',
-                        connectWith: ".ui-state-default",
+                        connectWith: ".ui-state-default, #section",
                           items: ".sorting-initialize"
                           
                       });
@@ -628,7 +628,8 @@ script.
         drop: function (event, ui) {
           var id = ui.draggable.attr("id"); //This is the element we have. 
           //Move the element that we have to be appended under (inserted) to the section.
-          insertAfter(id, this)
+          insertAfter(document.getElementById(id), event.target);
+
         },
         greedy: true,
         hoverClass: 'highlight'
