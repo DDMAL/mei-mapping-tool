@@ -1,6 +1,6 @@
 block content
 body
-  h4(style = "font: 30px Avenir, sans-serif; text-align: left;") Upload Excel File 
+  h4(style = "font: 30px Avenir, sans-serif; text-align: left;") Upload Files 
     br
     h5(style = "font: 23px Avenir, sans-serif; text-align: left;").
       #{project.name}
@@ -15,8 +15,21 @@ body
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   br
-                  h5 Upload Excel file
+                  h5 Upload file
+                  p Choose the type of file to upload : 
+                  select(style = "display : block" name="fileType" id = "fileType" required)
+                    option(disabled='', selected='', value='')  -- select a file type --
+                    option(value = ".xlsx") .xlsx
+                    option(value = ".xls") .xls
+                    option(value = ".csv") .csv
+                    option(value = ".html") .html
+                    option(value = ".odt") .odt
+                  br
+                  br
                   input(type = 'file' name = "fileImage" id = "uploadFile")
                   button(type = 'submit' class = 'button button1' id = "imageCSVSubmitbutton") Upload
                   br
                   br
+
+script.
+  var fileSelection = document.getElementById("fileType");
