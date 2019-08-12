@@ -490,11 +490,13 @@ router.route('/imageCSV')
      var fs = require('fs');        
 
  //2. I need to unzip the file and add the unzipped content to a directory
+ if(fileType == ".xlsx"){
     var unzip = require('unzip');
     fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
     //We now have all the folders from the zip file into the exports folder.
  //3. I need to go to dir/xl/media to get all the images
     //passsing directoryPath and callback function
+
     fs.readdir("./exports/xl/media", function (err, files) {
         //handling error
         if (err) {
@@ -594,7 +596,7 @@ router.route('/imageCSV')
         indice = 1;
 
     });
-          }
+          }}
                 })
 
           })
