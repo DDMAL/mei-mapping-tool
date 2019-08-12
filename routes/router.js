@@ -689,8 +689,23 @@ router.route('/imageCSV')
 
      }
 
-     if(fileType == ".html"){}
-      if(fileType == ".odt"){}
+     if(fileType == ".docx"){
+      const docxTables = require('docx-tables')
+ 
+      docxTables({
+        file: req.file.path
+      }).then((data) => {
+        // .docx table data
+        console.log(data)
+      }).catch((error) => {
+        console.error(error)
+      })
+
+
+
+     }
+    if(fileType == ".odt"){}
+    if(fileType == ".html"){}
 
 
 
