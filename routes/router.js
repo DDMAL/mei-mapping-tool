@@ -505,6 +505,7 @@ router.route('/imageCSV')
                indice = 0;
                neumes.forEach(function(neume){
                 indice += 1;
+                var indiceValue = "image" + indice + ".png";
                 
           //update it
           mongoose.model('neume').find({_id : neume._id}).update({
@@ -517,7 +518,7 @@ router.route('/imageCSV')
             else {
               //if(file.name == neume.field)
              //if(neume.indice == fileNameIndice){
-                var imgPath = 'exports/xl/media/' + "image" + indice + ".png"; //This is undefined. 
+                var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
 
                     // our imageStored model
                         var A = storedImages;
@@ -531,21 +532,23 @@ router.route('/imageCSV')
                         imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
 
                     //All the images (images) need to be pushed to an array field in mongodb
-                        mongoose.model('neume').findOneAndUpdate({indice: "image" + indice + ".png"}, 
+                        mongoose.model('neume').find({_id : neume._id}).update( 
                         {
                           //push the neumes into the imagesBinary array
+                          imagePath : imgPath,
                           imagesBinary : imageData}, 
 
                         function(err, data){
                           //console.log(err, data);
                           imageData = [];
-                        });
+                        
 
            
                         a.save(function (err, a) {
                           if (err) throw err;
 
                           console.error('saved img to mongo');
+                        });
                         });
 
               
@@ -560,7 +563,7 @@ router.route('/imageCSV')
                
 
               console.log(project.positionArray);
-              
+
              }
              })
           })
