@@ -487,7 +487,7 @@ router.route('/imageCSV')
                           res.send("There was a problem updating the information to the database: " + err);
                       } 
                       else {console.log(neumeElement);
-             
+     var fs = require('fs');        
 
  //2. I need to unzip the file and add the unzipped content to a directory
     var unzip = require('unzip');
@@ -510,10 +510,10 @@ router.route('/imageCSV')
             //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
                //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
-               mongoose.model("neume").find({classifier : originalFileName}, function (err, neumes) {
+               mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
 
                //Then for each neume add a field called  indice + 'png'
-               indice = 0;
+               var indice = 0;
                neumes.forEach(function(neume){
                 indice += 1;
                 var indiceValue = "image" + indice + ".png";
@@ -591,6 +591,7 @@ router.route('/imageCSV')
 
             console.log(file); 
         });
+        indice = 1;
 
     });
           }
@@ -614,6 +615,10 @@ router.route('/imageCSV')
                        }
                     });
    }
+   setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
 
      if(fileType == ".csv"){
 
