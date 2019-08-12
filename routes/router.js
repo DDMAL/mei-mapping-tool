@@ -493,8 +493,8 @@ router.route('/imageCSV')
         var indice = 1;
         files.forEach(function (file) {
             // Do whatever you want to do with the file
-            var fileNameIndice = indice + ".png";
-            file.name = indice + ".png";
+            var fileNameIndice = "image" + indice + ".png";
+            file.filename = "image" + indice + ".png";
             
             //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
@@ -502,19 +502,22 @@ router.route('/imageCSV')
                mongoose.model("neume").find({classifier : originalFileName}, function (err, neumes) {
 
                //Then for each neume add a field called  indice + 'png'
+               indice = 0;
                neumes.forEach(function(neume){
+                indice += 1;
+                
           //update it
           mongoose.model('neume').find({_id : neume._id}).update({
-              indice : indice + ".png" //adding the image to the image array without reinitializng everything
-          }, function (err, neume) {
+              indice : "image" + indice + ".png" //adding the image to the image array without reinitializng everything
+          }, function (err, neume1) {
 
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
             } 
             else {
               //if(file.name == neume.field)
-             if(neume.indice == fileNameIndice){
-                var imgPath = './exports/xl/media/' + fileNameIndice;
+             //if(neume.indice == fileNameIndice){
+                var imgPath = 'exports/xl/media/' + "image" + indice + ".png"; //This is undefined. 
 
                     // our imageStored model
                         var A = storedImages;
@@ -528,7 +531,7 @@ router.route('/imageCSV')
                         imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
 
                     //All the images (images) need to be pushed to an array field in mongodb
-                        mongoose.model('neume').findOneAndUpdate({_id: neume._id}, 
+                        mongoose.model('neume').findOneAndUpdate({indice: "image" + indice + ".png"}, 
                         {
                           //push the neumes into the imagesBinary array
                           imagesBinary : imageData}, 
@@ -546,7 +549,7 @@ router.route('/imageCSV')
                         });
 
               
-             }
+             //}
                   //push the file in binary to the neume.imagesBinary
                   //Create a new document for the image with field neumeID as the neumeID
                   //Also needs a imgBase64 as a field. 
@@ -554,9 +557,10 @@ router.route('/imageCSV')
                //inside the for each : indice++;
                //mongoose.update
                //When this is done, res.redirect back
-               indice++;
+               
 
               console.log(project.positionArray);
+              
              }
              })
           })
