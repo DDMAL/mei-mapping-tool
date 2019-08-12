@@ -21,6 +21,7 @@ var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
 var crypto = require('crypto');
 var flash = require('express-flash');
+var storedImages = require('../model/storedImages');
 
 router.use(flash()); 
 router.use(bodyParser.json({limit: '50mb'}));
@@ -437,6 +438,219 @@ router.route('/uploadCSV')
             });
         });
       })
+
+var multer  = require('multer')
+var uploadCSV = multer({storage: multer.diskStorage({
+    destination: function (req, file, callback) { callback(null, './exports');},
+    filename: function (req, file, callback) { callback(null, file.originalname);}})
+}).single('fileImage');
+router.route('/imageCSV')
+.post(uploadCSV, function(req, res) {
+
+  var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+  var nameOfProject = req.body.projectName;
+
+ //1. I need to upload the excel file here
+     var originalFileName = req.file.originalname;
+     console.log(originalFileName);
+     node_xj = require("xls-to-json");
+  node_xj({
+    input: req.file.path,  // input xls
+    output: "output.json", // output json // specific sheetname
+    rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
+  }, function(err, result) {
+    if(err) {
+      console.error(err);
+    } else {
+      console.log("works");
+      mongoose.model("neume").insertMany(result)
+            .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject,
+                      classifier : originalFileName
+                      //I also need to add the classifier name as a field
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+             
+
+ //2. I need to unzip the file and add the unzipped content to a directory
+    var unzip = require('unzip');
+    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+    //We now have all the folders from the zip file into the exports folder.
+ //3. I need to go to dir/xl/media to get all the images
+    //passsing directoryPath and callback function
+    fs.readdir("./exports/xl/media", function (err, files) {
+        //handling error
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        } 
+        //listing all files using forEach
+        var indice = 1;
+        files.forEach(function (file) {
+            // Do whatever you want to do with the file
+            var fileNameIndice = "image" + indice + ".png";
+            file.filename = "image" + indice + ".png";
+            
+            //This part here works well.
+            //4. I need to add the images to the neumes by image name "image01, ect..."
+               //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+               mongoose.model("neume").find({classifier : originalFileName}, function (err, neumes) {
+
+               //Then for each neume add a field called  indice + 'png'
+               indice = 0;
+               neumes.forEach(function(neume){
+                indice += 1;
+                var indiceValue = "image" + indice + ".png";
+                
+          //update it
+          mongoose.model('neume').find({_id : neume._id}).update({
+              indice : "image" + indice + ".png" //adding the image to the image array without reinitializng everything
+          }, function (err, neume1) {
+
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+              //if(file.name == neume.field)
+             //if(neume.indice == fileNameIndice){
+                var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
+
+                    // our imageStored model
+                        var A = storedImages;
+                    // store an img in binary in mongo
+                        var a = new A;
+                        a.neumeID = neume._id;
+                        a.img.data = fs.readFileSync(imgPath);
+                        a.img.contentType = 'image/png';
+                        a.imgBase64 = a.img.data.toString('base64');
+                        var imageData = [];
+                        imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+
+                    //All the images (images) need to be pushed to an array field in mongodb
+                        mongoose.model('neume').find({_id : neume._id}).update( 
+                        {
+                          //push the neumes into the imagesBinary array
+                          imagePath : imgPath,
+                          imagesBinary : imageData}, 
+
+                        function(err, data){
+                          //console.log(err, data);
+                          imageData = [];
+                        
+
+           
+                        a.save(function (err, a) {
+                          if (err) throw err;
+
+                          console.error('saved img to mongo');
+                        });
+                        });
+
+              
+             //}
+                  //push the file in binary to the neume.imagesBinary
+                  //Create a new document for the image with field neumeID as the neumeID
+                  //Also needs a imgBase64 as a field. 
+
+               //inside the for each : indice++;
+               //mongoose.update
+               //When this is done, res.redirect back
+               
+
+              console.log(project.positionArray);
+
+             }
+             })
+          })
+         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    
+         });
+
+            console.log(file); 
+        });
+
+    });
+          }
+                })
+
+          })
+        })
+      }
+    });
+
+ //4. I need to add the images to the neumes by image name "image01, ect..."
+   //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+//5. Redirect the page to the project page
+     res.format({
+                  html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                  json: function(){
+                             res.json(project);
+                       }
+                    });
+      }); 
+
+
+       //Keep information for the classifier file here. 
+       //the folder should be added in a separate input
+       //In the folder, only keep the .png images
+       //They are labeled as image068.png
+  /*node_xj = require("xls-to-json");
+  node_xj({
+    input: req.file.path,  // input xls
+    output: "output.json", // output json // specific sheetname
+    rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
+  }, function(err, result) {
+    if(err) {
+      console.error(err);
+    } else {
+      console.log("works");
+      mongoose.model("neume").insertMany(result)
+            .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
+
+              })*/
+
+              //What I need to do for tomorrow : 
+
+              //1. Get the images from the input name = images and add them to a folder created here
+              //2. Change the images to base 64 and add them to the storageImages collection
+              //3. Show the images in the neumes depending on the order in their name (001, 002, ect..)
+
+              //This takes the xls files and adds them to the neumes. 
+              //But without the neume images since the xls to json changes the images binary to nothing.
+             /*var base64 = require('file-base64');
+               
+              base64.encode(req.file.path, function(err, base64String) {
+
+                var Base64 = require('js-base64').Base64;
+                var json = Base64.decode(base64String); 
+                console.log(json);
+              });
+
+                res.redirect("back");
+            })*/
+  //  }
+ // });
+
+//})
 
 router.route('/csvProject')
 .post(function(req, res) {

@@ -5,3 +5,4 @@ node_modules/
 /exports
 /exportssendgrid.env
 sendgrid.env
+output.json
