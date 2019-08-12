@@ -133,11 +133,9 @@ div.neumeSection(style = "padding-bottom : 3px")
     button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton' style = "font: 14px Avenir, sans-serif; width : 4%; display : none" onclick = "initializeModal('uploadCSV', 'uploadCSVButton');" )
       i.fa.fa-upload
       | 
-    
-    button(class = 'button button2CSV' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 4%; display : none" onclick = "initializeModal('uploadCSV', 'uploadCSVButton');" )
-      i.fa.fa-upload
-      | Section
 
+    button(class = 'button button2CSV' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 10%; display : block" onclick = "initializeModal('modalSection', 'sectionButton');" type = "button")
+      | Section
 
     button(class = 'button button2CSV' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 10%" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
       i.fa.fa-upload
@@ -517,7 +515,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                           var id = ui.draggable.attr("id");},
                           drop: function (event, ui) {
                             var id = ui.draggable.attr("id"); //This is the element we have. 
-                            document.getElementById("modalSectionButton").click();
                           },
                           greedy: true,
                           hoverClass: 'highlight'
@@ -598,6 +595,11 @@ div.neumeSection(style = "padding-bottom : 3px")
                             
                     } 
                     <!-- Cookie Consent by https://www.TermsFeed.com -->
+ ul
+      - each section in sections
+        div.boxSection
+            p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
+   
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.
   document.addEventListener('DOMContentLoaded', function () {
