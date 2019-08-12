@@ -500,10 +500,9 @@ router.route('/imageCSV')
         files.forEach(function (file) {
             // Do whatever you want to do with the file
             var fileNameIndice = "image" + indice + ".png";
+            file.originalname = "image" + indice + ".png";
             var fs = require('fs');
-            fs.rename("./exports/xl/media" + file, "./exports/xl/media" + fileNameIndice, function(err) {
-                if ( err ) console.log('ERROR: ' + err);
-            });
+            //fs.renameSync('exports/xl/media/' + file, 'exports/xl/media/' + "image" + indice + ".png");
             
             //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
@@ -518,7 +517,7 @@ router.route('/imageCSV')
                 
           //update it
           mongoose.model('neume').find({_id : neume._id}).update({
-              indice : "image" + indice + ".png" //adding the image to the image array without reinitializng everything
+              indice : file //adding the image to the image array without reinitializng everything
           }, function (err, neume1) {
 
             if (err) {
@@ -526,8 +525,9 @@ router.route('/imageCSV')
             } 
             else {
               //if(file.name == neume.field)
+              //Still need to add the repeated neume everytime it reloads
              //if(neume.indice == fileNameIndice){
-                var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
+                var imgPath = 'exports/xl/media/' + file; //This is undefined. 
 
                     // our imageStored model
                         var A = storedImages;
@@ -577,10 +577,6 @@ router.route('/imageCSV')
              })
           })
                //var fs = require("fs");
-                setTimeout(function () {
-                         const rimraf = require('rimraf');
-                         rimraf('./exports/*', function () { console.log('done'); });
-                    }, 10000)
                //Here I need to delete everything in the exports folder. 
                 //fs.unlink("./exports/", callbackFunction)
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
