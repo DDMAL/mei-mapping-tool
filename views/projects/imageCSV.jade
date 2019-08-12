@@ -1,3 +1,4 @@
+script(type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
 block content
 body
   h4(style = "font: 30px Avenir, sans-serif; text-align: left;") Upload Files 
@@ -17,7 +18,7 @@ body
                   br
                   h5 Upload file
                   p Choose the type of file to upload : 
-                  select(style = "display : block" name="fileType" id = "fileTypeSelect" required onchange="getVal(this)")
+                  select(style = "display : block" name="fileType" id = "fileTypeSelect" required class = "selectfileclass")
                     option(disabled='', selected='', value='')  -- select a file type --
                     option(value = ".xlsx") .xlsx
                     option(value = ".xls") .xls
@@ -26,37 +27,12 @@ body
                     option(value = ".odt") .odt
                   br
                   br
-                  input(type = 'file' name = "fileImage" id = "uploadFile")
+                  input(type = 'file' name = "fileImage" id = "ImportFile" required)
                   button(type = 'submit' class = 'button button1' id = "imageCSVSubmitbutton") Upload
                   br
-                  br
-
- script.
-    function getVal(sel){
-      var fileSelection = document.getElementById("fileTypeSelect");
-      var inputFile = document.getElementById("uploadFile");
-
-      if(sel.value == ".xlsx"){
-        $('#uploadFile').attr("accept",".xlsx")
-        console.log('xlsx')
-      }
-      else if(sel.value == ".xls"){
-        inputFile.accept = ".xls";
-        console.log('xls')
-      }
-      else if(sel.value == ".csv"){
-        $('#uploadFile').attr("accept",".csv")
-        console.log('csv')
-      }
-      else if(sel.value == ".html"){
-        inputFile.accept = "text/html";
-        console.log('html')
-      }
-      else if(sel.value == ".odt"){
-        $('#uploadFile').attr("accept",".odt")
-        console.log('odt')
-      }
-    else
-      console.log("hey");
-    }
+                  br           
+script.
+  $('.selectfileclass').change(function() {
+    $('#ImportFile').attr("accept", $(this).val())
+  })
 
