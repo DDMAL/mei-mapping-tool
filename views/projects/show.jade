@@ -464,6 +464,7 @@ div.neumeSection(style = "padding-bottom : 3px")
 
                       var $sortable1 = $( "#sortable1" ).sortable({
                         axis: 'y',
+                        handle: 'button',
                         over : function(event){
                               console.log("hovered!");
                               //We need to create the rectangle element
@@ -695,7 +696,7 @@ script.
 
         //Get that element on drop and put it inside of a cookie
           $.cookie("neumeID", neumeID); //This is the id of the element added to the section.
-          console.log($.cookie("neumeID"))
+          console.log($.cookie("neumeID"));
 
         //Append to the neume section to which it was added on drop the cookie element (which will have the id)
 
