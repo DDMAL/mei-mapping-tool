@@ -202,7 +202,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                 div(class="droptarget")
                 div(draggable="true"  id="dragtarget")
                 div.ui-state-default(id = "drop#{neume.id}")
-                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}#{neume.neumeSectionName}
+                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}
                   form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                       .column
                          .card
