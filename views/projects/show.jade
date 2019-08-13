@@ -592,6 +592,7 @@ div(id = "section").ui-state-default
         - each section in sections
           div(id = "section" class = "droppableSection").boxSection
               p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
+              p(id = "sectionName#{section._id}")
               form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
                         input(type='hidden',value='DELETE',name='_method')
                         input(type='text', value = "#{section._id}", name='sectionId' id = "idForSection" hidden)
@@ -622,6 +623,12 @@ div(id = "section").ui-state-default
              document.getElementById("NoButton#{section._id}").onclick = function(){
              document.getElementById("DeleteModal#{section._id}").style.display = 'none';
              };
+             $(document).ready(function() { 
+                      var savedOrder = $.cookie('sortOrder');
+                      $.each(savedOrder.split(';'), function (i, e) {
+                          document.getElementById("sectionName#{section._id}").appendChild(document.getElementById("drop" + e));
+                      });
+                          /* code here */ })
    
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.
@@ -640,9 +647,20 @@ script.
       handle: 'button',
       cancel: 'input,textarea,select,option, .deleteSection',
       update : function(event, ui){
-      var saveOrd = $(this).sortable('toArray');
-      $.cookie('sortOrder', saveOrd);
-      console.log($.cookie('sortOrder'))
+      var changedList = this.id;
+      var order = $("#section").sortable('toArray');
+                              var positionArray = [];
+                              order.forEach(function(element){
+                              var neumeid = element.replace( /^\D+/g, '');
+                              if(neumeid == ""){console.log("null")}
+                               else{ positionArray.push(neumeid);}
+                              })
+                              var positions = positionArray.join(';');
+                              $.cookie('sortOrder', positions);
+                              console.log($.cookie('sortOrder'))
+                              console.log({
+                                id: changedList,
+                                positions: positions});
       }
   });
    var neumeArray = [];
@@ -680,15 +698,6 @@ script.
         greedy: true,
         hoverClass: 'highlight'
                         });
-    var savedOrd = $.cookie('sortOrder');
-    if (savedOrd) {
-        $.each(savedOrd.split(','), function (i, neume) {
-        var neume_id = neume.replace( /^\D+/g, ''); //Get only the numbers from the array
-            $(neume).insertAfter('#section>li:eq(' + i + ')');
-
-            //Here we need to add the neume element and insert it after the section name
-        });
-    }
 
 <noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
 <!-- End Cookie Consent -->                                          
