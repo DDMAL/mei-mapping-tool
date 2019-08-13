@@ -550,14 +550,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                       document.getElementById("position#{neume.id}").submit();
                     }
 
-                    document.addEventListener("dragstart", function(event) {
-                        // The dataTransfer.setData() method sets the data type and the value of the dragged data
-                        event.dataTransfer.setData("Text", event.target.id);
-                        
-                        // Change the opacity of the draggable element
-                        event.target.style.opacity = "0.4";
-                      });
-
                     // When the draggable p element enters the droptarget, change the DIVS's border style
                     document.addEventListener("dragenter", function(event) {
                       if ( event.target.className == "droptarget" ) {
@@ -612,8 +604,18 @@ script.
   }
 
    $("#section").sortable({
-      connectWith: '.ui-state-default'
+      connectWith: '.ui-state-default',
+      helper : 'clone',
+      handle: 'button',
+      cancel: 'input,textarea,select,option'
   })
+  $(".ui-state-default").sortable({
+      connectWith: '.ui-state-default',
+      helper : 'clone'
+  })
+
+
+
 
   $("#drop_zone").droppable({
       accept: ".connectedSortable li",
