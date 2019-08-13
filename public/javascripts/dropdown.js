@@ -1,8 +1,23 @@
-function myFunction() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
+//Hamburger Menu
+$(document).ready(function($) {
+  if ($(window).width() < 1200) {
+    $(".navigate").hide();
   } else {
-    x.className = "topnav";
+    $('.mobile-nav').hide();
   }
-} 
+  $('.menu-btn').click(function() {
+    $('.responsive-menu').toggleClass('expand')
+  });
+});
+
+//Screen resize testing
+$(window).resize(function() {
+  if ($(window).width() < 960) {
+    $('.navigate').hide();
+    $('.mobile-nav').show();
+  } else {
+
+    $('.mobile-nav').hide();
+    $('.navigate').show();
+  }
+});

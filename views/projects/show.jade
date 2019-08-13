@@ -71,26 +71,32 @@ html
 //Header parameters
    //Column parameters
 - each user in users
-  div.navigation
+  div.navigation.navbar
+   div.nav-horizontal
     header(style = "padding : 5px")
         a#logo(href='#' style = "padding-left : 30px; position : relative; top : -10px") Cress 🎵 
         // main navigation links
         nav
           ul
-              li
+              li.navigate
                 a(href='/about' ) About
-              li
+              li.navigate
                 a(href='/projects') Projects
-              li
+              li.navigate
                 a(href='http://ddmal.music.mcgill.ca/') DDMAL 
-              li
+              li.navigate
                 a(href='/') Log out
-              li 
+              li.navigate 
                 a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
                  span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
-              li
+              li.navigate
                 a(href='/profile') #{user.username}     
                  i.fa.fa-user.fa-lg
+              div.mobile-nav(style = "position : fixed; right : 50px; top : 15px")
+                .menu-btn(id = "menu-btn" style = "z-index : 100px; width : 1px")
+                 span(style = "background-color : white")
+                 span(style = "background-color : white")
+                 span(style = "background-color : white")
 
 
 //Title section : Adding a neume button and changing the title name                
