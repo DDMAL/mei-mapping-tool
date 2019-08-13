@@ -595,7 +595,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                             
                     } 
                     <!-- Cookie Consent by https://www.TermsFeed.com -->
-div(id = "section")
+div(id = "section").ui-state-default
    ul
         - each section in sections
           div(id = "section" class = "droppableSection").boxSection
@@ -611,20 +611,16 @@ script.
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
 
-  $(function () {
+   $("#section").sortable({
+      connectWith: '.ui-state-default'
+  })
 
-      $('.draggableNeume').draggable({
-          helper: 'clone'
-      });
-
-      $('.droppableSection').droppable({
-          drop: function (event, ui) {
-          var id = ui.draggable.attr("id");
-              $(this)
-                  .append(document.getElementById(id));
-          }
-      });
-
+  $("#drop_zone").droppable({
+      accept: ".connectedSortable li",
+      hoverClass: "ui-state-hover",
+      drop: function(ev, ui) {
+          $(ui.draggable[0]).remove();
+      }
   });
 <noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
 <!-- End Cookie Consent -->                                          
