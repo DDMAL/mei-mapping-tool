@@ -18,19 +18,6 @@
 @media (min-width: 700px) {
   .hamburger {
     display: none; 
-    background-color : black;
   }
-  nav {
-    background: transparent;
-    float: right;
-    border: 0 !important;
-    max-height: none;
-  }
-  nav ul, nav li, nav li a {
-    display: inline-block;
-  }
-  nav a {
-    display: inline-block;
-    padding: 15px 1em;
-  }
+  
 }
