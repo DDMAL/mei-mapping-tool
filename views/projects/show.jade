@@ -510,7 +510,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     });
                     var height = " ";
                     $(".ui-state-default").droppable({
-                          over: function (event, ui) { event.target.style.border = "4px solid #ffa1a1";}, //This worked!
+                          over: function (event, ui) {}, //This worked!
                           out: function (event, ui) {event.target.style.border = "none";
                           var id = ui.draggable.attr("id");},
                           drop: function (event, ui) {
@@ -608,10 +608,6 @@ script.
       helper : 'clone',
       handle: 'button',
       cancel: 'input,textarea,select,option'
-  })
-  $(".ui-state-default").sortable({
-      connectWith: '.ui-state-default',
-      helper : 'clone'
   })
 
 
