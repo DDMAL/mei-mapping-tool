@@ -610,10 +610,9 @@ div(id = "section").ui-state-default
                              br
               form(action='/updateSection',method='post',enctype='application/x-www-form-urlencoded')
 
-                  input(type='text', name='neumeSectionID' id = "inptSection" hidden)
-                  input(type='text', name='neumeSectionName' id = "inputArraySection" hidden)
+                  input(type='text', name='neumeSectionIds' id = "inputArraySection" hidden)
                   input(type='text', value = "#{section._id}", name='SectionID' id = "sectionID" hidden)
-                  input(type='text', value = "#{section._id}", name='sectionName' id = "sectionName" hidden)
+                  input(type='text', value = "#{section.name}", name='sectionName' id = "sectionName" hidden)
 
                   button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 3%" )
                     i.fa.fa-pencil
@@ -658,11 +657,12 @@ script.
           console.log(neume);//This works
           var neumeID = id.replace( /^\D+/g, ''); // replace all leading non-digits with nothing
           console.log(neumeID); //this works
-          document.getElementById("inptSection").value = neumeID;
 
           //On drop, the section neumeIDs array gets added the neumeID
           neumeArray.push(neumeID);
           document.getElementById("inputArraySection").value = neumeArray;//This needs to be defined
+          console.log(document.getElementById("inputArraySection").value);
+          console.log(neumeArray);
         },
         greedy: true,
         hoverClass: 'highlight'

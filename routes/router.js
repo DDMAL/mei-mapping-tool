@@ -237,30 +237,66 @@ router.route('/about')
               //global.userFinal = []; //The user needs to be added in all the routes
 
 });
+  //Update the sections to add neumes inside. 
   router.route('/updateSection')
-  .get(function(req, res) {
-      mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
-                    userFinal = users;
+  .post(function(req, res) {
+
+
+    var neumeSectionIds = [];
+    neumeSectionIds.push(req.body.neumeSectionIds); //This is an array of elements
+    var sectionID = req.body.SectionID;
+    var sectionName = req.body.sectionName;
+
+      mongoose.model('section').findOneAndUpdate({_id: sectionID}, 
+                            {
+                              //push the neumes into the imagesBinary array
+                              neumeIds : neumeSectionIds}, 
+
+        function(err, data){
+          if(err){
+            console.log(err);
+          }
+
+          else{
+              console.log(data);
+
+              neumeSectionIds.forEach(function(neumeID){
+
+                mongoose.model('neume').findOneAndUpdate({_id : neumeID},
+                  {
+                      //push the neumes into the imagesBinary array
+                      neumeSection : sectionID, 
+                      neumeSectionName : sectionName},
+
+                 function (err, neume) { 
+
+                  if(err){
+                    console.log(err)
+                  }
+                  else{
+                    console.log(neume);
+                  }
+                
                   });
-                mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
-                userFinal = users;
-               // console.log(userFinal);//This works!!!
-              });
-                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+              })
+              //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                     html: function(){
                       console.log(userFinal);
-                        res.render('about.jade', {
-                              title: 'About',
-                              "users" : userFinal
-                          });
+                        res.redirect("back");
                     },
                     //JSON response will show all projects in JSON format
                     json: function(){
                         res.json(projects);
                     }
                 }); 
+
+
+          }
+
+      });
+                  
               //global.userFinal = []; //The user needs to be added in all the routes
 
 });
