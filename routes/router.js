@@ -346,18 +346,12 @@ router.route('/section')
 
   // Get our REST or form values. These rely on the "name" attributes from the edit page
       var name = req.body.nameSection;
-      var firstNeume = req.body.firstNeume;
-      var secondNeume = req.body.secondNeume;
       var projectID = req.body.ID_project;
-      var sectionArray = [];
-      sectionArray.push(firstNeume);
-      sectionArray.push(secondNeume);
 
       //find the document by ID
        //call the create function for our database
         mongoose.model('section').create({
             name : name,
-            neumeIDs : sectionArray,
             projectID : projectID
 
         }, function (err, section) {
@@ -365,21 +359,6 @@ router.route('/section')
                   res.send("There was a problem adding the information to the database.");
               } else {
                 //Now, we must add section._id for each neume in their sectionNeume
-
-                section.neumeIDs.forEach(function(neumeId){
-
-                  mongoose.model("neume").find({_id : neumeId}).update({
-                      neumeSection : section._id,
-                      neumeSectionName : " - " + name //adding the image to the image array without reinitializng everything
-                    }, function (err, neumeElement) {
-                      if (err) {
-                          res.send("There was a problem updating the information to the database: " + err);
-                      } 
-                      else {console.log(neumeElement);
-                       }
-                    })
-
-                  })
                   //This works, it sends the id of the section to the neume
                   //console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   //
