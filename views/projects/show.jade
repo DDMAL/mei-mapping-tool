@@ -594,25 +594,25 @@ div(id = "section").ui-state-default
               p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
               form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
                         input(type='hidden',value='DELETE',name='_method')
-                        button(style = "float : right;" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}" onclick = "initializeModalSection('DeleteModal#{section._id}');").
+                        button(style = "float : right;" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}" onclick = "initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');").
                             x
-                        .modal(id = "DeleteModal#{section._id}")
+                        .modal(id = "DeleteModal#{section._id}").deleteSection
                           // Modal content
-                          .modal-content
-                            span.close ×
-                            h4(style = "text-align : center") Are you sure you want to delete this neume? 
+                          .modal-content.deleteSection
+                            span.close.deleteSection ×
+                            h4(style = "text-align : center").deleteSection Are you sure you want to delete this neume? 
                             br
-                            h3(style = "text-align : center") #{section.name}
+                            h3(style = "text-align : center").deleteSection #{section.name}
                             p
-                             button(type='submit' class = "button button3DeleteImage") Yes
-                             button(type = "button" class = "button button4" class = "NoBtnSection" id = "NoButton#{section._id}") No
+                             button(type='submit' class = "button button3DeleteImage deleteSection") Yes
+                             button(type = "button" class = "button button4" class = "NoBtnSection deleteSection" id = "NoButton#{section._id}") No
                              br
                              br
            script.
              document.getElementById("NoButton#{section._id}").onclick = function(){
              document.getElementById("DeleteModal#{section._id}").style.display = 'none';
              };
-
+   
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.
 
