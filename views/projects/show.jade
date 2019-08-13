@@ -90,13 +90,13 @@ html
                 a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
                  span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
               li.navigate
-                a(href='#' id = "editButton") Edit    
+                a(href='#' id = "editButton").edit Edit    
                  i.fa.fa-caret-down.fa-lg
-                li
+                li.submenu.navigate
                   button(href='#' id = "editButton") Edit 
-                li
+                li.submenu.navigate
                   button(href='#' id = "editButton") Edit 
-                 .submenu
+                 
               li.navigate
                 a(href='/profile') #{user.username}     
                  i.fa.fa-user.fa-lg

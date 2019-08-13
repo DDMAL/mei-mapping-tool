@@ -21,3 +21,7 @@ $(window).resize(function() {
     $('.navigate').show();
   }
 });
+
+$(".edit").click(function() {
+  $(".submenu").show();
+});
