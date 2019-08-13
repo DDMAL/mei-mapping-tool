@@ -638,7 +638,12 @@ script.
       connectWith: '.ui-state-default',
       helper : 'clone',
       handle: 'button',
-      cancel: 'input,textarea,select,option, .deleteSection'
+      cancel: 'input,textarea,select,option, .deleteSection',
+      update : function(event, ui){
+      var saveOrd = $(this).sortable('toArray');
+      $.cookie('sortOrder', saveOrd);
+      console.log($.cookie('sortOrder'))
+      }
   });
    var neumeArray = [];
     $("#section").droppable({
@@ -675,6 +680,15 @@ script.
         greedy: true,
         hoverClass: 'highlight'
                         });
+    var savedOrd = $.cookie('sortOrder');
+    if (savedOrd) {
+        $.each(savedOrd.split(','), function (i, neume) {
+        var neume_id = neume.replace( /^\D+/g, ''); //Get only the numbers from the array
+            $(neume).insertAfter('#section>li:eq(' + i + ')');
+
+            //Here we need to add the neume element and insert it after the section name
+        });
+    }
 
 <noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
 <!-- End Cookie Consent -->                                          
