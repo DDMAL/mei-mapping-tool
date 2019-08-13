@@ -510,7 +510,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     });
                     var height = " ";
                     $(".ui-state-default").droppable({
-                          over: function (event, ui) {}, //This worked!
+                          over: function (event, ui) { }, //This worked!
                           out: function (event, ui) {event.target.style.border = "none";
                           var id = ui.draggable.attr("id");},
                           drop: function (event, ui) {
@@ -592,6 +592,20 @@ div(id = "section").ui-state-default
         - each section in sections
           div(id = "section" class = "droppableSection").boxSection
               p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
+              form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                        input(type='hidden',value='DELETE',name='_method')
+                        button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
+                            x
+              button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
+                        i.fa.fa-pencil
+                        span.tooltiptext To save the neume positions in the section, click here!
+                      br
+                      br
+
+
+
+
+
    
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.
@@ -608,7 +622,34 @@ script.
       helper : 'clone',
       handle: 'button',
       cancel: 'input,textarea,select,option'
-  })
+  });
+ var neumeArray = [];
+  $("#section").droppable({
+
+      //On out, the name of the section of the neume is "";
+      //On out, the section neumeIDs array pulls the neumeID
+      out: function (event, ui) {event.target.style.border = "none";
+      var id = ui.draggable.attr("id");},
+
+
+
+      drop: function (event, ui) {
+        var id = ui.draggable.attr("id"); //This is the element we have. 
+
+        //On drop, the name of the section of the neume is #{section.name}
+        var neume = document.getElementById(id);
+        console.log(neume);//This works
+        var neumeID = id.replace( /^\D+/g, ''); // replace all leading non-digits with nothing
+        console.log(neumeID); //this works
+        document.getElementById("inputSection").value = neumeID;
+
+        //On drop, the section neumeIDs array gets added the neumeID
+        neumeArray.push(neumeID);
+        document.getElementById("inputArraySection").value = neumeArray;
+      },
+      greedy: true,
+      hoverClass: 'highlight'
+                      });
 
 
 
