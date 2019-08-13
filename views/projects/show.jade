@@ -582,6 +582,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                               console.log({
                                 id: changedList,
                                 positions: positions});
+                                //Change position here
   
                             document.getElementById("inputPosition#{neume.id}").value = positionArray;
                             
@@ -624,6 +625,10 @@ div(id = "section").ui-state-default
              document.getElementById("DeleteModal#{section._id}").style.display = 'none';
              };
              $(document).ready(function() { 
+
+ 
+                  //Append to the neume section to which it was added on drop the cookie element (which will have the id)
+
                       var savedOrder = $.cookie('sortOrder');
                       $.each(savedOrder.split(';'), function (i, e) {
                           document.getElementById("sectionName#{section._id}").appendChild(document.getElementById("drop" + e));
@@ -673,7 +678,7 @@ script.
 
 
 
-        drop: function (event, ui) {
+         drop: function (event, ui) {
           var id = ui.draggable.attr("id"); //This is the element we have. 
 
           //On drop, the name of the section of the neume is #{section.name}
@@ -687,6 +692,12 @@ script.
           document.getElementById("inputArraySection").value = neumeArray;//This needs to be defined
           console.log(document.getElementById("inputArraySection").value);
           console.log(neumeArray);
+
+        //Get that element on drop and put it inside of a cookie
+          $.cookie("neumeID", neumeID); //This is the id of the element added to the section.
+          console.log($.cookie("neumeID"))
+
+        //Append to the neume section to which it was added on drop the cookie element (which will have the id)
 
           //Get the position of the neume 
           //And to which element it's connected to
