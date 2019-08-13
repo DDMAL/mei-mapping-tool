@@ -90,6 +90,9 @@ html
                 a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
                  span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
               li.navigate
+                a(href='#' id = "editButton") Edit    
+                 i.fa.fa-caret-down.fa-lg
+              li.navigate
                 a(href='/profile') #{user.username}     
                  i.fa.fa-user.fa-lg
               div.mobile-nav(style = "position : fixed; right : 50px; top : 15px" id = "hamburger")
@@ -110,6 +113,8 @@ html
                      br
                     li 
                       a(href='/') Log out
+                    li 
+                      a(href='/') Edit
 
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection(style = "padding-bottom : 3px")
