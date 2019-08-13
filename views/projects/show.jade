@@ -594,6 +594,7 @@ div(id = "section").ui-state-default
               p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
               form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
                         input(type='hidden',value='DELETE',name='_method')
+                        input(type='text', value = "#{section._id}", name='sectionId' id = "idForSection" hidden)
                         button(style = "float : right;" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}" onclick = "initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');").
                             x
                         .modal(id = "DeleteModal#{section._id}").deleteSection

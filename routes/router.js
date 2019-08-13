@@ -376,6 +376,39 @@ router.route('/section')
                 });
   });
 
+router.route('/sectionDelete')
+  .post(function(req, res) {
+      var sectionID = req.body.sectionId;
+      //find neume by ID
+      mongoose.model('section').findById(sectionID, function (err, section) {
+          if (err) {
+              return console.error(err);
+          } else {
+              //remove it from Mongo
+              section.remove(function (err, section) {
+                  if (err) {
+                      return console.error(err);
+                  } else {
+                      //Returning success messages saying it was deleted
+                      //console.log('DELETE removing ID: ' + neume._id);  
+                      res.format({
+                          //HTML returns us back to the main page, or you can create a success page
+                            html: function(){
+                                 res.redirect("back");
+                           },
+                           //JSON returns the item with the message that is has been deleted
+                          json: function(){
+                                 res.json({message : 'deleted',
+                                     item : neume
+                                 });
+                           }
+                        });
+                  }
+              });
+          }
+      });
+  });
+
 router.route('/csv')
   .post(function(req, res) {
 
