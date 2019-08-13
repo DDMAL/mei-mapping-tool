@@ -90,12 +90,12 @@ html
                 a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
                  span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
               li.navigate
-                a(href='#' id = "editButton").edit Edit    
+                a(href='#' id = "editButton") Edit    
                  i.fa.fa-caret-down.fa-lg
                 li.submenu.navigate
-                  button(href='#' id = "editButton" style = "display : none") Edit 
+                  button(href='#' style = "display : none" class = "editing") Edit 
                 li.submenu.navigate
-                  button(href='#' id = "editButton" style = "display : none") Edit 
+                  button(href='#' style = "display : none"  class = "editing") Edit 
                  
               li.navigate
                 a(href='/profile') #{user.username}     
@@ -587,9 +587,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                         event.target.style.border = "3px dotted red";
                       }
                     });
-                    $(".edit").click(function() {
-                      $(".submenu").show();
-                    });
+                    document.getElementById("editButton").onclick = function(){
+                        document.getElementsByClassName("editing").style.display = "block";
+                    };
 
                     //if("#{neume.neumeSection}" != " "){
                     // document.getElementById("collapsible#{neume.id}").style.border = "2px solid #ffa1a1";
