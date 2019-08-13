@@ -65,6 +65,7 @@ html
   script(src='/javascripts/scroll-keep.js', type='text/javascript')
   link(rel='stylesheet', href='/stylesheets/boxSection.css')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+  link(rel='stylesheet', href='/stylesheets/dropdown.css')
 
 //Header parameters
    //Column parameters
@@ -89,6 +90,10 @@ html
               li
                 a(href='/profile') #{user.username}     
                  i.fa.fa-user.fa-lg
+
+              li 
+                a(class="dropbtn").editMenu Edit
+
 
 
 //Title section : Adding a neume button and changing the title name                
