@@ -12,7 +12,7 @@ $(document).ready(function($) {
 
 //Screen resize testing
 $(window).resize(function() {
-  if ($(window).width() < 960) {
+  if ($(window).width() < 1200) {
     $('.navigate').hide();
     $('.mobile-nav').show();
   } else {

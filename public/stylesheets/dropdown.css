@@ -36,3 +36,27 @@
       z-index : 20000000000;
   display: block !important; 
 }
+/*style for the second level menu*/
+ul.submenu{
+  max-height:0;
+  padding:0;
+  overflow:hidden;
+  list-style-type:none;
+  background:#444;
+  box-shadow:0 0 1px rgba(0,0,0,.3);
+  transition:max-height 0.5s ease-out;
+  position:absolute;
+  min-width:100%;
+}
+ul.submenu li a{
+  display:block;
+  padding:12px;
+  color:#ddd;
+  text-decoration:none;
+  box-shadow:0 -1px rgba(0,0,0,.5) inset;
+  transition:background .3s;
+  white-space:nowrap;
+}
+ul.submenu li a:hover{
+  background:rgba(0,0,0,.3);
+}
