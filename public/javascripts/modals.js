@@ -26,3 +26,29 @@ function initializeModal(modalID, buttonID) {
     }
   });
 }
+function initializeModalSection(modalID) {
+  //Modal id not getting the information
+  // Get the modal element
+  var modal = document.getElementById(modalID);
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("NoButton#{section._id}");
+
+  var span = document.getElementById("closingModal");
+  var noButton = document.getElementById("NoButton#{section._id}");
+
+  // When the user clicks on the button, open the modal
+  btn.addEventListener('click', function() {
+    modal.style.display = "block";
+  });
+  
+  // When the user clicks on <span> (x), close the modal
+
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  });
+}
