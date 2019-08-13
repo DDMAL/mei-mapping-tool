@@ -22,6 +22,3 @@ $(window).resize(function() {
   }
 });
 
-$(".edit").click(function() {
-  $(".submenu").show();
-});

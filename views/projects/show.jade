@@ -93,9 +93,9 @@ html
                 a(href='#' id = "editButton").edit Edit    
                  i.fa.fa-caret-down.fa-lg
                 li.submenu.navigate
-                  button(href='#' id = "editButton") Edit 
+                  button(href='#' id = "editButton" style = "display : none") Edit 
                 li.submenu.navigate
-                  button(href='#' id = "editButton") Edit 
+                  button(href='#' id = "editButton" style = "display : none") Edit 
                  
               li.navigate
                 a(href='/profile') #{user.username}     
@@ -105,7 +105,7 @@ html
                  span(style = "background-color : white")
                  span(style = "background-color : white")
                  span(style = "background-color : white")
-                .responsive-menu(style = "z-index : 9000000000000000")
+                .responsive-menu
                   ul
                     li
                      a(href='/about' ) About
@@ -587,7 +587,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                         event.target.style.border = "3px dotted red";
                       }
                     });
-
+                    $(".edit").click(function() {
+                      $(".submenu").show();
+                    });
 
                     //if("#{neume.neumeSection}" != " "){
                     // document.getElementById("collapsible#{neume.id}").style.border = "2px solid #ffa1a1";
