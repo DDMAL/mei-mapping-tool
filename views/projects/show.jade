@@ -89,13 +89,6 @@ html
               li.navigate 
                 a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
                  span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
-              li.navigate
-                a(href='#' id = "editButton") Edit    
-                 i.fa.fa-caret-down.fa-lg
-                li.submenu.navigate
-                  button(href='#' style = "display : none" class = "editing") Edit 
-                li.submenu.navigate
-                  button(href='#' style = "display : none"  class = "editing") Edit 
                  
               li.navigate
                 a(href='/profile') #{user.username}     
@@ -121,9 +114,6 @@ html
                      br
                     li(style = "height : 50px") 
                       a(href='/' style = "font-size: 14px") 
-                     br
-                    li(style = "height : 50px") 
-                      a(href='/profile' style = "font-size: 14px") Edit
                      br
                     li(style = "height : 50px") 
                       a(href='/' style = "font-size: 14px") 
@@ -174,21 +164,29 @@ div.neumeSection(style = "padding-bottom : 3px")
       i.fa.fa-upload
       | 
 
-    button(class = 'button button2CSV' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 10%; display : block" onclick = "initializeModal('modalSection', 'sectionButton');" type = "button")
-      | Section
-
-    button(class = 'button button2CSV' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 10%" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
-      i.fa.fa-upload
-      |  Excel
+    button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 10%" onclick = "editButtons()")
+      i.fa.fa-caret-down.fa-lg
+      |  Edit
+    div.editButtons(style = "width : 125px; height : 200px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 10px; top : 140px; z-index : 9000; padding : 10px; display : none")
 
       //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
-    form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
-                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-                  input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 10%" )
-                    i.fa.fa-download
-                    |  CSV 
-                    //span.tooltiptext To download the project as a .csv file, click here!
+      form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                    input(type='text',value='#{project.name}', name='projectName' hidden)
+                    button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+                      i.fa.fa-download
+                      |  CSV 
+                      //span.tooltiptext To download the project as a .csv file, click here!
+      
+      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "display : block; font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');" )
+       i.fa.fa-upload
+       |  Excel
+
+      button(class = 'button' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px; display : block; margin-left : 0px;" onclick = "initializeModal('modalSection', 'sectionButton');" type = "button")
+       | Section
+      button(type = 'button' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" onclick = "buttonSaveLoad()" id = "buttonSavePosition" disabled)
+       i.fa.fa-save
+       |   Save
     
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
@@ -197,9 +195,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                     i.fa.fa-code-fork
                     |  Fork
                     //span.tooltiptext To save the project as your own and start working on it, click here!
-     button(type = 'button' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 10%" onclick = "buttonSaveLoad()" id = "buttonSavePosition" disabled)
-       i.fa.fa-save
-       |   Save
 
      button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "collapseAll();" id = "buttonSavePosition")
        i(id = "compress").fa.fa-compress.fa-sm 

@@ -24,6 +24,13 @@ function animation(x) {
   x.classList.toggle("change");
 }
 
+function editButtons() {
+	if($('.editButtons').is(':visible'))
+  		$('.editButtons').hide();
+    else
+  		$('.editButtons').show();
+}
+
 
 
 
