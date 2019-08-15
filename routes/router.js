@@ -249,7 +249,7 @@ router.route('/about')
       mongoose.model('section').findOneAndUpdate({_id: sectionID}, 
                             {
                               //push the neumes into the imagesBinary array
-                              neumeIds : neumeSectionIds}, 
+                              neumeIDs : neumeSectionIds}, 
 
         function(err, data){
           if(err){

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 var schema = new Schema({
  name : String,
- neumeIDs : [Schema.Types.ObjectId],
+ neumeIDs : [String],
  projectID : String
 });
 
