@@ -164,10 +164,15 @@ div.neumeSection(style = "padding-bottom : 3px")
       i.fa.fa-upload
       | 
 
+    button(class = 'button button2CSV' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 10%" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
+      i.fa.fa-upload
+      |  Upload
+
     button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 70px" onclick = "editButtons()")
       i.fa.fa-caret-down.fa-lg
       |  Edit
     div.editButtons(style = "width : 125px; height : 175px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 10px; top : 140px; z-index : 9000; padding : 10px; display : none")
+
 
       //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
       form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')

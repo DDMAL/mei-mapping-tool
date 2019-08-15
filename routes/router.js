@@ -514,6 +514,12 @@ router.route('/uploadCSV')
         });
       })
 
+var fs = require('fs');
+var dir = './exports';
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
 var multer  = require('multer')
 var uploadCSV = multer({storage: multer.diskStorage({
     destination: function (req, file, callback) { callback(null, './exports');},
@@ -521,6 +527,11 @@ var uploadCSV = multer({storage: multer.diskStorage({
 }).single('fileImage');
 router.route('/imageCSV')
 .post(uploadCSV, function(req, res) {
+
+  var fileType = req.body.fileType;
+
+  if(fileType == ".xlsx" || ".xls"){
+
 
   var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
   var nameOfProject = req.body.projectName;
@@ -551,14 +562,16 @@ router.route('/imageCSV')
                           res.send("There was a problem updating the information to the database: " + err);
                       } 
                       else {console.log(neumeElement);
-             
+     var fs = require('fs');        
 
  //2. I need to unzip the file and add the unzipped content to a directory
+ if(fileType == ".xlsx"){
     var unzip = require('unzip');
     fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
     //We now have all the folders from the zip file into the exports folder.
  //3. I need to go to dir/xl/media to get all the images
     //passsing directoryPath and callback function
+
     fs.readdir("./exports/xl/media", function (err, files) {
         //handling error
         if (err) {
@@ -574,10 +587,10 @@ router.route('/imageCSV')
             //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
                //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
-               mongoose.model("neume").find({classifier : originalFileName}, function (err, neumes) {
+               mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
 
                //Then for each neume add a field called  indice + 'png'
-               indice = 0;
+               var indice = 0;
                neumes.forEach(function(neume){
                 indice += 1;
                 var indiceValue = "image" + indice + ".png";
@@ -643,14 +656,22 @@ router.route('/imageCSV')
              })
           })
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+          //var fs = require("fs");
+                setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
+               //Here I need to delete everything in the exports folder. 
+                //fs.unlink("./exports/", callbackFunction)
                     
          });
 
             console.log(file); 
         });
+        indice = 1;
 
     });
-          }
+          }}
                 })
 
           })
@@ -670,7 +691,100 @@ router.route('/imageCSV')
                              res.json(project);
                        }
                     });
+   }
+   setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
+
+     if(fileType == ".csv"){
+
+  var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+  var nameOfProject = req.body.projectName;
+  var csvParser = require('csv-parse');
+  var file = req.file.buffer;
+
+  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+      var fs = require('fs');
+          var dir = './exports';
+
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir);
+          }
+      fs.writeFile(filePath, file, function (err) {
+          console.log(file); //This is just the name
       }); 
+
+        const csv = require('csvtojson');
+
+      csv()
+      .fromFile(req.file.path)
+      .then((jsonObj)=>{
+
+          mongoose.model("neume").insertMany(jsonObj)
+            .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
+
+              })
+
+
+
+
+                res.redirect("back");
+            })
+            .catch(function(err) {
+              err = "Please, only upload the csv file downloaded from the project."
+                return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
+            });
+        });
+
+
+
+
+
+
+     }
+
+     if(fileType == ".docx"){
+      const docxTables = require('docx-tables')
+ 
+      docxTables({
+        file: req.file.path
+      }).then((data) => {
+        // .docx table data
+        console.log(data)
+      }).catch((error) => {
+        console.error(error)
+      })
+
+
+
+     }
+    if(fileType == ".odt"){}
+    if(fileType == ".html"){}
+
+
+
+}); 
 
 
        //Keep information for the classifier file here. 
