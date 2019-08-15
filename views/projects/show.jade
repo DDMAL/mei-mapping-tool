@@ -654,7 +654,7 @@ div(id = "section")
                   input(type='text', name='neumeSectionIds' id = "inputArraySection#{section._id}" hidden)
                   input(type='text', name='SectionID' id = "sectionID#{section._id}" hidden)
 
-                  button(type = 'submit' class = 'button button2CSVUpdate' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
+                  button(id = "buttonSection#{section._id}" type = 'submit' class = 'button button2CSVUpdate' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
                     i.fa.fa-pencil
                     //span.tooltiptext To download the project as a .csv file, click here!
            script.
@@ -718,6 +718,7 @@ div(id = "section")
 
               //classOfTarget is the Id of the section
               document.getElementById("sectionID#{section._id}").value = IdOfTarget;//This needs to be defined
+              document.getElementById("buttonSection#{section._id}").disabled = false;
 
                 //Show the section id (the class target) and the neumeArray linked to it.
 
@@ -737,6 +738,17 @@ div(id = "section")
               neumeArrays.forEach(function(neume){
               document.getElementById("section#{section._id}").appendChild(document.getElementById("drop" + neume));
               })
+
+              if (document.getElementById("sectionID#{section._id}").value == "")
+                document.getElementById("buttonSection#{section._id}").disabled = true;
+              else if (document.getElementById("inputArraySection#{section._id}").value == "")
+                document.getElementById("buttonSection#{section._id}").disabled = true;
+              else
+                document.getElementById("buttonSection#{section._id}").disabled = false;
+
+
+
+
               
 
    
