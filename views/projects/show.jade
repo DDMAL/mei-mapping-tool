@@ -94,7 +94,7 @@ html
                 a(href='/profile') #{user.username}     
                  i.fa.fa-user.fa-lg
               div.mobile-nav(style = "position : fixed; right : 50px; top : 15px; z-index : 1000000000000;" id = "hamburger" )
-                .menu-btn(id = "menu-btn" style = "z-index : 100px; width : 25px; position : absolute" onclick="animation(this)")
+                .menu-btn(id = "menu-btn" style = "z-index : 0; width : 25px; position : absolute" onclick="animation(this)")
                  span(style = "background-color : white").bar1
                  span(style = "background-color : white").bar2
                  span(style = "background-color : white").bar3
@@ -169,6 +169,7 @@ div.neumeSection(style = "padding-bottom : 3px")
       |  Edit
     div.editButtons(style = "width : 125px; height : 175px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 10px; top : 140px; z-index : 9000; padding : 10px; display : none")
 
+
       //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
       form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='text',value='#{project.id}', name='IdOfProject' hidden)
@@ -177,12 +178,11 @@ div.neumeSection(style = "padding-bottom : 3px")
                       i.fa.fa-download
                       |  CSV 
                       //span.tooltiptext To download the project as a .csv file, click here!
-      
-      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "display : block; font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');" )
+      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
        i.fa.fa-upload
-       |  Excel
+       |  Upload
 
-      button(class = 'button' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px; display : block; margin-left : 0px;" onclick = "initializeModal('modalSection', 'sectionButton');" type = "button")
+      button(class = 'button' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px; display : block; margin-left : 0px;" type = "button")
        | Section
       button(type = 'button' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" onclick = "buttonSaveLoad()" id = "buttonSavePosition" disabled)
        i.fa.fa-save
@@ -478,7 +478,9 @@ div.neumeSection(style = "padding-bottom : 3px")
                       initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
                       initializeModal('modalSection', 'modalSectionButton');
                       initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
+                      initializeModal('modalSection', 'sectionButton');
                       initializeModal('uploadCSV', 'uploadCSVButton');
+                      initializeModal('imageCSV', 'imageCSVButton');
                     });
                   $(document).scroll(function() {
                     var y = $(document).scrollTop(), //get page y value 
@@ -489,6 +491,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                         header.css({position: "fixed", "top" : "164px"});
                     }
                     }); 
+
                     //Function to get collapsibles sorted
                     $(function() {
                       t1 = window.performance.now()
@@ -596,9 +599,6 @@ div.neumeSection(style = "padding-bottom : 3px")
                         document.getElementsByClassName("editing").style.display = "block";
                     };
 
-                    //if("#{neume.neumeSection}" != " "){
-                    // document.getElementById("collapsible#{neume.id}").style.border = "2px solid #ffa1a1";
-                    //}
                     //Array for the position of elements from the database. split into the drop#{neume.id}
                     //Values of div and changing their positions by appending them depending on the order in the database.
                     //(The string is already ordered in the database from the neume sortable positions)
@@ -626,16 +626,16 @@ div.neumeSection(style = "padding-bottom : 3px")
                             
                     } 
                     <!-- Cookie Consent by https://www.TermsFeed.com -->
-div(id = "section").ui-state-default
+div(id = "section")
    ul
         - each section in sections
-          div(id = "section" class = "droppableSection").boxSection
-              p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
+          div(id = "section#{section._id}" class = "#{section._id}" style = "border-color : black; border-style : solid; border-size : 0.5px; border-radius : 10px; margin : 10px; margin-top : 30px").ui-state-default
+              p(style = "margin : 10px; font : 20px Avenir, sans-serif; " id = "#{section._id}") #{section.name}
               p(id = "sectionName#{section._id}")
               form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
                         input(type='hidden',value='DELETE',name='_method')
                         input(type='text', value = "#{section._id}", name='sectionId' id = "idForSection" hidden)
-                        button(style = "float : right;" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}" onclick = "initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');").
+                        button(style = "float : left; right : 10px" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}").
                             x
                         .modal(id = "DeleteModal#{section._id}").deleteSection
                           // Modal content
@@ -652,26 +652,93 @@ div(id = "section").ui-state-default
               form(action='/updateSection',method='post',enctype='application/x-www-form-urlencoded')
 
                   input(type='text', name='neumeSectionIds' id = "inputArraySection" hidden)
-                  input(type='text', value = "#{section._id}", name='SectionID' id = "sectionID" hidden)
-                  input(type='text', value = "#{section.name}", name='sectionName' id = "sectionName" hidden)
+                  input(type='text', name='SectionID' id = "sectionID" hidden)
 
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
+                  button(type = 'submit' class = 'button button2CSVUpdate' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
                     i.fa.fa-pencil
                     //span.tooltiptext To download the project as a .csv file, click here!
            script.
              document.getElementById("NoButton#{section._id}").onclick = function(){
              document.getElementById("DeleteModal#{section._id}").style.display = 'none';
              };
-             $(document).ready(function() { 
+               window.addEventListener('load', function() {
+               initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');
 
- 
-                  //Append to the neume section to which it was added on drop the cookie element (which will have the id)
+               });
+               var idSection = document.getElementById("section#{section._id}")
+               $(idSection).sortable({
+                  connectWith: '.ui-state-default',
+                  helper : 'clone',
+                  handle: 'button',
+                  cancel: 'input,textarea,select,option, .deleteSection',
+                  update : function(event, ui){
+                  var changedList = this.id;
+                  var order = $(idSection).sortable('toArray');
+                                          var positionArray = [];
+                                          order.forEach(function(element){
+                                          var neumeid = element.replace( /^\D+/g, '');
+                                          if(neumeid == ""){console.log("null")}
+                                           else{ positionArray.push(neumeid);}
+                                          })
+                                          var positions = positionArray.join(';');
+                                          $.cookie('sortOrder' + this.id, positions);
+                                          console.log($.cookie('sortOrder' + this.id))
+                  }
+              });
+               $(idSection).droppable({
 
-                      var savedOrder = $.cookie('sortOrder');
-                      $.each(savedOrder.split(';'), function (i, e) {
-                          document.getElementById("sectionName#{section._id}").appendChild(document.getElementById("drop" + e));
-                      });
-                          /* code here */ })
+              //On out, the name of the section of the neume is "";
+              //On out, the section neumeIDs array pulls the neumeID
+              out: function (event, ui) {
+              var id = ui.draggable.attr("id");},
+
+
+
+               drop: function (event, ui) {
+                var id = ui.draggable.attr("id"); //This is the element we have. 
+
+                //On drop, the name of the section of the neume is #{section.name}
+                var neume = document.getElementById(id);
+
+                var neumeID = id.replace( /^\D+/g, ''); // replace all leading non-digits with nothing, which gives us the id of the neume we are adding to the section
+
+                /////Value for the inputs added to the arrays
+                //On drop, the section neumeIDs array gets added the neumeID
+                neumeArray.push(neumeID);
+
+                document.getElementById("inputArraySection").value = neumeArray;//This needs to be defined
+
+                console.log(document.getElementById("inputArraySection").value);
+                console.log(neumeArray);
+
+              //Get that element on drop and put it as the section Id
+              var IdOfTarget = "#{section._id}"
+              console.log(IdOfTarget);
+
+              //classOfTarget is the Id of the section
+              document.getElementById("sectionID").value = IdOfTarget;//This needs to be defined
+
+                //Show the section id (the class target) and the neumeArray linked to it.
+
+                //Should probably also use the cookie for the neume position on sort.
+              },
+              greedy: true,
+              hoverClass: 'highlight'
+                              });
+
+              //Appending the neumes to the sections : 
+              //Get the #{section.neumeIDs}
+              //For each element separated by a comma, append the child to the element #{section._id}, this is the p of the element
+
+              var neumesInSection = "#{section.neumeIDs}";
+              var neumeArrays = neumesInSection.split(",");
+              console.log(neumesInSection);
+              neumeArrays.forEach(function(neume){
+              document.getElementById("section#{section._id}").appendChild(document.getElementById("drop" + neume));
+
+              })
+              
+
    
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.
@@ -683,71 +750,7 @@ script.
   function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
-
-   $("#section").sortable({
-      connectWith: '.ui-state-default',
-      helper : 'clone',
-      handle: 'button',
-      cancel: 'input,textarea,select,option, .deleteSection',
-      update : function(event, ui){
-      var changedList = this.id;
-      var order = $("#section").sortable('toArray');
-                              var positionArray = [];
-                              order.forEach(function(element){
-                              var neumeid = element.replace( /^\D+/g, '');
-                              if(neumeid == ""){console.log("null")}
-                               else{ positionArray.push(neumeid);}
-                              })
-                              var positions = positionArray.join(';');
-                              $.cookie('sortOrder', positions);
-                              console.log($.cookie('sortOrder'))
-                              console.log({
-                                id: changedList,
-                                positions: positions});
-      }
-  });
    var neumeArray = [];
-    $("#section").droppable({
-
-        //On out, the name of the section of the neume is "";
-        //On out, the section neumeIDs array pulls the neumeID
-        out: function (event, ui) {event.target.style.border = "none";
-        var id = ui.draggable.attr("id");},
-
-
-
-         drop: function (event, ui) {
-          var id = ui.draggable.attr("id"); //This is the element we have. 
-
-          //On drop, the name of the section of the neume is #{section.name}
-          var neume = document.getElementById(id);
-          console.log(neume);//This works
-          var neumeID = id.replace( /^\D+/g, ''); // replace all leading non-digits with nothing
-          console.log(neumeID); //this works
-
-          //On drop, the section neumeIDs array gets added the neumeID
-          neumeArray.push(neumeID);
-          document.getElementById("inputArraySection").value = neumeArray;//This needs to be defined
-          console.log(document.getElementById("inputArraySection").value);
-          console.log(neumeArray);
-
-        //Get that element on drop and put it inside of a cookie
-          $.cookie("neumeID", neumeID); //This is the id of the element added to the section.
-          console.log($.cookie("neumeID"));
-
-        //Append to the neume section to which it was added on drop the cookie element (which will have the id)
-
-          //Get the position of the neume 
-          //And to which element it's connected to
-          //And keep this position stored in a cookie (jquery)
-          //And add the value of the cookie on document load. 
-
-          //Should probably also use the cookie for the neume position on sort.
-        },
-        greedy: true,
-        hoverClass: 'highlight'
-                        });
-
 <noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
 <!-- End Cookie Consent -->                                          
                                        
