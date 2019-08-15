@@ -74,7 +74,7 @@
   float : right;
 }
 .button2CSVUpdate {
-  margin-top: 50px;
+  margin-top: 30px;
   margin-left: 10px;
   float: right;
   top : 0px;
@@ -162,9 +162,10 @@
    position :  static;
    height : 30px;
    left : 94%;
-   margin-top : -40px;
+   margin-top : -60px;
    margin-left : -40px;
    padding : 0px;
+   top : 100px;
   /*Adding the neumes for the projects.*/
 }
 .button3DeleteImage {

@@ -631,7 +631,7 @@ div.neumeSection(style = "padding-bottom : 3px")
 div(id = "section").ui-state-default
    ul
         - each section in sections
-          div(id = "section" class = "#{section._id}" style = "border-color : black; border-style : solid; border-size : 0.5px; border-radius : 10px; margin : 10px")
+          div(id = "section" class = "#{section._id}" style = "border-color : black; border-style : solid; border-size : 0.5px; border-radius : 10px; margin : 10px; margin-top : 30px")
               p(style = "margin : 10px; font : 20px Avenir, sans-serif; ") #{section.name}
               p(id = "sectionName#{section._id}")
               form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
@@ -669,9 +669,9 @@ div(id = "section").ui-state-default
  
                   //Append to the neume section to which it was added on drop the cookie element (which will have the id)
 
-                      var savedOrder = $.cookie('classOfTarget');
                       $.each(savedOrder.split(';'), function (i, e) {
                          document.getElementById("sectionName#{section._id}").appendChild(document.getElementById("drop" + e));
+                         //Append it from the database
                       });
                           /* code here */ })
                window.addEventListener('load', function() {
@@ -705,8 +705,6 @@ div(id = "section").ui-state-default
               //Get that element on drop and put it inside of a cookie
               var classOfTarget = event.target.class;
               console.log(classOfTarget);
-                $.cookie("classOfTarget", neumeID); //This is the id of the element added to the section.
-                console.log($.cookie("classOfTarget"));
 
               //Append to the neume section to which it was added on drop the cookie element (which will have the id)
 
