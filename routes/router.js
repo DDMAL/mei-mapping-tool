@@ -259,38 +259,6 @@ router.route('/about')
           else{
               console.log(data);
 
-              mongoose.model("section").find({id : sectionID}, function(err, sectionWithNeumes){
-                if(err){
-                  console.log(err);
-
-                }
-                else{
-                  sectionWithNeumes.neumeIDs.forEach(function(neume){
-
-                    mongoose.model('neume').findOneAndUpdate({_id : neumeID},
-                  {
-                      //push the neumes into the imagesBinary array
-                      neumeSection : sectionID,
-                      neumeSectionName : sectionName},
-
-                 function (err, neume) { 
-
-                  if(err){
-                    console.log(err)
-                  }
-                  else{
-                    console.log(neume);
-                  }
-                
-                  });
-                  })
-
-
-                }
-
-
-              })
-            }
 
               //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
@@ -305,9 +273,10 @@ router.route('/about')
                     }
                 }); 
                
-                })
+                }
 
           })
+    });
         
               //global.userFinal = []; //The user needs to be added in all the routes
 
