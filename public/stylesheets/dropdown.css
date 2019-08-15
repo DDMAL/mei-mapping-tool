@@ -36,7 +36,6 @@
 .expand {
       z-index : 20000000000;
   display: block !important;
-  right : -100px; 
 }
 /*style for the second level menu*/
 ul.submenu{
@@ -60,4 +59,15 @@ ul.submenu li a{
   white-space:nowrap;
 }
 ul.submenu li a:hover{
+}
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-12px, 6px);
+  transform: rotate(-45deg) translate(-2px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(10px, -8px);
+  transform: rotate(45deg) translate(-4px, -8px);
 }

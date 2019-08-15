@@ -20,6 +20,9 @@ $(window).resize(function() {
     $('.navigate').show();
   }
 });
+function animation(x) {
+  x.classList.toggle("change");
+}
 
 
 
