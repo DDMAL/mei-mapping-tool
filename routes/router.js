@@ -245,7 +245,6 @@ router.route('/about')
     var neumeSectionIds = [];
     neumeSectionIds.push(req.body.neumeSectionIds); //This is an array of elements
     var sectionID = req.body.SectionID;
-    var sectionName = req.body.sectionName;
 
       mongoose.model('section').findOneAndUpdate({_id: sectionID}, 
                             {
@@ -265,8 +264,7 @@ router.route('/about')
                 mongoose.model('neume').findOneAndUpdate({_id : neumeID},
                   {
                       //push the neumes into the imagesBinary array
-                      neumeSection : sectionID, 
-                      neumeSectionName : sectionName},
+                      neumeSection : sectionID},
 
                  function (err, neume) { 
 
