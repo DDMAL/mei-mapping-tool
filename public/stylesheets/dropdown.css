@@ -12,11 +12,12 @@
   background-color: #444;
   border-style: solid;
   border-color: #252525;
-  border-width: 5px;
+  border-width: 1px;
   padding: 5px;
-  width: 300px;
-  height: 150px;
-  font-size: 20px;
+  width: 150px;
+  height: 310px;
+  font-size: 10px;
+  border-radius : 10px;
   ul{
     z-index : 20000000000;
     margin: 0px 0px 0px -40px;
@@ -34,13 +35,14 @@
 
 .expand {
       z-index : 20000000000;
-  display: block !important; 
+  display: block !important;
+  right : -100px; 
 }
 /*style for the second level menu*/
 ul.submenu{
   max-height:0;
   padding:0;
-  overflow:hidden;
+  overflow:auto;
   list-style-type:none;
   background:#444;
   box-shadow:0 0 1px rgba(0,0,0,.3);
@@ -58,5 +60,4 @@ ul.submenu li a{
   white-space:nowrap;
 }
 ul.submenu li a:hover{
-  background:rgba(0,0,0,.3);
 }

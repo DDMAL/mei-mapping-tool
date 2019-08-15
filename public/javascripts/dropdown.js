@@ -6,7 +6,7 @@ $(document).ready(function($) {
     $('.mobile-nav').hide();
   }
   $('.menu-btn').click(function() {
-    $('.responsive-menu').toggleClass('expand')
+    $('.responsive-menu').toggleClass('expand');
   });
 });
 
@@ -16,9 +16,12 @@ $(window).resize(function() {
     $('.navigate').hide();
     $('.mobile-nav').show();
   } else {
-
     $('.mobile-nav').hide();
     $('.navigate').show();
   }
 });
+
+
+
+
 
