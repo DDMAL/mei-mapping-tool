@@ -712,11 +712,11 @@ div(id = "section")
                 console.log(neumeArray);
 
               //Get that element on drop and put it as the section Id
-              var classOfTarget = $(this).attr("id");
-              console.log(classOfTarget);
+              var IdOfTarget = "#{section._id}"
+              console.log(IdOfTarget);
 
               //classOfTarget is the Id of the section
-              document.getElementById("sectionID").value = classOfTarget;//This needs to be defined
+              document.getElementById("sectionID").value = IdOfTarget;//This needs to be defined
 
                 //Show the section id (the class target) and the neumeArray linked to it.
 
