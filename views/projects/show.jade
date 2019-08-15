@@ -666,14 +666,14 @@ div(id = "section")
 
                });
                var idSection = document.getElementById("section#{section._id}")
-               $("#section").sortable({
+               $(idSection).sortable({
                   connectWith: '.ui-state-default',
                   helper : 'clone',
                   handle: 'button',
                   cancel: 'input,textarea,select,option, .deleteSection',
                   update : function(event, ui){
                   var changedList = this.id;
-                  var order = $("#section").sortable('toArray');
+                  var order = $(idSection).sortable('toArray');
                                           var positionArray = [];
                                           order.forEach(function(element){
                                           var neumeid = element.replace( /^\D+/g, '');
@@ -685,11 +685,11 @@ div(id = "section")
                                           console.log($.cookie('sortOrder' + this.id))
                   }
               });
-               $("#section").droppable({
+               $(idSection).droppable({
 
               //On out, the name of the section of the neume is "";
               //On out, the section neumeIDs array pulls the neumeID
-              out: function (event, ui) {event.target.style.border = "none";
+              out: function (event, ui) {
               var id = ui.draggable.attr("id");},
 
 
