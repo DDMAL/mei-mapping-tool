@@ -578,9 +578,10 @@ router.route('/:id/edit')
 	                  });
                           //Deletes the file from the folder
       }  
-	    });
-	})
-      })
+    });
+  })
+ })
+  
 	//DELETE a neume by ID
 	.delete(function (req, res){
 	    //find neume by ID
@@ -600,22 +601,6 @@ router.route('/:id/edit')
                         neumeFinal = neumes;
                         //console.log(neumeFinal);//This works!!!
                       });
-                      // delete file named 'neumeID.xml' I took away this part since you should not be able to remove an xml file from another computer 
-                      //If you removed the neume. Since they are deleted from the database, the xml files do not need to be removed from the folder.
-                        //fs.unlink("xmlFiles/"+neume._id + '.xml',function(err){
-                           // if(err) throw err;
-
-                            //console.log('File deleted!');
-                        //});
-                        //deleting the images if the neume is deleted
-                        /*neume.imagePath.forEach(function(image){
-                          fs.unlink('uploads/' + image, (err) => {
-                            if (err) throw err;
-                            //console.log('successfully deleted');
-                         mongoose.model('image').remove({imagepath : image}, function (err, image) {
-                            console.log(image)});
-                          });
-                          })*/
                 
 	                    res.format({
 	                        //HTML returns us back to the main page, or you can create a success page

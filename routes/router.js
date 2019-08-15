@@ -8,7 +8,7 @@ const moment = require('moment');
 const mdq = require('mongo-date-query');
 const pathName = require('path'); //Already 
 const json2csv = require('json2csv').parse;
-const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'classification', 'mei', 'review', 'dob', 'project'];
+const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'classification', 'mei', 'review', 'dob', 'project', 'neumeSection', 'neumeSectionName'];
 global.userArray = [];
 global.userArray = [];
 var dialog = require('dialog');
@@ -259,12 +259,19 @@ router.route('/about')
           else{
               console.log(data);
 
-              neumeSectionIds.forEach(function(neumeID){
+              mongoose.model("section").find({id : sectionID}, function(err, sectionWithNeumes){
+                if(err){
+                  console.log(err);
 
-                mongoose.model('neume').findOneAndUpdate({_id : neumeID},
+                }
+                else{
+                  sectionWithNeumes.neumeIDs.forEach(function(neume){
+
+                    mongoose.model('neume').findOneAndUpdate({_id : neumeID},
                   {
                       //push the neumes into the imagesBinary array
-                      neumeSection : sectionID},
+                      neumeSection : sectionID,
+                      neumeSectionName : sectionName},
 
                  function (err, neume) { 
 
@@ -276,7 +283,15 @@ router.route('/about')
                   }
                 
                   });
+                  })
+
+
+                }
+
+
               })
+            }
+
               //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -289,15 +304,13 @@ router.route('/about')
                         res.json(projects);
                     }
                 }); 
+               
+                })
 
-
-          }
-
-      });
-                  
+          })
+        
               //global.userFinal = []; //The user needs to be added in all the routes
 
-});
 
 router.route('/savePosition')
   .post(function(req, res) { 
@@ -420,7 +433,12 @@ router.route('/csv')
       else {
         //var neume = neume;
         console.log(neumeCSV);
+
+        neumeCSV.imagesBinary = neumeCSV.imagesBinary.split(",");
+        console.log(neumeCSV.imagesBinary)
+
         let csv
+
         try {
           csv = json2csv(neumeCSV, {fields});
         } catch (err) {
@@ -466,7 +484,7 @@ router.route('/uploadCSV')
               fs.mkdirSync(dir);
           }
       fs.writeFile(filePath, file, function (err) {
-          console.log(file); //This is just the name
+          
       }); 
 
         const csv = require('csvtojson');
@@ -475,7 +493,10 @@ router.route('/uploadCSV')
       .fromFile(req.file.path)
       .then((jsonObj)=>{
 
-          mongoose.model("neume").insertMany(jsonObj)
+        var imagesBinary = jsonObj.imagesBinary.replace(/[\[\]']+/g,'');
+        jsonObj.imagesBinary = imagesBinary;
+
+          mongoose.model("neume").insert(jsonObj)
             .then(function(jsonObj) {
 
               jsonObj.forEach(function(neume){
@@ -485,7 +506,13 @@ router.route('/uploadCSV')
                       if (err) {
                           res.send("There was a problem updating the information to the database: " + err);
                       } 
-                      else {console.log(neumeElement);
+                      else {
+                        mongoose.model('neume').find({_id : neume.id}).update({
+                          imagesBinary : neumeElement.imagesBinary.replace(/[\[\]']+/g,'')
+                        }, function (err, neumeElement) {if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log("hey");}})
                        }
                     })
 
@@ -714,7 +741,7 @@ router.route('/imageCSV')
       }); 
 
         const csv = require('csvtojson');
-
+////THIS IS WHERE THE REAL CSV FILE IS UPLOADED
       csv()
       .fromFile(req.file.path)
       .then((jsonObj)=>{
