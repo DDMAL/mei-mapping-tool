@@ -237,6 +237,69 @@ router.route('/about')
               //global.userFinal = []; //The user needs to be added in all the routes
 
 });
+  //Update the sections to add neumes inside. 
+  router.route('/updateSection')
+  .post(function(req, res) {
+
+
+    var neumeSectionIds = [];
+    neumeSectionIds.push(req.body.neumeSectionIds); //This is an array of elements
+    var sectionID = req.body.SectionID;
+    var sectionName = req.body.sectionName;
+
+      mongoose.model('section').findOneAndUpdate({_id: sectionID}, 
+                            {
+                              //push the neumes into the imagesBinary array
+                              neumeIds : neumeSectionIds}, 
+
+        function(err, data){
+          if(err){
+            console.log(err);
+          }
+
+          else{
+              console.log(data);
+
+              neumeSectionIds.forEach(function(neumeID){
+
+                mongoose.model('neume').findOneAndUpdate({_id : neumeID},
+                  {
+                      //push the neumes into the imagesBinary array
+                      neumeSection : sectionID, 
+                      neumeSectionName : sectionName},
+
+                 function (err, neume) { 
+
+                  if(err){
+                    console.log(err)
+                  }
+                  else{
+                    console.log(neume);
+                  }
+                
+                  });
+              })
+              //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+                  res.format({
+                      //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
+                    html: function(){
+                      console.log(userFinal);
+                        res.redirect("back");
+                    },
+                    //JSON response will show all projects in JSON format
+                    json: function(){
+                        res.json(projects);
+                    }
+                }); 
+
+
+          }
+
+      });
+                  
+              //global.userFinal = []; //The user needs to be added in all the routes
+
+});
 
 router.route('/savePosition')
   .post(function(req, res) { 
@@ -283,18 +346,12 @@ router.route('/section')
 
   // Get our REST or form values. These rely on the "name" attributes from the edit page
       var name = req.body.nameSection;
-      var firstNeume = req.body.firstNeume;
-      var secondNeume = req.body.secondNeume;
       var projectID = req.body.ID_project;
-      var sectionArray = [];
-      sectionArray.push(firstNeume);
-      sectionArray.push(secondNeume);
 
       //find the document by ID
        //call the create function for our database
         mongoose.model('section').create({
             name : name,
-            neumeIDs : sectionArray,
             projectID : projectID
 
         }, function (err, section) {
@@ -302,21 +359,6 @@ router.route('/section')
                   res.send("There was a problem adding the information to the database.");
               } else {
                 //Now, we must add section._id for each neume in their sectionNeume
-
-                section.neumeIDs.forEach(function(neumeId){
-
-                  mongoose.model("neume").find({_id : neumeId}).update({
-                      neumeSection : section._id,
-                      neumeSectionName : " - " + name //adding the image to the image array without reinitializng everything
-                    }, function (err, neumeElement) {
-                      if (err) {
-                          res.send("There was a problem updating the information to the database: " + err);
-                      } 
-                      else {console.log(neumeElement);
-                       }
-                    })
-
-                  })
                   //This works, it sends the id of the section to the neume
                   //console.log('POST creating new neume: ' + neume); //neume holds the new neume
                   //
@@ -332,6 +374,39 @@ router.route('/section')
                     });
                   }
                 });
+  });
+
+router.route('/sectionDelete')
+  .post(function(req, res) {
+      var sectionID = req.body.sectionId;
+      //find neume by ID
+      mongoose.model('section').findById(sectionID, function (err, section) {
+          if (err) {
+              return console.error(err);
+          } else {
+              //remove it from Mongo
+              section.remove(function (err, section) {
+                  if (err) {
+                      return console.error(err);
+                  } else {
+                      //Returning success messages saying it was deleted
+                      //console.log('DELETE removing ID: ' + neume._id);  
+                      res.format({
+                          //HTML returns us back to the main page, or you can create a success page
+                            html: function(){
+                                 res.redirect("back");
+                           },
+                           //JSON returns the item with the message that is has been deleted
+                          json: function(){
+                                 res.json({message : 'deleted',
+                                     item : neume
+                                 });
+                           }
+                        });
+                  }
+              });
+          }
+      });
   });
 
 router.route('/csv')
