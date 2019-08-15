@@ -9,9 +9,9 @@
 .responsive-menu{
   z-index : 20000000;
   display: none;
-  background-color: #444;
+  background-color: #009fff;
   border-style: solid;
-  border-color: #252525;
+  border-color: #009fff;
   border-width: 1px;
   padding: 5px;
   width: 150px;
@@ -28,14 +28,20 @@
     background-color: #383838;
     margin: 4px;
     padding: 5px;
-    color: white;
+    color: black;
     list-style-type: none;
+  }
+  li:hover{
+    background-color: #009fff;
+    height : 0px;
   }
 }
 
 .expand {
       z-index : 20000000000;
   display: block !important;
+  position : fixed;
+  right : 60px;
 }
 /*style for the second level menu*/
 ul.submenu{
@@ -43,11 +49,13 @@ ul.submenu{
   padding:0;
   overflow:auto;
   list-style-type:none;
-  background:#444;
   box-shadow:0 0 1px rgba(0,0,0,.3);
   transition:max-height 0.5s ease-out;
   position:absolute;
   min-width:100%;
+}
+.bar1, .bar2, .bar3 {
+  transition: 0.4s;
 }
 ul.submenu li a{
   display:block;
@@ -70,4 +78,7 @@ ul.submenu li a:hover{
 .change .bar3 {
   -webkit-transform: rotate(45deg) translate(10px, -8px);
   transform: rotate(45deg) translate(-4px, -8px);
+}
+.change .menu-btn{
+  padding-left : 100px;
 }
