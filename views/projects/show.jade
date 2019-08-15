@@ -164,10 +164,10 @@ div.neumeSection(style = "padding-bottom : 3px")
       i.fa.fa-upload
       | 
 
-    button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 10%" onclick = "editButtons()")
+    button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 70px" onclick = "editButtons()")
       i.fa.fa-caret-down.fa-lg
       |  Edit
-    div.editButtons(style = "width : 125px; height : 200px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 10px; top : 140px; z-index : 9000; padding : 10px; display : none")
+    div.editButtons(style = "width : 125px; height : 175px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 10px; top : 140px; z-index : 9000; padding : 10px; display : none")
 
       //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
       form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
@@ -191,14 +191,14 @@ div.neumeSection(style = "padding-bottom : 3px")
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 10%")
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 70px")
                     i.fa.fa-code-fork
                     |  Fork
                     //span.tooltiptext To save the project as your own and start working on it, click here!
 
-     button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "collapseAll();" id = "buttonSavePosition")
-       i(id = "compress").fa.fa-compress.fa-sm 
-       i(id = "expand" style = "display : none").fa.fa-expand.fa-sm 
+     button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
+       i(id = "compress").fa.fa-caret-up.fa-lg
+       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
 
     button#myBtnElement(class = "button button2AddNeume" class = 'tooltip' onclick="undo();" style = "margin-right : 10px") 
       i.fa.fa-undo.fa-sm &nbsp;
