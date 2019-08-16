@@ -682,10 +682,6 @@ router.route('/imageCSV')
                        }
                     });
    }
-   setTimeout(function () {
-                         const rimraf = require('rimraf');
-                         rimraf('./exports/*', function () { console.log('done'); });
-                    }, 10000)
 
      if(fileType == ".csv"){
 
