@@ -246,18 +246,15 @@ div.neumeSection
                       
                     });
                     //To save the collapsible state of the neumes
-                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                       var element = "collapsible#{neume.id}";
                       var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
                       if ($.cookie(element) == "false") {
 
                         content.style.display = "none";
 
-                        deleteButtonCollapse.style.display = "none"
                       } else {
                         content.style.display = "block";
 
-                        deleteButtonCollapse.style.display = "block"
                       }
 
 
@@ -318,19 +315,9 @@ div.neumeSection
                       }
                       
                     }
-                    var deleteButtonCollapse = document.getElementsByClassName("button3");
-                    console.log(elements)
-                    for(var x=0; x < deleteButtonCollapse.length; x++)
-                    {
-                       var content = deleteButtonCollapse[x];
-                        if (content.style.display === "none") {
-                        content.style.display = "block";
-                      } else {
-                        content.style.display = "none";
-                      }
-                    }
                   
                      }
+
                     <!-- Cookie Consent by https://www.TermsFeed.com -->
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.
