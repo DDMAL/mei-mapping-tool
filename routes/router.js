@@ -745,26 +745,14 @@ router.route('/imageCSV')
         });
             });
         });
-
-
-
-
-
-
      }
 
      if(fileType == ".docx"){
-      const docxTables = require('docx-tables')
- 
-      docxTables({
-        file: req.file.path
-      }).then((data) => {
-        // .docx table data
-        console.log(data)
-      }).catch((error) => {
-        console.error(error)
-      })
+      const base64json = require('base64json');
+      var base64Word = fs.readFileSync(req.file.path).toString('base64');
+      let decoded = base64json.parse(base64Word);
 
+      console.log(decoded);
 
 
      }
