@@ -769,7 +769,12 @@ if(fileType == ".docx"){
         }).then((data) => {
           // .docx table data
           console.log(data)
-          var names = data[0];
+          var names = data[0][0].data;
+          var arrayLength = data.length;
+          for (var i = 0; i < arrayLength; i++) {
+              console.log(data[i][i].data);
+              //Do something
+          }
           console.log(names);
 
 
