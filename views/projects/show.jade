@@ -71,7 +71,7 @@ html
 //Header parameters
    //Column parameters
 - each user in users
-  div.navigation.navbar
+  div.navigation.navbar(id = "myHeader")
    div.nav-horizontal
     header(style = "padding : 5px")
         a#logo(href='#' style = "padding-left : 30px; position : relative; top : -10px") Cress 🎵 
@@ -438,7 +438,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     document.getElementById("NoButton#{neume._id}").onclick = function(){
                     document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
                     };
-                    
+
                      //Function for the collapse all button
                     function collapseAll(){
                     var elements = document.getElementsByClassName("paddingCollapsible");
