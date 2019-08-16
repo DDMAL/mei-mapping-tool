@@ -649,7 +649,6 @@ router.route('/imageCSV')
              }
              else{
               console.log("noFile");
-              res.redirect("back");
              }
              })
           })
