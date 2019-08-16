@@ -293,6 +293,7 @@ router.route('/:id/editImage')
       var review = req.body.review;
       var dob = req.body.dob;
       var projectName = req.body.projectName;
+      var genericName = req.body.genericName;
       global.editArray = [];
 
       //find the document by ID
@@ -549,6 +550,7 @@ router.route('/:id/edit')
       var mei = req.body.mei;
 	    var dob = req.body.dob;
       var projectName = req.body.projectName;
+      var genericName = req.body.genericName;
 	    global.editArray = [];
 
 	    //find the document by ID
@@ -564,7 +566,8 @@ router.route('/:id/edit')
               mei : mei,
               review : review,
 	            dob : dob,
-              imagePath : editArray //adding the image to the image array without reinitializng everything
+              imagePath : editArray,
+              genericName : genericName //adding the image to the image array without reinitializng everything
 	        }, function (err, neumeID) {
 	          if (err) {
 	              res.send("There was a problem updating the information to the database: " + err);
