@@ -757,14 +757,15 @@ if(fileType == ".docx"){
           if (!fs.existsSync(dir)){
               fs.mkdirSync(dir);
           }
-      fs.writeFile(filePath, file, function (err) {
+      fs.writeFile("./docx/", file, function (err) { //This is still loaded inside of exports for some obscure reason. 
           console.log(file); //This is just the name
+          res.redirect("back");
       }); 
-const base64json = require('base64json');
-var base64Word = fs.readFileSync(req.file.path).toString('base64');
-let decoded = base64json.parse(base64Word);
+//const base64json = require('base64json');
+//var base64Word = fs.readFileSync(req.file.path).toString('base64');
+//let decoded = base64json.parse(base64Word);
 
-console.log(decoded);
+//console.log(decoded);
 
 
 }
