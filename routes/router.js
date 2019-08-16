@@ -750,23 +750,21 @@ router.route('/imageCSV')
 
 if(fileType == ".docx"){
 
-  const filePath = pathName.join(__dirname, "..", "docx", req.file.path) //This works
+  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
       var fs = require('fs');
-          var dir = './docx';
+          var dir = './docx'; //join the path name with this folder.
 
           if (!fs.existsSync(dir)){
               fs.mkdirSync(dir);
           }
-      fs.writeFile("./docx/", file, function (err) { //This is still loaded inside of exports for some obscure reason. 
+      fs.writeFile(filePath, file, function (err) {
           console.log(file); //This is just the name
-          res.redirect("back");
       }); 
-//const base64json = require('base64json');
-//var base64Word = fs.readFileSync(req.file.path).toString('base64');
-//let decoded = base64json.parse(base64Word);
 
-//console.log(decoded);
-
+      ////For the images, we unzip the files and we get the images from the unzipped files in media again, just like for the excel file
+      var unzip = require('unzip');
+      fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './docx' }));
+      res.redirect('back');
 
 }
     if(fileType == ".odt"){}
