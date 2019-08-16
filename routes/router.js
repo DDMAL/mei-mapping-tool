@@ -651,10 +651,6 @@ router.route('/imageCSV')
           })
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
           //var fs = require("fs");
-                setTimeout(function () {
-                         const rimraf = require('rimraf');
-                         rimraf('./exports/*', function () { console.log('done'); });
-                    }, 10000)
                //Here I need to delete everything in the exports folder. 
                 //fs.unlink("./exports/", callbackFunction)
                     
