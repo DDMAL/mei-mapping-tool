@@ -139,6 +139,7 @@ router.route('/')
         var neumeSection = req.body.neumeSection;
         var neumeSectionName = req.body.neumeSectionName;
         var source = req.body.source;
+        var genericName = req.body.genericName;
         
         var classification 
         = req.body.classification;
@@ -160,7 +161,8 @@ router.route('/')
             project : ID_project,
             neumeSection : neumeSection,
             neumeSectionName : neumeSectionName,
-            source : source
+            source : source,
+            genericName : genericName
 
         }, function (err, neume) {
               if (err) {

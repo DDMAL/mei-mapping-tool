@@ -16,7 +16,8 @@ var neumeSchema = new mongoose.Schema({
   neumeSectionName : String,
   classifier : String,
   indice : String,
-  source : String
+  source : String,
+  genericName : String
 });
 var Neume = module.exports = mongoose.model('neume', neumeSchema);
 
