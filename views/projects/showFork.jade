@@ -106,8 +106,8 @@ div.neumeSection
                 |  Fork
                 span.tooltiptext To save the project as your own, click here!
     button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "collapseAll();" id = "buttonSavePosition")
-      i(id = "compress").fa.fa-compress.fa-sm 
-      i(id = "expand" style = "display : none").fa.fa-expand.fa-sm 
+      i(id = "compress").fa.fa-caret-up.fa-sm 
+      i(id = "expand" style = "display : none").fa.fa-caret-down.fa-sm 
 
     //Four Equal Columns
     .row(class="position-sticky" style = "position : fixed; width :100%; top : 159px; z-index : 200; padding-left:5px; padding-right : 75px;")
@@ -255,18 +255,14 @@ div.neumeSection
                       
                     });
                     //To save the collapsible state of the neumes
-                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                       var element = "collapsible#{neume.id}";
                       var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
                       if ($.cookie(element) == "false") {
 
                         content.style.display = "none";
-
-                        deleteButtonCollapse.style.display = "none"
                       } else {
                         content.style.display = "block";
 
-                        deleteButtonCollapse.style.display = "block"
                       }
 
                   //Modals event listeners for every modal
