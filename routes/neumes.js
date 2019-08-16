@@ -138,6 +138,7 @@ router.route('/')
         var description = req.body.description;
         var neumeSection = req.body.neumeSection;
         var neumeSectionName = req.body.neumeSectionName;
+        var source = req.body.source;
         
         var classification 
         = req.body.classification;
@@ -158,7 +159,8 @@ router.route('/')
             imagePath : imageArray,
             project : ID_project,
             neumeSection : neumeSection,
-            neumeSectionName : neumeSectionName
+            neumeSectionName : neumeSectionName,
+            source : source
 
         }, function (err, neume) {
               if (err) {
