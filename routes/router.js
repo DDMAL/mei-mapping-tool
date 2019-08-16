@@ -761,6 +761,18 @@ if(fileType == ".docx"){
           console.log(file); //This is just the name
       }); 
 
+      ///FOR THE DOCX FILE TO JSON : 
+      const docxTables = require('docx-tables')
+ 
+        docxTables({
+          file: pathName.join(__dirname, "..", "", req.file.path)
+        }).then((data) => {
+          // .docx table data
+          console.log(data)
+        }).catch((error) => {
+          console.error(error)
+        })
+
       ////For the images, we unzip the files and we get the images from the unzipped files in media again, just like for the excel file
       var unzip = require('unzip');
       fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './docx' }));

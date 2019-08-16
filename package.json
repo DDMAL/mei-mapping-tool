@@ -24,6 +24,7 @@
     "csvtojson": "^2.0.10",
     "debug": "~2.1.1",
     "dialog": "^0.3.1",
+    "docx-tables": "^0.1.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.5",
     "express-flash": "0.0.2",
