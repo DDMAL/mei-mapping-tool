@@ -574,10 +574,16 @@ router.route('/imageCSV')
         //listing all files using forEach
         var indice = 1;
         files.forEach(function (file) {
+         var fs = require('fs');
+          var ind = 1;
+              //files.forEach(function (file) {
+                //var fileName = "image" + ind + ".png";
+              //fs.renameSync("exports/xl/media/" + file, "exports/xl/media/" + fileName);
+              //ind++;
+              //})
             // Do whatever you want to do with the file
             var fileNameIndice = "image" + indice + ".png";
-            file.filename = "image" + indice + ".png";
-            
+
             //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
                //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
@@ -598,8 +604,7 @@ router.route('/imageCSV')
                 res.send("There was a problem updating the information to the database: " + err);
             } 
             else {
-              //if(file.name == neume.field)
-             //if(neume.indice == fileNameIndice){
+              
                 var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
 
                     // our imageStored model
@@ -651,6 +656,10 @@ router.route('/imageCSV')
           })
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
           //var fs = require("fs");
+          setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
                //Here I need to delete everything in the exports folder. 
                 //fs.unlink("./exports/", callbackFunction)
                     
@@ -682,6 +691,10 @@ router.route('/imageCSV')
                        }
                     });
    }
+      setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
 
      if(fileType == ".csv"){
 
