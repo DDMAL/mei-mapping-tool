@@ -575,13 +575,6 @@ router.route('/imageCSV')
         var indice = 1;
         var indiceImg = 1;
         files.forEach(function (file) {
-            var fs = require('fs');
-            fs.rename('exports/xl/media/' + file, 'exports/xl/media/image' + indiceImg + '.png', function(err) {
-                if ( err ) console.log('ERROR: ' + err);
-            });
-            indiceImg++;
-          });
-        files.forEach(function (file) {
             // Do whatever you want to do with the file
             var fileNameIndice = "image" + indice + ".png";
             
@@ -604,32 +597,10 @@ router.route('/imageCSV')
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
             } 
-            else {
-              fs.exists("/path/to/file",function(err, data){
-                if(err)
-                  throw(err);
-                  // handle result
-           
+            if(fs.existsSync('exports/xl/media/' + indiceValue)){
               //if(file.name == neume.field)
              //if(neume.indice == fileNameIndice){
                 var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
-                /*fs.readFile(imgPath, function read(err, data) {
-                    while (err) {
-                      indiceValue++;
-                      imgPath = 'exports/xl/media/' + indiceValue; 
-                    }
-                    fs.readFile(imgPath, function read(err, data) {
-                    while (err) {
-                      indiceValue++;
-                      imgPath = 'exports/xl/media/' + indiceValue; 
-                    }
-                  });
-                    content = data;
-
-                    // Invoke the next step here however you like
-                    console.log(content);   // Put all of the code here (not the best solution)
-                    processFile();          // Or put the next step in a function and invoke it
-                });*/
 
                     // our imageStored model
                         var A = storedImages;
@@ -675,8 +646,11 @@ router.route('/imageCSV')
 
               console.log(project.positionArray);
 
-             })
-                  };
+             }
+             else{
+              console.log("noFile");
+              res.redirect("back");
+             }
              })
           })
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
