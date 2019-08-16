@@ -30,8 +30,3 @@ function editButtons() {
     else
   		$('.editButtons').show();
 }
-
-
-
-
-

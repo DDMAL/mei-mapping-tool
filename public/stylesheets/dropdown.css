@@ -82,3 +82,8 @@ ul.submenu li a:hover{
 .change .menu-btn{
   padding-left : 100px;
 }
+body{
+   min-width:700px;        /* Suppose you want minimum width of 1000px */
+   width: auto !important;  /* Firefox will set width as auto */
+   width:700px;            /* As IE6 ignores !important it will set width as 1000px; */
+}
