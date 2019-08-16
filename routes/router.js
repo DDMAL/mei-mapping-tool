@@ -749,6 +749,17 @@ router.route('/imageCSV')
      }
 
 if(fileType == ".docx"){
+
+  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+      var fs = require('fs');
+          var dir = './docx';
+
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir);
+          }
+      fs.writeFile(filePath, file, function (err) {
+          console.log(file); //This is just the name
+      }); 
 const base64json = require('base64json');
 var base64Word = fs.readFileSync(req.file.path).toString('base64');
 let decoded = base64json.parse(base64Word);
