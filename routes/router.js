@@ -523,8 +523,9 @@ router.route('/imageCSV')
 .post(uploadCSV, function(req, res) {
 
   var fileType = req.body.fileType;
+  console.log(fileType); //This is docx
 
-  if(fileType == ".xlsx" || ".xls"){
+  if(fileType == ".xlsx" || fileType == ".xls"){
 
 
   var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
@@ -747,15 +748,15 @@ router.route('/imageCSV')
         });
      }
 
-     if(fileType == ".docx"){
-      const base64json = require('base64json');
-      var base64Word = fs.readFileSync(req.file.path).toString('base64');
-      let decoded = base64json.parse(base64Word);
+if(fileType == ".docx"){
+const base64json = require('base64json');
+var base64Word = fs.readFileSync(req.file.path).toString('base64');
+let decoded = base64json.parse(base64Word);
 
-      console.log(decoded);
+console.log(decoded);
 
 
-     }
+}
     if(fileType == ".odt"){}
     if(fileType == ".html"){}
 
