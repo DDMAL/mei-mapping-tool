@@ -409,7 +409,7 @@ router.route('/csv')
         let csv
 
         try {
-          csv = json2csv(neumeCSV, {fields});
+          csv = json2csv(data, {fields});
         } catch (err) {
           return res.status(500).json({ err });
         }
@@ -761,14 +761,23 @@ if(fileType == ".docx"){
           console.log(file); //This is just the name
       }); 
 
-      ///FOR THE DOCX FILE TO JSON : 
+      ///FOR THE DOCX FILE TO JSON : pathName.join(__dirname, "..", "", req.file.path
       const docxTables = require('docx-tables')
  
         docxTables({
-          file: pathName.join(__dirname, "..", "", req.file.path)
+          file: )
         }).then((data) => {
           // .docx table data
           console.log(data)
+
+
+      let csv
+      try {
+        csv = json2csv(data, {});
+      } catch (err) {
+        return res.status(500).json({ err });
+      }
+      console.log(csv);
         }).catch((error) => {
           console.error(error)
         })
