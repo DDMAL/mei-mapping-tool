@@ -765,10 +765,12 @@ if(fileType == ".docx"){
       const docxTables = require('docx-tables')
  
         docxTables({
-          file: )
+          file: pathName.join(__dirname, "..", "", req.file.path)
         }).then((data) => {
           // .docx table data
           console.log(data)
+          var names = data[0];
+          console.log(names);
 
 
       let csv
