@@ -750,7 +750,7 @@ router.route('/imageCSV')
 
 if(fileType == ".docx"){
 
-  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+  const filePath = pathName.join(__dirname, "..", "docx", req.file.path) //This works
       var fs = require('fs');
           var dir = './docx';
 
