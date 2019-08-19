@@ -602,7 +602,15 @@ router.route('/:id/edit')
 	                if (err) {
 	                    return console.error(err);
 	                } else { 
-                   // mongoose.model("storedImages").findById(req.id, function) Finish this when the neumes are deleted
+                   //  Finish this when the neumes are deleted
+                   mongoose.model("storedImages").findOneAndRemove({neumeID : neume._id},  function (err, image) {
+                    console.log(image);
+                  if (err) {
+                  return console.error(err);
+                  } else {
+                    console.log("hey");
+                  }
+                });
 	                    //Returning success messages saying it was deleted
 	                    //console.log('DELETE removing ID: ' + neume._id);
                       mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 
