@@ -69,6 +69,7 @@
     "uuid": "^3.3.2",
     "xls-to-json": "^0.5.2",
     "xls-to-json-lc": "^0.3.4",
+    "xlsx": "^0.15.1",
     "xlsx-extract": "^0.1.2",
     "xlsx-extract-js": "0.0.6",
     "xlsx-to-json-lc": "^0.5.0",

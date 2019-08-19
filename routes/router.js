@@ -543,7 +543,13 @@ router.route('/imageCSV')
     if(err) {
       console.error(err);
     } else {
-      console.log("works");
+
+    var XLSX = require('xlsx');
+    var workbook = XLSX.readFile(req.file.path);
+    var sheet_name_list = workbook.SheetNames;
+    result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+    console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]))
+
       mongoose.model("neume").insertMany(result)
             .then(function(jsonObj) {
 
@@ -586,7 +592,7 @@ router.route('/imageCSV')
 
                //Then for each neume add a field called  indice + 'png'
                var indice = 0;
-               neumes.forEach(function(neume){
+               neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                 indice += 1;
                 var indiceValue = "image" + indice + ".png";
                 
@@ -647,9 +653,6 @@ router.route('/imageCSV')
 
               console.log(project.positionArray);
 
-             }
-             else{
-              console.log("noFile");
              }
              })
           })
