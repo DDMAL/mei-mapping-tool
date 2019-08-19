@@ -854,25 +854,23 @@ if(fileType == ".docx"){
 }
     if(fileType == ".odt"){}
     if(fileType == ".html"){
-
        var fs = require('fs');
-       const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
-      var scraper = require('table-scraper');
-      scraper
-        .get(req.file)
-        .then(function(tableData) {
-          //Table scraper needs some data to make the neumes come back
-          /*
-             tableData === 
-              [ 
-                [ 
-                  { State: 'Minnesota', 'Capitol City': 'Saint Paul', 'Pop.': '3' },
-                  { State: 'New York', 'Capitol City': 'Albany', 'Pop.': 'Eight Million' } 
-                ] 
-              ]
-          */
-        });
+       const filePath = pathName.join(__dirname, "..", req.file.path) //This works
+       const HtmlTableToJson = require('html-table-to-json');
+       fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+    if (!err) {
+        console.log('received data: ' + data);
+        const html = data.toString(); //# Paste your HTML table
 
+        const jsonTables = new HtmlTableToJson(html);
+
+        console.log(jsonTables['results']);
+        res.redirect('back');
+
+    } else {
+        console.log(err);
+      }
+    });
 
     }
 
