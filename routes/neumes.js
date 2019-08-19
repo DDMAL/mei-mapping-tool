@@ -193,6 +193,7 @@ router.route('/')
                     // store an img in binary in mongo
                         var a = new A;
                         a.neumeID = neume._id;
+                        a.projectID = neume.project;
                         a.img.data = fs.readFileSync(imgPath);
                         a.img.contentType = 'image/png';
                         a.imgBase64 = a.img.data.toString('base64');
@@ -317,6 +318,7 @@ router.route('/:id/editImage')
                     // store an img in binary in mongo
                         var a = new A;
                         a.neumeID = neume._id;
+                        a.projectID = neume.project;
                         a.img.data = fs.readFileSync(imgPath);
                         a.img.contentType = 'image/png';
                         a.imgBase64 = a.img.data.toString('base64');

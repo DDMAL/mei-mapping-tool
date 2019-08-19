@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 var schema = new Schema({
  img: { data: Buffer, contentType: String },
  neumeID : Schema.Types.ObjectId,
- imgBase64 : String
+ imgBase64 : String,
+ projectID : String
 });
 
 var imageStored = module.exports = mongoose.model('storedImages', schema);

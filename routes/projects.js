@@ -21,7 +21,7 @@ router.use(methodOverride(function(req, res){
 global.neumeFinal = []; //getting all the neumes from the project
 global.userFinal = []; //The user needs to be added in all the routes
 global.latestImage = []; //getting the latestImage from the database
-global.imageData = [];
+global.imageData = [];//Getting all the imageData in binary from the storedimages collection
 global.neumeSectionArray = [];//Array to keep the neumes in the section
 
 //build the REST operations at the base for projects
@@ -529,7 +529,7 @@ router.route('/project/:id/edit')
           })
       });
   })
-  //DELETE a project by ID
+  //This method doesnt work, might need to change it later. The last method of this file is the delete method for deleting a project
   .delete(function (req, res){
       //find project by ID
       mongoose.model('project').findById(req.id, function (err, project) {
@@ -836,6 +836,14 @@ router.route('/:id/edit')
               });
                     //That's it. 
                     mongoose.model('neume').remove({project : project._id}).exec();
+                    mongoose.model("storedImages").remove({projectID : project._id},  function (err, image) {
+                    console.log(image);
+                  if (err) {
+                  return console.error(err);
+                  } else {
+                    console.log("worked");
+                  }
+                });
 	                    //Returning success messages saying it was deleted
 	                    console.log('DELETE removing ID: ' + project._id);
 	                    res.format({
