@@ -863,16 +863,29 @@ if(fileType == ".docx"){
         const html = data.toString(); //# Paste your HTML table
 
         const jsonTables = new HtmlTableToJson(html);
+        var arrayJson = [];
 
-        for(var i = 0; i < jsonTables['results'].length; i++) {
-            var cube = jsonTables['results'][i];
-            for(var j = 0; j < jsonTables['results'].length; j++) {
-                console.log("cube[" + i + "][" + j + "] = " + jsonTables['results'][j]);
-            }
-        }
-        //console.log(jsonTables['results'][0][1]);
+for (var i = 1; i <jsonTables['results'][0].length; i++ ){
 
+        var json = jsonTables['results'][0][i];
+        json = JSON.parse(JSON.stringify(json).split('"1":').join('"imagesBinary":'));
+        json = JSON.stringify(json);
+        arrayJson.push(json);
+      }
         //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
+        console.log(arrayJson);
+        function changeDesc( value, desc ) {
+           for (var i in arrayJson) {
+             if (arrayJson[i].value == value) {
+                arrayJson[i].desc = desc;
+                break; //Stop this loop, we found it!
+             }
+           }
+        }
+        changeDesc( "1", "imagesBinary" );
+
+        console.log(arrayJson);
+
         res.redirect('back');
 
     } else {
