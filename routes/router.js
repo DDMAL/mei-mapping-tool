@@ -648,9 +648,7 @@ router.route('/imageCSV')
                   //Create a new document for the image with field neumeID as the neumeID
                   //Also needs a imgBase64 as a field. 
 
-               //inside the for each : indice++;
-               //mongoose.update
-               //When this is done, res.redirect back
+               //Add a timeout function to delete the files in the exports folder after a certain time span
                
 
               console.log(project.positionArray);
@@ -688,9 +686,71 @@ router.route('/imageCSV')
                              res.json(project);
                        }
                     });
+     //TIMEOUT for deleting files from the exports folder
+      setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 30000)
    }
 
      if(fileType == ".csv"){
+      // Source: http://www.bennadel.com/blog/1504-Ask-Ben-Parsing-CSV-Strings-With-Javascript-Exec-Regular-Expression-Command.htm
+// This will parse a delimited string into an array of
+// arrays. The default delimiter is the comma, but this
+// can be overriden in the second argument.
+
+function CSVToArray(strData, strDelimiter) {
+    strData = strData.trim();
+    // Check to see if the delimiter is defined. If not,
+    // then default to comma.
+    strDelimiter = (strDelimiter || ",");
+    // Create a regular expression to parse the CSV values.
+    var objPattern = new RegExp((
+    // Delimiters.
+    "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+    // Quoted fields.
+    "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+    // Standard fields.
+    "([^\"\\" + strDelimiter + "\\r\\n]*))"), "gi");
+    // Create an array to hold our data. Give the array
+    // a default empty first row.
+    var arrData = [[]];
+    // Create an array to hold our individual pattern
+    // matching groups.
+    var arrMatches = null;
+    // Keep looping over the regular expression matches
+    // until we can no longer find a match.
+    while (arrMatches = objPattern.exec(strData)) {
+        // Get the delimiter that was found.
+        var strMatchedDelimiter = arrMatches[1];
+        // Check to see if the given delimiter has a length
+        // (is not the start of string) and if it matches
+        // field delimiter. If id does not, then we know
+        // that this delimiter is a row delimiter.
+        if (strMatchedDelimiter.length && (strMatchedDelimiter != strDelimiter)) {
+            // Since we have reached a new row of data,
+            // add an empty row to our data array.
+            arrData.push([]);
+        }
+        // Now that we have our delimiter out of the way,
+        // let's check to see which kind of value we
+        // captured (quoted or unquoted).
+        if (arrMatches[2]) {
+            // We found a quoted value. When we capture
+            // this value, unescape any double quotes.
+            var strMatchedValue = arrMatches[2].replace(
+            new RegExp("\"\"", "g"), "\"");
+        } else {
+            // We found a non-quoted value.
+            var strMatchedValue = arrMatches[3];
+        }
+        // Now that we have our value string, let's add
+        // it to the data array.
+        arrData[arrData.length - 1].push(strMatchedValue);
+    }
+    // Return the parsed data.
+    return (arrData);
+}
 
   var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
   var nameOfProject = req.body.projectName;
@@ -749,6 +809,11 @@ router.route('/imageCSV')
         });
             });
         });
+      //TIMEOUT for deleting files from the exports folder
+      setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 30000)
      }
 
 if(fileType == ".docx"){
@@ -766,99 +831,64 @@ if(fileType == ".docx"){
 
       ///FOR THE DOCX FILE TO JSON : pathName.join(__dirname, "..", "", req.file.path
       const docxTables = require('docx-tables')
- 
-        docxTables({
-          file: pathName.join(__dirname, "..", "", req.file.path)
-        }).then((data) => {
-          // .docx table data
-          console.log(data)
-          var names = data[0][0].data;
-          var arrayLength = data.length;
-          for (var i = 0; i < arrayLength; i++) {
-              console.log(data[i][i].data);
-              //Do something
-          }
-          console.log(names);
-
-
-      let csv
-      try {
-        csv = json2csv(data, {});
-      } catch (err) {
-        return res.status(500).json({ err });
-      }
-      console.log(csv);
-        }).catch((error) => {
-          console.error(error)
-        })
 
       ////For the images, we unzip the files and we get the images from the unzipped files in media again, just like for the excel file
       var unzip = require('unzip');
       fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './docx' }));
-      res.redirect('back');
+      //Get the xml file from the docs table and send it to json with the proper fields
+      const xmlToJson = require('xml-to-json-stream');
+      const parser = xmlToJson({attributeMode:false});
+        
+      parser.xmlToJson('./docx/word/document.xml', (err,json)=>{
+          if(err) {
+              //error handling
+              console.log(err);
+          }
+           console.log(json);
+          //json is converted xml
+      });
 
+      //Add the json values to mongodb database and add them to the field
+
+      res.redirect('back');
 }
     if(fileType == ".odt"){}
-    if(fileType == ".html"){}
+    if(fileType == ".html"){
+      const HtmlTableToJson = require('html-table-to-json');
+       var fs = require('fs');
+       const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+          var dir = './exports'; //join the path name with this folder.
+
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir);
+          }
+      fs.writeFile(filePath, file, function (err) {
+          console.log(file); //This is just the name
+      }); 
+       
+      fs.readFile(filePath, 'utf8', function(err, contents) {
+
+      const jsonTables = new HtmlTableToJson(contents);
+       
+      console.log(jsonTables.results);
+
+      });
+       
+      console.log('after calling readFile');
+  
+      /* => [[
+       *      {Animal: 'Unicorn', Color: 'Pink', Name: 'Billy'},
+       *      {Animal: 'Walrus', Color: 'Orange', Name: 'Sue'}
+       *    ]]
+       */
+
+
+    }
 
 
 
 }); 
 
-
-       //Keep information for the classifier file here. 
-       //the folder should be added in a separate input
-       //In the folder, only keep the .png images
-       //They are labeled as image068.png
-  /*node_xj = require("xls-to-json");
-  node_xj({
-    input: req.file.path,  // input xls
-    output: "output.json", // output json // specific sheetname
-    rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
-  }, function(err, result) {
-    if(err) {
-      console.error(err);
-    } else {
-      console.log("works");
-      mongoose.model("neume").insertMany(result)
-            .then(function(jsonObj) {
-
-              jsonObj.forEach(function(neume){
-                mongoose.model("neume").find({_id : neume.id}).update({
-                      project : IdOfProject
-                    }, function (err, neumeElement) {
-                      if (err) {
-                          res.send("There was a problem updating the information to the database: " + err);
-                      } 
-                      else {console.log(neumeElement);
-                       }
-                    })
-
-              })*/
-
-              //What I need to do for tomorrow : 
-
-              //1. Get the images from the input name = images and add them to a folder created here
-              //2. Change the images to base 64 and add them to the storageImages collection
-              //3. Show the images in the neumes depending on the order in their name (001, 002, ect..)
-
-              //This takes the xls files and adds them to the neumes. 
-              //But without the neume images since the xls to json changes the images binary to nothing.
-             /*var base64 = require('file-base64');
-               
-              base64.encode(req.file.path, function(err, base64String) {
-
-                var Base64 = require('js-base64').Base64;
-                var json = Base64.decode(base64String); 
-                console.log(json);
-              });
-
-                res.redirect("back");
-            })*/
-  //  }
- // });
-
-//})
 
 router.route('/csvProject')
 .post(function(req, res) {

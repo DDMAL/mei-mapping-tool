@@ -32,6 +32,7 @@
     "extract-zip": "^1.6.7",
     "file-base64": "^1.0.0",
     "fs-js": "^1.0.6",
+    "html-table-to-json": "^0.4.1",
     "jade": "^1.9.2",
     "joi": "^14.3.1",
     "js-alert": "^1.0.4",
@@ -73,7 +74,9 @@
     "xlsx-extract": "^0.1.2",
     "xlsx-extract-js": "0.0.6",
     "xlsx-to-json-lc": "^0.5.0",
-    "xml-js": "^1.6.11"
+    "xml-js": "^1.6.11",
+    "xml-to-json-stream": "^1.1.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
