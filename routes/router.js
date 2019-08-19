@@ -869,6 +869,11 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
 
         var json = jsonTables['results'][0][i];
         json = JSON.parse(JSON.stringify(json).split('"1":').join('"imagesBinary":'));
+        json = JSON.parse(JSON.stringify(json).split('"2":').join('"name":'));
+        json = JSON.parse(JSON.stringify(json).split('"3":').join('"folio":'));
+        json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
+        json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
+        json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
         json = JSON.stringify(json);
         arrayJson.push(json);
       }
