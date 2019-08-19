@@ -575,7 +575,7 @@ router.route('/imageCSV')
         //listing all files using forEach
         var indice = 1;
         var indiceImg = 1;
-        files.forEach(function (file) {
+        for (let i = 0; i < files.length; i++){ //Change all forEach to for loops
             // Do whatever you want to do with the file
             var fileNameIndice = "image" + indice + ".png";
             
@@ -661,7 +661,7 @@ router.route('/imageCSV')
          });
 
             console.log(file); 
-        });
+        };
         indice = 1;
 
     });
