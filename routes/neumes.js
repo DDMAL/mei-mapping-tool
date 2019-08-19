@@ -601,7 +601,8 @@ router.route('/:id/edit')
 	            neume.remove(function (err, neume) {
 	                if (err) {
 	                    return console.error(err);
-	                } else {
+	                } else { 
+                   // mongoose.model("storedImages").findById(req.id, function) Finish this when the neumes are deleted
 	                    //Returning success messages saying it was deleted
 	                    //console.log('DELETE removing ID: ' + neume._id);
                       mongoose.model('neume').find({project : ID_project}, function (err, neumes) { 

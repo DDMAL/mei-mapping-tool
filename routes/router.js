@@ -604,7 +604,7 @@ router.route('/imageCSV')
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
             } 
-            if(fs.existsSync('exports/xl/media/' + indiceValue)){
+            files.forEach(function(file){ //This is making wayyy too many files in the storedImages collection
               //if(file.name == neume.field)
              //if(neume.indice == fileNameIndice){
                 var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
@@ -653,7 +653,7 @@ router.route('/imageCSV')
 
               console.log(project.positionArray);
 
-             }
+             });
              })
           })
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
