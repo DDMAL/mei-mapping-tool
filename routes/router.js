@@ -864,7 +864,15 @@ if(fileType == ".docx"){
 
         const jsonTables = new HtmlTableToJson(html);
 
-        console.log(jsonTables['results']);
+        for(var i = 0; i < jsonTables['results'].length; i++) {
+            var cube = jsonTables['results'][i];
+            for(var j = 0; j < jsonTables['results'].length; j++) {
+                console.log("cube[" + i + "][" + j + "] = " + jsonTables['results'][j]);
+            }
+        }
+        //console.log(jsonTables['results'][0][1]);
+
+        //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
         res.redirect('back');
 
     } else {
@@ -873,8 +881,6 @@ if(fileType == ".docx"){
     });
 
     }
-
-
 
 }); 
 
