@@ -581,7 +581,6 @@ router.route('/imageCSV')
         //listing all files using forEach
         var indice = 1;
         var indiceImg = 1;
-        for (let i = 0; i < files.length; i++){ //Change all forEach to for loops
             // Do whatever you want to do with the file
             var fileNameIndice = "image" + indice + ".png";
             
@@ -604,7 +603,9 @@ router.route('/imageCSV')
             if (err) {
                 res.send("There was a problem updating the information to the database: " + err);
             } 
-            files.forEach(function(file){ //This is making wayyy too many files in the storedImages collection
+ 
+             })
+                     if(fs.existsSync('exports/xl/media/' + indiceValue)){ //This is making wayyy too many files in the storedImages collection
               //if(file.name == neume.field)
              //if(neume.indice == fileNameIndice){
                 var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
@@ -653,8 +654,7 @@ router.route('/imageCSV')
 
               console.log(project.positionArray);
 
-             });
-             })
+             }
           })
          //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
           //var fs = require("fs");
@@ -664,7 +664,6 @@ router.route('/imageCSV')
          });
 
             console.log(file); 
-        };
         indice = 1;
 
     });
