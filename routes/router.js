@@ -854,33 +854,24 @@ if(fileType == ".docx"){
 }
     if(fileType == ".odt"){}
     if(fileType == ".html"){
-      const HtmlTableToJson = require('html-table-to-json');
+
        var fs = require('fs');
        const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
-          var dir = './exports'; //join the path name with this folder.
-
-          if (!fs.existsSync(dir)){
-              fs.mkdirSync(dir);
-          }
-      fs.writeFile(filePath, file, function (err) {
-          console.log(file); //This is just the name
-      }); 
-       
-      fs.readFile(filePath, 'utf8', function(err, contents) {
-
-      const jsonTables = new HtmlTableToJson(contents);
-       
-      console.log(jsonTables.results);
-
-      });
-       
-      console.log('after calling readFile');
-  
-      /* => [[
-       *      {Animal: 'Unicorn', Color: 'Pink', Name: 'Billy'},
-       *      {Animal: 'Walrus', Color: 'Orange', Name: 'Sue'}
-       *    ]]
-       */
+      var scraper = require('table-scraper');
+      scraper
+        .get(req.file)
+        .then(function(tableData) {
+          //Table scraper needs some data to make the neumes come back
+          /*
+             tableData === 
+              [ 
+                [ 
+                  { State: 'Minnesota', 'Capitol City': 'Saint Paul', 'Pop.': '3' },
+                  { State: 'New York', 'Capitol City': 'Albany', 'Pop.': 'Eight Million' } 
+                ] 
+              ]
+          */
+        });
 
 
     }

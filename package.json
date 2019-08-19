@@ -66,6 +66,7 @@
     "serve-favicon": "^2.5.0",
     "simple-undo": "^1.0.2",
     "sortablejs": "^1.10.0-rc3",
+    "table-scraper": "^0.1.0",
     "unzip": "^0.1.11",
     "uuid": "^3.3.2",
     "xls-to-json": "^0.5.2",
