@@ -817,6 +817,7 @@ function CSVToArray(strData, strDelimiter) {
      }
 
 if(fileType == ".docx"){
+  var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
 
   const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
       var fs = require('fs');
@@ -830,23 +831,77 @@ if(fileType == ".docx"){
       }); 
 
       ///FOR THE DOCX FILE TO JSON : pathName.join(__dirname, "..", "", req.file.path
-      const docxTables = require('docx-tables')
+      //const docxTables = require('docx-tables')
 
       ////For the images, we unzip the files and we get the images from the unzipped files in media again, just like for the excel file
       var unzip = require('unzip');
-      fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './docx' }));
+      fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+      
+      var mammoth = require("mammoth");
+      const HtmlTableToJson = require('html-table-to-json');
+ 
+      mammoth.convertToHtml({path: pathName.join(__dirname, "..", req.file.path) })
+          .then(function(result){
+              var html = result.value; // The generated HTML
+              const html1 = html.toString(); //# Paste your HTML table
+
+        const jsonTables = new HtmlTableToJson(html1);
+        var arrayJson = [];
+
+for (var i = 1; i <jsonTables['results'][0].length; i++ ){
+
+        var json = jsonTables['results'][0][i];
+        json = JSON.parse(JSON.stringify(json).split('"1":').join('"imagesBinary":'));
+        json = JSON.parse(JSON.stringify(json).split('"2":').join('"name":'));
+        json = JSON.parse(JSON.stringify(json).split('"3":').join('"folio":'));
+        json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
+        json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
+        json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
+        //json = JSON.stringify(json);
+        mongoose.model("neume").insertMany(json)
+            .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
+
+              })
+            })
+        arrayJson.push(json);
+      }
+        //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
+        console.log(arrayJson);
+        for(var laptopItem in arrayJson){
+            //new mongoose.model("neume")(arrayJson[laptopItem])
+            //  .save()
+            //  .catch((err)=>{
+              //  console.log(err.message);
+            //  });
+        }
+ 
+
+              var messages = result.messages; // Any messages, such as warnings during conversion
+          })
+          .done();
       //Get the xml file from the docs table and send it to json with the proper fields
-      const xmlToJson = require('xml-to-json-stream');
-      const parser = xmlToJson({attributeMode:false});
+      //const xmlToJson = require('xml-to-json-stream');
+      // const parser = xmlToJson({attributeMode:false});
         
-      parser.xmlToJson('./docx/word/document.xml', (err,json)=>{
-          if(err) {
+      // parser.xmlToJson('./docx/word/document.xml', (err,json)=>{
+      //    if(err) {
               //error handling
-              console.log(err);
-          }
-           console.log(json);
+      //        console.log(err);
+      //    }
+      //     console.log(json);
           //json is converted xml
-      });
+      //   });
 
       //Add the json values to mongodb database and add them to the field
 
