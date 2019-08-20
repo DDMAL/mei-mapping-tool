@@ -888,24 +888,16 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
  
 
               var messages = result.messages; // Any messages, such as warnings during conversion
-              
+
       res.redirect('back');
           })
           .done();
-      //Get the xml file from the docs table and send it to json with the proper fields
-      //const xmlToJson = require('xml-to-json-stream');
-      // const parser = xmlToJson({attributeMode:false});
-        
-      // parser.xmlToJson('./docx/word/document.xml', (err,json)=>{
-      //    if(err) {
-              //error handling
-      //        console.log(err);
-      //    }
-      //     console.log(json);
-          //json is converted xml
-      //   });
-
-      //Add the json values to mongodb database and add them to the field
+      
+      //TIMEOUT for deleting files from the exports folder 
+      setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 30000)
 
 }
     if(fileType == ".odt"){}
