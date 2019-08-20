@@ -561,25 +561,13 @@ router.route('/imageCSV')
     result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
     console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]))
 
-    var colValues =[];
 
-    function checkCols(workbook)  //your workbook variable
-      {
-        var first_sheet_name = workbook.SheetNames[0];
-        var worksheet = workbook.Sheets[first_sheet_name];
-        var cells = Object.keys(worksheet);
-        for (var i = 0; i < Object.keys(cells).length; i++) {
-            if( cells[i].indexOf('1') > -1)
-            {
-                colValues.push(worksheet[cells[i]].v); //Contails all column names
-            }
-        }
-     }
+        let workbook_firstRow = XLSX.readFile(req.file.path, {sheetRows: 1})
+         let sheetsList = workbook_firstRow.SheetNames
+         let sheetData = XLSX.utils.sheet_to_json(workbook_firstRow.Sheets[sheetsList[0]], {
+     });
 
-     checkCols(workbook);//Checks the columns of the workbooks, and pushes them to the colValues array
-     console.log(colValues);
-
-     if(colValues.data != ["imagesBinary", "name", "folio", "description", "classification", "mei"]){
+     /*if(sheetData != ["imagesBinary", "name", "folio", "description", "classification", "mei"]){
         var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
               return res.format({
             html: function(){           
@@ -592,8 +580,8 @@ router.route('/imageCSV')
                   }
               });
 
-      }
-      else{
+      }*/
+     //else{
       mongoose.model("neume").insertMany(result)
             .then(function(jsonObj) {
 
@@ -721,7 +709,7 @@ router.route('/imageCSV')
 
           })
         })
-      }
+      //}
       }
       res.format({
                   html: function(){
