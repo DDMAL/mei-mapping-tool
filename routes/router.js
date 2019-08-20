@@ -888,6 +888,8 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
  
 
               var messages = result.messages; // Any messages, such as warnings during conversion
+              
+      res.redirect('back');
           })
           .done();
       //Get the xml file from the docs table and send it to json with the proper fields
@@ -905,7 +907,6 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
 
       //Add the json values to mongodb database and add them to the field
 
-      res.redirect('back');
 }
     if(fileType == ".odt"){}
     if(fileType == ".html"){
