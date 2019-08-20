@@ -579,21 +579,21 @@ router.route('/imageCSV')
      checkCols(workbook);//Checks the columns of the workbooks, and pushes them to the colValues array
      console.log(colValues);
 
-     //if(colValues.data == [imagesBinary, name, folio, description, classification, mei]){
-        //var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
-         //     return res.format({
-        //      html: function(){           
-         //         res.render('errorLog', {
-          //          "error" : err,
-         //         });
-         //     },
-         //     json: function(){
-          //        res.json(err);
-          //    }
-         //   });
+     if(colValues.data != ["imagesBinary", "name", "folio", "description", "classification", "mei"]){
+        var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
+              return res.format({
+            html: function(){           
+                  res.render('errorLog', {
+                    "error" : err,
+                  });
+              },
+              json: function(){
+                  res.json(err);
+                  }
+              });
 
-     // }
-
+      }
+      else{
       mongoose.model("neume").insertMany(result)
             .then(function(jsonObj) {
 
@@ -722,12 +722,8 @@ router.route('/imageCSV')
           })
         })
       }
-    });
-
- //4. I need to add the images to the neumes by image name "image01, ect..."
-   //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
-//5. Redirect the page to the project page
-     res.format({
+      }
+      res.format({
                   html: function(){
                              res.redirect("back");
                        },
@@ -741,6 +737,13 @@ router.route('/imageCSV')
                         // const rimraf = require('rimraf');
                        //  rimraf('./exports/*', function () { console.log('done'); });
                    // }, 30000)
+    });
+
+ //4. I need to add the images to the neumes by image name "image01, ect..."
+   //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+//5. Redirect the page to the project page
+
+     
    }
 
      if(fileType == ".csv"){
