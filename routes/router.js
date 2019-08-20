@@ -560,7 +560,26 @@ router.route('/imageCSV')
     var sheet_name_list = workbook.SheetNames;
     result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
     console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]))
-    if(){
+
+    var colValues =[];
+
+    function checkCols(workbook)  //your workbook variable
+      {
+        var first_sheet_name = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[first_sheet_name];
+        var cells = Object.keys(worksheet);
+        for (var i = 0; i < Object.keys(cells).length; i++) {
+            if( cells[i].indexOf('1') > -1)
+            {
+                colValues.push(worksheet[cells[i]].v); //Contails all column names
+            }
+        }
+     }
+
+     checkCols(workbook);//Checks the columns of the workbooks, and pushes them to the colValues array
+     console.log(colValues);
+
+     if(){
         var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
               return res.format({
               html: function(){           
