@@ -854,6 +854,7 @@ if(fileType == ".docx"){
 }
     if(fileType == ".odt"){}
     if(fileType == ".html"){
+       var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
        var fs = require('fs');
        const filePath = pathName.join(__dirname, "..", req.file.path) //This works
        const HtmlTableToJson = require('html-table-to-json');
@@ -874,22 +875,41 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
         json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
         json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
         json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
-        json = JSON.stringify(json);
+        //json = JSON.stringify(json);
+        mongoose.model("neume").insertMany(json)
+            .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
+
+              })
+
+
+
+
+                res.redirect("back");
+            })
         arrayJson.push(json);
       }
         //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
         console.log(arrayJson);
-        function changeDesc( value, desc ) {
-           for (var i in arrayJson) {
-             if (arrayJson[i].value == value) {
-                arrayJson[i].desc = desc;
-                break; //Stop this loop, we found it!
-             }
-           }
+        for(var laptopItem in arrayJson){
+            //new mongoose.model("neume")(arrayJson[laptopItem])
+            //  .save()
+            //  .catch((err)=>{
+              //  console.log(err.message);
+            //  });
         }
-        changeDesc( "1", "imagesBinary" );
+ 
 
-        console.log(arrayJson);
 
         res.redirect('back');
 
