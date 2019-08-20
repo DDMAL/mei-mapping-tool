@@ -600,6 +600,8 @@ router.route('/imageCSV')
  //2. I need to unzip the file and add the unzipped content to a directory
  if(fileType == ".xlsx"){
 
+  //The xlsx file needs to be updated so that it takes information about the drawing1.xml file for the row number and the id and the 
+  //drawing1.rels.xml to get information about the image and the media folder. 
   var dir = './exports';
 
       if (!fs.existsSync(dir)){
