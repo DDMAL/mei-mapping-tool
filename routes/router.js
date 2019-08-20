@@ -527,7 +527,7 @@ router.route('/imageCSV')
 
   if(fileType == ".xlsx" || fileType == ".xls"){
 
-
+    //Add error message if the names or the column order are not right
   var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
   var nameOfProject = req.body.projectName;
 
@@ -541,7 +541,17 @@ router.route('/imageCSV')
     rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
   }, function(err, result) {
     if(err) {
-      console.error(err);
+      var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
+          return res.format({
+          html: function(){           
+              res.render('errorLog', {
+                "error" : err,
+              });
+          },
+          json: function(){
+              res.json(err);
+          }
+        });
     } else {
 
     var XLSX = require('xlsx');
@@ -567,11 +577,17 @@ router.route('/imageCSV')
 
  //2. I need to unzip the file and add the unzipped content to a directory
  if(fileType == ".xlsx"){
+
+  var dir = './exports';
+
+      if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
     var unzip = require('unzip');
     fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
     //We now have all the folders from the zip file into the exports folder.
- //3. I need to go to dir/xl/media to get all the images
-    //passsing directoryPath and callback function
+    //3. I need to go to dir/xl/media to get all the images
+      //passsing directoryPath and callback function
 
     fs.readdir("./exports/xl/media", function (err, files) {
         //handling error
@@ -687,10 +703,10 @@ router.route('/imageCSV')
                        }
                     });
      //TIMEOUT for deleting files from the exports folder
-      setTimeout(function () {
-                         const rimraf = require('rimraf');
-                         rimraf('./exports/*', function () { console.log('done'); });
-                    }, 30000)
+      //setTimeout(function () {
+                        // const rimraf = require('rimraf');
+                       //  rimraf('./exports/*', function () { console.log('done'); });
+                   // }, 30000)
    }
 
      if(fileType == ".csv"){
@@ -893,6 +909,7 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
           })
           .done();
       
+      //Change to after the neumes are shown on the page
       //TIMEOUT for deleting files from the exports folder 
       setTimeout(function () {
                          const rimraf = require('rimraf');
