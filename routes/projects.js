@@ -592,7 +592,6 @@ router.route('/:id') //This is where the classifier would be
   .get(function(req, res, next) {
     mongoose.model('project').findById(req.id, function (err, project) {
 
-      var positionArray = project.positionArray;
 
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
@@ -602,6 +601,7 @@ router.route('/:id') //This is where the classifier would be
             res.redirect("/");
           }
           else{
+            var positionArray = project.positionArray;
         mongoose.model('neume').find({project : project._id}, function (err, neumes) { 
 
             neumeFinal = neumes;
