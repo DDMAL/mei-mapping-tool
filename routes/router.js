@@ -554,11 +554,26 @@ router.route('/imageCSV')
         });
     } else {
 
-    var XLSX = require('xlsx');
+    var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the 
+    //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
     var workbook = XLSX.readFile(req.file.path);
     var sheet_name_list = workbook.SheetNames;
     result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
     console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]))
+    if(){
+        var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
+              return res.format({
+              html: function(){           
+                  res.render('errorLog', {
+                    "error" : err,
+                  });
+              },
+              json: function(){
+                  res.json(err);
+              }
+            });
+
+      }
 
       mongoose.model("neume").insertMany(result)
             .then(function(jsonObj) {
