@@ -891,11 +891,6 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
                     })
 
               })
-
-
-
-
-                res.redirect("back");
             })
         arrayJson.push(json);
       }
