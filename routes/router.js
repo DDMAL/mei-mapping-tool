@@ -579,20 +579,20 @@ router.route('/imageCSV')
      checkCols(workbook);//Checks the columns of the workbooks, and pushes them to the colValues array
      console.log(colValues);
 
-     if(){
-        var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
-              return res.format({
-              html: function(){           
-                  res.render('errorLog', {
-                    "error" : err,
-                  });
-              },
-              json: function(){
-                  res.json(err);
-              }
-            });
+     //if(colValues.data == [imagesBinary, name, folio, description, classification, mei]){
+        //var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
+         //     return res.format({
+        //      html: function(){           
+         //         res.render('errorLog', {
+          //          "error" : err,
+         //         });
+         //     },
+         //     json: function(){
+          //        res.json(err);
+          //    }
+         //   });
 
-      }
+     // }
 
       mongoose.model("neume").insertMany(result)
             .then(function(jsonObj) {
