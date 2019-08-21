@@ -684,7 +684,12 @@ router.route('/imageCSV')
             if(jsonArray[i].includes("media"))
                {
                   console.log(jsonArray[i].split(":")[1]);
-                  var rowWithId = rowValue + " : " + jsonArray[i].split(":")[1];
+                  var imageMediaValue = jsonArray[i].split(":")[1].split("/")[2];
+                  imageMediaValue = imageMediaValue.replace("\}", "");
+                  imageMediaValue = imageMediaValue.replace("\]", "");
+                  imageMediaValue = imageMediaValue.replace("\}", "");
+                  imageMediaValue = imageMediaValue.replace("\}", "");
+                  var rowWithId = rowValue + " : \"" + imageMediaValue;
                   rowArray.push(rowWithId);
                   console.log(rowArray); //This works perfectly
                }
