@@ -600,18 +600,6 @@ router.route('/imageCSV')
  //2. I need to unzip the file and add the unzipped content to a directory
  if(fileType == ".xlsx"){
 
-  //The xlsx file needs to be updated so that it takes information about the drawing1.xml file for the row number and the id and the 
-  //drawing1.rels.xml to get information about the image and the media folder. 
-
-  //Row 1 has the Id = rId1 which is linked to image2, so I don't need to rename the image.
-
-  //1. I need to be able to read the drawing1.xml file and create a key value pair that links the  <xdr:row>1</xdr:row> to the r:embed="rId1"
-      //For each neume, read drawing1.xml, push in array row1 : rId1, row2 : rId3
-  //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
-
-  //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
-
-
   var dir = './exports';
 
       if (!fs.existsSync(dir)){
@@ -623,6 +611,29 @@ router.route('/imageCSV')
     //3. I need to go to dir/xl/media to get all the images
       //passsing directoryPath and callback function
 
+        //The xlsx file needs to be updated so that it takes information about the drawing1.xml file for the row number and the id and the 
+  //drawing1.rels.xml to get information about the image and the media folder. 
+
+  //Row 1 has the Id = rId1 which is linked to image2, so I don't need to rename the image.
+
+  //1. I need to be able to read the drawing1.xml file and create a key value pair that links the  <xdr:row>1</xdr:row> to the r:embed="rId1"
+      //For each neume, read drawing1.xml, push in array row1 : rId1, row2 : rId3
+      var fs = require('fs'),
+      xml2js = require('xml2js');
+       
+      var parser = new xml2js.Parser();
+      fs.readFile(__dirname + '/foo.xml', function(err, data) {
+          parser.parseString(data, function (err, result) {
+              console.dir(result);
+              console.log('Done');
+          });
+      });
+  //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
+
+  //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
+
+  //4. For each neume, get the rId[i] and link it to the drawing1.rels.xml array with the image and print the image2.png for example in the neume database
+    
     fs.readdir("./exports/xl/media", function (err, files) {
         //handling error
         if (err) {
