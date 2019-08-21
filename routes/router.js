@@ -705,12 +705,13 @@ router.route('/imageCSV')
                   //console.log(neume_rowNumber)
                  //console.log( "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\"");
                   //{row : "\"" + a + "\" : " + rowArray[neume_rowNumber].split(":")[0]}
-                  mongoose.model('neume').find({$and : [{row : "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update({
+                  mongoose.model('neume').find({$and : [{row : "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update({ //This needs to stay
                       /////Change the part of the code with neume_rowNumber with the actual rowArray
                       imageMedia : rowArray[a] //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {  
                     var image = rowArray[1];
                       console.log(image)
+                      mongoose.model('neume').find({$and : [{imageMedia : rowArray[1]}, {_id : neume._id},{project : IdOfProject} ]}, function (err, neumeElement) {  
                           if(fs.existsSync('exports/xl/media/' + image)){ //This is making wayyy too many files in the storedImages collection
                   //if(file.name == neume.field)
                  //if(neume.indice == fileNameIndice){
@@ -720,7 +721,7 @@ router.route('/imageCSV')
                             var A = storedImages;
                         // store an img in binary in mongo
                             var a = new A;
-                            a.neumeID = neume1._id;
+                            a.neumeID = neumeElement._id;
                             a.projectID = IdOfProject;
                             a.img.data = fs.readFileSync(imgPath);
                             a.img.contentType = 'image/png';
@@ -729,7 +730,7 @@ router.route('/imageCSV')
                             imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
                             console.log(imageData)
                         //All the images (images) need to be pushed to an array field in mongodb
-                            mongoose.model('neume').find({} ).update( 
+                            mongoose.model('neume').find({id : neumeElement._id}).update( 
                             {
                               //push the neumes into the imagesBinary array
                               imagePath : imgPath,
@@ -748,6 +749,7 @@ router.route('/imageCSV')
                             });
                             });
                           }      
+                        });
 
              })
                     neume_rowNumber +=1;
@@ -757,8 +759,62 @@ router.route('/imageCSV')
                  
                 });
       });
+      var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
   //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
+      mongoose.model("neume").find({$and: [{project : IdOfProject}, {classifier : originalFileName}]}, function(err, neumes){
 
+      if(err)
+        console.log(err);
+      else{
+        neumes.forEach(function(neume){
+          console.log(neume.imageMedia);
+          var neumeImageStored = neume.imageMedia //This is working
+           if(fs.existsSync('exports/xl/media/' + neumeImageStored)){ //This is making wayyy too many files in the storedImages collection
+                  //if(file.name == neume.field)
+                 //if(neume.indice == fileNameIndice){
+                          var imgPath = 'exports/xl/media/' + neumeImageStored; //This is undefined. 
+
+                        // our imageStored model
+                            var A = storedImages;
+                        // store an img in binary in mongo
+                            var a = new A;
+                            a.neumeID = neume._id;
+                            a.projectID = IdOfProject;
+                            a.img.data = fs.readFileSync(imgPath);
+                            a.img.contentType = 'image/png';
+                            a.imgBase64 = a.img.data.toString('base64');
+                            var imageData = [];
+                            imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+                            console.log(imageData)
+                        //All the images (images) need to be pushed to an array field in mongodb
+                            mongoose.model('neume').find({id : neume._id}).update( 
+                            {
+                              //push the neumes into the imagesBinary array
+                              imagePath : imgPath,
+                              imagesBinary : imageData}, 
+
+                            function(err, data){
+                              //console.log(err, data);
+                              imageData = [];
+                            
+
+               
+                            a.save(function (err, a) {
+                              if (err) throw err;
+
+                              console.error('saved img to mongo');
+                            });
+                            });
+                          } 
+
+        })
+          
+
+      }
+
+
+
+      })
   //4. For each neume, get the rId[i] and link it to the drawing1.rels.xml array with the image and print the image2.png for example in the neume database
     
           }}
