@@ -664,17 +664,17 @@ router.route('/imageCSV')
     fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
           let xmlParser = require('xml2json');
           let xmlString = data.toString();
-          console.log('JSON output', xmlParser.toJson(xmlString));
+          //console.log('JSON output', xmlParser.toJson(xmlString));
           var jsonObj = xmlParser.toJson(xmlString);
           var jsonArray = [];
           jsonArray = jsonObj.split(',');
-          console.log(jsonArray);
+          //console.log(jsonArray);
           var rowArray = [];
           var a = 0;
           for(var i = 0; i< jsonArray.length; i++){
           //console.log(jsonArray[i] + "hey") 
           if(jsonArray[i].includes("Id"))
-            { console.log(jsonArray[i].split(":")[2] );
+            { //console.log(jsonArray[i].split(":")[2] );
               var rowValue = jsonArray[i].split(":")[2];
               if(jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == ""){
                 var rowValue = jsonArray[i].split(":")[1];
@@ -683,7 +683,7 @@ router.route('/imageCSV')
             }
             if(jsonArray[i].includes("media"))
                {
-                  console.log(jsonArray[i].split(":")[1]);
+                  //console.log(jsonArray[i].split(":")[1]);
                   var imageMediaValue = jsonArray[i].split(":")[1].split("/")[2];
                   imageMediaValue = imageMediaValue.replace("\}", "");
                   imageMediaValue = imageMediaValue.replace("\]", "");
@@ -691,23 +691,26 @@ router.route('/imageCSV')
                   imageMediaValue = imageMediaValue.replace("\}", "");
                   var rowWithId = rowValue + " : \"" + imageMediaValue;
                   rowArray.push(rowWithId);
-                  console.log(rowArray); //This works perfectly
+                  //console.log(rowArray); //This works perfectly
                }
 
           }
 
-               /*mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
+          //Now I need to check if the neume has row jsonArrar[i].split.split("/")[2];
+
+               mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                 
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
-                  mongoose.model('neume').find({_id : neume._id}).update({
-                      row : rowArray[a] //adding the image to the image array without reinitializng everything
+                  console.log("\"1\" : " + rowWithId[1].split(":"));
+                  mongoose.model('neume').find({$and:[{_id : neume._id}, {row : "\"1\" : " + rowWithId[1].split(":")}]}).update({
+                      imageMedia : rowWithId[a] //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {
 
                     })
-                  a+= 1;
+                    a+= 1;
                   })
-                });*/
+                });
       });
   //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
 
