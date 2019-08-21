@@ -623,26 +623,26 @@ router.route('/imageCSV')
       fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
           let xmlParser = require('xml2json');
           let xmlString = data.toString();
-          console.log('JSON output', xmlParser.toJson(xmlString));
+          //console.log('JSON output', xmlParser.toJson(xmlString));
           var jsonObj = xmlParser.toJson(xmlString);
           var jsonArray = [];
           jsonArray = jsonObj.split(',');
-          console.log(jsonArray);
+          //console.log(jsonArray);
           var rowArray = [];
           var a = 0;
           for(var i = 0; i< jsonArray.length; i++){
           //console.log(jsonArray[i] + "hey") 
           if(jsonArray[i].includes("\"xdr:row\":"))
-            { console.log(jsonArray[i].split(":")[2]);
+            { //console.log(jsonArray[i].split(":")[2]);
               var rowValue = jsonArray[i].split(":")[2]; //this is the xdr:row that we have from the element
               
             }
             if(jsonArray[i].includes("\"r:embed\":"))
                {
-                  console.log(jsonArray[i].split(":")[2]);
+                  //console.log(jsonArray[i].split(":")[2]);
                   var rowWithId = rowValue + " : " + jsonArray[i].split(":")[2];
                   rowArray.push(rowWithId);
-                  console.log(rowArray); //This works perfectly
+                  //console.log(rowArray); //This works perfectly
                }
 
           }
@@ -661,7 +661,49 @@ router.route('/imageCSV')
                 });
       });
   //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
+    fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
+          let xmlParser = require('xml2json');
+          let xmlString = data.toString();
+          console.log('JSON output', xmlParser.toJson(xmlString));
+          var jsonObj = xmlParser.toJson(xmlString);
+          var jsonArray = [];
+          jsonArray = jsonObj.split(',');
+          console.log(jsonArray);
+          var rowArray = [];
+          var a = 0;
+          for(var i = 0; i< jsonArray.length; i++){
+          //console.log(jsonArray[i] + "hey") 
+          if(jsonArray[i].includes("Id"))
+            { console.log(jsonArray[i].split(":")[2] );
+              var rowValue = jsonArray[i].split(":")[2];
+              if(jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == ""){
+                var rowValue = jsonArray[i].split(":")[1];
+              } //this is the xdr:row that we have from the element
+              
+            }
+            if(jsonArray[i].includes("media"))
+               {
+                  console.log(jsonArray[i].split(":")[1]);
+                  var rowWithId = rowValue + " : " + jsonArray[i].split(":")[1];
+                  rowArray.push(rowWithId);
+                  console.log(rowArray); //This works perfectly
+               }
 
+          }
+
+               /*mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
+                
+                 neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                  //update it
+                  mongoose.model('neume').find({_id : neume._id}).update({
+                      row : rowArray[a] //adding the image to the image array without reinitializng everything
+                    }, function (err, neume1) {
+
+                    })
+                  a+= 1;
+                  })
+                });*/
+      });
   //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
 
   //4. For each neume, get the rId[i] and link it to the drawing1.rels.xml array with the image and print the image2.png for example in the neume database
