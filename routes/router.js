@@ -689,7 +689,7 @@ router.route('/imageCSV')
                   imageMediaValue = imageMediaValue.replace("\]", "");
                   imageMediaValue = imageMediaValue.replace("\}", "");
                   imageMediaValue = imageMediaValue.replace("\}", "");
-                  var rowWithId = rowValue + " : \"" + imageMediaValue;
+                  var rowWithId =  imageMediaValue.replace("\"", "");
                   rowArray.push(rowWithId);
                   console.log(rowArray); //This works perfectly
                }
@@ -708,8 +708,21 @@ router.route('/imageCSV')
                   mongoose.model('neume').find({$and : [{row : "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update({
                       /////Change the part of the code with neume_rowNumber with the actual rowArray
                       imageMedia : rowArray[a] //adding the image to the image array without reinitializng everything
-                    }, function (err, neume1) {
-                      var image = neume1.imageMedia.split(":")[1].replace("\"", "")
+                    }, function (err, neume1) {        
+
+             })
+                    neume_rowNumber +=1;
+                    a-= 1;
+                  })
+
+                 neumes.forEach(function(neume){ 
+                 mongoose.model('neume').find({$and : [{classifier : originalFileName}, {project : IdOfProject}, {imageMedia : rowWithId }, {_id : neume._id}]}, function (err, neume) {
+                  if(err){
+                    console.log("err");
+                    res.redirect("/");
+                  }
+                     var image =rowArray[0];
+                      console.log(image)
                           if(fs.existsSync('exports/xl/media/' + image)){ //This is making wayyy too many files in the storedImages collection
                   //if(file.name == neume.field)
                  //if(neume.indice == fileNameIndice){
@@ -758,11 +771,8 @@ router.route('/imageCSV')
                
 
               console.log(project.positionArray);
-
-             })
-                    neume_rowNumber +=1;
-                    a-= 1;
-                  })
+                 });
+               });
                 });
       });
   //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
