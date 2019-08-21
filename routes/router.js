@@ -618,15 +618,22 @@ router.route('/imageCSV')
 
   //1. I need to be able to read the drawing1.xml file and create a key value pair that links the  <xdr:row>1</xdr:row> to the r:embed="rId1"
       //For each neume, read drawing1.xml, push in array row1 : rId1, row2 : rId3
-      var fs = require('fs'),
-      xml2js = require('xml2js');
-       
-      var parser = new xml2js.Parser();
-      fs.readFile(__dirname + '/foo.xml', function(err, data) {
-          parser.parseString(data, function (err, result) {
-              console.dir(result);
-              console.log('Done');
-          });
+      var fs = require('fs');
+
+      fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
+          let xmlParser = require('xml2json');
+          let xmlString = data.toString();
+          console.log('JSON output', xmlParser.toJson(xmlString));
+          var jsonObj = xmlParser.toJson(xmlString);
+          var jsonArray = [];
+          jsonArray = jsonObj.split(',');
+          console.log(jsonArray);
+          for(var i = 0; i< jsonArray.length; i++){
+          //console.log(jsonArray[i] + "hey") 
+
+          if(jsonArray[i].includes("\"xdr:row\":"))
+            {console.log(jsonArray[i])}
+          }
       });
   //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
 

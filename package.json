@@ -81,7 +81,8 @@
     "xlsx-to-json-lc": "^0.5.0",
     "xml-js": "^1.6.11",
     "xml-to-json-stream": "^1.1.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "xml2json": "^0.11.2"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
