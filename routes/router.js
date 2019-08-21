@@ -670,7 +670,7 @@ router.route('/imageCSV')
           jsonArray = jsonObj.split(',');
           //console.log(jsonArray);
           var rowArray = [];
-          var a = 0;
+          var a = 1;
           for(var i = 0; i< jsonArray.length; i++){
           //console.log(jsonArray[i] + "hey") 
           if(jsonArray[i].includes("Id"))
@@ -691,26 +691,27 @@ router.route('/imageCSV')
                   imageMediaValue = imageMediaValue.replace("\}", "");
                   var rowWithId = rowValue + " : \"" + imageMediaValue;
                   rowArray.push(rowWithId);
-                  //console.log(rowArray); //This works perfectly
+                  console.log(rowArray); //This works perfectly
                }
           }
 
           //Now I need to check if the neume has row jsonArrar[i].split.split("/")[2];
 
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
-                
+                var neume_rowNumber = 1;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
                   
-                  var neume_rowNumber = 1;
-                  console.log("\"" + neume_rowNumber + "\" : " + rowArray[neume_rowNumber].split(":")[0]);
-                  mongoose.model('neume').find({$and : [{_id : neume._id}, {row : "\"" + a + "\" : " + rowArray[neume_rowNumber].split(":")[0]}]}).update({
-                      imageMedia : "!" //adding the image to the image array without reinitializng everything
+                  //console.log(neume_rowNumber)
+                 //console.log( "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\"");
+                  //{row : "\"" + a + "\" : " + rowArray[neume_rowNumber].split(":")[0]}
+                  mongoose.model('neume').find({$and : [{row : "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update({
+                      imageMedia : rowArray[a] //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {
                       
                     })
-                    neume_rowNumber = neume_rowNumber++;
-                    a+= 1;
+                    neume_rowNumber +=1;
+                    a-= 1;
                   })
                 });
       });
