@@ -754,7 +754,7 @@ router.route('/imageCSV')
              })
                     neume_rowNumber +=1;
                     a-= 1;
-                    element-=1;
+                    element -= 1;
                   })
 
                  
@@ -764,6 +764,9 @@ router.route('/imageCSV')
 
   //4. For each neume, get the rId[i] and link it to the drawing1.rels.xml array with the image and print the image2.png for example in the neume database
     
+    //For tomorrow : 1. Get all the neumes from mongoose that have the project id and the classifier name
+    //2. find the neume.imageMedia and send it in a variable for each neume
+    //3. Store the image from the media folder that corresponds to the neume.imageMedia in the storedImages collection and add the imagesbinary to the neume collection
          
                 })
 
