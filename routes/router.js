@@ -602,6 +602,16 @@ router.route('/imageCSV')
 
   //The xlsx file needs to be updated so that it takes information about the drawing1.xml file for the row number and the id and the 
   //drawing1.rels.xml to get information about the image and the media folder. 
+
+  //Row 1 has the Id = rId1 which is linked to image2, so I don't need to rename the image.
+
+  //1. I need to be able to read the drawing1.xml file and create a key value pair that links the  <xdr:row>1</xdr:row> to the r:embed="rId1"
+      //For each neume, read drawing1.xml, push in array row1 : rId1, row2 : rId3
+  //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
+
+  //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
+
+
   var dir = './exports';
 
       if (!fs.existsSync(dir)){
