@@ -693,7 +693,6 @@ router.route('/imageCSV')
                   rowArray.push(rowWithId);
                   //console.log(rowArray); //This works perfectly
                }
-
           }
 
           //Now I need to check if the neume has row jsonArrar[i].split.split("/")[2];
@@ -702,12 +701,15 @@ router.route('/imageCSV')
                 
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
-                  console.log("\"1\" : " + rowWithId[1].split(":"));
-                  mongoose.model('neume').find({$and:[{_id : neume._id}, {row : "\"1\" : " + rowWithId[1].split(":")}]}).update({
-                      imageMedia : rowWithId[a] //adding the image to the image array without reinitializng everything
+                  
+                  var neume_rowNumber = 1;
+                  console.log("\"" + neume_rowNumber + "\" : " + rowArray[neume_rowNumber].split(":")[0]);
+                  mongoose.model('neume').find({$and : [{_id : neume._id}, {row : "\"" + a + "\" : " + rowArray[neume_rowNumber].split(":")[0]}]}).update({
+                      imageMedia : "!" //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {
-
+                      
                     })
+                    neume_rowNumber = neume_rowNumber++;
                     a+= 1;
                   })
                 });
