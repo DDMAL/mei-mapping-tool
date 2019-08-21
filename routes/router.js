@@ -630,9 +630,13 @@ router.route('/imageCSV')
           console.log(jsonArray);
           for(var i = 0; i< jsonArray.length; i++){
           //console.log(jsonArray[i] + "hey") 
-
           if(jsonArray[i].includes("\"xdr:row\":"))
-            {console.log(jsonArray[i])}
+            { console.log(jsonArray[i]); //this is the xdr:row that we have from the element
+            }
+            if(jsonArray[i].includes("\"r:embed\":"))
+               {
+                console.log(jsonArray[i]);
+               }
           }
       });
   //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
@@ -881,10 +885,10 @@ function CSVToArray(strData, strDelimiter) {
             });
         });
       //TIMEOUT for deleting files from the exports folder
-      setTimeout(function () {
+      /*setTimeout(function () {
                          const rimraf = require('rimraf');
                          rimraf('./exports/*', function () { console.log('done'); });
-                    }, 30000)
+                    }, 30000)*/
      }
 
 if(fileType == ".docx"){
@@ -966,10 +970,10 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
       
       //Change to after the neumes are shown on the page
       //TIMEOUT for deleting files from the exports folder 
-      setTimeout(function () {
+     /* setTimeout(function () {
                          const rimraf = require('rimraf');
                          rimraf('./exports/*', function () { console.log('done'); });
-                    }, 30000)
+                    }, 30000)*/
 
 }
     if(fileType == ".odt"){}
