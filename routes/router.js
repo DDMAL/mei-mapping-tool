@@ -705,13 +705,15 @@ router.route('/imageCSV')
                   //console.log(neume_rowNumber)
                  //console.log( "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\"");
                   //{row : "\"" + a + "\" : " + rowArray[neume_rowNumber].split(":")[0]}
-                  mongoose.model('neume').find({$and : [{row : "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update({
+                  mongoose.model('neume').find({$and : [{row : "\"" + rowArray[a] + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update({
+                      /////Change the part of the code with neume_rowNumber with the actual rowArray[1]
+                      //Row array of split
                       imageMedia : rowArray[a] //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {
                       
                     })
                     neume_rowNumber +=1;
-                    a-= 1;
+                    a+= 1;
                   })
                 });
       });
