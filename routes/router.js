@@ -628,16 +628,37 @@ router.route('/imageCSV')
           var jsonArray = [];
           jsonArray = jsonObj.split(',');
           console.log(jsonArray);
+          var rowArray = [];
+          var a = 0;
           for(var i = 0; i< jsonArray.length; i++){
           //console.log(jsonArray[i] + "hey") 
           if(jsonArray[i].includes("\"xdr:row\":"))
-            { console.log(jsonArray[i]); //this is the xdr:row that we have from the element
+            { console.log(jsonArray[i].split(":")[2]);
+              var rowValue = jsonArray[i].split(":")[2]; //this is the xdr:row that we have from the element
+              
             }
             if(jsonArray[i].includes("\"r:embed\":"))
                {
-                console.log(jsonArray[i]);
+                  console.log(jsonArray[i].split(":")[2]);
+                  var rowWithId = rowValue + " : " + jsonArray[i].split(":")[2];
+                  rowArray.push(rowWithId);
+                  console.log(rowArray); //This works perfectly
                }
+
           }
+
+               mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
+                
+                 neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                  //update it
+                  mongoose.model('neume').find({_id : neume._id}).update({
+                      row : rowArray[a] //adding the image to the image array without reinitializng everything
+                    }, function (err, neume1) {
+
+                    })
+                  a+= 1;
+                  })
+                });
       });
   //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
 
@@ -669,7 +690,7 @@ router.route('/imageCSV')
                 
           //update it
           mongoose.model('neume').find({_id : neume._id}).update({
-              indice : "image" + indice + ".png" //adding the image to the image array without reinitializng everything
+              
           }, function (err, neume1) {
 
             if (err) {

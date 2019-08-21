@@ -15,7 +15,7 @@ var neumeSchema = new mongoose.Schema({
   neumeSection : String,
   neumeSectionName : String,
   classifier : String,
-  indice : String,
+  row : String,
   source : String,
   genericName : String
 });
