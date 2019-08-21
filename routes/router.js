@@ -699,6 +699,7 @@ router.route('/imageCSV')
 
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                 var neume_rowNumber = 1;
+                var numberOfNeumes = 1;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
                   
@@ -709,7 +710,7 @@ router.route('/imageCSV')
                       /////Change the part of the code with neume_rowNumber with the actual rowArray
                       imageMedia : rowArray[a] //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {  
-                    var image = rowArray[1];
+                    var image = rowArray[numberOfNeumes];
                       console.log(image)
                           if(fs.existsSync('exports/xl/media/' + image)){ //This is making wayyy too many files in the storedImages collection
                   //if(file.name == neume.field)
@@ -751,6 +752,7 @@ router.route('/imageCSV')
 
              })
                     neume_rowNumber +=1;
+                    numberOfNeumes +=1;
                     a-= 1;
                   })
 
