@@ -710,7 +710,19 @@ router.route('/imageCSV')
                       /////Change the part of the code with neume_rowNumber with the actual rowArray
                       imageMedia : rowArray[a] //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {  
-                    var image = rowArray[numberOfNeumes];
+             })
+                    neume_rowNumber +=1;
+                    a-= 1;
+                  })
+
+                 
+                });
+      });
+    mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
+                
+                 neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                  //update itvar image = rowArray[numberOfNeumes];
+                  var image = neume.imageMedia;
                       console.log(image)
                           if(fs.existsSync('exports/xl/media/' + image)){ //This is making wayyy too many files in the storedImages collection
                   //if(file.name == neume.field)
@@ -730,8 +742,8 @@ router.route('/imageCSV')
                             imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
                             console.log(imageData)
                         //All the images (images) need to be pushed to an array field in mongodb
-                            mongoose.model('neume').find({} ).update( 
-                            {
+                            mongoose.model('neume').find({_id : neume._id}).update({
+                            
                               //push the neumes into the imagesBinary array
                               imagePath : imgPath,
                               imagesBinary : imageData}, 
@@ -748,17 +760,11 @@ router.route('/imageCSV')
                               console.error('saved img to mongo');
                             });
                             });
-                          }      
-
-             })
-                    neume_rowNumber +=1;
-                    numberOfNeumes +=1;
-                    a-= 1;
+                          }  
+                  
                   })
-
-                 
                 });
-      });
+    
   //3. After that, I need to read the drawing1.rels.xml and get an array that has rId1 : ../media/image2.png
 
   //4. For each neume, get the rId[i] and link it to the drawing1.rels.xml array with the image and print the image2.png for example in the neume database
