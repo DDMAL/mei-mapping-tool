@@ -729,7 +729,7 @@ router.route('/imageCSV')
                             imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
                             console.log(imageData)
                         //All the images (images) need to be pushed to an array field in mongodb
-                            mongoose.model('neume').find({$and : [{row : "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update( 
+                            mongoose.model('neume').find({} ).update( 
                             {
                               //push the neumes into the imagesBinary array
                               imagePath : imgPath,
