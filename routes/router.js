@@ -625,8 +625,17 @@ router.route('/imageCSV')
 
       fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
         if(err){
-          console.log(err);
-          res.redirect("back");
+          var err = 'Error : You cannot upload an old version of excel. Please make sure that your version of excel is updated.';
+                  return res.format({
+                  html: function(){           
+                      res.render('errorLog', {
+                        "error" : err,
+                      });
+                  },
+                  json: function(){
+                      res.json(err);
+                  }
+                });
         }
           let xmlParser = require('xml2json');
           let xmlString = data.toString();
@@ -654,43 +663,57 @@ router.route('/imageCSV')
                   //console.log(rowArray); //This works perfectly
                   //An error happens when the neume gets all the files
              fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
-                  let xmlParser = require('xml2json');
-                  let xmlString = data.toString();
-                  //console.log('JSON output', xmlParser.toJson(xmlString));
-                  var jsonObj = xmlParser.toJson(xmlString);
-                  var jsonArray = [];
-                  var rowValue = "";
-                  jsonArray = jsonObj.split(',');
-                  //console.log(jsonArray);
-                  imageArray = [];
-                  
-                  for(var i = 0; i< jsonArray.length; i++){
-                  //console.log(jsonArray[i] + "hey") 
-                  if(jsonArray[i].includes("Id"))
-                    { //console.log(jsonArray[i].split(":")[2] );
-                      rowValue = jsonArray[i].split(":")[2];
-                      if(jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == ""){
-                        rowValue = jsonArray[i].split(":")[1];
-                      }
-                      
-                      //this is the xdr:row that we have from the element
-                      
-                    }
-                    if(jsonArray[i].includes("media"))
-                       {
-                          //console.log(jsonArray[i].split(":")[1]);
-                          var rowWithId = jsonArray[i].split(":")[1].split("/")[2];
-                          rowWithId = rowWithId.replace("\}", "");
-                          rowWithId = rowWithId.replace("\]", "");
-                          rowWithId = rowWithId.replace("\}", "");
-                          rowWithId = rowWithId.replace("\}", "");
-                          rowWithId = rowWithId.replace("\"", "");
-
-                          var element = rowValue.concat(" : " + rowWithId);
-                          imageArray.push(element);
-                          console.log(imageArray); //This works perfectly
-                       }
+              if(err){
+                var err = 'Error : You cannot upload an old version of excel. Please make sure that your version of excel is updated.';
+                  return res.format({
+                  html: function(){           
+                      res.render('errorLog', {
+                        "error" : err,
+                      });
+                  },
+                  json: function(){
+                      res.json(err);
                   }
+                });
+
+              } else
+                  {let xmlParser = require('xml2json');
+                                    let xmlString = data.toString();
+                                    //console.log('JSON output', xmlParser.toJson(xmlString));
+                                    var jsonObj = xmlParser.toJson(xmlString);
+                                    var jsonArray = [];
+                                    var rowValue = "";
+                                    jsonArray = jsonObj.split(',');
+                                    //console.log(jsonArray);
+                                    imageArray = [];
+                                    
+                                    for(var i = 0; i< jsonArray.length; i++){
+                                    //console.log(jsonArray[i] + "hey") 
+                                    if(jsonArray[i].includes("Id"))
+                                      { //console.log(jsonArray[i].split(":")[2] );
+                                        rowValue = jsonArray[i].split(":")[2];
+                                        if(jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == ""){
+                                          rowValue = jsonArray[i].split(":")[1];
+                                        }
+                                        
+                                        //this is the xdr:row that we have from the element
+                                        
+                                      }
+                                      if(jsonArray[i].includes("media"))
+                                         {
+                                            //console.log(jsonArray[i].split(":")[1]);
+                                            var rowWithId = jsonArray[i].split(":")[1].split("/")[2];
+                                            rowWithId = rowWithId.replace("\}", "");
+                                            rowWithId = rowWithId.replace("\]", "");
+                                            rowWithId = rowWithId.replace("\}", "");
+                                            rowWithId = rowWithId.replace("\}", "");
+                                            rowWithId = rowWithId.replace("\"", "");
+                  
+                                            var element = rowValue.concat(" : " + rowWithId);
+                                            imageArray.push(element);
+                                            console.log(imageArray); //This works perfectly
+                                         }
+                                    }}
                });
                      };
 
@@ -701,31 +724,46 @@ router.route('/imageCSV')
                 var indice = 0;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
+                  if(imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err)
+                  {
+                    imageArray[indice] = "image3.png"
+                  }
                   //Add a while loop for if the rowArray == imageArray[indice].split(":")[0]; (so it's inside of a imageArray.forEach())
                   for(var i = 0; i< rowArray.length; i++){
-                    if(rowArray[i] == imageArray[i].split(":")[0]){
+                    if(imageArray == null || imageArray[i] == "" || imageArray[i] == "undefined")
+                    {
+                      break
+                    }
+                    else if(rowArray[i] == imageArray[i].split(":")[0]){
                       imageArray.push(imageArray[i].split(":")[0]);
                     }
                   }
+                  
                   //if not, redo the loop for another neume
-                  mongoose.model('neume').find({_id : neume._id}).update({
-                      row : rowArray[indice],
-                      imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
-                    }, function (err, neume1) {
-                      console.log(imageArray[0].split(":")[0]);//This is undefined
-                      var imageFilePath = imageArray[0].split(":")[0];
-
-                      mongoose.model("neume").find({row : imageFilePath}).update({
-                          imageMedia : "." //This didnt get updated
-                    }, function (err, neumeElement) {
-                      if (err) {
-                          res.send("There was a problem updating the information to the database: " + err);
-                      } 
-                      else {console.log(neumeElement);
-                       }
-                    })
-
-                    })
+                  if(imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err)
+                  {
+                    imageArray[indice] = ["0", "image3.png"]
+                  }
+                  else{
+                 mongoose.model('neume').find({_id : neume._id}).update({
+                                            row : rowArray[indice],
+                                            imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
+                                          }, function (err, neume1) {
+                                            console.log(imageArray[0].split(":")[0]);//This is undefined
+                                            var imageFilePath = imageArray[0].split(":")[0];
+                      
+                                            mongoose.model("neume").find({row : imageFilePath}).update({
+                                                imageMedia : "." //This didnt get updated
+                                          }, function (err, neumeElement) {
+                                            if (err) {
+                                                res.send("There was a problem updating the information to the database: " + err);
+                                            } 
+                                            else {console.log(neumeElement);
+                                             }
+                                          })
+                      
+                                          })}
+                  
                  indice++;
                   })
                 });
@@ -733,6 +771,7 @@ router.route('/imageCSV')
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
                   var image = neume.imageMedia;
+                  console.log(image);
                   if(fs.existsSync('exports/xl/media/' + image)){
                       var imgPath = 'exports/xl/media/' + image; //This is undefined. 
                       var A = storedImages;
@@ -921,7 +960,10 @@ router.route('/imageCSV')
                     });
     });
     //Delete the exports folder after the loading is done. 
-
+    setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 30000)
 
  //4. I need to add the images to the neumes by image name "image01, ect..."
    //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
