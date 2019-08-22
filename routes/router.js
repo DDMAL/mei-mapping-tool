@@ -648,11 +648,43 @@ router.route('/imageCSV')
                {
                   //console.log(jsonArray[i].split(":")[2]);
                   var rowWithId = rowValue + " : " + jsonArray[i].split(":")[2];
+                  rowWithId = rowWithId.replace("\}", "");
                   rowArray.push(rowWithId);
                   //console.log(rowArray); //This works perfectly
-               }
+                  //An error happens when the neume gets all the files
+             fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
+                  let xmlParser = require('xml2json');
+                  let xmlString = data.toString();
+                  //console.log('JSON output', xmlParser.toJson(xmlString));
+                  var jsonObj = xmlParser.toJson(xmlString);
+                  var jsonArray = [];
+                  jsonArray = jsonObj.split(',');
+                  //console.log(jsonArray);
+                  var imageArray = [];
+                  
+                  for(var i = 0; i< jsonArray.length; i++){
+                  //console.log(jsonArray[i] + "hey") 
+                  if(jsonArray[i].includes("Id"))
+                    { //console.log(jsonArray[i].split(":")[2] );
+                      var rowValue = jsonArray[i];
+                      var imageArray  = [];
+                      imageArray.push(rowValue);
+                      //this is the xdr:row that we have from the element
+                      
+                    }
+                    if(jsonArray[i].includes("media"))
+                       {
+                          //console.log(jsonArray[i].split(":")[1]);
+                          var rowWithId = jsonArray[i];
+                          imageArray.push(rowWithId);
+                          console.log(imageArray); //This works perfectly
+                       }
+                  }
+               });
+                     };
 
           }
+
 
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                 
@@ -663,50 +695,18 @@ router.route('/imageCSV')
                     }, function (err, neume1) {
 
                     })
-                  a+= 1;
+                 
                   })
                 });
       });
   //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
-    fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
-          let xmlParser = require('xml2json');
-          let xmlString = data.toString();
-          //console.log('JSON output', xmlParser.toJson(xmlString));
-          var jsonObj = xmlParser.toJson(xmlString);
-          var jsonArray = [];
-          jsonArray = jsonObj.split(',');
-          //console.log(jsonArray);
-          var rowArray = [];
-          var a = 1;
-          for(var i = 0; i< jsonArray.length; i++){
-          //console.log(jsonArray[i] + "hey") 
-          if(jsonArray[i].includes("Id"))
-            { //console.log(jsonArray[i].split(":")[2] );
-              var rowValue = jsonArray[i].split(":")[2];
-              if(jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == ""){
-                var rowValue = jsonArray[i].split(":")[1];
-              } //this is the xdr:row that we have from the element
-              
-            }
-            if(jsonArray[i].includes("media"))
-               {
-                  //console.log(jsonArray[i].split(":")[1]);
-                  var imageMediaValue = jsonArray[i].split(":")[1].split("/")[2];
-                  imageMediaValue = imageMediaValue.replace("\}", "");
-                  imageMediaValue = imageMediaValue.replace("\]", "");
-                  imageMediaValue = imageMediaValue.replace("\}", "");
-                  imageMediaValue = imageMediaValue.replace("\}", "");
-                  var rowWithId =  imageMediaValue.replace("\"", "");
-                  rowArray.push(rowWithId);
-                  //console.log(rowArray); //This works perfectly
-               }
-          }
+
 
           //Work on making them on reload
 
           //Now I need to check if the neume has row jsonArrar[i].split.split("/")[2];
 
-               mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
+               /*mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                 var neume_rowNumber = 1;
                 var element = 1;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
@@ -730,7 +730,7 @@ router.route('/imageCSV')
                       imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
                        console.log(imageData);
                   }
-                  mongoose.model('neume').find({$and : [{row : "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\""}, {_id : neume._id}]}).update({ //This needs to stay
+                  mongoose.model('neume').find({$and : [{row : neume.row}, {_id : neume._id}]}).update({ //This needs to stay
                       /////Change the part of the code with neume_rowNumber with the actual rowArray
                       imageMedia : rowArray[a],
                       imagePath : imgPath,
@@ -775,19 +775,20 @@ router.route('/imageCSV')
                             });
                             });
                           }      
-                        });*/
+                        });
 
                     })
                   neume_rowNumber +=1;
                   a-= 1;
                   element -= 1;
              })
+             })
 
                  
-           });
+           });*/
 
 
-      });
+
 
  }}
     
@@ -802,7 +803,7 @@ router.route('/imageCSV')
  mongoose.model('neume').find({project : req.body.IdOfProject}, function (err, neumeElements) { 
                     neumeElements.forEach(function(element){
 
-                      console.log(element.imageMedia);
+                      //console.log(element.imageMedia);
                       var image = element.row;
                       var fs = require("fs");
                      
@@ -822,7 +823,7 @@ router.route('/imageCSV')
                             a.imgBase64 = a.img.data.toString('base64');
                             var imageData = [];
                             imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
-                            console.log(imageData)
+                            //console.log(imageData)
                         //All the images (images) need to be pushed to an array field in mongodb
                             mongoose.model('neume').find({id : element._id}).update( 
                             {
@@ -862,11 +863,13 @@ router.route('/imageCSV')
                        }
                     });
     });
+    //Delete the exports folder after the loading is done. 
+
 
  //4. I need to add the images to the neumes by image name "image01, ect..."
    //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
 //5. Redirect the page to the project page
-
+  
      
    }
 
