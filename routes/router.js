@@ -702,10 +702,15 @@ router.route('/imageCSV')
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
                   //Add a while loop for if the rowArray == imageArray[indice].split(":")[0]; (so it's inside of a imageArray.forEach())
+                  for(var i = 0; i< rowArray.length; i++){
+                    if(rowArray[i] == imageArray[i].split(":")[0]){
+                      imageArray.push(imageArray[i].split(":")[0]);
+                    }
+                  }
                   //if not, redo the loop for another neume
                   mongoose.model('neume').find({_id : neume._id}).update({
                       row : rowArray[indice],
-                      imageMedia :  //adding the image to the image array without reinitializng everything
+                      imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {
                       console.log(imageArray[0].split(":")[0]);//This is undefined
                       var imageFilePath = imageArray[0].split(":")[0];
@@ -723,6 +728,43 @@ router.route('/imageCSV')
                     })
                  indice++;
                   })
+                });
+
+               mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
+                 neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
+                  var image = neume.imageMedia;
+                  if(fs.existsSync('exports/xl/media/' + image)){
+                      var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                      var A = storedImages;
+                      var a = new A;
+                      a.projectID = IdOfProject;
+                      a.neumeID = neume._id;
+                      a.img.data = fs.readFileSync(imgPath);
+                      a.img.contentType = 'image/png';
+                      a.imgBase64 = a.img.data.toString('base64');
+                      
+                      imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+                       console.log(imageData); //This works
+                      mongoose.model('neume').find({_id : neume._id}).update( 
+                            {
+                              //push the neumes into the imagesBinary array
+                              imagePath : 'exports/xl/media/' + neume.imageMedia,
+                              imagesBinary : fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')}, 
+
+                            function(err, data){
+                              //console.log(err, data);
+                              imageData = [];
+               
+                            a.save(function (err, a) {
+                              if (err) throw err;
+
+                              console.error('saved img to mongo');
+                            });
+                            });
+                    }
+                    
+                  })
+
                 });
       });
   //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
@@ -744,18 +786,7 @@ router.route('/imageCSV')
                   image = rowArray[element];//This is linked to the row number //This works, try it on other projects.
                   var imageData = [];
 
-                  if(fs.existsSync('exports/xl/media/' + image)){
-                      var imgPath = 'exports/xl/media/' + image; //This is undefined. 
-                      var A = storedImages;
-                      var a = new A;
-                      a.projectID = IdOfProject;
-                      a.img.data = fs.readFileSync(imgPath);
-                      a.img.contentType = 'image/png';
-                      a.imgBase64 = a.img.data.toString('base64');
-                      
-                      imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
-                       console.log(imageData);
-                  }
+                  
                   mongoose.model('neume').find({$and : [{row : neume.row}, {_id : neume._id}]}).update({ //This needs to stay
                       /////Change the part of the code with neume_rowNumber with the actual rowArray
                       imageMedia : rowArray[a],
