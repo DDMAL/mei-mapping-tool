@@ -636,6 +636,7 @@ router.route('/imageCSV')
           jsonArray = jsonObj.split(',');
           //console.log(jsonArray);
           var rowArray = [];
+          var imageArray = [];
           var a = 0;
           for(var i = 0; i< jsonArray.length; i++){
           //console.log(jsonArray[i] + "hey") 
@@ -658,25 +659,35 @@ router.route('/imageCSV')
                   //console.log('JSON output', xmlParser.toJson(xmlString));
                   var jsonObj = xmlParser.toJson(xmlString);
                   var jsonArray = [];
+                  var rowValue = "";
                   jsonArray = jsonObj.split(',');
                   //console.log(jsonArray);
-                  var imageArray = [];
+                  imageArray = [];
                   
                   for(var i = 0; i< jsonArray.length; i++){
                   //console.log(jsonArray[i] + "hey") 
                   if(jsonArray[i].includes("Id"))
                     { //console.log(jsonArray[i].split(":")[2] );
-                      var rowValue = jsonArray[i];
-                      var imageArray  = [];
-                      imageArray.push(rowValue);
+                      rowValue = jsonArray[i].split(":")[2];
+                      if(jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == ""){
+                        rowValue = jsonArray[i].split(":")[1];
+                      }
+                      
                       //this is the xdr:row that we have from the element
                       
                     }
                     if(jsonArray[i].includes("media"))
                        {
                           //console.log(jsonArray[i].split(":")[1]);
-                          var rowWithId = jsonArray[i];
-                          imageArray.push(rowWithId);
+                          var rowWithId = jsonArray[i].split(":")[1].split("/")[2];
+                          rowWithId = rowWithId.replace("\}", "");
+                          rowWithId = rowWithId.replace("\]", "");
+                          rowWithId = rowWithId.replace("\}", "");
+                          rowWithId = rowWithId.replace("\}", "");
+                          rowWithId = rowWithId.replace("\"", "");
+
+                          var element = rowValue.concat(" : " + rowWithId);
+                          imageArray.push(element);
                           console.log(imageArray); //This works perfectly
                        }
                   }
@@ -687,15 +698,26 @@ router.route('/imageCSV')
 
 
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
-                
+                var indice = 0;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
                   mongoose.model('neume').find({_id : neume._id}).update({
-                      row : rowArray[a] //adding the image to the image array without reinitializng everything
+                      row : rowArray[indice] //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {
+                      console.log(imageArray[0].split(":")[0]);//This is undefined
+
+                      mongoose.model("neume").find({row : {$regex:  new RegExp(imageArray[0].split(":")[0]) }}).update({
+                      imageMedia : "hey"
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+                       }
+                    })
 
                     })
-                 
+                 indice++;
                   })
                 });
       });
