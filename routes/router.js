@@ -553,6 +553,9 @@ router.route('/imageCSV')
           }
         });
     } else {
+     var unzip = require('unzip');
+     var fs = require("fs");
+    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
 
     var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the 
     //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
@@ -621,6 +624,10 @@ router.route('/imageCSV')
       var fs = require('fs');
 
       fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
+        if(err){
+          console.log(err);
+          res.redirect("back");
+        }
           let xmlParser = require('xml2json');
           let xmlString = data.toString();
           //console.log('JSON output', xmlParser.toJson(xmlString));
@@ -695,6 +702,8 @@ router.route('/imageCSV')
                }
           }
 
+          //Work on making them on reload
+
           //Now I need to check if the neume has row jsonArrar[i].split.split("/")[2];
 
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
@@ -706,7 +715,7 @@ router.route('/imageCSV')
                   //console.log(neume_rowNumber)
                  //console.log( "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\"");
                   //{row : "\"" + a + "\" : " + rowArray[neume_rowNumber].split(":")[0]}
-                  image = rowArray[element];//This is linked to the row number
+                  image = rowArray[element];//This is linked to the row number //This works, try it on other projects.
                   var imageData = [];
 
                   if(fs.existsSync('exports/xl/media/' + image)){
