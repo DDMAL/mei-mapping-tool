@@ -648,7 +648,7 @@ router.route('/imageCSV')
             if(jsonArray[i].includes("\"r:embed\":"))
                {
                   //console.log(jsonArray[i].split(":")[2]);
-                  var rowWithId = rowValue + " : " + jsonArray[i].split(":")[2];
+                  var rowWithId = jsonArray[i].split(":")[2];
                   rowWithId = rowWithId.replace("\}", "");
                   rowArray.push(rowWithId);
                   //console.log(rowArray); //This works perfectly
@@ -701,13 +701,17 @@ router.route('/imageCSV')
                 var indice = 0;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
+                  //Add a while loop for if the rowArray == imageArray[indice].split(":")[0]; (so it's inside of a imageArray.forEach())
+                  //if not, redo the loop for another neume
                   mongoose.model('neume').find({_id : neume._id}).update({
-                      row : rowArray[indice] //adding the image to the image array without reinitializng everything
+                      row : rowArray[indice],
+                      imageMedia :  //adding the image to the image array without reinitializng everything
                     }, function (err, neume1) {
                       console.log(imageArray[0].split(":")[0]);//This is undefined
+                      var imageFilePath = imageArray[0].split(":")[0];
 
-                      mongoose.model("neume").find({row : {$regex:  new RegExp(imageArray[0].split(":")[0]) }}).update({
-                      imageMedia : "hey"
+                      mongoose.model("neume").find({row : imageFilePath}).update({
+                          imageMedia : "." //This didnt get updated
                     }, function (err, neumeElement) {
                       if (err) {
                           res.send("There was a problem updating the information to the database: " + err);
