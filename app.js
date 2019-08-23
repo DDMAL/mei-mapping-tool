@@ -126,7 +126,11 @@ app.post('/image', function (req, res) {
 @param {string, optional} image.width Large images width defaults '100%'
 @param {string, optional} image.height as above
 */
-
+app.use('/gallery', require('node-gallery')({
+  staticFiles : '/uploads/',
+  urlRoot : 'gallery', 
+  title : 'Example Gallery'
+}));
 
 app.use('/', routes);
 app.use('/neumes', neumes);
