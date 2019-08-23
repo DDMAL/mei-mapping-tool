@@ -1,62 +1,62 @@
 var express = require('express'),
-    router = express.Router(),
-    mongoose = require('mongoose'), //mongo connection
-    bodyParser = require('body-parser'), //parses information from POST
-    methodOverride = require('method-override'); //used to manipulate POST
-var storedImages = require('../model/storedImages');
-var fs = require('fs');
-global.neumes_array = [];
+  router = express.Router(),
+  mongoose = require('mongoose'), 
+  bodyParser = require('body-parser'), 
+  methodOverride = require('method-override') //used to manipulate POST
+var storedImages = require('../model/storedImages')
+var fs = require('fs')
+global.neumes_array = []
 
-//Any requests to this controller must pass through this 'use' function
-//Copy and pasted from method-override
+//  Any requests to this controller must pass through this 'use' function
+//  Copy and pasted from method-override
 
-//Change this for the users to go to the projects page
-router.use(bodyParser.json({limit: '50mb'}));
-router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-router.use(methodOverride(function(req, res){
-      if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-        // look in urlencoded POST bodies and delete it
-        var method = req.body._method
-        delete req.body._method
-        return method
-      }
+//  Change this for the users to go to the projects page
+router.use(bodyParser.json({  limit: '50mb' }))
+router.use(bodyParser.urlencoded({  limit: '50mb', extended: true }))
+router.use(methodOverride( function(req, res){ 
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
 }))
 
-//I also need a route for making the zip files.
-//Route for the cancel button
+
+//  Route for the cancel button
 router.route('/cancel')
-    //GET all neumes
-    .get(function(req, res, next) {
-          imageArray = [];
-        //retrieve all neumes from Mongo
-        mongoose.model('project').find({}, function (err, projects) {
-              if (err) {
-                  return console.error(err);
-              } else {
-                  //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                  res.format({
-                      //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
-                    html: function(){
-                         res.redirect("back");
-                    },
-                    //JSON response will show all neumes in JSON format
-                    json: function(){
-                        res.json(projects);
-                    }
-                });
-              }     
-    });
-})
+//  GET all neumes
+  .get( function(req, res, next) {
+    imageArray = []
+
+    mongoose.model('project').find({}, function (err, projects) {
+      if (err) {
+        return console.error(err)
+      } else {
+        //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+        res.format({
+          //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
+          html: function () {
+            res.redirect('back')
+          },
+          //  JSON response will show all neumes in JSON format
+          json: function(){
+          res.json(projects)
+          }
+        })
+      }
+    })
+  })
 
 //Route for the users
 router.route('/user')
-    //GET all neumes
-    .get(function(req, res, next) {
-        //retrieve all neumes from Mongo
-        mongoose.model('project').find({}, function (err, projects) {
-              if (err) {
-                  return console.error(err);
-              } else {
+//GET all neumes
+  .get(function(req, res, next) {
+    //retrieve all neumes from Mongo
+     mongoose.model('project').find({}, function (err, projects) {
+      if (err) {
+        return console.error(err)
+      } else {
                   //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                   res.format({
                       //HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view

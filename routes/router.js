@@ -1,36 +1,29 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../model/User');
-var path = require('path');
-var bodyParser = require('body-parser');
-var alert = require('alert-node');
-const moment = require('moment');
-const mdq = require('mongo-date-query');
-const pathName = require('path'); //Already 
-const json2csv = require('json2csv').parse;
+var express = require('express')
+var router = express.Router()
+var User = require('../model/User')
+var bodyParser = require('body-parser')
+var alert = require('alert-node')
+const moment = require('moment')
+const pathName = require('path')
+const json2csv = require('json2csv').parse
 const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'classification', 'mei', 'review', 'dob', 'project', 'neumeSection', 'neumeSectionName'];
-global.userArray = [];
-global.userArray = [];
-var dialog = require('dialog');
-var session = require('express-session')
-var mongoose = require('mongoose');
-var nodemailer = require('nodemailer');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var bcrypt = require('bcrypt-nodejs');
-var async = require('async');
-var crypto = require('crypto');
-var flash = require('express-flash');
-var storedImages = require('../model/storedImages');
+global.userArray = []
+global.userArray = []
+var dialog = require('dialog')
+var mongoose = require('mongoose')
+var async = require('async')
+var crypto = require('crypto')
+var flash = require('express-flash')
+var storedImages = require('../model/storedImages')
 
-router.use(flash()); 
-router.use(bodyParser.json({limit: '50mb'}));
-router.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+router.use(flash())
+router.use(bodyParser.json({ limit: '50mb' }))
+router.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 // GET route for reading data
 router.get('/', function (req, res, next) {
-  return res.render('index');
-});
-var userFinal = [];
+  return res.render('index')
+})
+var userFinal = []
 
 /*Forget Password Page*/
 
@@ -574,22 +567,7 @@ router.route('/imageCSV')
          let sheetsList = workbook_firstRow.SheetNames
          let sheetData = XLSX.utils.sheet_to_json(workbook_firstRow.Sheets[sheetsList[0]], {
      });
-//Add error message if the columns are not the same
-     /*if(sheetData != ["imagesBinary", "name", "folio", "description", "classification", "mei"]){
-        var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
-              return res.format({
-            html: function(){           
-                  res.render('errorLog', {
-                    "error" : err,
-                  });
-              },
-              json: function(){
-                  res.json(err);
-                  }
-              });
 
-      }*/
-     //else{
       mongoose.model("neume").insertMany(result)
             .then(function(jsonObj) {
 
