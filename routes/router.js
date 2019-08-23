@@ -758,34 +758,38 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                     var index, value, result;
                     for (index = 0; index < imageArray.length; ++index) {
                         value = imageArray[index];
-                        if (value.split(":")[0] === rowArray[indice]) {
+                        console.log(value.split(":")[0] + "hey");
+                        console.log(rowArray[indice] + "you");
+                        if (value.split(":")[0].replace(" ", "") == rowArray[indice]) {
                             // You've found it, the full text is in `value`.
                             // So you might grab it and break the loop, although
                             // really what you do having found it depends on
                             // what you need.
-                            result = value;
+                            result = value.split(":")[1].replace(" ", "");
+                            console.log("The result is : " + result)
                             break;
                         }
                     }
                     console.log(result);
+
                   mongoose.model('neume').find({_id : neume._id}).update({
-                                                             row : rowArray[indice],
-                                                             imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
-                                                           }, function (err, neume1) {
-                                                             console.log(imageArray[0].split(":")[0]);//This is undefined
-                                                             var imageFilePath = imageArray[0].split(":")[0];
-                                       
-                                                             mongoose.model("neume").find({row : imageFilePath}).update({
-                                                                 imageMedia : "." //This didnt get updated
-                                                           }, function (err, neumeElement) {
-                                                             if (err) {
-                                                                 res.send("There was a problem updating the information to the database: " + err);
-                                                             } 
-                                                             else {console.log(neumeElement);
-                                                              }
-                                                           })
-                                       
-                                                           })
+                     row : rowArray[indice],
+                     imageMedia : result //adding the image to the image array without reinitializng everything
+                   }, function (err, neume1) {
+                     console.log(imageArray[0].split(":")[0]);//This is undefined
+                     var imageFilePath = imageArray[0].split(":")[0];
+
+                     mongoose.model("neume").find({row : imageFilePath}).update({
+                         imageMedia : "." //This didnt get updated
+                   }, function (err, neumeElement) {
+                     if (err) {
+                         res.send("There was a problem updating the information to the database: " + err);
+                     } 
+                     else {console.log(neumeElement);
+                      }
+                   })
+
+                   })
                 }}
                   
                  indice++;
