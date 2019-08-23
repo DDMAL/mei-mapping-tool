@@ -525,7 +525,7 @@ router.route('/imageCSV')
   var fileType = req.body.fileType;
   console.log(fileType); //This is docx
 
-  if(fileType == ".xlsx" || fileType == ".xls"){
+  if(fileType == ".xlsx"){
 
     //Add error message if the names or the column order are not right
   var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
@@ -555,8 +555,13 @@ router.route('/imageCSV')
     } else {
      var unzip = require('unzip');
      var fs = require("fs");
-    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+     try{
+         fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+     }
 
+     catch( e ) { 
+          console.log( 'Caught exception: ', e );
+      }
     var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the 
     //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
     var workbook = XLSX.readFile(req.file.path);
@@ -609,7 +614,13 @@ router.route('/imageCSV')
         fs.mkdirSync(dir);
     }
     var unzip = require('unzip');
-    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+    try{
+         fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+     }
+
+     catch( e ) { 
+          console.log( 'Caught exception: ', e );
+      }
       var fs = require('fs');
 if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")){
       fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
