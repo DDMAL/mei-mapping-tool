@@ -1102,7 +1102,7 @@ router.route('/imageCSV')
 
                                 })
                             })
-                        arrayJson.push(json);
+                        arrayJson.push(json); //Array to keep the values of the json object in the database
                     }
                     //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
                     console.log(arrayJson);
