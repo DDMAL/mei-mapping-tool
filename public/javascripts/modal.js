@@ -9,17 +9,17 @@ var spanProject = document.getElementsByClassName("closeProject")[0];
 
 // When the user clicks on the button, open the modal 
 btnProject.onclick = function() {
-  modalProject.style.display = "block";
+    modalProject.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
 spanProject.onclick = function() {
-  modalProject.style.display = "none";
+    modalProject.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == modalProject) {
-    modalProject.style.display = "none";
-  }
+    if (event.target == modalProject) {
+        modalProject.style.display = "none";
+    }
 }

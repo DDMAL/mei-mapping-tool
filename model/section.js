@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');  
+var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var schema = new Schema({
- name : String,
- neumeIDs : [String],
- projectID : String
+    name: String,
+    neumeIDs: [String],
+    projectID: String
 });
 
 var section = module.exports = mongoose.model('section', schema);

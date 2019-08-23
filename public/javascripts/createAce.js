@@ -15,7 +15,7 @@ $(document).ready(function() {
         var tabsUlElement = tabsElement.find('ul');
 
         // the panel id is a timestamp plus a random number from 0 to 10000
-        var tabUniqueId = new Date().getTime() + Math.floor(Math.random()*10000);
+        var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
 
         // create a navigation bar item for the new panel
         var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '">' + tabUniqueId + '</a></li>');
@@ -59,7 +59,10 @@ $(document).ready(function() {
         // resize the editor
         editor.resize();
 
-        editors.push({ id: tabUniqueId, instance: editor });
+        editors.push({
+            id: tabUniqueId,
+            instance: editor
+        });
 
         // add an editor/panel close button to the panel dom
         var closeButton = $('<button class="close">close</button>');
@@ -76,9 +79,9 @@ $(document).ready(function() {
 
         var tabUniqueId = $(this).parent().attr('data-tab-id');
 
-        console.log(tabUniqueId);        
+        console.log(tabUniqueId);
 
-        var resultArray = $.grep(editors, function(n,i){
+        var resultArray = $.grep(editors, function(n, i) {
             return n.id === tabUniqueId;
         }, true);
 
