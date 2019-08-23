@@ -610,32 +610,11 @@ router.route('/imageCSV')
     }
     var unzip = require('unzip');
     fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
-    //We now have all the folders from the zip file into the exports folder.
-    //3. I need to go to dir/xl/media to get all the images
-      //passsing directoryPath and callback function
-
-        //The xlsx file needs to be updated so that it takes information about the drawing1.xml file for the row number and the id and the 
-  //drawing1.rels.xml to get information about the image and the media folder. 
-
-  //Row 1 has the Id = rId1 which is linked to image2, so I don't need to rename the image.
-
-  //1. I need to be able to read the drawing1.xml file and create a key value pair that links the  <xdr:row>1</xdr:row> to the r:embed="rId1"
-      //For each neume, read drawing1.xml, push in array row1 : rId1, row2 : rId3
       var fs = require('fs');
-
+if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")){
       fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
         if(err){
-          var err = 'Error : You cannot upload an old version of excel. Please make sure that your version of excel is updated.';
-                  return res.format({
-                  html: function(){           
-                      res.render('errorLog', {
-                        "error" : err,
-                      });
-                  },
-                  json: function(){
-                      res.json(err);
-                  }
-                });
+          throw err;
         }
           let xmlParser = require('xml2json');
           let xmlString = data.toString();
@@ -719,7 +698,7 @@ router.route('/imageCSV')
 
           }
 
-
+            if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")){
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                 var indice = 0;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
@@ -734,9 +713,12 @@ router.route('/imageCSV')
                     {
                       break
                     }
-                    else if(rowArray[i] == imageArray[i].split(":")[0]){
-                      imageArray.push(imageArray[i].split(":")[0]);
-                    }
+                    //else if(rowArray[i] == imageArray[i].split(":")[0]){ //This is the logic that needs to be changed!
+                     // imageArray.push(imageArray[i].split(":")[0]);
+                    //}
+                    //else if(rowArray[i] != imageArray[i].split(":")[0]){
+                     // imageArray.push(imageArray[i].split(":")[0]);
+                   //}
                   }
                   
                   //if not, redo the loop for another neume
@@ -745,28 +727,34 @@ router.route('/imageCSV')
                     imageArray[indice] = ["0", "image3.png"]
                   }
                   else{
-                 mongoose.model('neume').find({_id : neume._id}).update({
-                                            row : rowArray[indice],
-                                            imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
-                                          }, function (err, neume1) {
-                                            console.log(imageArray[0].split(":")[0]);//This is undefined
-                                            var imageFilePath = imageArray[0].split(":")[0];
-                      
-                                            mongoose.model("neume").find({row : imageFilePath}).update({
-                                                imageMedia : "." //This didnt get updated
-                                          }, function (err, neumeElement) {
-                                            if (err) {
-                                                res.send("There was a problem updating the information to the database: " + err);
-                                            } 
-                                            else {console.log(neumeElement);
-                                             }
-                                          })
-                      
-                                          })}
+                    if(imageArray[indice].split(":")[1] == "undefined" || imageArray[indice].split(":")[1] == null  || imageArray[indice].split(":")[1] == "" || err)
+                    {
+                      console.log("no image");
+                    }
+                    else
+                 {mongoose.model('neume').find({_id : neume._id}).update({
+                                                             row : rowArray[indice],
+                                                             imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
+                                                           }, function (err, neume1) {
+                                                             console.log(imageArray[0].split(":")[0]);//This is undefined
+                                                             var imageFilePath = imageArray[0].split(":")[0];
+                                       
+                                                             mongoose.model("neume").find({row : imageFilePath}).update({
+                                                                 imageMedia : "." //This didnt get updated
+                                                           }, function (err, neumeElement) {
+                                                             if (err) {
+                                                                 res.send("There was a problem updating the information to the database: " + err);
+                                                             } 
+                                                             else {console.log(neumeElement);
+                                                              }
+                                                           })
+                                       
+                                                           })}}
                   
                  indice++;
                   })
                 });
+             };
 
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
@@ -806,96 +794,12 @@ router.route('/imageCSV')
 
                 });
       });
-  //2. After that, I need to add to the first neume, the row1 : rId1, neume 2, the row : rId3, ect..
-
-
-          //Work on making them on reload
-
-          //Now I need to check if the neume has row jsonArrar[i].split.split("/")[2];
-
-               /*mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
-                var neume_rowNumber = 1;
-                var element = 1;
-                 neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
-                  //update it
-                  
-                  //console.log(neume_rowNumber)
-                 //console.log( "\"" + neume_rowNumber + "\" : \"rId" + neume_rowNumber + "\"");
-                  //{row : "\"" + a + "\" : " + rowArray[neume_rowNumber].split(":")[0]}
-                  image = rowArray[element];//This is linked to the row number //This works, try it on other projects.
-                  var imageData = [];
-
-                  
-                  mongoose.model('neume').find({$and : [{row : neume.row}, {_id : neume._id}]}).update({ //This needs to stay
-                      /////Change the part of the code with neume_rowNumber with the actual rowArray
-                      imageMedia : rowArray[a],
-                      imagePath : imgPath,
-                      imagesBinary : imageData  //adding the image to the image array without reinitializng everything
-                    }, function (err, neume1) {  
-                    /*var image = rowArray[element];
-                      mongoose.model('neume').find({$and : [{imageMedia : rowArray[a]}, {_id : neume._id},{project : IdOfProject} ]}, function (err, neumeElement) {  
-                          if(fs.existsSync('exports/xl/media/' + image)){ //This is making wayyy too many files in the storedImages collection
-                  //if(file.name == neume.field)
-                 //if(neume.indice == fileNameIndice){
-                          var imgPath = 'exports/xl/media/' + image; //This is undefined. 
-
-                        // our imageStored model
-                            var A = storedImages;
-                        // store an img in binary in mongo
-                            var a = new A;
-                            a.neumeID = neumeElement._id;
-                            a.projectID = IdOfProject;
-                            a.img.data = fs.readFileSync(imgPath);
-                            a.img.contentType = 'image/png';
-                            a.imgBase64 = a.img.data.toString('base64');
-                            var imageData = [];
-                            imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
-                            console.log(imageData)
-                        //All the images (images) need to be pushed to an array field in mongodb
-                            mongoose.model('neume').find({id : neumeElement._id}).update( 
-                            {
-                              //push the neumes into the imagesBinary array
-                              imagePath : imgPath,
-                              imagesBinary : imageData}, 
-
-                            function(err, data){
-                              //console.log(err, data);
-                              imageData = [];
-                            
-
-               
-                            a.save(function (err, a) {
-                              if (err) throw err;
-
-                              console.error('saved img to mongo');
-                            });
-                            });
-                          }      
-                        });
-
-                    })
-                  neume_rowNumber +=1;
-                  a-= 1;
-                  element -= 1;
-             })
-             })
-
-                 
-           });*/
-
-
-
-
  }}
     
-
-  //4. For each neume, get the rId[i] and link it to the drawing1.rels.xml array with the image and print the image2.png for example in the neume database
-    
-    //For tomorrow : 1. Get all the neumes from mongoose that have the project id and the classifier name
-    //2. find the neume.imageMedia and send it in a variable for each neume
-    //3. Store the image from the media folder that corresponds to the neume.imageMedia in the storedImages collection and add the imagesbinary to the neume collection
-         
-                })
+              } 
+               
+            })
+if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")){
  mongoose.model('neume').find({project : req.body.IdOfProject}, function (err, neumeElements) { 
                     neumeElements.forEach(function(element){
 
@@ -944,6 +848,7 @@ router.route('/imageCSV')
                     })
                    // console.log(userFinal);//This works!!!
                   });
+              }
 
           })
         })
@@ -960,11 +865,7 @@ router.route('/imageCSV')
                     });
     });
     //Delete the exports folder after the loading is done. 
-    setTimeout(function () {
-                         const rimraf = require('rimraf');
-                         rimraf('./exports/*', function () { console.log('done'); });
-                    }, 30000)
-
+    
  //4. I need to add the images to the neumes by image name "image01, ect..."
    //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
 //5. Redirect the page to the project page
