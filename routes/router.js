@@ -574,7 +574,7 @@ router.route('/imageCSV')
          let sheetsList = workbook_firstRow.SheetNames
          let sheetData = XLSX.utils.sheet_to_json(workbook_firstRow.Sheets[sheetsList[0]], {
      });
-
+//Add error message if the columns are not the same
      /*if(sheetData != ["imagesBinary", "name", "folio", "description", "classification", "mei"]){
         var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
               return res.format({
@@ -776,7 +776,7 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                      row : rowArray[indice],
                      imageMedia : result //adding the image to the image array without reinitializng everything
                    }, function (err, neume1) {
-                     console.log(imageArray[0].split(":")[0]);//This is undefined
+                     //console.log(imageArray[0].split(":")[0]);//This is undefined
                      var imageFilePath = imageArray[0].split(":")[0];
 
                      mongoose.model("neume").find({row : imageFilePath}).update({
@@ -785,7 +785,7 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                      if (err) {
                          res.send("There was a problem updating the information to the database: " + err);
                      } 
-                     else {console.log(neumeElement);
+                     else {//console.log(neumeElement);
                       }
                    })
 
@@ -800,7 +800,7 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
                   var image = neume.imageMedia;
-                  console.log(image);
+                  //console.log(image);
                   if(fs.existsSync('exports/xl/media/' + image)){
                       var imgPath = 'exports/xl/media/' + image; //This is undefined. 
                       var A = storedImages;
@@ -812,7 +812,7 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                       a.imgBase64 = a.img.data.toString('base64');
                       
                       imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
-                       console.log(imageData); //This works
+                       //console.log(imageData); //This works
                       mongoose.model('neume').find({_id : neume._id}).update( 
                             {
                               //push the neumes into the imagesBinary array
@@ -1109,6 +1109,9 @@ for (var i = 1; i <jsonTables['results'][0].length; i++ ){
  
 
               var messages = result.messages; // Any messages, such as warnings during conversion
+
+
+              //Before redirecting, I need to add the images to the database!
 
       res.redirect('back');
           })

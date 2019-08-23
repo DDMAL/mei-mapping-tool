@@ -618,7 +618,7 @@ router.route('/:id') //This is where the classifier would be
            mongoose.model("neume").find({project : project._id }, function (err, neumes) {
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
                   var image = neume.imageMedia;
-                  console.log(image);
+                  //console.log(image);
                   if(fs.existsSync('exports/xl/media/' + image)){
                       var imgPath = 'exports/xl/media/' + image; //This is undefined. 
                       var A = storedImages;
@@ -630,7 +630,7 @@ router.route('/:id') //This is where the classifier would be
                       a.imgBase64 = a.img.data.toString('base64');
                       
                       imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
-                       console.log(imageData); //This works
+                       //console.log(imageData); //This works
                       mongoose.model('neume').find({_id : neume._id}).update( 
                             {
                               //push the neumes into the imagesBinary array
