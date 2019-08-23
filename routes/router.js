@@ -743,7 +743,18 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                       console.log("no image");
                     }
                     else
-                 {mongoose.model('neume').find({_id : neume._id}).update({
+                 {
+
+                  console.log(rowArray[indice]);
+                  //neume.find(row : imageArray[indice].split(":")[0]){
+                    //  update({
+                          //  imageMedia : imageArray[indice].split(":")[1]
+                      //})
+                    //}
+
+                    //I just need to get the imageArray value that includes the rowArray[indice]
+
+                  mongoose.model('neume').find({_id : neume._id}).update({
                                                              row : rowArray[indice],
                                                              imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
                                                            }, function (err, neume1) {
@@ -760,7 +771,8 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                                                               }
                                                            })
                                        
-                                                           })}}
+                                                           })
+                }}
                   
                  indice++;
                   })
