@@ -712,7 +712,6 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
             if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")){
                mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
                 var indice = 0;
-                var id = imageArray.length-1;
                  neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                   //update it
                   if(imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err)
@@ -746,7 +745,7 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                     else
                  {
 
-                  console.log(rowArray[indice]);
+                  //console.log(rowArray[indice]);
                   //neume.find(row : imageArray[indice].split(":")[0]){
                     //  update({
                           //  imageMedia : imageArray[indice].split(":")[1]
@@ -754,13 +753,24 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                     //}
 
                     //I just need to get the imageArray value that includes the rowArray[indice]
-                    function isSame(element) {
-                      return element.split(":")[0] == rowArray[indice];
-                    };
-
+                    
+                    
+                    var index, value, result;
+                    for (index = 0; index < imageArray.length; ++index) {
+                        value = imageArray[index];
+                        if (value.split(":")[0] === rowArray[indice]) {
+                            // You've found it, the full text is in `value`.
+                            // So you might grab it and break the loop, although
+                            // really what you do having found it depends on
+                            // what you need.
+                            result = value;
+                            break;
+                        }
+                    }
+                    console.log(result);
                   mongoose.model('neume').find({_id : neume._id}).update({
                                                              row : rowArray[indice],
-                                                             imageMedia : imageArray[id].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
+                                                             imageMedia : imageArray[indice].split(":")[1].replace(" ", "")  //adding the image to the image array without reinitializng everything
                                                            }, function (err, neume1) {
                                                              console.log(imageArray[0].split(":")[0]);//This is undefined
                                                              var imageFilePath = imageArray[0].split(":")[0];
@@ -779,7 +789,6 @@ if(fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./expor
                 }}
                   
                  indice++;
-                 id--
                   })
                 });
              };
