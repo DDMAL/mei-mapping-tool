@@ -30,6 +30,7 @@ router.route('/')
     //GET all projects
     //Get all the neumes from the database : 
     .get(function(req, res, next) {
+
       projectIds = req.body._id;
       mongoose.model('User').find({_id : req.session.userId}, function (err, users) { 
                     userFinal = users;
@@ -614,6 +615,43 @@ router.route('/:id') //This is where the classifier would be
                 userFinal = users;
                // console.log(userFinal);//This works!!!
               });
+           mongoose.model("neume").find({project : project._id }, function (err, neumes) {
+                 neumes.forEach(function(neume){ //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
+                  var image = neume.imageMedia;
+                  console.log(image);
+                  if(fs.existsSync('exports/xl/media/' + image)){
+                      var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                      var A = storedImages;
+                      var a = new A;
+                      a.projectID = project._id;
+                      a.neumeID = neume._id;
+                      a.img.data = fs.readFileSync(imgPath);
+                      a.img.contentType = 'image/png';
+                      a.imgBase64 = a.img.data.toString('base64');
+                      
+                      imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+                       console.log(imageData); //This works
+                      mongoose.model('neume').find({_id : neume._id}).update( 
+                            {
+                              //push the neumes into the imagesBinary array
+                              imagePath : 'exports/xl/media/' + neume.imageMedia,
+                              imagesBinary : fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')}, 
+
+                            function(err, data){
+                              //console.log(err, data);
+                              imageData = [];
+               
+                            a.save(function (err, a) {
+                              if (err) throw err;
+
+                              console.error('saved img to mongo');
+                            });
+                            });
+                    }
+                    
+                  })
+
+                });
            mongoose.model("section").find({projectID : project._id}, function(err, sections){
 
             //Here, we need a logic that will produce a variable neumeSection which is all the neumes for each 
