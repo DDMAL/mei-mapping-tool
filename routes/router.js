@@ -1035,7 +1035,8 @@ router.route('/imageCSV')
                 });
         }
 
-        if (fileType == ".docx") {
+        if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each 
+            //Didn't add the classifier field to the neumes here!
             var fs = require("fs");
             var originalFileName = req.file.originalname;
             var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
@@ -1064,7 +1065,7 @@ router.route('/imageCSV')
             var mammoth = require("mammoth");
             const HtmlTableToJson = require('html-table-to-json');
 
-            mammoth.convertToHtml({
+            mammoth.convertToHtml({ // Mammoth library used for converting the docx to html, since parsing an html table is much easier
                     path: pathName.join(__dirname, "..", req.file.path)
                 })
                 .then(function(result) {
@@ -1091,6 +1092,7 @@ router.route('/imageCSV')
                                     mongoose.model("neume").find({
                                         _id: neume.id
                                     }).update({
+                                        classifier : originalFileName,
                                         project: IdOfProject
                                     }, function(err, neumeElement) {
                                         if (err) {
@@ -1141,7 +1143,8 @@ router.route('/imageCSV')
                                 }
                                 if (jsonArray[i].includes("\"r:embed\":")) {
                                     //console.log(jsonArray[i].split(":")[2]);
-                                    var rowWithId = jsonArray[i].split(":")[2];
+                                    var rowWithId = jsonArray[i].split(":")[6];
+                                    console.log("rowArray is : " + rowWithId)
                                     rowWithId = rowWithId.replace("\}", "");
                                     rowArray.push(rowWithId);
                                     //console.log(rowArray); //This works perfectly
@@ -1184,7 +1187,7 @@ router.route('/imageCSV')
                                                 }
                                                 if (jsonArray[i].includes("media")) {
                                                     //console.log(jsonArray[i].split(":")[1]);
-                                                    var rowWithId = jsonArray[i].split(":")[1].split("/")[2];
+                                                    var rowWithId = jsonArray[i].split(":")[1].split("/")[1]; //This needs to be shown on the console to understand what this is.
                                                     rowWithId = rowWithId.replace("\}", "");
                                                     rowWithId = rowWithId.replace("\]", "");
                                                     rowWithId = rowWithId.replace("\}", "");
@@ -1193,7 +1196,7 @@ router.route('/imageCSV')
 
                                                     var element = rowValue.concat(" : " + rowWithId);
                                                     imageArray.push(element);
-                                                    console.log(imageArray); //This works perfectly
+                                                    //console.log(imageArray); //This works perfectly
                                                 }
                                             }
                                         }
@@ -1203,6 +1206,7 @@ router.route('/imageCSV')
                             }
 
                             if (fs.existsSync('./exports/word/document.xml') && fs.existsSync("./exports/word/_rels/document.xml.rels")) {
+                                console.log("row value is : " + imageArray)
                                 mongoose.model("neume").find({
                                     $and: [{
                                         classifier: originalFileName
@@ -1211,8 +1215,9 @@ router.route('/imageCSV')
                                     }]
                                 }, function(err, neumes) {
                                     var indice = 0;
-                                    neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                                    neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 1 minutes.
                                         //update it
+
                                         if (imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err) {
                                             imageArray[indice] = "image3.png"
                                         }
