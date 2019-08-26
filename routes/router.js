@@ -525,6 +525,7 @@ router.route('/imageCSV')
 
         var fileType = req.body.fileType;
         console.log(fileType); //This is docx
+        var originalFileName = req.file.originalname;
 
         if (fileType == ".xlsx") {
 
@@ -533,7 +534,6 @@ router.route('/imageCSV')
             var nameOfProject = req.body.projectName;
 
             //1. I need to upload the excel file here
-            var originalFileName = req.file.originalname;
             console.log(originalFileName);
             node_xj = require("xls-to-json");
             node_xj({
@@ -1098,15 +1098,7 @@ router.route('/imageCSV')
                                         if (err) {
                                             res.send("There was a problem updating the information to the database: " + err);
                                         } else {
-                                            console.log(neumeElement);
-                                        }
-                                    })
-
-                                })
-                            })
-                        arrayJson.push(json); //Array to keep the values of the json object in the database
-                    }
-                    //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
+                                            //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
                     console.log(arrayJson);
                     for (var laptopItem in arrayJson) {
                     }
@@ -1204,18 +1196,18 @@ router.route('/imageCSV')
 
                             }
 
-                            if (fs.existsSync('./exports/word/document.xml') && fs.existsSync("./exports/word/_rels/document.xml.rels")) {
+                            
                                 mongoose.model("neume").find({
                                     $and: [{
                                         classifier: originalFileName
                                     }, {
                                         project: IdOfProject
                                     }]
-                                }, function(err, neumes) {
+                                }, function(err, neumesElements) {
                                     var indice = 0;
                                     console.log("Row array before of 0 is : " + rowArray[0]); //This is always shown!!
-                                    console.log(neumes._id)
-                                    neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                                    console.log(neumesElements._id)
+                                    neumesElements.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                                         console.log("Row array of 0 is : " + rowArray[0]); //This doesnt show.
                                         if (imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err) {
                                             imageArray[indice] = "image3.png"
@@ -1279,7 +1271,7 @@ router.route('/imageCSV')
                                         indice++;
                                     })
                                 });
-                            };
+                            
 
                             mongoose.model("neume").find({
                                 $and: [{
@@ -1327,7 +1319,15 @@ router.route('/imageCSV')
 
                             });
                         });
-                    }                    
+                    }
+                                        }
+                                    })
+
+                                })
+                            })
+                        arrayJson.push(json); //Array to keep the values of the json object in the database
+                    }
+                                        
 
 
 
