@@ -656,7 +656,7 @@ router.route('/:id') //This is where the classifier would be
                         }, function(err, neumes) {
                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
                                 
-                                if(neume.classfier == undefined){
+                                if(neume.classifier == undefined){
                                     console.log("no classifier")
                                 }
 

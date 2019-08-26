@@ -75,7 +75,7 @@
     "simple-undo": "^1.0.2",
     "sortablejs": "^1.10.0-rc3",
     "uglify-js": "^3.6.0",
-    "unzip": "^0.1.11",
+    "unzipper": "^0.10.4",
     "uuid": "^3.3.3",
     "xls-to-json": "^0.5.2",
     "xls-to-json-lc": "^0.3.4",
