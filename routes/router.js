@@ -912,9 +912,190 @@ router.route('/imageCSV')
             });
             //Delete the exports folder after the loading is done. 
 
+
+ //1. I need to upload the excel file here
+     var originalFileName = req.file.originalname;
+     console.log(originalFileName);
+     node_xj = require("xls-to-json");
+  node_xj({
+    input: req.file.path,  // input xls
+    output: "output.json", // output json // specific sheetname
+    rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
+  }, function(err, result) {
+    if(err) {
+      console.error(err);
+    } else {
+      console.log("works");
+      mongoose.model("neume").insertMany(result)
+            .then(function(jsonObj) {
+
+              jsonObj.forEach(function(neume){
+                mongoose.model("neume").find({_id : neume.id}).update({
+                      project : IdOfProject,
+                      classifier : originalFileName
+                      //I also need to add the classifier name as a field
+                    }, function (err, neumeElement) {
+                      if (err) {
+                          res.send("There was a problem updating the information to the database: " + err);
+                      } 
+                      else {console.log(neumeElement);
+     var fs = require('fs');        
+
+ //2. I need to unzip the file and add the unzipped content to a directory
+ if(fileType == ".xlsx"){
+    var unzip = require('unzip');
+    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({ path: './exports' }));
+    //We now have all the folders from the zip file into the exports folder.
+ //3. I need to go to dir/xl/media to get all the images
+    //passsing directoryPath and callback function
+
+    fs.readdir("./exports/xl/media", function (err, files) {
+        //handling error
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        } 
+        //listing all files using forEach
+        var indice = 1;
+        files.forEach(function (file) {
+         var fs = require('fs');
+          var ind = 1;
+              //files.forEach(function (file) {
+                //var fileName = "image" + ind + ".png";
+              //fs.renameSync("exports/xl/media/" + file, "exports/xl/media/" + fileName);
+              //ind++;
+              //})
+            // Do whatever you want to do with the file
+            var fileNameIndice = "image" + indice + ".png";
+
+            //This part here works well.
             //4. I need to add the images to the neumes by image name "image01, ect..."
-            //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
-            //5. Redirect the page to the project page
+               //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+               mongoose.model("neume").find({$and: [{classifier : originalFileName}, {project : IdOfProject}]}, function (err, neumes) {
+
+               //Then for each neume add a field called  indice + 'png'
+               var indice = 0;
+               neumes.forEach(function(neume){
+                indice += 1;
+                var indiceValue = "image" + indice + ".png";
+                
+          //update it
+          mongoose.model('neume').find({_id : neume._id}).update({
+              indice : "image" + indice + ".png" //adding the image to the image array without reinitializng everything
+          }, function (err, neume1) {
+
+            if (err) {
+                res.send("There was a problem updating the information to the database: " + err);
+            } 
+            else {
+              
+                var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
+
+                    // our imageStored model
+                        var A = storedImages;
+                    // store an img in binary in mongo
+                        var a = new A;
+                        a.neumeID = neume._id;
+                        a.img.data = fs.readFileSync(imgPath);
+                        a.img.contentType = 'image/png';
+                        a.imgBase64 = a.img.data.toString('base64');
+                        var imageData = [];
+                        imageData.push(a.img.data.toString('base64'));//This works for all the images stored in the database.
+
+                    //All the images (images) need to be pushed to an array field in mongodb
+                        mongoose.model('neume').find({_id : neume._id}).update( 
+                        {
+                          //push the neumes into the imagesBinary array
+                          imagePath : imgPath,
+                          imagesBinary : imageData}, 
+
+                        function(err, data){
+                          //console.log(err, data);
+                          imageData = [];
+                        
+
+           
+                        a.save(function (err, a) {
+                          if (err) throw err;
+
+                          console.error('saved img to mongo');
+                        });
+                        });
+
+              
+             //}
+                  //push the file in binary to the neume.imagesBinary
+                  //Create a new document for the image with field neumeID as the neumeID
+                  //Also needs a imgBase64 as a field. 
+
+               //inside the for each : indice++;
+               //mongoose.update
+               //When this is done, res.redirect back
+               
+
+              console.log(project.positionArray);
+
+             }
+             })
+          })
+         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+          //var fs = require("fs");
+          setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
+               //Here I need to delete everything in the exports folder. 
+                //fs.unlink("./exports/", callbackFunction)
+                    
+         });
+
+            console.log(file); 
+        });
+        indice = 1;
+
+    });
+          }}
+                })
+
+          })
+        })
+      }
+    });
+
+ //4. I need to add the images to the neumes by image name "image01, ect..."
+   //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+//5. Redirect the page to the project page
+     res.format({
+                  html: function(){
+                             res.redirect("back");
+                       },
+                       //JSON responds showing the updated values
+                  json: function(){
+                             res.json(project);
+                       }
+                    });
+   }
+      setTimeout(function () {
+                         const rimraf = require('rimraf');
+                         rimraf('./exports/*', function () { console.log('done'); });
+                    }, 10000)
+
+     if(fileType == ".csv"){
+
+  var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+  var nameOfProject = req.body.projectName;
+  var csvParser = require('csv-parse');
+  var file = req.file.buffer;
+
+  const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+      var fs = require('fs');
+          var dir = './exports';
+
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir);
+          }
+      fs.writeFile(filePath, file, function (err) {
+          console.log(file); //This is just the name
+      }); 
 
 
         }
