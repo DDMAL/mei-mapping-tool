@@ -656,7 +656,11 @@ router.route('/:id') //This is where the classifier would be
                         }, function(err, neumes) {
                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
                                 
-                              if(neume.classifier.includes(".xlsx")){
+                                if(neume.classfier == undefined){
+                                    console.log("no classifier")
+                                }
+
+                              else if(neume.classifier.includes(".xlsx")){
                                 var image = neume.imageMedia;
                                 //console.log(image);
                                 if (fs.existsSync('exports/xl/media/' + image)) {

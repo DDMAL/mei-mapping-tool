@@ -469,7 +469,8 @@ router.route('/uploadCSV')
                                     mongoose.model('neume').find({
                                         _id: neume.id
                                     }).update({
-                                        imagesBinary: neumeElement.imagesBinary.replace(/[\[\]']+/g, '')
+                                        imagesBinary: neumeElement.imagesBinary.replace(/[\[\]']+/g, ''),
+                                        mei : neumeElement.mei.replace("“$1”", /"([^"]*)"/g)
                                     }, function(err, neumeElement) {
                                         if (err) {
                                             res.send("There was a problem updating the information to the database: " + err);
@@ -585,7 +586,9 @@ router.route('/imageCSV')
                                     _id: neume.id
                                 }).update({
                                     project: IdOfProject,
-                                    classifier: originalFileName
+                                    classifier: originalFileName,
+                                    mei : neume.mei.replace(/[\u2018\u2019]/g, "'")
+                                                   .replace(/[\u201C\u201D]/g, '"')
                                     //I also need to add the classifier name as a field
                                 }, function(err, neumeElement) {
                                     if (err) {
@@ -1006,7 +1009,9 @@ router.route('/imageCSV')
                                 mongoose.model("neume").find({
                                     _id: neume.id
                                 }).update({
-                                    project: IdOfProject
+                                    project: IdOfProject,
+                                    mei : neume.mei.replace(/[\u2018\u2019]/g, "'")
+                                                   .replace(/[\u201C\u201D]/g, '"')
                                 }, function(err, neumeElement) {
                                     if (err) {
                                         res.send("There was a problem updating the information to the database: " + err);
@@ -1093,7 +1098,9 @@ router.route('/imageCSV')
                                         _id: neume.id
                                     }).update({
                                         classifier : originalFileName,
-                                        project: IdOfProject
+                                        project: IdOfProject,
+                                        mei : neume.mei.replace(/[\u2018\u2019]/g, "'")
+                                                         .replace(/[\u201C\u201D]/g, '"')
                                     }, function(err, neumeElement) {
                                         if (err) {
                                             res.send("There was a problem updating the information to the database: " + err);
@@ -1368,7 +1375,9 @@ router.route('/imageCSV')
                                     mongoose.model("neume").find({
                                         _id: neume.id
                                     }).update({
-                                        project: IdOfProject
+                                        project: IdOfProject,
+                                        mei : neume.mei.replace(/[\u2018\u2019]/g, "'")
+                                                       .replace(/[\u201C\u201D]/g, '"')
                                     }, function(err, neumeElement) {
                                         if (err) {
                                             res.send("There was a problem updating the information to the database: " + err);
