@@ -1144,7 +1144,6 @@ router.route('/imageCSV')
                                 if (jsonArray[i].includes("\"r:embed\":")) {
                                     //console.log(jsonArray[i].split(":")[2]);
                                     var rowWithId = jsonArray[i].split(":")[6];
-                                    console.log("rowArray is : " + rowWithId)
                                     rowWithId = rowWithId.replace("\}", "");
                                     rowArray.push(rowWithId);
                                     //console.log(rowArray); //This works perfectly
@@ -1206,7 +1205,6 @@ router.route('/imageCSV')
                             }
 
                             if (fs.existsSync('./exports/word/document.xml') && fs.existsSync("./exports/word/_rels/document.xml.rels")) {
-                                console.log("row value is : " + imageArray)
                                 mongoose.model("neume").find({
                                     $and: [{
                                         classifier: originalFileName
@@ -1215,9 +1213,10 @@ router.route('/imageCSV')
                                     }]
                                 }, function(err, neumes) {
                                     var indice = 0;
-                                    neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 1 minutes.
-                                        //update it
-
+                                    console.log("Row array before of 0 is : " + rowArray[0]); //This is always shown!!
+                                    console.log(neumes._id)
+                                    neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                                        console.log("Row array of 0 is : " + rowArray[0]); //This doesnt show.
                                         if (imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err) {
                                             imageArray[indice] = "image3.png"
                                         }
@@ -1292,8 +1291,8 @@ router.route('/imageCSV')
                                 neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
                                     var image = neume.imageMedia;
                                     
-                                    if (fs.existsSync('exports/xl/media/' + image)) {
-                                        var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                                    if (fs.existsSync('exports/word/media/' + image)) {
+                                        var imgPath = 'exports/word/media/' + image; //This is undefined. 
                                         var A = storedImages;
                                         var a = new A;
                                         a.projectID = IdOfProject;
@@ -1308,8 +1307,8 @@ router.route('/imageCSV')
                                             _id: neume._id
                                         }).update({
                                                 //push the neumes into the imagesBinary array
-                                                imagePath: 'exports/xl/media/' + neume.imageMedia,
-                                                imagesBinary: fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')
+                                                imagePath: 'exports/word/media/' + neume.imageMedia,
+                                                imagesBinary: fs.readFileSync('exports/word/media/' + neume.imageMedia).toString('base64')
                                             },
 
                                             function(err, data) {
@@ -1337,7 +1336,6 @@ router.route('/imageCSV')
                 .done();
 
         }
-        if (fileType == ".odt") {}
         if (fileType == ".html") {
             var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
             var fs = require('fs');

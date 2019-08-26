@@ -655,6 +655,8 @@ router.route('/:id') //This is where the classifier would be
                             project: project._id
                         }, function(err, neumes) {
                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
+                                
+                              if(neume.classifier.includes(".xlsx")){
                                 var image = neume.imageMedia;
                                 //console.log(image);
                                 if (fs.existsSync('exports/xl/media/' + image)) {
@@ -688,6 +690,42 @@ router.route('/:id') //This is where the classifier would be
                                             });
                                         });
                                 }
+                              }
+                              else if(neume.classifier.includes(".docx")){
+                                var image = neume.imageMedia;
+                                //console.log(image);
+                                if (fs.existsSync('exports/word/media/' + image)) {
+                                    var imgPath = 'exports/word/media/' + image; //This is undefined. 
+                                    var A = storedImages;
+                                    var a = new A;
+                                    a.projectID = project._id;
+                                    a.neumeID = neume._id;
+                                    a.img.data = fs.readFileSync(imgPath);
+                                    a.img.contentType = 'image/png';
+                                    a.imgBase64 = a.img.data.toString('base64');
+
+                                    imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
+                                    //console.log(imageData); //This works
+                                    mongoose.model('neume').find({
+                                        _id: neume._id
+                                    }).update({
+                                            //push the neumes into the imagesBinary array
+                                            imagePath: 'exports/word/media/' + neume.imageMedia,
+                                            imagesBinary: fs.readFileSync('exports/word/media/' + neume.imageMedia).toString('base64')
+                                        },
+
+                                        function(err, data) {
+                                            //console.log(err, data);
+                                            imageData = [];
+
+                                            a.save(function(err, a) {
+                                                if (err) throw err;
+
+                                                console.error('saved img to mongo');
+                                            });
+                                        });
+                                }
+                              }
 
                             })
 
