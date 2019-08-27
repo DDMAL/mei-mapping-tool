@@ -1,0 +1,774 @@
+doctype html
+html
+  head
+   title Cress 🎵 
+   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  script(src='/javascripts/popup.js', type='text/javascript')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+
+   script(src='/javascripts/dropzone.js')
+   link(rel='stylesheet', href='/stylesheets/dropzone.css')
+   script(type='text/javascript' src='/javascripts/ace.js')
+   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/stylesheets/column.css')
+   link(rel='stylesheet', href='/stylesheets/collapsible.css')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+
+   script(src='/javascripts/dropzone.js')
+   link(rel='stylesheet', href='/stylesheets/dropzone.css')
+   script(type='text/javascript' src='/javascripts/ace.js')
+   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/stylesheets/column.css')
+   link(rel='stylesheet', href='/stylesheets/collapsible.css')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+   link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='/javascripts/dropzone.js', type='text/javascript')
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='/javascripts/dropzone.js', type='text/javascript')
+  script(src='/javascripts/worker-html.js', type='text/javascript')
+   
+   script(src='/javascripts/worker-html.js', type='text/javascript')
+   link(rel='stylesheet', href='/stylesheets/buttonNeume.css')
+   link(rel='stylesheet', href='/stylesheets/header.css')
+
+  link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
+  link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
+  link(rel='stylesheet', href='/stylesheets/editor.css')
+  link(rel='stylesheet', href='/stylesheets/tooltip.css')
+  link(rel="icon" href="/images/Favicon.png")
+  script(src='/javascripts/pageReload.js', type='text/javascript')
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel='stylesheet', href='/stylesheets/tooltip.css')
+  link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
+  link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
+  script(src='/javascripts/scroll-keep.js', type='text/javascript')
+  link(rel='stylesheet', href='/stylesheets/boxSection.css')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+  link(rel='stylesheet', href='/stylesheets/dropdown.css')
+  script(src='/javascripts/dropdown.js', type='text/javascript')
+
+//Header parameters
+   //Column parameters
+ each user in users
+  div.navigation.navbar(id = "myHeader").sticky
+   div.nav-horizontal
+    header(style = "padding : 5px")
+        a#logo(href='#' style = "padding-left : 30px; position : relative; top : -10px") Cress 🎵 
+        // main navigation links
+        nav
+          ul
+              li.navigate
+                a(href='/about' ) About
+              li.navigate
+                a(href='/projects') Projects
+              li.navigate
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li.navigate
+                a(href='/') Log out
+              li.navigate 
+                a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
+                 span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
+                 
+              li.navigate
+                a(href='/profile') #{user.username}     
+                 i.fa.fa-user.fa-lg
+              div.mobile-nav(style = "position : fixed; right : 50px; top : 15px; z-index : 1000000000000;" id = "hamburger" )
+                .menu-btn(id = "menu-btn" style = "z-index : 0; width : 25px; position : absolute" onclick="animation(this)")
+                 span(style = "background-color : white").bar1
+                 span(style = "background-color : white").bar2
+                 span(style = "background-color : white").bar3
+                .responsive-menu
+                  ul
+                    li(style = "height : 50px")
+                     a(href='/about' style = "font-size: 14px; height : 10px") About
+                     br
+                    li(style = "height : 50px")
+                      a(href='/projects' style = "font-size: 14px") Projects
+                      br
+                    li(style = "height : 50px") 
+                     a(href='http://ddmal.music.mcgill.ca/' style = "font-size: 14px") DDMAL 
+                     br
+                    li(style = "height : 50px") 
+                      a(href='/' style = "font-size: 14px") Log out
+                     br
+                    li(style = "height : 50px") 
+                      a(href='/' style = "font-size: 14px") 
+                     br
+                    li(style = "height : 50px") 
+                      a(href='/' style = "font-size: 14px") 
+                    li(style = "height : 50px") 
+                      a(href='/profile' style = "font-size: 14px") #{user.username} 
+                     br
+
+//Title section : Adding a neume button and changing the title name                
+div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
+  body
+   div
+    // Add New Neume Modal
+    #myModal.modal
+      // Modal content
+      .modal-content
+        span.close ×
+        include newNeume.pug
+
+    .modal(id = "uploadCSV")
+      .modal-content
+        span.close x
+        include uploadCSV.pug
+
+    .modal(id = "imageCSV")
+      .modal-content
+        span.close x
+        include imageCSV.pug
+
+      // Add New Neume Modal
+    #modalSection.modal
+      // Modal content
+      .modal-content
+        span.close ×
+        include section.pug
+    button(id = "modalSectionButton" type = "button" hidden)
+
+    form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+      
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
+      input(type='hidden',value='PUT',name='_method')
+       
+      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
+        i.fa.fa-pencil
+        //span.tooltiptext You can directly change the project name on the page.   
+          br 
+          t When you are satisfied with the new project name, click here!
+    button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton' style = "font: 14px Avenir, sans-serif; width : 4%; display : none" onclick = "initializeModal('uploadCSV', 'uploadCSVButton');" )
+      i.fa.fa-upload
+      | 
+
+    button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 70px" onclick = "editButtons()")
+      i.fa.fa-caret-down.fa-lg
+      |  Edit
+    div.editButtons(style = "width : 125px; height : 175px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 10px; top : 140px; z-index : 9000; padding : 10px; display : none")
+
+
+      //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
+      form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                    input(type='text',value='#{project.name}', name='projectName' hidden)
+                    button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+                      i.fa.fa-download
+                      |  CSV 
+                      //span.tooltiptext To download the project as a .csv file, click here!
+      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
+       i.fa.fa-upload
+       |  Upload
+
+      button(class = 'button' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px; display : block; margin-left : 0px;" type = "button")
+       | Section
+      button(type = 'button' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" onclick = "buttonSaveLoad()" id = "buttonSavePosition" disabled)
+       i.fa.fa-save
+       |   Save
+    
+    form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 70px")
+                    i.fa.fa-code-fork
+                    |  Fork
+                    //span.tooltiptext To save the project as your own and start working on it, click here!
+
+                  button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
+                  i(id = "compress").fa.fa-caret-up.fa-lg
+                  i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
+
+    button#myBtnElement(class = "button button2AddNeume" class = 'tooltip' onclick="undo();" style = "margin-right : 10px") 
+      i.fa.fa-undo.fa-sm &nbsp;
+      //span.tooltiptext To undo a position change, click here!
+      br
+
+    button#myBtn(class = "button button2AddNeume" class = 'tooltip' style = "margin-right : 10px") 
+      i.fa.fa-plus.fa-sm
+      //span.tooltiptext To add a new neume, click here!
+
+
+    //Four Equal Columns
+    .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
+      .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+      .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+      .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+      .column(style='background-color:#afcfee; width : 35% ; right : 110px')
+        h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
+
+      div(id = "menu")
+    
+    .bodyStyle(style = "position : relative")
+      .roundedCorners(style = "position : relative; display : inline-block" id = "roundedCorners")
+        ul(id = "sortable1" class = "connectedSortable")
+             each neume in neumes
+                // Edit Images Modal
+                .modal(id = "editImages#{neume.id}")
+                  Modal content
+                  .modal-content
+                    span.close x
+                    h4(style = "font:30px Avenir, sans-serif;") Edit Images
+                    include editNeume.pug
+                div(class="droptarget")
+                div(draggable="true"  id="dragtarget")
+                div.ui-state-default(id = "drop#{neume.id}")
+                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}  #{neume.source}
+                  form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                      .column
+                         .card
+                           .panel.panel-default
+                             .panel-body
+                                div(id = "image#{neume.id}")
+                                    button( style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
+                                      span.tooltiptext To delete images or add more images to the neume, click here!   
+
+                      // Name, Folio and Description Section
+                      .column(style = "width : 20%;")
+                        .height
+                         .card(style = "overflow : hidden; text-align : left")
+                              input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+
+                              input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
+                              .column
+                               p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
+                              .column 
+                               input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute")
+                               br
+                               //Add folio for the neumes
+
+                              p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
+                              .column
+                               input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
+                               br
+                               br
+                               br
+
+
+                      // Classification Section
+                      .column(style = "width : 20%")
+                         .card
+                          input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
+                            
+
+                      // Mei snippet Section
+                      .column(style = "width : 35%;")
+                         .card 
+                          p(class = 'tooltipMEI')
+                           span.tooltiptext 
+                             | How the pitches should be encoded :
+                             br 
+                             | &lt;neume&gt; 
+                             br
+                             | &nbsp;&lt;nc/&gt; 
+                             br
+                             | &nbsp;&lt;nc intm="1S"/&gt; 
+                             br
+                             | &lt;/neume&gt;
+                           .panel.panel-default
+                            .panel-body
+                                 div(id = "#{neume.id}" style = "height : 100px;")
+                                   p 
+                                   textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                                 label.switch
+                                    input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
+                                    span.slider.round
+                                    input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
+
+                      //Submitting the update form
+                      input(type='hidden',value='PUT',name='_method')
+                      
+                      button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
+                        i.fa.fa-pencil
+                        span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
+                      br
+                      br
+                  form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                        input(type='hidden',value='DELETE',name='_method')
+                        button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
+                            x
+                        .modal(id = "DeleteModal#{neume.id}")
+                          // Modal content
+                          .modal-content
+                            span.close ×
+                            h4(style = "text-align : center") Are you sure you want to delete this neume? 
+                            br
+                            h3(style = "text-align : center") #{neume.name}
+                            p
+                             button(type='submit' class = "button button3DeleteImage") Yes
+                             button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
+                             br
+                             br
+                  form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
+                         input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
+                         input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
+
+
+                  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                  script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                  script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
+                  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+
+
+                script.
+
+                  //For each neume in the project :
+                  //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
+                  var editor#{neume.id} = ace.edit('#{neume.id}');
+                  var textarea = document.getElementById("textarea#{neume.id}");
+                  //console.log(textarea);
+                    editor#{neume.id}.getSession().on("change", function () {
+                      textarea = document.getElementById("textarea#{neume.id}");
+                      textarea.value = editor#{neume.id}.getSession().getValue();
+                    });
+                  editor#{neume.id}.setTheme("ace/theme/monokai");
+                  editor#{neume.id}.session.setMode("ace/mode/xml");
+                  var meiString = textarea.value;
+                  editor#{neume.id}.setValue(meiString);
+
+                  //Getting the canvas for the mei snippets : 
+
+                  var imagePaths = "#{neume.imagePath}";
+                  var imageArray = imagePaths.split(',');
+                  var canvas = document.createElement('canvas');
+                  var ctx = canvas.getContext("2d");
+                  var image = new Image();
+                  var imageCard = document.getElementById("#{neume.id}");//getting
+                  imageCard.appendChild(canvas);
+
+                  /*Function to create a canvas for each image inside of the imagepath array of the neume
+                  @param element : single imagepath of the array*/
+                    var imagePaths = "#{neume.imagesBinary}";
+                    var imageArray = imagePaths.split(',');
+                    //console.log(imageArray);
+                    imageArray.forEach(function(element) {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext("2d");
+                    canvas.className += "resize";
+                    var image = new Image();
+
+                    image.onload = function () {
+
+                        // set size proportional to image
+                        canvas.height = image.height*0.5;
+                        canvas.width = image.width*0.5;
+
+                        // step 1 - resize to 50%
+                        var oc = document.createElement('canvas'),
+                            octx = oc.getContext('2d');
+
+                        oc.width = image.width;
+                        oc.height = image.height;
+                        octx.drawImage(image, 0, 0, oc.width, oc.height);
+
+                        // step 2
+                        octx.drawImage(oc, 0, 0, oc.width, oc.height);
+
+                        // step 3, resize to final size
+                        ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                        0, 0, canvas.width, canvas.height);
+                    }
+                    image.src = "data:image/png;base64," + element; //getting the file paths
+                    var imageCard = document.getElementById("image#{neume.id}");//getting
+                    imageCard.appendChild(canvas);
+                    canvas.appendChild(image);//the image is appended
+                    });
+    
+
+                    var coll = document.getElementById("collapsible#{neume.id}");
+                    coll.addEventListener("click", function() {
+
+                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
+                     
+                      this.classList.toggle("active");
+                      var content = this.nextElementSibling;
+                      if (content.style.display === "none") {
+                      $.cookie(this.id, "true")
+                      console.log($.cookie(this.id)) 
+
+                        content.style.display = "block";
+
+                        deleteButtonCollapse.style.display = "block"
+                      } else {
+                        $.cookie(this.id, "false")
+                        console.log($.cookie(this.id)) 
+                        content.style.display = "none";
+                        deleteButtonCollapse.style.display = "none";
+                      }
+                      
+                    });
+
+                    //To save the collapsible state of the neumes
+                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
+                      var element = "collapsible#{neume.id}";
+                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                      if ($.cookie(element) == "false") {
+
+                        content.style.display = "none";
+
+                        deleteButtonCollapse.style.display = "none"
+                      } else {
+                        content.style.display = "block";
+
+                        deleteButtonCollapse.style.display = "block"
+                      }
+
+                    document.getElementById("NoButton#{neume._id}").onclick = function(){
+                    document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
+                    };
+
+                     //Function for the collapse all button
+                    function collapseAll(){
+                    var elements = document.getElementsByClassName("paddingCollapsible");
+                    console.log(elements)
+                    for(var x=0; x < elements.length; x++)
+                    {
+                        var content = elements[x].nextElementSibling;
+                        if (content.style.display === "none") {
+                        document.getElementById("compress").style.display = "block";
+                        $.cookie(elements[x].id, "true");
+                        document.getElementById("expand").style.display = "none";
+                        content.style.display = "block";
+                      } else {
+                        content.style.display = "none";
+                        $.cookie(elements[x].id, "false");
+                        document.getElementById("expand").style.display = "block";
+                        document.getElementById("compress").style.display = "none";
+                      }
+                      
+                    }
+                    var deleteButtonCollapse = document.getElementsByClassName("button3");
+                    console.log(elements)
+                    for(var x=0; x < deleteButtonCollapse.length; x++)
+                    {
+                       var content = deleteButtonCollapse[x];
+                        if (content.style.display === "none") {
+                        content.style.display = "block";
+                      } else {
+                        content.style.display = "none";
+                      }
+                    }
+                  
+                     }
+
+                  //Modals event listeners for every modal
+                  window.addEventListener('load', function() {
+                      initializeModal('myModal', 'myBtn');
+                      initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
+                      initializeModal('modalSection', 'modalSectionButton');
+                      initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
+                      initializeModal('modalSection', 'sectionButton');
+                      initializeModal('uploadCSV', 'uploadCSVButton');
+                      initializeModal('imageCSV', 'imageCSVButton');
+                    });
+                  $(document).scroll(function() {
+                    var y = $(document).scrollTop(), //get page y value 
+                        header = $(".row");
+                        roundedCorners = $(".roundedCorners");
+
+                    if(y >= 50)  {
+                        header.css({position: "fixed", "top" : "57px"});
+
+                    } else {
+                        header.css({position: "fixed", "top" : "165px"}); 
+                    }
+                    }); 
+
+
+                    //Function to get collapsibles sorted
+                    $(function() {
+                      t1 = window.performance.now()
+                      //$("#sortable1").sortable().disableSelection();
+                       // $("#sortable1").sortable().enableSelection();
+
+                        //Everytime a neume is added or deleted, the drop array needs to be updated too!
+
+                      var $sortable1 = $( "#sortable1" ).sortable({
+                        axis: 'y',
+                        handle: 'button',
+                        over : function(event){
+                              console.log("hovered!");
+                              //We need to create the rectangle element
+                               var myDroppable = event.target; //This is the element where it's being dropped
+                           },
+                        out : function(){
+                                //Delete the rectangle element
+                           },
+                      //On load page, get the position of the neume
+                      //On stop sorting, set the position of the neume as the new index.
+                      //Send this on update button.
+                        update: function(event, ui) {
+                              document.getElementById("buttonSavePosition").disabled = false;
+                              var changedList = this.id;
+                              var order = $(this).sortable('toArray');
+                              var positionArray = [];
+                              order.forEach(function(element){
+                                positionArray.push(element);
+                              })
+                              var positions = order.join(';');
+                              console.log({
+                                id: changedList,
+                                positions: positions
+                              });
+  
+                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                        },
+                        stop: function (event, ui) {
+                                var data = $(this).sortable('serialize');
+                                  console.log(data);
+                        },
+                        cancel: 'input,textarea,select,option',
+                        connectWith: ".ui-state-default",
+                          items: ".sorting-initialize"
+                          
+                      });
+                      $sortable1.find(".ui-state-default").one("mouseenter",function(){
+                          $(this).addClass("sorting-initialize");
+                          $sortable1.sortable('refresh');
+                      });
+                     
+                      t2 = window.performance.now()
+                      console.log(t2-t1)
+                    });
+                    var height = " ";
+                    $(".ui-state-default").droppable({
+                          over: function (event, ui) { }, //This worked!
+                          out: function (event, ui) {event.target.style.border = "none";
+                          var id = ui.draggable.attr("id");},
+                          drop: function (event, ui) {
+                            var id = ui.draggable.attr("id"); //This is the element we have. 
+                          },
+                          greedy: true,
+                          hoverClass: 'highlight'
+                      });
+                    //Get toggle value : 
+                    console.log(document.getElementById("toggle#{neume.id}").value);
+                    if(document.getElementById("toggle#{neume.id}").value == "Yes"){
+                    document.getElementById("toggle#{neume.id}").checked = true;
+                    }
+
+                    function check#{neume.id}()
+                    {
+                      if (document.getElementById('toggle#{neume.id}').checked) 
+                      {
+                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                         document.getElementById('toggle#{neume.id}').checked = true;
+                      } else {
+                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                      }
+                    }
+                    function load#{neume.id}()
+                    {
+                      if (document.getElementById('toggle#{neume.id}').checked) 
+                      {
+                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                         document.getElementById('toggle#{neume.id}').checked = true;
+                      } else {
+                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                      }
+                    }
+                    //submits the position of the neumes on click of the button
+                    function buttonSaveLoad(){
+                      document.getElementById("position#{neume.id}").submit();
+                    }
+
+                    // When the draggable p element enters the droptarget, change the DIVS's border style
+                    document.addEventListener("dragenter", function(event) {
+                      if ( event.target.className == "droptarget" ) {
+                        event.target.style.border = "3px dotted red";
+                      }
+                    });
+                    document.getElementById("editButton").onclick = function(){
+                        document.getElementsByClassName("editing").style.display = "block";
+                    };
+
+                    //Array for the position of elements from the database. split into the drop#{neume.id}
+                    //Values of div and changing their positions by appending them depending on the order in the database.
+                    //(The string is already ordered in the database from the neume sortable positions)
+                    var array = "#{project.positionArray}".split(',');
+
+                      array.forEach(function(element){
+                        document.getElementById("sortable1").appendChild(document.getElementById(element));
+                        var elementNeume = document.getElementById(element);})
+                    var undoValue = "";
+                    function undo(){
+                      $("#sortable1").sortable('cancel');
+                      var changedList = this.id;
+                              var order = $("#sortable1").sortable('toArray');
+                              var positionArray = [];
+                              order.forEach(function(element){
+                                positionArray.push(element);
+                              })
+                              var positions = order.join(';');
+                              console.log({
+                                id: changedList,
+                                positions: positions});
+                                //Change position here
+  
+                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                            
+                    } 
+div(id = "section")
+   ul
+      each section in sections
+          div(id = "section#{section._id}" class = "#{section._id}" style = "border-color : black; border-style : solid; border-size : 0.5px; border-radius : 10px; margin : 10px; margin-top : 30px").ui-state-default
+              p(style = "margin : 10px; font : 20px Avenir, sans-serif; " id = "#{section._id}") #{section.name}
+              p(id = "sectionName#{section._id}")
+              form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
+                        input(type='hidden',value='DELETE',name='_method')
+                        input(type='text', value = "#{section._id}", name='sectionId' id = "idForSection" hidden)
+                        button(style = "float : left; right : 10px" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}").
+                            x
+                        .modal(id = "DeleteModal#{section._id}").deleteSection
+                          // Modal content
+                          .modal-content.deleteSection
+                            span.close.deleteSection ×
+                            h4(style = "text-align : center").deleteSection Are you sure you want to delete this section? 
+                            br
+                            h3(style = "text-align : center").deleteSection #{section.name}
+                            p
+                             button(type='submit' class = "button button3DeleteImage deleteSection") Yes
+                             button(type = "button" class = "button button4" class = "NoBtnSection deleteSection" id = "NoButton#{section._id}") No
+                             br
+                             br
+              form(action='/updateSection',method='post',enctype='application/x-www-form-urlencoded')
+
+                  input(type='text', name='neumeSectionIds' id = "inputArraySection#{section._id}" hidden)
+                  input(type='text', name='SectionID' id = "sectionID#{section._id}" hidden)
+
+                  button(id = "buttonSection#{section._id}" type = 'submit' class = 'button button2CSVUpdate' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
+                    i.fa.fa-pencil
+                    //span.tooltiptext To download the project as a .csv file, click here!
+          script.
+             document.getElementById("NoButton#{section._id}").onclick = function(){
+             document.getElementById("DeleteModal#{section._id}").style.display = 'none';
+             };
+               window.addEventListener('load', function() {
+               initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');
+
+               });
+               var idSection = document.getElementById("section#{section._id}")
+               $(idSection).sortable({
+                  connectWith: '.ui-state-default',
+                  helper : 'clone',
+                  handle: 'button',
+                  cancel: 'input,textarea,select,option, .deleteSection',
+                  update : function(event, ui){
+                  var changedList = this.id;
+                  var order = $(idSection).sortable('toArray');
+                                          var positionArray = [];
+                                          order.forEach(function(element){
+                                          var neumeid = element.replace( /^\D+/g, '');
+                                          if(neumeid == ""){console.log("null")}
+                                           else{ positionArray.push(neumeid);}
+                                          })
+                                          var positions = positionArray.join(';');
+                                          $.cookie('sortOrder' + this.id, positions);
+                                          console.log($.cookie('sortOrder' + this.id))
+                  }
+              });
+               $(idSection).droppable({
+
+              //On out, the name of the section of the neume is "";
+              //On out, the section neumeIDs array pulls the neumeID
+              out: function (event, ui) {
+              var id = ui.draggable.attr("id");},
+
+
+
+               drop: function (event, ui) {
+                var id = ui.draggable.attr("id"); //This is the element we have. 
+
+                //On drop, the name of the section of the neume is #{section.name}
+                var neume = document.getElementById(id);
+
+                var neumeID = id.replace( /^\D+/g, ''); // replace all leading non-digits with nothing, which gives us the id of the neume we are adding to the section
+
+                /////Value for the inputs added to the arrays
+                //On drop, the section neumeIDs array gets added the neumeID
+                neumeArray.push(neumeID);
+
+                document.getElementById("inputArraySection#{section._id}").value = neumeArray;//This needs to be defined
+
+                console.log(document.getElementById("inputArraySection#{section._id}").value);
+                console.log(neumeArray);
+
+              //Get that element on drop and put it as the section Id
+              var IdOfTarget = "#{section._id}"
+              console.log(IdOfTarget);
+              var IDWithSectionName = IdOfTarget;
+
+              //classOfTarget is the Id of the section
+              document.getElementById("sectionID#{section._id}").value = IdOfTarget;//This needs to be defined
+              document.getElementById("buttonSection#{section._id}").disabled = false;
+
+                //Show the section id (the class target) and the neumeArray linked to it.
+
+                //Should probably also use the cookie for the neume position on sort.
+              },
+              greedy: true,
+              hoverClass: 'highlight'
+                              });
+
+              //Appending the neumes to the sections : 
+              //Get the #{section.neumeIDs}
+              //For each element separated by a comma, append the child to the element #{section._id}, this is the p of the element
+
+              var neumesInSection = "#{section.neumeIDs}";
+              var neumeArrays = neumesInSection.split(",");
+              console.log(neumesInSection);
+              neumeArrays.forEach(function(neume){
+              document.getElementById("section#{section._id}").appendChild(document.getElementById("drop" + neume));
+              })
+
+              if (document.getElementById("sectionID#{section._id}").value == "")
+                document.getElementById("buttonSection#{section._id}").disabled = true;
+              else if (document.getElementById("inputArraySection#{section._id}").value == "")
+                document.getElementById("buttonSection#{section._id}").disabled = true;
+              else
+                document.getElementById("buttonSection#{section._id}").disabled = false;
+
+
+
+
+              
+
+   
+script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
+script.
+
+  document.addEventListener('DOMContentLoaded', function () {
+  cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","change_preferences_selector":"#changePreferences","language":"en","website_name":"Cress"});
+  });
+  insertAfter(document.getElementById("section"), document.getElementById("roundedCorners"));
+  function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+   var neumeArray = [];
+<noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
+<!-- End Cookie Consent -->                                          
+                                       
