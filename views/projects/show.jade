@@ -71,7 +71,7 @@ html
 //Header parameters
    //Column parameters
 - each user in users
-  div.navigation.navbar
+  div.navigation.navbar(id = "myHeader").sticky
    div.nav-horizontal
     header(style = "padding : 5px")
         a#logo(href='#' style = "padding-left : 30px; position : relative; top : -10px") Cress 🎵 
@@ -122,7 +122,7 @@ html
                      br
 
 //Title section : Adding a neume button and changing the title name                
-div.neumeSection(style = "padding-bottom : 3px")
+div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
   body
    div
     // Add New Neume Modal
@@ -237,7 +237,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                 div(class="droptarget")
                 div(draggable="true"  id="dragtarget")
                 div.ui-state-default(id = "drop#{neume.id}")
-                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}
+                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}  #{neume.source}
                   form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                       .column
                          .card
@@ -252,11 +252,15 @@ div.neumeSection(style = "padding-bottom : 3px")
                         .height
                          .card(style = "overflow : hidden; text-align : left")
                               input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+
+                              input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
                               .column
                                p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
                               .column 
-                               input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute" )
+                               input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute")
                                br
+                               //Add folio for the neumes
+
                               p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
                               .column
                                input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
@@ -438,7 +442,7 @@ div.neumeSection(style = "padding-bottom : 3px")
                     document.getElementById("NoButton#{neume._id}").onclick = function(){
                     document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
                     };
-                    
+
                      //Function for the collapse all button
                     function collapseAll(){
                     var elements = document.getElementsByClassName("paddingCollapsible");
@@ -486,10 +490,13 @@ div.neumeSection(style = "padding-bottom : 3px")
                   $(document).scroll(function() {
                     var y = $(document).scrollTop(), //get page y value 
                         header = $(".row");
+                        roundedCorners = $(".roundedCorners");
+
                     if(y >= 50)  {
-                        header.css({position: "fixed", "top" : "0"});
+                        header.css({position: "fixed", "top" : "57px"});
+
                     } else {
-                        header.css({position: "fixed", "top" : "158px"});
+                        header.css({position: "fixed", "top" : "165px"}); 
                     }
                     }); 
 

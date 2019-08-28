@@ -92,7 +92,6 @@ nav ul li a    {
   transition: 0.3s ease all;
 }
 nav ul a:hover   {
-  color : none;
 
 }
 
@@ -315,4 +314,11 @@ ul {
 .buttonAddProject:hover {
   background-color: #555555;
   color: white;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index : 10000;
 }

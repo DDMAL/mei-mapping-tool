@@ -10,6 +10,9 @@ body
  img(src="/images/CSVModel.png" alt="Model for neumes" style = "width : 100%")
 
  h6(style = "font: 16px Avenir, sans-serif; text-align: left;") The first column needs to be the column with the images titled imagesBinary. Even if a field is missing, all the columns should be added in the right order with the right names (imagesBinary, name, folio, description, classification, mei). There should be no extra column added at the beginning or at the end of the document.
+ br
+ h6(style = "font: 20px Avenir, sans-serif; text-align: left;") Make sure your images are uploaded as .png in your excel or docx file. (.tiff extentions are not supported).
+ h6(style = "font: 20px Avenir, sans-serif; text-align: left;") This upload might take 2 to 5 minutes, depending on the size of your file.
 
 
  form(action='/imageCSV',method='post',enctype="multipart/form-data")
@@ -21,11 +24,9 @@ body
                   select(style = "display : block" name="fileType" id = "fileTypeSelect" required class = "selectfileclass")
                     option(disabled='', selected='', value='')  -- select a file type --
                     option(value = ".xlsx") .xlsx
-                    option(value = ".xls") .xls
                     option(value = ".csv") .csv
                     option(value = ".docx") .docx
                     option(value = ".html") .html
-                    option(value = ".odt") .odt
                   br
                   br
                   input(type = 'file' name = "fileImage" id = "ImportFile" required)

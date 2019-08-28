@@ -18,10 +18,17 @@ block content
 		.fallback
 		p Name: 
 			input#inputName(type="text", placeholder="ex. Punctum", name="name" required)
+
+		p Generic Name: 
+			input#inputGenericName(type="text", placeholder="ex. Generic Name", name="genericName")
+
+		p Source:
+			input#inputSource(type="text", placeholder="ex. Laon 239, Chartres 47", name="source")
+
 		p Folio:
 			input#inputfolio(type="text", placeholder="ex. 1/r3", name="folio")
 
-		p Description:
+		p Description (Notes) :
 			input#inputDescription(type="text", placeholder="ex. Punctum", name="description")
 		p(hidden) Project:
 			input#inputProject(type = "text", placeholder = "project", name = "projectID",hidden) 

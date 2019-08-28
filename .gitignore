@@ -3,6 +3,7 @@ node_modules/
 /uploads
 /xmlFiles
 /exports
+/docx
 /exportssendgrid.env
 sendgrid.env
 output.json

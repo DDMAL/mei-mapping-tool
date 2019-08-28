@@ -61,7 +61,7 @@ html
 
 
 div
-  header(style = "padding : 5px")
+  header(style = "padding : 5px").sticky
       // Main logo
       a#logo(href='#', style = "padding-left : 30px; position : relative; top : -62px")
         span Cress 🎵 
@@ -84,7 +84,7 @@ div
 
 
 //Title section : Adding a neume button and changing the title name                
-div.neumeSection
+div.neumeSection(style = "padding-top : 97px")
   body
     form()
       
@@ -271,10 +271,13 @@ div.neumeSection
                   $(document).scroll(function() {
                     var y = $(document).scrollTop(), //get page y value 
                         header = $(".row");
+                        roundedCorners = $(".roundedCorners");
+
                     if(y >= 50)  {
-                        header.css({position: "fixed", "top" : "0"});
+                        header.css({position: "fixed", "top" : "57px"});
+
                     } else {
-                        header.css({position: "fixed", "top" : "158px"});
+                        header.css({position: "fixed", "top" : "158px"}); 
                     }
                     }); 
                     //Get toggle value : 

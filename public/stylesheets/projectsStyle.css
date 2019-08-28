@@ -22,6 +22,12 @@ header   {
   color: #FFF;
   padding: 20px 30px;
 }
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index : 10000;
+}
 h3 {
   color : black;
 }
