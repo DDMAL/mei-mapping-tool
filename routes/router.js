@@ -15,6 +15,7 @@ var async = require('async')
 var crypto = require('crypto')
 var flash = require('express-flash')
 var storedImages = require('../model/storedImages')
+var SENDGRID_API_KEY = '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'
 
 router.use(flash())
 router.use(bodyParser.json({
@@ -2098,7 +2099,7 @@ router.post('/', function(req, res, next) {
                                             },
                                             function(token, user, done) {
                                                 const sgMail = require('@sendgrid/mail');
-                                                sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+                                                sgMail.setApiKey(SENDGRID_API_KEY);
                                                 const msg = {
                                                     to: user.email,
                                                     from: 'cress-noreply@demo.com',
