@@ -1210,7 +1210,7 @@ router.route('/imageCSV')
                 console.log('Caught exception: ', e);
             }
 
-            var mammoth = require("mammoth");
+            var mammoth = require("mammoth"); //mammoth might take away 
             const HtmlTableToJson = require('html-table-to-json');
 
             mammoth.convertToHtml({ // Mammoth library used for converting the docx to html, since parsing an html table is much easier
@@ -1218,7 +1218,9 @@ router.route('/imageCSV')
                 })
                 .then(function(result) {
                     var html = result.value; // The generated HTML
+                    //console.log(html);
                     const html1 = html.toString(); //# Paste your HTML table
+                    
 
                     const jsonTables = new HtmlTableToJson(html1);
                     var arrayJson = [];
@@ -1226,12 +1228,13 @@ router.route('/imageCSV')
                     for (var i = 1; i < jsonTables['results'][0].length; i++) {
 
                         var json = jsonTables['results'][0][i];
-                        json = JSON.parse(JSON.stringify(json).split('"1":').join('"imagesBinary":'));
+                        json = JSON.parse(JSON.stringify(json).split('"1":').join('"image":'));
                         json = JSON.parse(JSON.stringify(json).split('"2":').join('"name":'));
                         json = JSON.parse(JSON.stringify(json).split('"3":').join('"folio":'));
                         json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
                         json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
                         json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
+                        console.log(json);
                         //json = JSON.stringify(json);
                         mongoose.model("neume").insertMany(json)
                             .then(function(jsonObj) {
@@ -2089,7 +2092,7 @@ router.post('/', function(req, res, next) {
 
                                                 user.password = req.body.password;
                                                 user.activeToken = token;
-                                                user.active = false;
+                                                user.active = true; //Change this afterwards.
                                                 user.resetActiveTokendExpires = Date.now() + 3600000; // 1 hour
 
                                                 user.save(function(err) {
@@ -2116,7 +2119,7 @@ router.post('/', function(req, res, next) {
                                             if (err) return next(err);
                                             res.redirect('/');
                                         });
-                                        var err = 'Success! A confirmation email has been sent to your email. Please confirm your email before logging-in.';
+                                        var err = 'Success! You can now log-in to Cress.';
                                         return res.format({
                                             html: function() {
                                                 res.render('errorLog', {
