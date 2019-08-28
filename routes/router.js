@@ -15,7 +15,7 @@ var async = require('async')
 var crypto = require('crypto')
 var flash = require('express-flash')
 var storedImages = require('../model/storedImages')
-var SENDGRID_API_KEY = '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'
+var SENDGRID_API_KEY = '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'
 
 router.use(flash())
 router.use(bodyParser.json({
