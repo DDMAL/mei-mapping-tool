@@ -425,19 +425,22 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                     });
 
                     //To save the collapsible state of the neumes
+                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                      content.style.display = "block";
+                      $(document).ready(function() {
                       var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
                       var element = "collapsible#{neume.id}";
                       var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
                       if ($.cookie(element) == "false") {
-
-                        content.style.display = "none";
-
-                        deleteButtonCollapse.style.display = "none"
-                      } else {
-                        content.style.display = "block";
-
-                        deleteButtonCollapse.style.display = "block"
-                      }
+                      
+                                              content.style.display = "none";
+                      
+                                              deleteButtonCollapse.style.display = "none"
+                                            } else {
+                                              content.style.display = "block";
+                      
+                                              deleteButtonCollapse.style.display = "block"
+                                            }})
 
                     document.getElementById("NoButton#{neume._id}").onclick = function(){
                     document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
