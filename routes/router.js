@@ -1210,6 +1210,7 @@ router.route('/imageCSV')
             }
 
             var mammoth = require("mammoth"); //mammoth might take away 
+
             const HtmlTableToJson = require('html-table-to-json');
 
             mammoth.convertToHtml({ // Mammoth library used for converting the docx to html, since parsing an html table is much easier
@@ -1217,12 +1218,26 @@ router.route('/imageCSV')
                 })
                 .then(function(result) {
                     var html = result.value; // The generated HTML
-                    //console.log(html);
-                    const html1 = html.toString(); //# Paste your HTML table
-                    
+                    fs.writeFile("file.html", result.value, function(err) {
+                        if(err) {
+                            return console.log(err);
+                        }
 
-                    const jsonTables = new HtmlTableToJson(html1);
-                    var arrayJson = [];
+                        console.log("The file was saved!");
+                    }); 
+                    const HtmlTableToJson = require('html-table-to-json');
+                    fs.readFile("file.html", {
+                        encoding: 'utf-8'
+                    }, function(err, data) {
+                        if (!err) {
+                            console.log('received data: ' + data);
+                            const html = data.toString(); //# Paste your HTML table
+
+                    var HTMLParser = require('node-html-parser');
+ 
+                    var root = HTMLParser.parse(html);
+                    console.log(root.querySelectorAll('strong').rawText);//This is images binary
+                    
 
                     for (var i = 1; i < jsonTables['results'][0].length; i++) {
 
@@ -1491,7 +1506,8 @@ router.route('/imageCSV')
                         arrayJson.push(json); //Array to keep the values of the json object in the database
                     }
 
-
+                    }
+                })
 
 
                     res.redirect('back');
