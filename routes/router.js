@@ -1236,7 +1236,12 @@ router.route('/imageCSV')
                     var HTMLParser = require('node-html-parser');
  
                     var root = HTMLParser.parse(html);
-                    console.log(root.querySelectorAll('strong').rawText);//This is images binary
+                    var Tables = root.querySelectorAll('tr');
+                    tables.forEach(function(table){
+                        var rows = table.querySelectorAll('td')
+                        console.log("Each row has : " + rows.rawText);
+                    })
+                    console.log(root.querySelector('td').rawText);
                     
 
                     for (var i = 1; i < jsonTables['results'][0].length; i++) {
