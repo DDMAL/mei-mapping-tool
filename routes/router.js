@@ -579,8 +579,7 @@ router.route('/imageCSV')
                                 }).update({
                                     project: IdOfProject,
                                     classifier: originalFileName,
-                                    mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
-                                        .replace(/[\u201C\u201D]/g, '"')
+                                    mei: neume.mei
                                     //I also need to add the classifier name as a field
                                 }, function(err, neumeElement) {
                                     if (err) {
