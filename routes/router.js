@@ -1234,25 +1234,51 @@ router.route('/imageCSV')
                             const html = data.toString(); //# Paste your HTML table
 
                     var HTMLParser = require('node-html-parser');
- 
+                    var neumeArray = [];
                     var root = HTMLParser.parse(html);
-                    var Tables = root.querySelectorAll('tr');
-                    tables.forEach(function(table){
-                        var rows = table.querySelectorAll('td')
-                        console.log("Each row has : " + rows.rawText);
+                    var tables = root.querySelectorAll('td');
+                    var rows = root.querySelectorAll("tr");
+                    var images = root.querySelectorAll("img");
+                    var imageArray = [];
+                    images.forEach(function(image){
+
+                        var imageBinary = image.rawAttributes.src.split(",")[1];;
+                        imageArray.push(imageBinary);
+
                     })
-                    console.log(root.querySelector('td').rawText);
+                    console.log(imageArray)
+                    var a = 0;
+                    var array = [] 
+                    rows.forEach(function(row){
+                    for(var i = 0; i<6; i++){
+                        if(tables[a] == undefined)
+                            break
+                        var imageBinary = row.firstChild.firstChild;
+                        console.log(imageBinary)
+                        var AllRow = tables[a].rawText;
+                        console.log( i + " : " + AllRow);
+                        array.push(i + " : " + AllRow);
+                        if(a != 0){
+                        if(i == 0){
+                            allRow = imageBinary;
+                        }
+                        }
+                        a++;
+                    }
+                     a = a+1;
+
+                    })
                     
 
                     for (var i = 1; i < jsonTables['results'][0].length; i++) {
 
                         var json = jsonTables['results'][0][i];
-                        json = JSON.parse(JSON.stringify(json).split('"1":').join('"image":'));
-                        json = JSON.parse(JSON.stringify(json).split('"2":').join('"name":'));
-                        json = JSON.parse(JSON.stringify(json).split('"3":').join('"folio":'));
-                        json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
-                        json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
-                        json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
+                        json = JSON.parse(JSON.stringify(json).split('0 :').join('"imagesBinary":'));
+                        json = JSON.parse(JSON.stringify(json).split('1 :').join('"name":'));
+                        json = JSON.parse(JSON.stringify(json).split('2 :').join('"folio":'));
+                        json = JSON.parse(JSON.stringify(json).split('3 :').join('"description":'));
+                        json = JSON.parse(JSON.stringify(json).split('4 :').join('"classification":'));
+                        json = JSON.parse(JSON.stringify(json).split('5 :').join('"mei":'));
                         console.log(json);
                         //json = JSON.stringify(json);
                         mongoose.model("neume").insertMany(json)
