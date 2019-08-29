@@ -191,23 +191,24 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 70px")
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltipfork' style = "font: 14px Avenir, sans-serif; width : 70px")
                     i.fa.fa-code-fork
                     |  Fork
-                    //span.tooltiptext To save the project as your own and start working on it, click here!
+                    span.tooltiptext To save the project as your own and start working on it, click here!
 
-     button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
+     button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
        i(id = "compress").fa.fa-caret-up.fa-lg
        i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
+       span.tooltiptext To collapse/uncollapse neumes, click here!
 
-    button#myBtnElement(class = "button button2AddNeume" class = 'tooltip' onclick="undo();" style = "margin-right : 10px") 
+    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px") 
       i.fa.fa-undo.fa-sm &nbsp;
-      //span.tooltiptext To undo a position change, click here!
+      span.tooltiptext To undo a position change, click here!
       br
 
-    button#myBtn(class = "button button2AddNeume" class = 'tooltip' style = "margin-right : 10px") 
+    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
       i.fa.fa-plus.fa-sm
-      //span.tooltiptext To add a new neume, click here!
+      span.tooltiptext To add a new neume, click here!
 
 
     //Four Equal Columns
