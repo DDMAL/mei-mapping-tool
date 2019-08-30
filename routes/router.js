@@ -1181,6 +1181,7 @@ router.route('/imageCSV')
                         });
                 });
         }
+        var imageNumber = -1;
 
         if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each 
             //Didn't add the classifier field to the neumes here!
@@ -1280,7 +1281,7 @@ router.route('/imageCSV')
 
                     })
                 }
-            
+
                     //console.log(array);
                      console.log(array)
 
@@ -1300,17 +1301,17 @@ router.route('/imageCSV')
                         json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
                         console.log(json);
                         //json = JSON.stringify(json);
+                        
                         mongoose.model("neume").insertMany(json)
                             .then(function(jsonObj) {
-                                var i = 0;
-
                                 jsonObj.forEach(function(neume) {
+                                    imageNumber = imageNumber+1;
                                     mongoose.model("neume").find({
                                         _id: neume.id
                                     }).update({
                                         classifier: originalFileName,
                                         project: IdOfProject,
-                                        imagesBinary : imageArray[i],
+                                        imagesBinary : imageArray[imageNumber],
                                         mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
                                             .replace(/[\u201C\u201D]/g, '"')
                                     }, function(err, neumeElement) {
@@ -1332,8 +1333,9 @@ router.route('/imageCSV')
                                             var fs = require('fs');
      
                                         }
+                                         
                                     })
-                                    i++;
+                                   
                                 })
                             })
                     }
