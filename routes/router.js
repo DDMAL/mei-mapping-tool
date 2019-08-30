@@ -1238,8 +1238,7 @@ router.route('/imageCSV')
                     var root = HTMLParser.parse(html);
                     var tables = root.querySelectorAll('td');
                     var rows = root.querySelectorAll("tr");
-                    var images = root.querySelectorAll("img").rawAttributes;
-                     var images = root.querySelectorAll("img");
+                    var images = root.querySelectorAll("img");
                     var imageArray = [];
                     images.forEach(function(image){
 
@@ -1248,32 +1247,27 @@ router.route('/imageCSV')
 
                     })
                     console.log(imageArray)
-                    console.log(images)
                     var a = 0;
                     var array = [] 
                     rows.forEach(function(row){
                     for(var i = 0; i<6; i++){
                         if(tables[a] == undefined)
                             break
-                    var imageBinary = row.firstChild.firstChild;
+                        var imageBinary = row.firstChild.firstChild;
                         console.log(imageBinary)
                         var AllRow = tables[a].rawText;
                         console.log( i + " : " + AllRow);
                         array.push(i + " : " + AllRow);
-                        var imageBinary = imageArray[a];
-                        //console.log(imageBinary)
+                        if(a != 0){
                         if(i == 0){
-                            AllRow = imageBinary;
+                            allRow = imageBinary;
                         }
-                        else{
-                            AllRow = tables[a].rawText;
                         }
-                        console.log( i + " : " + AllRow);
-                        a++
+                        a++;
                     }
+                     a = a+1;
 
                     })
-
                     
 
                     for (var i = 1; i < jsonTables['results'][0].length; i++) {
