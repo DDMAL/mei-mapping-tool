@@ -1248,8 +1248,8 @@ router.route('/imageCSV')
                         imageArray.push(imageBinary);
 
                     })
-                    console.log(imageArray)
-                    console.log(images)
+                    //console.log(imageArray)
+                    //console.log(images)
                     var a = 0;
                     var x = 0;
                     var array = [] 
@@ -1272,9 +1272,9 @@ router.route('/imageCSV')
                             }
                         }
                         else{
-                            AllRow = AllRow.toString();
+                            AllRow = AllRow;
                         }
-                        array.push( i + " : " + AllRow.toString() );
+                        array.push( i + " : " + AllRow );
                         a++;
                     }
                     x++;
