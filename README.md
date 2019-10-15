@@ -1,7 +1,7 @@
 # Cress 🎵
 Web-based app to map squiggles to MEI snippets (under construction)
 
-You can get the development version of the mei-mapping-tool by accessing the page http://132.206.14.209:8800/
+You can access the development version of the mei-mapping-tool app at https://cress-staging.simssa.ca
 
 ## Requirements
 * [Node.js](https://nodejs.org/en/download/)
@@ -38,8 +38,6 @@ You can get the development version of the mei-mapping-tool by accessing the pag
   You should be able to see the message *node ./bin/www*
 
 You can work on the developement version of the mei-mapping-tool by accessing the page http://localhost:8800/
-
-You can access the development version of the mei-mapping-tool app at https://cress-staging.simssa.ca
 
 ## Mongodb installation
 
