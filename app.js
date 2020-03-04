@@ -1,5 +1,6 @@
 //Requirements for app.js
 var express = require('express'),
+    compression = require('compression'),
     path = require('path'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
@@ -28,6 +29,9 @@ var routes = require('./routes/router'),
 var app = express();
 var uuid = require('uuid');
 global.imageArray = []; //This variable is initiated everytime the edit page loads.
+
+// Include gzipping
+app.use(compression());
 
 app.use(session({
     secret: 'work hard',
