@@ -200,7 +200,7 @@ router.param('id', function(req, res, next, id) {
     }, function(err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            logger.warning(id + ' was not found');
+            logger.warn(id + ' was not found');
             res.status(404)
             var err = new Error('Not Found');
             err.status = 404;
@@ -238,7 +238,7 @@ router.route('projects/:id/edit')
         //search for the project within Mongo
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                logger.warning('GET Error: There was a problem retrieving: ' + err);
+                logger.warn('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //Return the project
                 logger.debug('GET Retrieving ID: ' + project._id);
@@ -417,7 +417,7 @@ router.param('/project/id', function(req, res, next, id) {
     mongoose.model('project').findById(id, function(err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            logger.warning(id + ' was not found');
+            logger.warn(id + ' was not found');
             res.status(404)
             var err = new Error('Not Found');
             err.status = 404;
@@ -450,7 +450,7 @@ router.route('/project/:id') //Doesnt lead to the projects page, see projects/:i
         mongoose.model('project').findById(req.id, function(err, project) {
 
             if (err) {
-                logger.warning('GET Error: There was a problem retrieving: ' + err);
+                logger.warn('GET Error: There was a problem retrieving: ' + err);
             } else {
 
                 logger.debug('GET Retrieving ID: ' + project._id);
@@ -487,7 +487,7 @@ router.route('/project/:id/edit')
         //search for the project within Mongo
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                logger.warning('GET Error: There was a problem retrieving: ' + err);
+                logger.warn('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //Return the project
                 logger.info('GET Retrieving ID: ' + project._id);
