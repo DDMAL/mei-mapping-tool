@@ -16,6 +16,7 @@ var crypto = require('crypto')
 var flash = require('express-flash')
 var storedImages = require('../model/storedImages')
 var SENDGRID_API_KEY = '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'
+var logger = require('../logger');
 
 router.use(flash())
 router.use(bodyParser.json({
@@ -208,13 +209,13 @@ router.route('/about')
             _id: req.session.userId
         }, function(err, users) {
             userFinal = users;
-            // console.log(userFinal);//This works!!!
+            // logger.info(userFinal);//This works!!!
         });
         //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
         res.format({
             //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
             html: function() {
-                console.log(userFinal);
+                logger.info(userFinal);
                 res.render('about.jade', {
                     title: 'About',
                     "users": userFinal
@@ -228,7 +229,7 @@ router.route('/about')
         //global.userFinal = []; //The user needs to be added in all the routes
 
     });
-//Update the sections to add neumes inside. 
+//Update the sections to add neumes inside.
 router.route('/updateSection')
     .post(function(req, res) {
 
@@ -248,16 +249,16 @@ router.route('/updateSection')
 
             function(err, data) {
                 if (err) {
-                    console.log(err);
+                    logger.info(err);
                 } else {
-                    console.log(data);
+                    logger.info(data);
 
 
                     //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                     res.format({
                         //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                         html: function() {
-                            console.log(userFinal);
+                            logger.info(userFinal);
                             res.redirect("back");
                         },
                         //JSON response will show all projects in JSON format
@@ -290,7 +291,7 @@ router.route('/savePosition')
                 if (err) {
                     res.send("There was a problem updating the information to the database: " + err);
                 } else {
-                    console.log(project.positionArray);
+                    logger.info(project.positionArray);
                 }
             })
             //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
@@ -346,12 +347,12 @@ router.route('/sectionDelete')
         //find neume by ID
         mongoose.model('section').findById(sectionID, function(err, section) {
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //remove it from Mongo
                 section.remove(function(err, section) {
                     if (err) {
-                        return console.error(err);
+                        return logger.error(err);
                     } else {
                         //Returning success messages saying it was deleted
                         res.format({
@@ -377,7 +378,7 @@ router.route('/csv')
     .post(function(req, res) {
 
         var IdOfNeume = req.body.IdOfNeume;
-        console.log(IdOfNeume); //This is somehow undefined.
+        logger.info(IdOfNeume); //This is somehow undefined.
 
         mongoose.model('neume').findById(IdOfNeume, function(err, neumeCSV) {
             if (err) {
@@ -386,10 +387,10 @@ router.route('/csv')
                 });
             } else {
                 //var neume = neume;
-                console.log(neumeCSV);
+                logger.info(neumeCSV);
 
                 neumeCSV.imagesBinary = neumeCSV.imagesBinary.split(",");
-                console.log(neumeCSV.imagesBinary)
+                logger.info(neumeCSV.imagesBinary)
 
                 let csv
 
@@ -430,7 +431,7 @@ var uploadCSV = multer({
 router.route('/uploadCSV')
     .post(uploadCSV.single('csvFile'), function(req, res) {
 
-        var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+        var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
         var nameOfProject = req.body.projectName;
         var csvParser = require('csv-parse');
         var file = req.file.buffer;
@@ -476,7 +477,7 @@ router.route('/uploadCSV')
                                         if (err) {
                                             res.send("There was a problem updating the information to the database: " + err);
                                         } else {
-                                            console.log("hey");
+                                            logger.info("hey");
                                         }
                                     })
                                 }
@@ -526,17 +527,17 @@ router.route('/imageCSV')
     .post(uploadCSV, function(req, res) {
 
         var fileType = req.body.fileType;
-        console.log(fileType); //This is docx
+        logger.info(fileType); //This is docx
         var originalFileName = req.file.originalname;
 
         if (fileType == ".xlsx") {
 
             //Add error message if the names or the column order are not right
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
 
             //1. I need to upload the excel file here
-            console.log(originalFileName);
+            logger.info(originalFileName);
             node_xj = require("xls-to-json");
             node_xj({
                 input: req.file.path, // input xls
@@ -554,14 +555,14 @@ router.route('/imageCSV')
                             path: './exports'
                         }));
                     } catch (e) {
-                        console.log('Caught exception: ', e);
+                        logger.info('Caught exception: ', e);
                     }
-                    var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the 
+                    var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
                     //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
                     var workbook = XLSX.readFile(req.file.path);
                     var sheet_name_list = workbook.SheetNames;
                     result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-                    console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]))
+                    logger.info(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]))
 
 
                     let workbook_firstRow = XLSX.readFile(req.file.path, {
@@ -585,7 +586,7 @@ router.route('/imageCSV')
                                     if (err) {
                                         res.send("There was a problem updating the information to the database: " + err);
                                     } else {
-                                        console.log(neumeElement);
+                                        logger.info(neumeElement);
                                         var fs = require('fs');
 
                                         //2. I need to unzip the file and add the unzipped content to a directory
@@ -602,7 +603,7 @@ router.route('/imageCSV')
                                                     path: './exports'
                                                 }));
                                             } catch (e) {
-                                                console.log('Caught exception: ', e);
+                                                logger.info('Caught exception: ', e);
                                             }
                                             var fs = require('fs');
                                             if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
@@ -612,26 +613,26 @@ router.route('/imageCSV')
                                                     }
                                                     let xmlParser = require('xml2json');
                                                     let xmlString = data.toString();
-                                                    //console.log('JSON output', xmlParser.toJson(xmlString));
+                                                    //logger.info('JSON output', xmlParser.toJson(xmlString));
                                                     var jsonObj = xmlParser.toJson(xmlString);
                                                     var jsonArray = [];
                                                     jsonArray = jsonObj.split(',');
-                                                    //console.log(jsonArray);
+                                                    //logger.info(jsonArray);
                                                     var rowArray = [];
                                                     var imageArray = [];
                                                     var a = 0;
                                                     for (var i = 0; i < jsonArray.length; i++) {
-                                                        //console.log(jsonArray[i] + "hey") 
-                                                        if (jsonArray[i].includes("\"xdr:row\":")) { //console.log(jsonArray[i].split(":")[2]);
+                                                        //logger.info(jsonArray[i] + "hey")
+                                                        if (jsonArray[i].includes("\"xdr:row\":")) { //logger.info(jsonArray[i].split(":")[2]);
                                                             var rowValue = jsonArray[i].split(":")[2]; //this is the xdr:row that we have from the element
 
                                                         }
                                                         if (jsonArray[i].includes("\"r:embed\":")) {
-                                                            //console.log(jsonArray[i].split(":")[2]);
+                                                            //logger.info(jsonArray[i].split(":")[2]);
                                                             var rowWithId = jsonArray[i].split(":")[2];
                                                             rowWithId = rowWithId.replace("\}", "");
                                                             rowArray.push(rowWithId);
-                                                            //console.log(rowArray); //This works perfectly
+                                                            //logger.info(rowArray); //This works perfectly
                                                             //An error happens when the neume gets all the files
                                                             fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
                                                                 if (err) {
@@ -640,17 +641,17 @@ router.route('/imageCSV')
                                                                 } else {
                                                                     let xmlParser = require('xml2json');
                                                                     let xmlString = data.toString();
-                                                                    //console.log('JSON output', xmlParser.toJson(xmlString));
+                                                                    //logger.info('JSON output', xmlParser.toJson(xmlString));
                                                                     var jsonObj = xmlParser.toJson(xmlString);
                                                                     var jsonArray = [];
                                                                     var rowValue = "";
                                                                     jsonArray = jsonObj.split(',');
-                                                                    //console.log(jsonArray);
+                                                                    //logger.info(jsonArray);
                                                                     imageArray = [];
 
                                                                     for (var i = 0; i < jsonArray.length; i++) {
-                                                                        //console.log(jsonArray[i] + "hey") 
-                                                                        if (jsonArray[i].includes("Id")) { //console.log(jsonArray[i].split(":")[2] );
+                                                                        //logger.info(jsonArray[i] + "hey")
+                                                                        if (jsonArray[i].includes("Id")) { //logger.info(jsonArray[i].split(":")[2] );
                                                                             rowValue = jsonArray[i].split(":")[2];
                                                                             if (jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == "") {
                                                                                 rowValue = jsonArray[i].split(":")[1];
@@ -660,7 +661,7 @@ router.route('/imageCSV')
 
                                                                         }
                                                                         if (jsonArray[i].includes("media")) {
-                                                                            //console.log(jsonArray[i].split(":")[1]);
+                                                                            //logger.info(jsonArray[i].split(":")[1]);
                                                                             var rowWithId = jsonArray[i].split(":")[1].split("/")[2];
                                                                             rowWithId = rowWithId.replace("\}", "");
                                                                             rowWithId = rowWithId.replace("\]", "");
@@ -670,7 +671,7 @@ router.route('/imageCSV')
 
                                                                             var element = rowValue.concat(" : " + rowWithId);
                                                                             imageArray.push(element);
-                                                                            console.log(imageArray); //This works perfectly
+                                                                            logger.info(imageArray); //This works perfectly
                                                                         }
                                                                     }
                                                                 }
@@ -711,10 +712,10 @@ router.route('/imageCSV')
                                                                     imageArray[indice] = ["0", "image3.png"]
                                                                 } else {
                                                                     if (imageArray[indice].split(":")[1] == "undefined" || imageArray[indice].split(":")[1] == null || imageArray[indice].split(":")[1] == "" || err) {
-                                                                        console.log("no image");
+                                                                        logger.info("no image");
                                                                     } else {
 
-                                                                        //console.log(rowArray[indice]);
+                                                                        //logger.info(rowArray[indice]);
                                                                         //neume.find(row : imageArray[indice].split(":")[0]){
                                                                         //  update({
                                                                         //  imageMedia : imageArray[indice].split(":")[1]
@@ -727,19 +728,19 @@ router.route('/imageCSV')
                                                                         var index, value, result;
                                                                         for (index = 0; index < imageArray.length; ++index) {
                                                                             value = imageArray[index];
-                                                                            console.log(value.split(":")[0] + "hey");
-                                                                            console.log(rowArray[indice] + "you");
+                                                                            logger.info(value.split(":")[0] + "hey");
+                                                                            logger.info(rowArray[indice] + "you");
                                                                             if (value.split(":")[0].replace(" ", "") == rowArray[indice]) {
                                                                                 // You've found it, the full text is in `value`.
                                                                                 // So you might grab it and break the loop, although
                                                                                 // really what you do having found it depends on
                                                                                 // what you need.
                                                                                 result = value.split(":")[1].replace(" ", "");
-                                                                                console.log("The result is : " + result)
+                                                                                logger.info("The result is : " + result)
                                                                                 break;
                                                                             }
                                                                         }
-                                                                        console.log(result);
+                                                                        logger.info(result);
 
                                                                         mongoose.model('neume').find({
                                                                             _id: neume._id
@@ -747,7 +748,7 @@ router.route('/imageCSV')
                                                                             row: rowArray[indice],
                                                                             imageMedia: result //adding the image to the image array without reinitializng everything
                                                                         }, function(err, neume1) {
-                                                                            //console.log(imageArray[0].split(":")[0]);//This is undefined
+                                                                            //logger.info(imageArray[0].split(":")[0]);//This is undefined
                                                                             var imageFilePath = imageArray[0].split(":")[0];
 
                                                                             mongoose.model("neume").find({
@@ -757,7 +758,7 @@ router.route('/imageCSV')
                                                                             }, function(err, neumeElement) {
                                                                                 if (err) {
                                                                                     res.send("There was a problem updating the information to the database: " + err);
-                                                                                } else { //console.log(neumeElement);
+                                                                                } else { //logger.info(neumeElement);
                                                                                 }
                                                                             })
 
@@ -777,11 +778,11 @@ router.route('/imageCSV')
                                                             project: IdOfProject
                                                         }]
                                                     }, function(err, neumes) {
-                                                        neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
+                                                        neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                                                             var image = neume.imageMedia;
-                                                            //console.log(image);
+                                                            //logger.info(image);
                                                             if (fs.existsSync('exports/xl/media/' + image)) {
-                                                                var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                                                                var imgPath = 'exports/xl/media/' + image; //This is undefined.
                                                                 var A = storedImages;
                                                                 var a = new A;
                                                                 a.projectID = IdOfProject;
@@ -791,7 +792,7 @@ router.route('/imageCSV')
                                                                 a.imgBase64 = a.img.data.toString('base64');
 
                                                                 imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-                                                                //console.log(imageData); //This works
+                                                                //logger.info(imageData); //This works
                                                                 mongoose.model('neume').find({
                                                                     _id: neume._id
                                                                 }).update({
@@ -801,13 +802,13 @@ router.route('/imageCSV')
                                                                     },
 
                                                                     function(err, data) {
-                                                                        //console.log(err, data);
+                                                                        //logger.info(err, data);
                                                                         imageData = [];
 
                                                                         a.save(function(err, a) {
                                                                             if (err) throw err;
 
-                                                                            console.error('saved img to mongo');
+                                                                            logger.error('saved img to mongo');
                                                                         });
                                                                     });
                                                             }
@@ -828,14 +829,14 @@ router.route('/imageCSV')
                                     }, function(err, neumeElements) {
                                         neumeElements.forEach(function(element) {
 
-                                            //console.log(element.imageMedia);
+                                            //logger.info(element.imageMedia);
                                             var image = element.row;
                                             var fs = require("fs");
 
                                             if (fs.existsSync('exports/xl/media/' + image)) { //This is making wayyy too many files in the storedImages collection
                                                 //if(file.name == neume.field)
                                                 //if(neume.indice == fileNameIndice){
-                                                var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                                                var imgPath = 'exports/xl/media/' + image; //This is undefined.
 
                                                 // our imageStored model
                                                 var A = storedImages;
@@ -848,7 +849,7 @@ router.route('/imageCSV')
                                                 a.imgBase64 = a.img.data.toString('base64');
                                                 var imageData = [];
                                                 imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-                                                //console.log(imageData)
+                                                //logger.info(imageData)
                                                 //All the images (images) need to be pushed to an array field in mongodb
                                                 mongoose.model('neume').find({
                                                     id: element._id
@@ -859,7 +860,7 @@ router.route('/imageCSV')
                                                     },
 
                                                     function(err, data) {
-                                                        //console.log(err, data);
+                                                        //logger.info(err, data);
                                                         imageData = [];
 
 
@@ -867,13 +868,13 @@ router.route('/imageCSV')
                                                         a.save(function(err, a) {
                                                             if (err) throw err;
 
-                                                            console.error('saved img to mongo');
+                                                            logger.error('saved img to mongo');
                                                         });
                                                     });
                                             }
 
                                         })
-                                        // console.log(userFinal);//This works!!!
+                                        // logger.info(userFinal);//This works!!!
                                     });
                                 }
 
@@ -892,7 +893,7 @@ router.route('/imageCSV')
                 });
             });
 
-            //Delete the exports folder after the loading is done. 
+            //Delete the exports folder after the loading is done.
 
 
             //1. I need to upload the excel file here
@@ -904,7 +905,7 @@ router.route('/imageCSV')
                 rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
             }, function(err, result) {
                 if (err) {
-                    console.error(err);
+                    logger.error(err);
                 } else {
                      //This is creating the neumes twice,
                                     if (err) {
@@ -925,7 +926,7 @@ router.route('/imageCSV')
                                             fs.readdir("./exports/xl/media", function(err, files) {
                                                 //handling error
                                                 if (err) {
-                                                    return console.log('Unable to scan directory: ' + err);
+                                                    return logger.info('Unable to scan directory: ' + err);
                                                 }
                                                 //listing all files using forEach
                                                 var indice = 1;
@@ -968,7 +969,7 @@ router.route('/imageCSV')
                                                                     res.send("There was a problem updating the information to the database: " + err);
                                                                 } else {
 
-                                                                    var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
+                                                                    var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined.
 
                                                                     // our imageStored model
                                                                     var A = storedImages;
@@ -978,20 +979,20 @@ router.route('/imageCSV')
                                                                     try {
                                                                         a.img.data = fs.readFileSync(imgPath);
                                                                     } catch {
-                                                                        console.log(err);
+                                                                        logger.info(err);
                                                                     }
                                                                     a.img.contentType = 'image/png';
                                                                     try {
                                                                         a.imgBase64 = a.img.data.toString('base64');
                                                                     } catch {
-                                                                        console.log(err);
+                                                                        logger.info(err);
                                                                     }
                                                                     var imageData = [];
                                                                     try {
                                                                         imageData.push(a.img.data.toString('base64'));
                                                                     } //This works for all the images stored in the database.
                                                                     catch {
-                                                                        console.log(err);
+                                                                        logger.info(err);
                                                                     }
                                                                     //All the images (images) need to be pushed to an array field in mongodb
                                                                     mongoose.model('neume').find({
@@ -1003,7 +1004,7 @@ router.route('/imageCSV')
                                                                         },
 
                                                                         function(err, data) {
-                                                                            //console.log(err, data);
+                                                                            //logger.info(err, data);
                                                                             imageData = [];
 
 
@@ -1011,11 +1012,11 @@ router.route('/imageCSV')
                                                                             a.save(function(err, a) {
                                                                                 if (err) throw err;
 
-                                                                                console.error('saved img to mongo');
+                                                                                logger.error('saved img to mongo');
                                                                             });
                                                                         });
 
-                                                                    console.log(project.positionArray);
+                                                                    logger.info(project.positionArray);
 
                                                                 }
                                                             })
@@ -1023,14 +1024,14 @@ router.route('/imageCSV')
                                                         //Add a timeout to delete everything in the exports folder here once the operation of adding the neumes to the database is finished
                                                     });
 
-                                                    console.log(file);
+                                                    logger.info(file);
                                                 });
                                                 indice = 1;
 
                                             });
                                         }
                                     }
-                             
+
                 }
             });
 
@@ -1042,7 +1043,7 @@ router.route('/imageCSV')
 
         if (fileType == ".csv") {
 
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
             var csvParser = require('csv-parse');
             var file = req.file.buffer;
@@ -1055,7 +1056,7 @@ router.route('/imageCSV')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
-                console.log(file); //This is just the name
+                logger.info(file); //This is just the name
             });
 
 
@@ -1122,7 +1123,7 @@ router.route('/imageCSV')
                 return (arrData);
             }
 
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
             var csvParser = require('csv-parse');
             var file = req.file.buffer;
@@ -1135,7 +1136,7 @@ router.route('/imageCSV')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
-                console.log(file); //This is just the name
+                logger.info(file); //This is just the name
             });
 
             const csv = require('csvtojson');
@@ -1158,7 +1159,7 @@ router.route('/imageCSV')
                                     if (err) {
                                         res.send("There was a problem updating the information to the database: " + err);
                                     } else {
-                                        console.log(neumeElement);
+                                        logger.info(neumeElement);
                                     }
                                 })
 
@@ -1183,11 +1184,11 @@ router.route('/imageCSV')
         }
         var imageNumber = -1;
 
-        if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each 
+        if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each
             //Didn't add the classifier field to the neumes here!
             var fs = require("fs");
             var originalFileName = req.file.originalname;
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
 
             const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
             var fs = require('fs');
@@ -1197,7 +1198,7 @@ router.route('/imageCSV')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
-                console.log(file); //This is just the name
+                logger.info(file); //This is just the name
             });
 
             ////For the images, we unzip the files and we get the images from the unzipped files in media again, just like for the excel file
@@ -1207,10 +1208,10 @@ router.route('/imageCSV')
                     path: './exports'
                 }));
             } catch (e) {
-                console.log('Caught exception: ', e);
+                logger.info('Caught exception: ', e);
             }
 
-            var mammoth = require("mammoth"); //mammoth might take away 
+            var mammoth = require("mammoth"); //mammoth might take away
             const HtmlTableToJson = require('html-table-to-json');
 
             mammoth.convertToHtml({ // Mammoth library used for converting the docx to html, since parsing an html table is much easier
@@ -1218,20 +1219,20 @@ router.route('/imageCSV')
                 })
                 .then(function(result) {
                     var html = result.value; // The generated HTML
-                    //console.log(html);
+                    //logger.info(html);
                     const html1 = html.toString(); //# Paste your HTML table
                     fs.writeFile("file.html", result.value, function(err) {
                         if(err) {
-                            return console.log(err);
+                            return logger.info(err);
                         }
 
-                        console.log("The file was saved!");
-                    }); 
+                        logger.info("The file was saved!");
+                    });
                     fs.readFile("file.html", {
                         encoding: 'utf-8'
                     }, function(err, data) {
                         if (!err) {
-                            console.log('received data: ' + data);
+                            logger.info('received data: ' + data);
                             const html = data.toString(); //# Paste your HTML table
 
                     var HTMLParser = require('node-html-parser');
@@ -1248,21 +1249,21 @@ router.route('/imageCSV')
                         imageArray.push(imageBinary);
 
                     })
-                    //console.log(imageArray)
-                    //console.log(images)
+                    //logger.info(imageArray)
+                    //logger.info(images)
                     var a = 0;
                     var x = 0;
-                    var array = [] 
+                    var array = []
                     rows.forEach(function(row){
                     for(var i = 0; i<6; i++){
                         if(tables[a] == undefined)
                             break
                     var imageBinary = row.firstChild.firstChild;
-                        //console.log(imageBinary)
+                        //logger.info(imageBinary)
                         var AllRow = tables[a].rawText;
-                        //console.log( i + " : " + AllRow);
+                        //logger.info( i + " : " + AllRow);
                         var imageBinary = imageArray[x];
-                        //console.log(imageBinary)
+                        //logger.info(imageBinary)
                         if(i == 0){
                             if(a != 0){
                             AllRow = imageBinary;
@@ -1282,10 +1283,10 @@ router.route('/imageCSV')
                     })
                 }
 
-                    //console.log(array);
-                     console.log(array)
+                    //logger.info(array);
+                     logger.info(array)
 
-                    
+
 
                     const jsonTables = new HtmlTableToJson(html1);
                     var arrayJson = [];
@@ -1299,9 +1300,9 @@ router.route('/imageCSV')
                         json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
                         json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
                         json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
-                        console.log(json);
+                        logger.info(json);
                         //json = JSON.stringify(json);
-                        
+
                         mongoose.model("neume").insertMany(json)
                             .then(function(jsonObj) {
                                 jsonObj.forEach(function(neume) {
@@ -1319,7 +1320,7 @@ router.route('/imageCSV')
                                             res.send("There was a problem updating the information to the database: " + err);
                                         } else {
                                             //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
-                                            console.log(arrayJson);
+                                            logger.info(arrayJson);
                                             for (var laptopItem in arrayJson) {}
 
                                             var messages = result.messages; // Any messages, such as warnings during conversion
@@ -1331,11 +1332,11 @@ router.route('/imageCSV')
                                             }
 
                                             var fs = require('fs');
-     
+
                                         }
-                                         
+
                                     })
-                                   
+
                                 })
                             })
                     }
@@ -1349,7 +1350,7 @@ router.route('/imageCSV')
 
         }
         if (fileType == ".html") {
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var fs = require('fs');
             const filePath = pathName.join(__dirname, "..", req.file.path) //This works
             const HtmlTableToJson = require('html-table-to-json');
@@ -1357,7 +1358,7 @@ router.route('/imageCSV')
                 encoding: 'utf-8'
             }, function(err, data) {
                 if (!err) {
-                    console.log('received data: ' + data);
+                    logger.info('received data: ' + data);
                     const html = data.toString(); //# Paste your HTML table
 
                     const jsonTables = new HtmlTableToJson(html);
@@ -1387,7 +1388,7 @@ router.route('/imageCSV')
                                         if (err) {
                                             res.send("There was a problem updating the information to the database: " + err);
                                         } else {
-                                            console.log(neumeElement);
+                                            logger.info(neumeElement);
                                         }
                                     })
 
@@ -1396,7 +1397,7 @@ router.route('/imageCSV')
                         arrayJson.push(json);
                     }
                     //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
-                    console.log(arrayJson);
+                    logger.info(arrayJson);
                     for (var laptopItem in arrayJson) {}
 
 
@@ -1404,7 +1405,7 @@ router.route('/imageCSV')
                     res.redirect('back');
 
                 } else {
-                    console.log(err);
+                    logger.info(err);
                 }
             });
 
@@ -1428,7 +1429,7 @@ router.route('/csvProject')
                 });
             } else {
                 //var neume = neume;
-                console.log(neumeCSV);
+                logger.info(neumeCSV);
                 let csv
                 try {
                     csv = json2csv(neumeCSV, {
@@ -1479,14 +1480,14 @@ router.route('/fork')
             } else {
                 mongoose.model('User').findById(req.session.userId, function(err, user) {
                     if (err) {
-                        return console.error(err);
+                        return logger.error(err);
                     } else {
 
                         //1.We need to create a copy of the project
                         var name = user.username + "/" + nameOfProject; //We'll start with the userID added to the name, then we'll change it to the username
                         var projectUserID = req.session.userId;
                         var projectArray = [];
-                        projectArray.push(projectUserID) //3.Add that project to the user. 
+                        projectArray.push(projectUserID) //3.Add that project to the user.
                         mongoose.model('project').create({
                             name: name,
                             userID: projectArray //This will be the userID
@@ -1496,7 +1497,7 @@ router.route('/fork')
                                 res.send("There was a problem adding the information to the database.");
                             } else {
                                 //project has been created
-                                console.log('POST creating new project: ' + project);
+                                logger.info('POST creating new project: ' + project);
                                 //2.1 Get the id of the project we just created
                                 // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
                                 neumeCSV.forEach(function(neumeFork) {
@@ -1530,7 +1531,7 @@ router.route('/fork')
                                                 project: ID_project
                                             }, function(err, neumes) {
                                                 neumeFinal = neumes;
-                                                //console.log(neumeFinal);//This works!!!
+                                                //logger.info(neumeFinal);//This works!!!
                                             });
                                             var imageData = [];
 
@@ -1555,7 +1556,7 @@ router.route('/fork')
                                                     },
 
                                                     function(err, data) {
-                                                        //console.log(err, data);
+                                                        //logger.info(err, data);
                                                         imageData = [];
                                                     });
 
@@ -1563,7 +1564,7 @@ router.route('/fork')
                                                 a.save(function(err, a) {
                                                     if (err) throw err;
 
-                                                    console.error('saved img to mongo');
+                                                    logger.error('saved img to mongo');
                                                 });
 
                                             });
@@ -1776,12 +1777,12 @@ router.route('/collabs')
                 } else {
                     mongoose.model('project').findById(project, function(err, project) {
                         projectCollabName = project.name;
-                        console.log(projectCollabName); //This works!!!
+                        logger.info(projectCollabName); //This works!!!
                     });
 
                     mongoose.model('User').findById(userCollab, function(err, user) {
                         userCollabName = user.username;
-                        console.log(userCollabName); //This works!!!
+                        logger.info(userCollabName); //This works!!!
 
 
                         //find the document by ID
@@ -1795,7 +1796,7 @@ router.route('/collabs')
                                             projectID: project,
                                             collabUserName: userCollabName,
                                             collabProjectName: projectCollabName
-                                        } //inserted data is the object to be inserted 
+                                        } //inserted data is the object to be inserted
                                     }
                                 }, function(err, user) {
                                     if (err) {
@@ -1835,13 +1836,13 @@ router.route('/deleteCollab')
             },
 
             function(err, data) {
-                console.log(err, data);
+                logger.info(err, data);
             });
 
         mongoose.model('User').findById(req.session.userId, function(err, user) {
 
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //This works, when the page is reloaded
                 mongoose.model('User').findOneAndUpdate({
@@ -1851,12 +1852,12 @@ router.route('/deleteCollab')
                             collaborators: {
                                 nameCollab: userCollab,
                                 projectID: projectCollab
-                            } //inserted data is the object to be inserted 
+                            } //inserted data is the object to be inserted
                         }
                     },
 
                     function(err, data) {
-                        console.log(err, data);
+                        logger.info(err, data);
                     });
 
                 //Deleting the element from the userArray
@@ -2005,7 +2006,7 @@ router.post('/', function(req, res, next) {
 
             if (error || !user) {
                 User.authenticateByUsername(req.body.logemail, req.body.logpassword, function(error, username) {
-                    console.log(username); //This is undefined
+                    logger.info(username); //This is undefined
                     if (error || !username) {
                         var err = new Error('Wrong email/username or password. Please try again.'); //When entering the right email/user/password, this is going on.
                         return res.format({
@@ -2122,7 +2123,7 @@ router.get('/profile', function(req, res, next) {
         userID: req.session.userId
     }, function(err, projects) {
         if (err) {
-            return console.error(err);
+            return logger.error(err);
         } else {
             projectsUsers = projects;
 
@@ -2132,7 +2133,7 @@ router.get('/profile', function(req, res, next) {
                 }
             }, function(err, users) {
                 if (err) {
-                    return console.error(err);
+                    return logger.error(err);
                 } else {
                     usersSelect = users;
 

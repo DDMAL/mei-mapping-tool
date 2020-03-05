@@ -80,6 +80,7 @@
     "uglify-js": "^3.6.0",
     "unzipper": "^0.10.4",
     "uuid": "^3.3.3",
+    "winston": "^3.2.1",
     "xls-to-json": "^0.5.2",
     "xls-to-json-lc": "^0.3.4",
     "xlsx": "^0.15.1",

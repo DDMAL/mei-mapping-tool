@@ -3,7 +3,7 @@ var express = require('express'),
     compression = require('compression'),
     path = require('path'),
     favicon = require('serve-favicon'),
-    logger = require('morgan'),
+    morgan = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
 mongoose = require('mongoose');
@@ -29,6 +29,8 @@ var routes = require('./routes/router'),
 var app = express();
 var uuid = require('uuid');
 global.imageArray = []; //This variable is initiated everytime the edit page loads.
+
+var logger = require('./logger');
 
 // Include gzipping
 app.use(compression());
@@ -63,36 +65,41 @@ var storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function(req, file, cb) {
-        console.log(uuid.v4())
+        logger.info(uuid.v4())
         global.id = uuid.v4() + ".jpg";
         cb(null, id + "") //Changing pathname to unique path
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         //call the create function for our database
 
         mongoose.model('image').create({
-            imagepath: id, //unique pathname  
+            imagepath: id, //unique pathname
         }, function(err, image) {
             if (err) {
                 res.send("There was a problem adding the information to the database.");
             } else {
                 //neume has been created
-                console.log('POST creating new image: ' + image);
+                logger.info('POST creating new image: ' + image);
                 imageArray.push(image.imagepath);
             }
         })
     }
 })
 
-//if a file is removed from the dropzone : 
-//if the remove button is pressed in the dropzone, 
-//You need to unlink the file "file" : 
+//if a file is removed from the dropzone :
+//if the remove button is pressed in the dropzone,
+//You need to unlink the file "file" :
 
 var upload = multer({
     storage: storage
 });
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+if (process.env.NODE_ENV === 'production') {
+    app.use(morgan('tiny'));
+}
+else {
+    app.use(morgan('dev'));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -119,7 +126,7 @@ app.get('/old', function(req, res) {
 });
 
 app.post('/image', function(req, res) {
-    //console.log (req.files);
+    //logger.info (req.files);
     res.status(200).send('good Request');
 });
 
@@ -150,12 +157,12 @@ app.use(function(req, res, next) {
 
 //On click example of the deleted image (Still working on it)
 app.post('/clicked', (req, res) => {
-    console.log("work");
+    logger.info("work");
     // delete file named 'sample.txt'
     fs.unlink('Punctum.jpg', function(err) {
         if (err) throw err;
         // if no error, file has been deleted successfully
-        console.log('File deleted!');
+        logger.info('File deleted!');
     });
 });
 
