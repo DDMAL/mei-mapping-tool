@@ -23,4 +23,10 @@ else {
     logger.add(new winston.transports.Console({timestamp: true}));
 }
 
+logger.stream = {
+    write: (message, _encoding) => {
+        logger.info(message);
+    }
+}
+
 module.exports = logger;

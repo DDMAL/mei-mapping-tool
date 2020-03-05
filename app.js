@@ -95,10 +95,10 @@ var upload = multer({
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 if (process.env.NODE_ENV === 'production') {
-    app.use(morgan('tiny'));
+    app.use(morgan('combined', { stream: logger.stream }));
 }
 else {
-    app.use(morgan('dev'));
+    app.use(morgan('tiny', { stream: logger.stream }));
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
