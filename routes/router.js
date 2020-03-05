@@ -216,7 +216,7 @@ router.route('/about')
             //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
             html: function() {
                 logger.info(userFinal);
-                res.render('about.jade', {
+                res.render('about', {
                     title: 'About',
                     "users": userFinal
                 });

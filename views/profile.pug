@@ -57,7 +57,7 @@ html
               li
                 a(href='/') Log out
               li
-                a(href='#') #{username}
+                a(href='#') username
 
     // the content
     main
@@ -67,7 +67,7 @@ html
             #content.clearfix
               #userphoto
                 img(src='images/avatar.png', alt='default avatar')
-              h1 #{username}
+              h1 username
               nav#profiletabs
                 ul.clearfix
                   li.profiletab
@@ -80,57 +80,57 @@ html
                 br
                 h2 - Profile -
                 p.activity
-                  | Email : #{email}
+                  | Email : email
                 p.activity
                   | Profile status : Editor
-                 form(action='/updateBio', method='post')
-                  textarea(type='text', name='bio', rows="5" cols="5" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" placeholder = "Write your bio here!") #{bio}
+                form(action='/updateBio', method='post')
+                  textarea(type='text', name='bio', rows="5" cols="5" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" placeholder = "Write your bio here!") bio
                   input(type='hidden',value='PUT',name='_method')
                   br
                   button(class = "button button2") Update
               section#friends.hidden
                 br
                 p Collaborators:
-                - each collaborator in collaborators
+                each collaborator in collaborators
                   ul#friendslist.clearfix
                     li
-                    h6 Username : #{collaborator.collabUserName} 
-                    h6 Project : #{collaborator.collabProjectName}
+                    h6 Username : collaborator.collabUserName 
+                    h6 Project : collaborator.collabProjectName
                      form(action='/deleteCollab',method='post',enctype='application/x-www-form-urlencoded')   
-                        input(name="collabName" value = "#{collaborator.nameCollab}" hidden)
-                        input(name="collabProject" value = "#{collaborator.projectID}" hidden)
+                        input(name="collabName" value = collaborator.nameCollab hidden)
+                        input(name="collabProject" value = collaborator.projectID hidden)
                         input(type='hidden',value='DELETE',name='_method')
-                        button(class = "button button3DeleteCollab" class = "cd-popup-trigger" id = "buttonCollab#{collaborator._id}" type = 'button') x
+                        button(class = "button button3DeleteCollab" class = "cd-popup-trigger" id = "buttonCollab" + collaborator._id type = 'button') x
                         
-                        .modalDeleteCollab(id = "DeleteModal#{collaborator._id}")
+                        .modalDeleteCollab(id = "DeleteModal" + collaborator._id)
                           // Modal content
                           .modalDeleteCollab-content
-                            span.closeDeleteCollab(id = "closingModal#{collaborator._id}") ×
+                            span.closeDeleteCollab(id = "closingModal" + collaborator._id) ×
                             h4 Are you sure you want to delete this collaborator? 
                             br
-                            h3 #{collaborator.collabUserName}
+                            h3 collaborator.collabUserName
                             p
                              button(type='submit' class = "button button3DeleteImage") Yes
-                             button(type = "button" class = "button button4" id = "NoButton#{collaborator._id}") No
+                             button(type = "button" class = "button button4" id = "NoButton" + collaborator._id) No
                              br
 
-                           script.
+                            script.
                                //Modals event listeners for every modal
                                 window.addEventListener('load', function() {
                                   
-                                    initializeModal('DeleteModal#{collaborator.id}', 'buttonCollab#{collaborator._id}');
+                                    initializeModal('DeleteModal' + collaborator.id, 'buttonCollab' + collaborator._id);
                                
                                   });
 
-                                     document.getElementById("NoButton#{collaborator._id}").onclick = function(){
-                                                document.getElementById("DeleteModal#{collaborator._id}").style.display = 'none';
+                                     document.getElementById("NoButton" + collaborator._id).onclick = function(){
+                                                document.getElementById("DeleteModal" + collaborator._id).style.display = 'none';
                                                 };
-                                     document.getElementById("closingModal#{collaborator._id}").onclick = function(){
-                                                document.getElementById("DeleteModal#{collaborator._id}").style.display = 'none';
+                                     document.getElementById("closingModal" + collaborator._id).onclick = function(){
+                                                document.getElementById("DeleteModal" + collaborator._id).style.display = 'none';
                                                 };
 
-                   br
-                 #ex1.modal
+                  br
+                  #ex1.modal
                     h2.
                      Add a Collaborator
                     form#formAddproject(name="addCollab",method="post",action="/collabs")
@@ -138,14 +138,14 @@ html
                               p Name: 
                                  select(class = "createProjectInput" name="collabName" id = "selectUser" required)
                                       option(disabled='', selected='', value='')  -- select a username -- 
-                                      - each user in users
-                                          option(value='#{user.id}') #{user.username}                            
+                                      each user in users
+                                          option(value=user.id) user.username                            
 
                               p Project: 
                                  select(class = "createProjectInput" name="project" id = "selectProject" required)
                                       option(disabled='', selected='', value='')  -- select a project -- 
-                                      - each project in projects
-                                          option(value='#{project.id}') #{project.name}
+                                      each project in projects
+                                          option(value=project.id) project.name
                               p
                                  button#btnSubmit(type="submit" class = "buttonAddProject" style = "border-radius : 5px") submit
                   // Link to open the modal
@@ -159,7 +159,7 @@ html
                     form(action='/updateUsername', method='post')        
                       .page
                         label.field.a-field.a-field_a1.page__field
-                          input.field__input.a-field__input(name = "usernameSettings" value = "#{username}" size="20" required type = 'text')
+                          input.field__input.a-field__input(name = "usernameSettings" value = username size="20" required type = 'text')
                           span.a-field__label-wrap
                             span.a-field__label Username
                       button(class = "button button2" ) Update username
@@ -167,7 +167,7 @@ html
                     form(action='/updateEmail', method='post')
                       .page
                         label.field.a-field.a-field_a1.page__field
-                          input.field__input.a-field__input(name = "emailSettings" value = "#{email}" size="20" required type = 'text')
+                          input.field__input.a-field__input(name = "emailSettings" value = email size="20" required type = 'text')
                           span.a-field__label-wrap
                             span.a-field__label Email     
                       button(class = "button button2" ) Update email
@@ -195,6 +195,3 @@ script(type='text/javascript').
       });
  });
   
-
-
-
