@@ -11,12 +11,16 @@ const logger = winston.createLogger({
 if (process.env.NODE_ENV === 'production') {
     logger.add(new winston.transports.File({
         filename: process.env.CRESS_ERROR_FILE,
-        timestamp: true,
-        level: 'error'
+        level: 'error',
+        maxsize: 100000,    // 100 kB
+        maxFiles: 5,
+        tailable: true
     }));
     logger.add(new winston.transports.File({
         filename: process.env.CRESS_COMBINED_FILE,
-        timestamp: true
+        maxsize: 100000,     // 100 kB
+        maxFiles: 5,
+        tailable: true
     }));
 }
 else {
