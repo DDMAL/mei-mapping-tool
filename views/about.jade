@@ -1,4 +1,5 @@
 doctype html
+- var url = "https://cress-staging.simssa.ca/"
 html
   head
    link(rel="icon" href="/images/Favicon.png")
@@ -55,7 +56,7 @@ html
                   .color(style = "text-align : justify;")
                     .section-header
                     h2(style = "font : 40px Avenir, sans-serif;") Log-in
-                    c(style = "font : 16px Avenir, sans-serif;") To access the log-in page, you can go to the home page http://132.206.14.234/. If you don't have an account, you'll need to create it in the register menu. Under the sign up menu, you can create your own username and password for your mei-mapping project. After clicking the register button, you will need to confirm your account via an email sent to you. You will then be able to log-in where you will be redirected to the projects page : http://132.206.14.234/projects. After logging-in, editors of the mei-mapping-tool can create projects and edit neumes, but they cannot edit other projects if they have not been given permission by administrators. 
+                    c(style = "font : 16px Avenir, sans-serif;") To access the log-in page, you can go to the home page #{url}. If you don't have an account, you'll need to create it in the register menu. Under the sign up menu, you can create your own username and password for your mei-mapping project. After clicking the register button, you will need to confirm your account via an email sent to you. You will then be able to log-in where you will be redirected to the projects page : #{url}projects. After logging-in, editors of the mei-mapping-tool can create projects and edit neumes, but they cannot edit other projects if they have not been given permission by administrators. 
 
                     h2(style = "font : 40px Avenir, sans-serif;") Public Users
                     c(style = "font : 16px Avenir, sans-serif;") Public users can view all the projects and the neumes they contain, but they cannot edit the neumes or delete projects. To log-in as a public user, simply click on the link in at the bottom of the log-in page titled : 
@@ -63,7 +64,7 @@ html
                     strong "Continue as a public user ->" 
 
                     h2(style = "font : 40px Avenir, sans-serif;") Projects
-                    c(style = "font : 16px Avenir, sans-serif;") To create a project, simply click on the add Project link and add a project name in the pop-up window. Once the project has been created, a button with the name of the project will appear under My Projects. To get access to the classifier, you can click on the button you created and you will be redirected to the mapping editor page. http://132.206.14.234/projects/:id
+                    c(style = "font : 16px Avenir, sans-serif;") To create a project, simply click on the add Project link and add a project name in the pop-up window. Once the project has been created, a button with the name of the project will appear under My Projects. To get access to the classifier, you can click on the button you created and you will be redirected to the mapping editor page. #{url}projects/:id
 
                     h2(style = "font : 40px Avenir, sans-serif;") Classifier
                     c(style = "font : 16px Avenir, sans-serif;") The classifier has many features to create, update, delete and see the neumes. You can add neumes by clicking on the add Neume button and filling the information. The new element will have 4 sections. To access the sections, simply click on the purple collapsible rectangle that has the name of the new element on the left corner. Starting from the left, the first section is the drag and drop section using dropzone where you can add images of your element. The second section is where you can add the name, folio and description of the element. The third section is the classifier label that should have a proper syntax : 
@@ -72,7 +73,7 @@ html
                     strong neume.pes.b.3
                     br
                     br
-                    c(style = "font : 16px Avenir, sans-serif;") The fourth element is the MEI Snippet that holds an ace editor where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written needs to be reviewed for mei errors. The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button Update Name to see your changes. The home page of the header will redirect you to the projects page http://localhost:3000/projects
+                    c(style = "font : 16px Avenir, sans-serif;") The fourth element is the MEI Snippet that holds an ace editor where you can directly code the mei encoding related to your element. Under the snippet, you can also specify whether the code you have written needs to be reviewed for mei errors. The project name can also be changed under the classifier view. To update the name, simply edit the name of the project in the upper left corner and click on the button Update Name to see your changes. The home page of the header will redirect you to the projects page #{url}projects
 
                     h3(style = "font : 40px Avenir, sans-serif;") Pitches
                     c(style = "font : 16px Avenir, sans-serif;") Under the mei encoding column, pitches should be encoded as such : 
@@ -97,11 +98,11 @@ html
                     c(style = "font : 16px Avenir, sans-serif;") You can fork a project to your own account by clicking on the fork button under the other projects section. This will create a new project in your repository titled username/projectName and you will be able to see and edit all the neumes of the project your forked.
                     
                     h2(style = "font : 40px Avenir, sans-serif;") Profile
-                    c(style = "font : 16px Avenir, sans-serif;") To access the profile page, you can click on your username button in the navigation bar. You will be redirected to http://132.206.14.234/profile. The profile page is divided in 3 sections. The profile section has information about your email, profile status and bio. You can change your bio by simply writing on the text area and clicking on the update button to see your changes.
+                    c(style = "font : 16px Avenir, sans-serif;") To access the profile page, you can click on your username button in the navigation bar. You will be redirected to #{url}profile. The profile page is divided in 3 sections. The profile section has information about your email, profile status and bio. You can change your bio by simply writing on the text area and clicking on the update button to see your changes.
                     c(style = "font : 16px Avenir, sans-serif;") The collaborators section helps manage user access to your projects. To add a new editor to your project, you can press the add a collaborator link at the bottom of the screen and you will be prompted to choose the username of the user and the project to which you want to give access. The user will then be able to view and edit the project in their account. The settings section manages the changes a user might want to make to its email or username.
 
                     h2(style = "font : 40px Avenir, sans-serif;") Log-out
-                    c(style = "font : 16px Avenir, sans-serif;") Log-out To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page http://132.206.14.234/
+                    c(style = "font : 16px Avenir, sans-serif;") Log-out To log-out of your project, you can click on the log-out button of the header. You will be redirected to the home page #{url}
 
               footer
                 //img(src='img/avatar.jpeg', alt='Footer Logo')
