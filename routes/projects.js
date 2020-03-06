@@ -828,7 +828,7 @@ router.route('/forkPublic/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/showFork', {
+                                res.render('projects/showFork.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
