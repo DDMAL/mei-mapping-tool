@@ -471,7 +471,7 @@ router.route('/uploadCSV')
                                     mongoose.model('neume').find({
                                         _id: neume.id
                                     }).update({
-                                        imagesBinary: neumeElement.imagesBinary.replace(/[\[\]'"\\\/]/+g, ''),
+                                        imagesBinary: neumeElement.imagesBinary.replace(/[\[\]']+/g, ''),
                                         mei: neumeElement.mei.replace("“$1”", /"([^"]*)"/g)
                                     }, function(err, neumeElement) {
                                         if (err) {
@@ -484,10 +484,6 @@ router.route('/uploadCSV')
                             })
 
                         })
-
-
-
-
                         res.redirect("back");
                     })
                     .catch(function(err) {
@@ -545,8 +541,9 @@ router.route('/imageCSV')
                 rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
             }, function(err, result) {
                 if (err) {
+                    console.error(err);
                     var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
-
+                    console.error(err);
                 } else {
                     var unzip = require('unzipper');
                     var fs = require("fs");
@@ -555,7 +552,7 @@ router.route('/imageCSV')
                             path: './exports'
                         }));
                     } catch (e) {
-                        logger.info('Caught exception: ', e);
+                        logger.error('Caught exception: ', e);
                     }
                     var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
                     //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
@@ -1075,16 +1072,14 @@ router.route('/imageCSV')
             });
 
             const csv = require('csvtojson');
-            ////THIS IS WHERE THE REAL CSV FILE IS UPLOADED
             csv()
                 .fromFile(req.file.path)
                 .then((jsonObj) => {
 
                     mongoose.model("neume").insertMany(jsonObj)
                         .then(function(jsonObj) {
-
+                            // parse the neume image paths/image binaries, remove all instances of []\"
                             jsonObj.forEach(function(neume) {
-                                //logger.error((neume.imagesBinary[0]));
                                 mongoose.model("neume").find({
                                     _id: neume.id
                                 }).update({
