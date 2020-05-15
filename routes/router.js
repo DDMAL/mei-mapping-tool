@@ -374,8 +374,11 @@ router.route('/sectionDelete')
         });
     });
 
+/* never called?
 router.route('/csv')
     .post(function(req, res) {
+
+        logger.error('/csv');
 
         var IdOfNeume = req.body.IdOfNeume;
         logger.info(IdOfNeume); //This is somehow undefined.
@@ -423,13 +426,17 @@ router.route('/csv')
         })
 
     });
-
+*/
 var multer = require('multer')
 var uploadCSV = multer({
     dest: 'exports/'
 })
+
+/* never called? /uploadCSV is a form not a button
 router.route('/uploadCSV')
     .post(uploadCSV.single('csvFile'), function(req, res) {
+
+        logger.error('/uploadCSV');
 
         var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
         var nameOfProject = req.body.projectName;
@@ -487,7 +494,8 @@ router.route('/uploadCSV')
                         res.redirect("back");
                     })
                     .catch(function(err) {
-                        err = "Please, only upload the csv file downloaded from the project."
+                        logger.error(err);
+                        err = "There was a problem with downloading the CSV file."
                         return res.format({
                             html: function() {
                                 res.render('errorLog', {
@@ -501,6 +509,7 @@ router.route('/uploadCSV')
                     });
             });
     })
+*/
 
 var fs = require('fs');
 var dir = './exports';
@@ -519,8 +528,12 @@ var uploadCSV = multer({
         }
     })
 }).single('fileImage');
+
+// this is the function that seems to be called when uploading a file
+// (for all 4 file types not just csv lol)
 router.route('/imageCSV')
     .post(uploadCSV, function(req, res) {
+        logger.error('/imageCSV');
 
         var fileType = req.body.fileType;
         logger.info(fileType); //This is docx
@@ -541,10 +554,12 @@ router.route('/imageCSV')
                 rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
             }, function(err, result) {
                 if (err) {
-                    console.error(err);
+                    logger.error(err);
                     var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
-                    console.error(err);
+                    logger.error(err);
                 } else {
+                    logger.error('first');
+                    logger.error(result);
                     var unzip = require('unzipper');
                     var fs = require("fs");
                     try {
@@ -559,7 +574,7 @@ router.route('/imageCSV')
                     var workbook = XLSX.readFile(req.file.path);
                     var sheet_name_list = workbook.SheetNames;
                     result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-                    logger.info(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]))
+                    logger.error(result);
 
 
                     let workbook_firstRow = XLSX.readFile(req.file.path, {
@@ -909,6 +924,7 @@ router.route('/imageCSV')
                         res.send("There was a problem updating the information to the database: " + err);
                     } else {
                         var fs = require('fs');
+                        logger.error('second?');
 
                         //2. I need to unzip the file and add the unzipped content to a directory
                         if (fileType == ".xlsx") {
@@ -1348,9 +1364,10 @@ router.route('/imageCSV')
 
     });
 
-
 router.route('/csvProject')
     .post(function(req, res) {
+
+        logger.error('/csvProject');
 
         var IdOfProject = req.body.IdOfProject;
         var nameOfProject = req.body.projectName;
@@ -1364,7 +1381,7 @@ router.route('/csvProject')
                 });
             } else {
                 //var neume = neume;
-                logger.info(neumeCSV);
+                //logger.info(neumeCSV);
                 let csv
                 try {
                     csv = json2csv(neumeCSV, {
