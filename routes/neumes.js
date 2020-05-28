@@ -63,13 +63,16 @@ router.route('/user')
             if (err) {
                 return logger.error(err)
             } else {
+                logger.error(projects);
                 //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
                     //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function() {
-                        res.render('neumes/user', {
+                        res.render('projects/index', {
                             title: 'Project',
-                            "projects": projects
+                            "other": projects,
+                            "user": [],
+                            "projects": []
                         })
                     },
                     //  JSON response will show all neumes in JSON format

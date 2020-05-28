@@ -69,8 +69,8 @@ router.route('/')
                                 res.render('projects/index', {
                                     title: 'Projects',
                                     "projects": projects,
-                                    "users": userFinal,
-                                    "allProject": projectsAll
+                                    "user": userFinal,
+                                    "other": projectsAll
                                 });
                             },
                             //JSON response will show all projects in JSON format
@@ -232,6 +232,8 @@ router.param('id', function(req, res, next, id) {
     });
 });
 
+// DEPRICATED //
+/*
 router.route('projects/:id/edit')
     //GET the individual project by Mongo ID
     .get(function(req, res) {
@@ -336,6 +338,7 @@ router.route('projects/:id/edit')
     });
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
+// DEPRICATED??
 router.route('/projects')
     //GET all projects
     .get(function(req, res, next) {
@@ -596,6 +599,7 @@ router.route('/project/:id/edit')
         });
     });
 
+*/
 /* Delete dropzone images. */
 router.route('/deleteImageDropzone')
     //DELETE an image by ID
