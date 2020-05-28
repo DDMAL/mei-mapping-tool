@@ -28,7 +28,7 @@ router.use(methodOverride(function(req, res) {
     }
 }))
 
-//  Route for the cancel button
+//  Route for the cancel button on editNeume and newNeume
 router.route('/cancel')
     //  GET all neumes
     .get(function(req, res, next) {
@@ -53,7 +53,8 @@ router.route('/cancel')
         })
     })
 
-//  Route for the users
+// This loads the projects page when you're NOT logged in
+// This only gets called if you're a public user
 router.route('/user')
     //  GET all neumes
     .get(function(req, res, next) {
@@ -80,7 +81,7 @@ router.route('/user')
         })
     })
 
-//  Route for public user's about page
+//  Route for public user's about page, only called if you're not logged in
 router.route('/about')
     //  GET all neumes
     .get(function(req, res, next) {
@@ -93,9 +94,10 @@ router.route('/about')
                 res.format({
                     //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function() {
-                        res.render('neumes/about', {
+                        res.render('about', {
                             title: 'About',
-                            "projects": projects
+                            "projects": projects,
+                            "loggedin": false
                         })
                     },
                     //  JSON response will show all neumes in JSON format
@@ -109,9 +111,12 @@ router.route('/about')
 
 //  build the REST operations at the base for neumes
 //  this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
+// there isn't any jade file available for the get function
+// the .post function gets called when you upload a new neume though?
 router.route('/')
     //  GET all neumes
     .get(function(req, res, next) {
+        logger.error('.route(/) neumes.js');
         //  retrieve all neumes from Monogo
         mongoose.model('neume').find({}, function(err, neumes) {
             if (err) {
@@ -137,6 +142,7 @@ router.route('/')
 
     //  POST a new neume
     .post(function(req, res) {
+        logger.error('/.post numes/js');
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         var name = req.body.name;
         var folio = req.body.folio;
@@ -250,6 +256,7 @@ router.route('/')
     });
 
 /* GET New neume page. */
+// neumes/new isn't a jade file, and this doesn't seem to ever be called
 router.get('/new', function(req, res) {
     res.render('neumes/new', {
         title: 'Add New Neume'
@@ -257,8 +264,13 @@ router.get('/new', function(req, res) {
 });
 
 /* Update edit images. */
+// called in editNeume.jade
+// this seems to be attached to a form, and so doesn't actually ever get called?
+// also neume/edit doesn't exist, so I'm assuming this is depricated
+// the put function gets called when you add a new neume
 router.route('/:id/editImage')
     .get(function(req, res) {
+        logger.error('/:id/editImage neume.js');
         //search for the neume within Mongo
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
@@ -295,6 +307,7 @@ router.route('/:id/editImage')
     })
     //PUT to update a neume by ID
     .put(function(req, res) {
+        logger.error('put /:id/editImage');
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var name = req.body.name;
         var folio = req.body.folio;
@@ -377,6 +390,7 @@ router.route('/:id/editImage')
     })
     //DELETE an image by ID
     .delete(function(req, res) {
+        logger.error('delete /:id/editImage');
         //imageDeleted is the path of the image we want to delete.
         var imageToDelete = req.body.imageDeleted;
         //logger.log(imageToDelete);
@@ -417,9 +431,11 @@ router.route('/:id/editImage')
     });
 
 /* Update edit images. */
+// called when you click x on an image
 router.route('/:id/deleteImage')
     //DELETE an image by ID
     .delete(function(req, res) {
+        logger.error('/:id/deleteImage');
         //imageDeleted is the path of the image we want to delete.
         var imageToDelete = req.body.imageDeleted; //this seems to be undefined.
 
@@ -481,9 +497,11 @@ router.route('/:id/deleteImage')
 router.param('id', function(req, res, next, id) {
     //logger.log('validating ' + id + ' exists');
     //find the ID in the Database
+    logger.error('param id neume.js');
     mongoose.model('neume').findById(id, function(err, neume) {
         //if it isn't found, we are going to repond with 404
         if (err) {
+            logger.error('hiiii');
             logger.log(id + ' was not found');
             res.status(404)
             var err = new Error('Not Found');
@@ -512,9 +530,10 @@ router.param('id', function(req, res, next, id) {
 
 router.route('/:id')
     .get(function(req, res) {
+        logger.error('/:id get!');
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
-                logger.log('GET Error: There was a problem retrieving: ' + err);
+                logger.error('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //logger.log('GET Retrieving ID: ' + neume._id);
                 var neumedob = neume.dob.toISOString();
@@ -535,6 +554,9 @@ router.route('/:id')
     });
 //The new projectID should be here.
 
+//again, the get function seems to be broken for the same reason
+// although the delete definitely gets called when you delete a neume,
+// and the put one also works I think
 router.route('/:id/edit')
     //GET the individual neume by Mongo ID
     .get(function(req, res) {
@@ -570,6 +592,7 @@ router.route('/:id/edit')
     })
     //PUT to update a neume by ID
     .put(function(req, res) {
+        logger.error('put /:id/edit');
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var name = req.body.name;
         var folio = req.body.folio;
@@ -638,7 +661,7 @@ router.route('/:id/edit')
                             if (err) {
                                 return logger.error(err);
                             } else {
-                                logger.log("worked");
+                                logger.error('worked!');
                             }
                         });
                         //Returning success messages saying it was deleted

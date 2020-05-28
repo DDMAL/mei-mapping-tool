@@ -1,5 +1,6 @@
 doctype html
-- var url = "https://cress-staging.simssa.ca/"
+if (loggedin)
+  - var url = "http://cress-staging.simssa.ca/"
 html
   head
    link(rel="icon" href="/images/Favicon.png")
@@ -11,9 +12,9 @@ html
     //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
     link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
     link(rel="images" href="/images/CF-005 (1).png")
-    link(rel="shortcut icon" href="/images/CF-005.png" type="image/png")
+    if 'loggedin'
+      link(rel="shortcut icon" href="/images/CF-005.png" type="image/png")
     link(rel="icon" href="/images/Favicon.png")
-
     //Column parameters
   div
     header.sticky
@@ -24,19 +25,27 @@ html
         nav
           ul
               li
-                a(href='/about') About
+                if (loggedin)
+                  a(href='/neumes/about') About
+                else
+                  a(href='/about') About
               li
-                a(href='/projects') Projects
+                if (loggedin)
+                  a(href='/neumes/user') Projects
+                else
+                  a(href='/neumes/user') Projects
               li
                 a(href='http://ddmal.music.mcgill.ca/') DDMAL 
               li
-                a(href='/') Log out
-
+                if (loggedin)
+                  a(href='/') Log out
+                else
+                  a(href='/') Log-in
                 
     // the content
     main
       // hero content
-      div(id = "about").hero
+      div(id="about").hero
         // content for the hero
         .hero-content
 
@@ -44,7 +53,10 @@ html
           h1.
                #{title} 
           p All of your mei-mapping projects, in one interface.
-          a(href='/projects') Projects
+          if (loggedin)
+            a(href='/neumes/user') Projects
+          else
+            a(href='/projects') Projects   
           a(href='#section') Learn more
           br
           br

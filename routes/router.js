@@ -35,6 +35,7 @@ var userFinal = []
 /*Forget Password Page*/
 
 router.get('/forgot', function(req, res) {
+    logger.error('router get /forgot');
     User.findById(req.session.userId)
         .exec(function(error, user) {
             if (error) {
@@ -73,6 +74,7 @@ router.get('/forgot', function(req, res) {
 });
 
 router.post('/forgot', function(req, res, next) {
+    logger.error('router post /forgot');
     async.waterfall([
         function(done) {
             crypto.randomBytes(20, function(err, buf) {
@@ -140,6 +142,7 @@ router.post('/forgot', function(req, res, next) {
 
 //Route for the email reset link
 router.get('/reset/:token', function(req, res) {
+    logger.error('router get /reset/:token');
     User.findOne({
         resetPasswordToken: req.params.token,
         resetPasswordExpires: {
@@ -167,6 +170,7 @@ router.get('/reset/:token', function(req, res) {
 
 //Reset route for posting the new password
 router.post('/reset/:token', function(req, res) {
+    logger.error('router post /reset/:token');  
     async.waterfall([
         function(done) {
             User.findOne({
@@ -200,6 +204,7 @@ router.post('/reset/:token', function(req, res) {
 /* GET about page. */
 router.route('/about')
     .get(function(req, res) {
+        logger.error('router /about get');
         mongoose.model('User').find({
             _id: req.session.userId
         }, function(err, users) {
@@ -218,7 +223,8 @@ router.route('/about')
                 logger.info(userFinal);
                 res.render('about.jade', {
                     title: 'About',
-                    "users": userFinal
+                    "users": userFinal,
+                    "loggedin": true
                 });
             },
             //JSON response will show all projects in JSON format
@@ -232,6 +238,7 @@ router.route('/about')
 //Update the sections to add neumes inside.
 router.route('/updateSection')
     .post(function(req, res) {
+        logger.error('router /updatesection post');
 
 
         var neumeSectionIds = [];
@@ -274,9 +281,10 @@ router.route('/updateSection')
 
 //global.userFinal = []; //The user needs to be added in all the routes
 
-
+// im not entirely sure what this does
 router.route('/savePosition')
     .post(function(req, res) {
+        logger.error('router post /saveposition');
 
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var position = req.body.position;
@@ -310,6 +318,7 @@ router.route('/savePosition')
 
 router.route('/section')
     .post(function(req, res) {
+        logger.error('router post /section');
 
         //We want to get the sections collection and add a new section with the 2 neumes inside.
 
@@ -343,6 +352,7 @@ router.route('/section')
 
 router.route('/sectionDelete')
     .post(function(req, res) {
+        logger.error('router post /sectiondelete');
         var sectionID = req.body.sectionId;
         //find neume by ID
         mongoose.model('section').findById(sectionID, function(err, section) {
@@ -548,361 +558,343 @@ router.route('/imageCSV')
             //1. I need to upload the excel file here
             logger.info(originalFileName);
             node_xj = require("xls-to-json");
-            node_xj({
-                input: req.file.path, // input xls
-                output: "output.json", // output json // specific sheetname
-                rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
-            }, function(err, result) {
-                if (err) {
-                    logger.error(err);
-                    var err = 'Error : You need to have the right number of columns and the right names for the upload to proceed.';
-                    logger.error(err);
-                } else {
-                    logger.error('first');
-                    logger.error(result);
-                    var unzip = require('unzipper');
-                    var fs = require("fs");
-                    try {
-                        fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
-                            path: './exports'
-                        }));
-                    } catch (e) {
-                        logger.error('Caught exception: ', e);
-                    }
-                    var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
-                    //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
-                    var workbook = XLSX.readFile(req.file.path);
-                    var sheet_name_list = workbook.SheetNames;
-                    result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-                    logger.error(result);
+            logger.error('first');
+            var unzip = require('unzipper');
+            var fs = require("fs");
+            try {
+                fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
+                    path: './exports'
+                }));
+            } catch (e) {
+                logger.error('Caught exception: ', e);
+            }
+            var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
+            //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
+            var workbook = XLSX.readFile(req.file.path);
+            var sheet_name_list = workbook.SheetNames;
+            result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+            logger.error(result);
 
 
-                    let workbook_firstRow = XLSX.readFile(req.file.path, {
-                        sheetRows: 1
-                    })
-                    let sheetsList = workbook_firstRow.SheetNames
-                    let sheetData = XLSX.utils.sheet_to_json(workbook_firstRow.Sheets[sheetsList[0]], {});
+            let workbook_firstRow = XLSX.readFile(req.file.path, {
+                sheetRows: 1
+            })
+            let sheetsList = workbook_firstRow.SheetNames
+            let sheetData = XLSX.utils.sheet_to_json(workbook_firstRow.Sheets[sheetsList[0]], {});
 
-                    mongoose.model("neume").insertMany(result)
-                        .then(function(jsonObj) {
+            mongoose.model("neume").insertMany(result)
+                .then(function(jsonObj) {
 
-                            jsonObj.forEach(function(neume) {
-                                mongoose.model("neume").find({
-                                    _id: neume.id
-                                }).update({
-                                    project: IdOfProject,
-                                    classifier: originalFileName,
-                                    mei: neume.mei
-                                    //I also need to add the classifier name as a field
-                                }, function(err, neumeElement) {
-                                    if (err) {
-                                        res.send("There was a problem updating the information to the database: " + err);
-                                    } else {
-                                        logger.info(neumeElement);
-                                        var fs = require('fs');
+                    jsonObj.forEach(function(neume) {
+                        mongoose.model("neume").find({
+                            _id: neume.id
+                        }).update({
+                            project: IdOfProject,
+                            classifier: originalFileName,
+                            mei: neume.mei
+                            //I also need to add the classifier name as a field
+                        }, function(err, neumeElement) {
+                            if (err) {
+                                res.send("There was a problem updating the information to the database: " + err);
+                            } else {
+                                logger.info(neumeElement);
+                                var fs = require('fs');
 
-                                        //2. I need to unzip the file and add the unzipped content to a directory
-                                        if (fileType == ".xlsx") {
+                                //2. I need to unzip the file and add the unzipped content to a directory
+                                var dir = './exports';
+                                if (!fs.existsSync(dir)) {
+                                    fs.mkdirSync(dir);
+                                }
+                                var unzip = require('unzipper');
+                                try {
+                                    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
+                                        path: './exports'
+                                    }));
+                                } catch (e) {
+                                    logger.info('Caught exception: ', e);
+                                }
+                                var fs = require('fs');
+                                if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
+                                    fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
+                                        if (err) {
+                                            throw err;
+                                        }
+                                        let xmlParser = require('xml2json');
+                                        let xmlString = data.toString();
+                                        //logger.info('JSON output', xmlParser.toJson(xmlString));
+                                        var jsonObj = xmlParser.toJson(xmlString);
+                                        var jsonArray = [];
+                                        jsonArray = jsonObj.split(',');
+                                        //logger.info(jsonArray);
+                                        var rowArray = [];
+                                        var imageArray = [];
+                                        var a = 0;
+                                        for (var i = 0; i < jsonArray.length; i++) {
+                                            //logger.info(jsonArray[i] + "hey")
+                                            if (jsonArray[i].includes("\"xdr:row\":")) { //logger.info(jsonArray[i].split(":")[2]);
+                                                var rowValue = jsonArray[i].split(":")[2]; //this is the xdr:row that we have from the element
 
-                                            var dir = './exports';
-
-                                            if (!fs.existsSync(dir)) {
-                                                fs.mkdirSync(dir);
                                             }
-                                            var unzip = require('unzipper');
-                                            try {
-                                                fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
-                                                    path: './exports'
-                                                }));
-                                            } catch (e) {
-                                                logger.info('Caught exception: ', e);
-                                            }
-                                            var fs = require('fs');
-                                            if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
-                                                fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
+                                            if (jsonArray[i].includes("\"r:embed\":")) {
+                                                //logger.info(jsonArray[i].split(":")[2]);
+                                                var rowWithId = jsonArray[i].split(":")[2];
+                                                rowWithId = rowWithId.replace("\}", "");
+                                                rowArray.push(rowWithId);
+                                                //logger.info(rowArray); //This works perfectly
+                                                //An error happens when the neume gets all the files
+                                                fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
                                                     if (err) {
-                                                        throw err;
-                                                    }
-                                                    let xmlParser = require('xml2json');
-                                                    let xmlString = data.toString();
-                                                    //logger.info('JSON output', xmlParser.toJson(xmlString));
-                                                    var jsonObj = xmlParser.toJson(xmlString);
-                                                    var jsonArray = [];
-                                                    jsonArray = jsonObj.split(',');
-                                                    //logger.info(jsonArray);
-                                                    var rowArray = [];
-                                                    var imageArray = [];
-                                                    var a = 0;
-                                                    for (var i = 0; i < jsonArray.length; i++) {
-                                                        //logger.info(jsonArray[i] + "hey")
-                                                        if (jsonArray[i].includes("\"xdr:row\":")) { //logger.info(jsonArray[i].split(":")[2]);
-                                                            var rowValue = jsonArray[i].split(":")[2]; //this is the xdr:row that we have from the element
+                                                        var err = 'Error : You cannot upload an old version of excel. Please make sure that your version of excel is updated.';
 
-                                                        }
-                                                        if (jsonArray[i].includes("\"r:embed\":")) {
-                                                            //logger.info(jsonArray[i].split(":")[2]);
-                                                            var rowWithId = jsonArray[i].split(":")[2];
-                                                            rowWithId = rowWithId.replace("\}", "");
-                                                            rowArray.push(rowWithId);
-                                                            //logger.info(rowArray); //This works perfectly
-                                                            //An error happens when the neume gets all the files
-                                                            fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
-                                                                if (err) {
-                                                                    var err = 'Error : You cannot upload an old version of excel. Please make sure that your version of excel is updated.';
+                                                    } else {
+                                                        let xmlParser = require('xml2json');
+                                                        let xmlString = data.toString();
+                                                        //logger.info('JSON output', xmlParser.toJson(xmlString));
+                                                        var jsonObj = xmlParser.toJson(xmlString);
+                                                        var jsonArray = [];
+                                                        var rowValue = "";
+                                                        jsonArray = jsonObj.split(',');
+                                                        //logger.info(jsonArray);
+                                                        imageArray = [];
 
-                                                                } else {
-                                                                    let xmlParser = require('xml2json');
-                                                                    let xmlString = data.toString();
-                                                                    //logger.info('JSON output', xmlParser.toJson(xmlString));
-                                                                    var jsonObj = xmlParser.toJson(xmlString);
-                                                                    var jsonArray = [];
-                                                                    var rowValue = "";
-                                                                    jsonArray = jsonObj.split(',');
-                                                                    //logger.info(jsonArray);
-                                                                    imageArray = [];
-
-                                                                    for (var i = 0; i < jsonArray.length; i++) {
-                                                                        //logger.info(jsonArray[i] + "hey")
-                                                                        if (jsonArray[i].includes("Id")) { //logger.info(jsonArray[i].split(":")[2] );
-                                                                            rowValue = jsonArray[i].split(":")[2];
-                                                                            if (jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == "") {
-                                                                                rowValue = jsonArray[i].split(":")[1];
-                                                                            }
-
-                                                                            //this is the xdr:row that we have from the element
-
-                                                                        }
-                                                                        if (jsonArray[i].includes("media")) {
-                                                                            //logger.info(jsonArray[i].split(":")[1]);
-                                                                            var rowWithId = jsonArray[i].split(":")[1].split("/")[2];
-                                                                            rowWithId = rowWithId.replace("\}", "");
-                                                                            rowWithId = rowWithId.replace("\]", "");
-                                                                            rowWithId = rowWithId.replace("\}", "");
-                                                                            rowWithId = rowWithId.replace("\}", "");
-                                                                            rowWithId = rowWithId.replace("\"", "");
-
-                                                                            var element = rowValue.concat(" : " + rowWithId);
-                                                                            imageArray.push(element);
-                                                                            logger.info(imageArray); //This works perfectly
-                                                                        }
-                                                                    }
-                                                                }
-                                                            });
-                                                        };
-
-                                                    }
-
-                                                    if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
-                                                        mongoose.model("neume").find({
-                                                            $and: [{
-                                                                classifier: originalFileName
-                                                            }, {
-                                                                project: IdOfProject
-                                                            }]
-                                                        }, function(err, neumes) {
-                                                            var indice = 0;
-                                                            neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
-                                                                //update it
-                                                                if (imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err) {
-                                                                    imageArray[indice] = "image3.png"
-                                                                }
-                                                                //Add a while loop for if the rowArray == imageArray[indice].split(":")[0]; (so it's inside of a imageArray.forEach())
-                                                                for (var i = 0; i < rowArray.length; i++) {
-                                                                    if (imageArray == null || imageArray[i] == "" || imageArray[i] == "undefined") {
-                                                                        break
-                                                                    }
-                                                                    //else if(rowArray[i] == imageArray[i].split(":")[0]){ //This is the logic that needs to be changed!
-                                                                    // imageArray.push(imageArray[i].split(":")[0]);
-                                                                    //}
-                                                                    //else if(rowArray[i] != imageArray[i].split(":")[0]){
-                                                                    // imageArray.push(imageArray[i].split(":")[0]);
-                                                                    //}
+                                                        for (var i = 0; i < jsonArray.length; i++) {
+                                                            //logger.info(jsonArray[i] + "hey")
+                                                            if (jsonArray[i].includes("Id")) { //logger.info(jsonArray[i].split(":")[2] );
+                                                                rowValue = jsonArray[i].split(":")[2];
+                                                                if (jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == "") {
+                                                                    rowValue = jsonArray[i].split(":")[1];
                                                                 }
 
-                                                                //if not, redo the loop for another neume
-                                                                if (imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err) {
-                                                                    imageArray[indice] = ["0", "image3.png"]
-                                                                } else {
-                                                                    if (imageArray[indice].split(":")[1] == "undefined" || imageArray[indice].split(":")[1] == null || imageArray[indice].split(":")[1] == "" || err) {
-                                                                        logger.info("no image");
-                                                                    } else {
+                                                                //this is the xdr:row that we have from the element
 
-                                                                        //logger.info(rowArray[indice]);
-                                                                        //neume.find(row : imageArray[indice].split(":")[0]){
-                                                                        //  update({
-                                                                        //  imageMedia : imageArray[indice].split(":")[1]
-                                                                        //})
-                                                                        //}
-
-                                                                        //I just need to get the imageArray value that includes the rowArray[indice]
-
-
-                                                                        var index, value, result;
-                                                                        for (index = 0; index < imageArray.length; ++index) {
-                                                                            value = imageArray[index];
-                                                                            logger.info(value.split(":")[0] + "hey");
-                                                                            logger.info(rowArray[indice] + "you");
-                                                                            if (value.split(":")[0].replace(" ", "") == rowArray[indice]) {
-                                                                                // You've found it, the full text is in `value`.
-                                                                                // So you might grab it and break the loop, although
-                                                                                // really what you do having found it depends on
-                                                                                // what you need.
-                                                                                result = value.split(":")[1].replace(" ", "");
-                                                                                logger.info("The result is : " + result)
-                                                                                break;
-                                                                            }
-                                                                        }
-                                                                        logger.info(result);
-
-                                                                        mongoose.model('neume').find({
-                                                                            _id: neume._id
-                                                                        }).update({
-                                                                            row: rowArray[indice],
-                                                                            imageMedia: result //adding the image to the image array without reinitializng everything
-                                                                        }, function(err, neume1) {
-                                                                            //logger.info(imageArray[0].split(":")[0]);//This is undefined
-                                                                            var imageFilePath = imageArray[0].split(":")[0];
-
-                                                                            mongoose.model("neume").find({
-                                                                                row: imageFilePath
-                                                                            }).update({
-                                                                                imageMedia: "." //This didnt get updated
-                                                                            }, function(err, neumeElement) {
-                                                                                if (err) {
-                                                                                    res.send("There was a problem updating the information to the database: " + err);
-                                                                                } else { //logger.info(neumeElement);
-                                                                                }
-                                                                            })
-
-                                                                        })
-                                                                    }
-                                                                }
-
-                                                                indice++;
-                                                            })
-                                                        });
-                                                    };
-
-                                                    mongoose.model("neume").find({
-                                                        $and: [{
-                                                            classifier: originalFileName
-                                                        }, {
-                                                            project: IdOfProject
-                                                        }]
-                                                    }, function(err, neumes) {
-                                                        neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
-                                                            var image = neume.imageMedia;
-                                                            //logger.info(image);
-                                                            if (fs.existsSync('exports/xl/media/' + image)) {
-                                                                var imgPath = 'exports/xl/media/' + image; //This is undefined.
-                                                                var A = storedImages;
-                                                                var a = new A;
-                                                                a.projectID = IdOfProject;
-                                                                a.neumeID = neume._id;
-                                                                a.img.data = fs.readFileSync(imgPath);
-                                                                a.img.contentType = 'image/png';
-                                                                a.imgBase64 = a.img.data.toString('base64');
-
-                                                                imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-                                                                //logger.info(imageData); //This works
-                                                                mongoose.model('neume').find({
-                                                                    _id: neume._id
-                                                                }).update({
-                                                                        //push the neumes into the imagesBinary array
-                                                                        imagePath: 'exports/xl/media/' + neume.imageMedia,
-                                                                        imagesBinary: fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')
-                                                                    },
-
-                                                                    function(err, data) {
-                                                                        //logger.info(err, data);
-                                                                        imageData = [];
-
-                                                                        a.save(function(err, a) {
-                                                                            if (err) throw err;
-
-                                                                            logger.error('saved img to mongo');
-                                                                        });
-                                                                    });
                                                             }
+                                                            if (jsonArray[i].includes("media")) {
+                                                                //logger.info(jsonArray[i].split(":")[1]);
+                                                                var rowWithId = jsonArray[i].split(":")[1].split("/")[2];
+                                                                rowWithId = rowWithId.replace("\}", "");
+                                                                rowWithId = rowWithId.replace("\]", "");
+                                                                rowWithId = rowWithId.replace("\}", "");
+                                                                rowWithId = rowWithId.replace("\}", "");
+                                                                rowWithId = rowWithId.replace("\"", "");
 
-                                                        })
-
-                                                    });
+                                                                var element = rowValue.concat(" : " + rowWithId);
+                                                                imageArray.push(element);
+                                                                logger.info(imageArray); //This works perfectly
+                                                            }
+                                                        }
+                                                    }
                                                 });
-                                            }
+                                            };
+
                                         }
 
-                                    }
+                                        if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
+                                            mongoose.model("neume").find({
+                                                $and: [{
+                                                    classifier: originalFileName
+                                                }, {
+                                                    project: IdOfProject
+                                                }]
+                                            }, function(err, neumes) {
+                                                var indice = 0;
+                                                neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                                                    //update it
+                                                    if (imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err) {
+                                                        imageArray[indice] = "image3.png"
+                                                    }
+                                                    //Add a while loop for if the rowArray == imageArray[indice].split(":")[0]; (so it's inside of a imageArray.forEach())
+                                                    for (var i = 0; i < rowArray.length; i++) {
+                                                        if (imageArray == null || imageArray[i] == "" || imageArray[i] == "undefined") {
+                                                            break
+                                                        }
+                                                        //else if(rowArray[i] == imageArray[i].split(":")[0]){ //This is the logic that needs to be changed!
+                                                        // imageArray.push(imageArray[i].split(":")[0]);
+                                                        //}
+                                                        //else if(rowArray[i] != imageArray[i].split(":")[0]){
+                                                        // imageArray.push(imageArray[i].split(":")[0]);
+                                                        //}
+                                                    }
 
-                                })
-                                if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
-                                    mongoose.model('neume').find({
-                                        project: req.body.IdOfProject
-                                    }, function(err, neumeElements) {
-                                        neumeElements.forEach(function(element) {
+                                                    //if not, redo the loop for another neume
+                                                    if (imageArray[indice] == "undefined" || imageArray[indice] == null || imageArray[indice] == "" || err) {
+                                                        imageArray[indice] = ["0", "image3.png"]
+                                                    } else {
+                                                        if (imageArray[indice].split(":")[1] == "undefined" || imageArray[indice].split(":")[1] == null || imageArray[indice].split(":")[1] == "" || err) {
+                                                            logger.info("no image");
+                                                        } else {
 
-                                            //logger.info(element.imageMedia);
-                                            var image = element.row;
-                                            var fs = require("fs");
+                                                            //logger.info(rowArray[indice]);
+                                                            //neume.find(row : imageArray[indice].split(":")[0]){
+                                                            //  update({
+                                                            //  imageMedia : imageArray[indice].split(":")[1]
+                                                            //})
+                                                            //}
 
-                                            if (fs.existsSync('exports/xl/media/' + image)) { //This is making wayyy too many files in the storedImages collection
-                                                //if(file.name == neume.field)
-                                                //if(neume.indice == fileNameIndice){
-                                                var imgPath = 'exports/xl/media/' + image; //This is undefined.
-
-                                                // our imageStored model
-                                                var A = storedImages;
-                                                // store an img in binary in mongo
-                                                var a = new A;
-                                                a.neumeID = neumeElement._id;
-                                                a.projectID = IdOfProject;
-                                                a.img.data = fs.readFileSync(imgPath);
-                                                a.img.contentType = 'image/png';
-                                                a.imgBase64 = a.img.data.toString('base64');
-                                                var imageData = [];
-                                                imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-                                                //logger.info(imageData)
-                                                //All the images (images) need to be pushed to an array field in mongodb
-                                                mongoose.model('neume').find({
-                                                    id: element._id
-                                                }).update({
-                                                        //push the neumes into the imagesBinary array
-                                                        imagePath: imgPath,
-                                                        imagesBinary: imageData
-                                                    },
-
-                                                    function(err, data) {
-                                                        //logger.info(err, data);
-                                                        imageData = [];
+                                                            //I just need to get the imageArray value that includes the rowArray[indice]
 
 
+                                                            var index, value, result;
+                                                            for (index = 0; index < imageArray.length; ++index) {
+                                                                value = imageArray[index];
+                                                                logger.info(value.split(":")[0] + "hey");
+                                                                logger.info(rowArray[indice] + "you");
+                                                                if (value.split(":")[0].replace(" ", "") == rowArray[indice]) {
+                                                                    // You've found it, the full text is in `value`.
+                                                                    // So you might grab it and break the loop, although
+                                                                    // really what you do having found it depends on
+                                                                    // what you need.
+                                                                    result = value.split(":")[1].replace(" ", "");
+                                                                    logger.info("The result is : " + result)
+                                                                    break;
+                                                                }
+                                                            }
+                                                            logger.info(result);
 
-                                                        a.save(function(err, a) {
-                                                            if (err) throw err;
+                                                            mongoose.model('neume').find({
+                                                                _id: neume._id
+                                                            }).update({
+                                                                row: rowArray[indice],
+                                                                imageMedia: result //adding the image to the image array without reinitializng everything
+                                                            }, function(err, neume1) {
+                                                                //logger.info(imageArray[0].split(":")[0]);//This is undefined
+                                                                var imageFilePath = imageArray[0].split(":")[0];
 
-                                                            logger.error('saved img to mongo');
+                                                                mongoose.model("neume").find({
+                                                                    row: imageFilePath
+                                                                }).update({
+                                                                    imageMedia: "." //This didnt get updated
+                                                                }, function(err, neumeElement) {
+                                                                    if (err) {
+                                                                        res.send("There was a problem updating the information to the database: " + err);
+                                                                    } else { //logger.info(neumeElement);
+                                                                    }
+                                                                })
+
+                                                            })
+                                                        }
+                                                    }
+
+                                                    indice++;
+                                                })
+                                            });
+                                        };
+
+                                        mongoose.model("neume").find({
+                                            $and: [{
+                                                classifier: originalFileName
+                                            }, {
+                                                project: IdOfProject
+                                            }]
+                                        }, function(err, neumes) {
+                                            neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+                                                var image = neume.imageMedia;
+                                                //logger.info(image);
+                                                if (fs.existsSync('exports/xl/media/' + image)) {
+                                                    var imgPath = 'exports/xl/media/' + image; //This is undefined.
+                                                    var A = storedImages;
+                                                    var a = new A;
+                                                    a.projectID = IdOfProject;
+                                                    a.neumeID = neume._id;
+                                                    a.img.data = fs.readFileSync(imgPath);
+                                                    a.img.contentType = 'image/png';
+                                                    a.imgBase64 = a.img.data.toString('base64');
+
+                                                    imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
+                                                    //logger.info(imageData); //This works
+                                                    mongoose.model('neume').find({
+                                                        _id: neume._id
+                                                    }).update({
+                                                            //push the neumes into the imagesBinary array
+                                                            imagePath: 'exports/xl/media/' + neume.imageMedia,
+                                                            imagesBinary: fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')
+                                                        },
+
+                                                        function(err, data) {
+                                                            //logger.info(err, data);
+                                                            imageData = [];
+
+                                                            a.save(function(err, a) {
+                                                                if (err) throw err;
+
+                                                                logger.error('saved img to mongo');
+                                                            });
                                                         });
-                                                    });
-                                            }
+                                                }
 
-                                        })
-                                        // logger.info(userFinal);//This works!!!
+                                            })
+
+                                        });
                                     });
                                 }
 
-                            })
+                            }
+
                         })
-                    //}
+                        if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
+                            mongoose.model('neume').find({
+                                project: req.body.IdOfProject
+                            }, function(err, neumeElements) {
+                                neumeElements.forEach(function(element) {
+
+                                    //logger.info(element.imageMedia);
+                                    var image = element.row;
+                                    var fs = require("fs");
+
+                                    if (fs.existsSync('exports/xl/media/' + image)) { //This is making wayyy too many files in the storedImages collection
+                                        //if(file.name == neume.field)
+                                        //if(neume.indice == fileNameIndice){
+                                        var imgPath = 'exports/xl/media/' + image; //This is undefined.
+
+                                        // our imageStored model
+                                        var A = storedImages;
+                                        // store an img in binary in mongo
+                                        var a = new A;
+                                        a.neumeID = neumeElement._id;
+                                        a.projectID = IdOfProject;
+                                        a.img.data = fs.readFileSync(imgPath);
+                                        a.img.contentType = 'image/png';
+                                        a.imgBase64 = a.img.data.toString('base64');
+                                        var imageData = [];
+                                        imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
+                                        //logger.info(imageData)
+                                        //All the images (images) need to be pushed to an array field in mongodb
+                                        mongoose.model('neume').find({
+                                            id: element._id
+                                        }).update({
+                                                //push the neumes into the imagesBinary array
+                                                imagePath: imgPath,
+                                                imagesBinary: imageData
+                                            },
+
+                                            function(err, data) {
+                                                //logger.info(err, data);
+                                                imageData = [];
+
+
+
+                                                a.save(function(err, a) {
+                                                    if (err) throw err;
+
+                                                    logger.error('saved img to mongo');
+                                                });
+                                            });
+                                    }
+
+                                })
+                                // logger.info(userFinal);//This works!!!
+                            });
+                        }
+
+                    })
+                })
+            res.format({
+                html: function() {
+                    res.redirect("back");
+                },
+                //JSON responds showing the updated values
+                json: function() {
+                    res.json(project);
                 }
-                res.format({
-                    html: function() {
-                        res.redirect("back");
-                    },
-                    //JSON responds showing the updated values
-                    json: function() {
-                        res.json(project);
-                    }
-                });
             });
 
             //Delete the exports folder after the loading is done.
@@ -919,132 +911,122 @@ router.route('/imageCSV')
                 if (err) {
                     logger.error(err);
                 } else {
-                    //This is creating the neumes twice,
-                    if (err) {
-                        res.send("There was a problem updating the information to the database: " + err);
-                    } else {
-                        var fs = require('fs');
-                        logger.error('second?');
+                    var fs = require('fs');
+                    logger.error('second?');
 
-                        //2. I need to unzip the file and add the unzipped content to a directory
-                        if (fileType == ".xlsx") {
-                            var unzip = require('unzipper');
-                            fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
-                                path: './exports'
-                            }));
-                            //We now have all the folders from the zip file into the exports folder.
-                            //3. I need to go to dir/xl/media to get all the images
-                            //passsing directoryPath and callback function
+                    //2. I need to unzip the file and add the unzipped content to a directory
+                    var unzip = require('unzipper');
+                    fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
+                        path: './exports'
+                    }));
+                    //We now have all the folders from the zip file into the exports folder.
+                    //3. I need to go to dir/xl/media to get all the images
+                    //passsing directoryPath and callback function
 
-                            fs.readdir("./exports/xl/media", function(err, files) {
-                                //handling error
-                                if (err) {
-                                    return logger.info('Unable to scan directory: ' + err);
-                                }
-                                //listing all files using forEach
-                                var indice = 1;
-                                files.forEach(function(file) {
-                                    var fs = require('fs');
-                                    var ind = 1;
-                                    //files.forEach(function (file) {
-                                    //var fileName = "image" + ind + ".png";
-                                    //fs.renameSync("exports/xl/media/" + file, "exports/xl/media/" + fileName);
-                                    //ind++;
-                                    //})
-                                    // Do whatever you want to do with the file
-                                    var fileNameIndice = "image" + indice + ".png";
+                    fs.readdir("./exports/xl/media", function(err, files) {
+                        //handling error
+                        if (err) {
+                            return logger.info('Unable to scan directory: ' + err);
+                        }
+                        //listing all files using forEach
+                        var indice = 1;
+                        files.forEach(function(file) {
+                            var fs = require('fs');
+                            var ind = 1;
+                            //files.forEach(function (file) {
+                            //var fileName = "image" + ind + ".png";
+                            //fs.renameSync("exports/xl/media/" + file, "exports/xl/media/" + fileName);
+                            //ind++;
+                            //})
+                            // Do whatever you want to do with the file
+                            var fileNameIndice = "image" + indice + ".png";
 
-                                    //This part here works well.
-                                    //4. I need to add the images to the neumes by image name "image01, ect..."
-                                    //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
-                                    mongoose.model("neume").find({
-                                        $and: [{
-                                            classifier: originalFileName
-                                        }, {
-                                            project: IdOfProject
-                                        }]
-                                    }, function(err, neumes) {
+                            //This part here works well.
+                            //4. I need to add the images to the neumes by image name "image01, ect..."
+                            //4.1 For each .png in the folder, change to binary file and add to mongoose find first neume, ect..
+                            mongoose.model("neume").find({
+                                $and: [{
+                                    classifier: originalFileName
+                                }, {
+                                    project: IdOfProject
+                                }]
+                            }, function(err, neumes) {
 
-                                        //Then for each neume add a field called  indice + 'png'
-                                        var indice = 0;
-                                        neumes.forEach(function(neume) {
-                                            indice += 1;
-                                            var indiceValue = "image" + indice + ".png";
+                                //Then for each neume add a field called  indice + 'png'
+                                var indice = 0;
+                                neumes.forEach(function(neume) {
+                                    indice += 1;
+                                    var indiceValue = "image" + indice + ".png";
 
-                                            //update it
+                                    //update it
+                                    mongoose.model('neume').find({
+                                        _id: neume._id
+                                    }).update({
+                                        indice: "image" + indice + ".png" //adding the image to the image array without reinitializng everything
+                                    }, function(err, neume1) {
+
+                                        if (err) {
+                                            res.send("There was a problem updating the information to the database: " + err);
+                                        } else {
+
+                                            var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined.
+
+                                            // our imageStored model
+                                            var A = storedImages;
+                                            // store an img in binary in mongo
+                                            var a = new A;
+                                            a.neumeID = neume._id;
+                                            try {
+                                                a.img.data = fs.readFileSync(imgPath);
+                                            } catch {
+                                                logger.info(err);
+                                            }
+                                            a.img.contentType = 'image/png';
+                                            try {
+                                                a.imgBase64 = a.img.data.toString('base64');
+                                            } catch {
+                                                logger.info(err);
+                                            }
+                                            var imageData = [];
+                                            try {
+                                                imageData.push(a.img.data.toString('base64'));
+                                            } //This works for all the images stored in the database.
+                                            catch {
+                                                logger.info(err);
+                                            }
+                                            //All the images (images) need to be pushed to an array field in mongodb
                                             mongoose.model('neume').find({
                                                 _id: neume._id
                                             }).update({
-                                                indice: "image" + indice + ".png" //adding the image to the image array without reinitializng everything
-                                            }, function(err, neume1) {
+                                                    //push the neumes into the imagesBinary array
+                                                    imagePath: imgPath,
+                                                    imagesBinary: imageData
+                                                },
 
-                                                if (err) {
-                                                    res.send("There was a problem updating the information to the database: " + err);
-                                                } else {
-
-                                                    var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined.
-
-                                                    // our imageStored model
-                                                    var A = storedImages;
-                                                    // store an img in binary in mongo
-                                                    var a = new A;
-                                                    a.neumeID = neume._id;
-                                                    try {
-                                                        a.img.data = fs.readFileSync(imgPath);
-                                                    } catch {
-                                                        logger.info(err);
-                                                    }
-                                                    a.img.contentType = 'image/png';
-                                                    try {
-                                                        a.imgBase64 = a.img.data.toString('base64');
-                                                    } catch {
-                                                        logger.info(err);
-                                                    }
-                                                    var imageData = [];
-                                                    try {
-                                                        imageData.push(a.img.data.toString('base64'));
-                                                    } //This works for all the images stored in the database.
-                                                    catch {
-                                                        logger.info(err);
-                                                    }
-                                                    //All the images (images) need to be pushed to an array field in mongodb
-                                                    mongoose.model('neume').find({
-                                                        _id: neume._id
-                                                    }).update({
-                                                            //push the neumes into the imagesBinary array
-                                                            imagePath: imgPath,
-                                                            imagesBinary: imageData
-                                                        },
-
-                                                        function(err, data) {
-                                                            //logger.info(err, data);
-                                                            imageData = [];
+                                                function(err, data) {
+                                                    //logger.info(err, data);
+                                                    imageData = [];
 
 
 
-                                                            a.save(function(err, a) {
-                                                                if (err) throw err;
+                                                    a.save(function(err, a) {
+                                                        if (err) throw err;
 
-                                                                logger.error('saved img to mongo');
-                                                            });
-                                                        });
+                                                        logger.error('saved img to mongo');
+                                                    });
+                                                });
 
-                                                    logger.info(project.positionArray);
+                                            logger.info(project.positionArray);
 
-                                                }
-                                            })
-                                        })
-                                        //Add a timeout to delete everything in the exports folder here once the operation of adding the neumes to the database is finished
-                                    });
-
-                                    logger.info(file);
-                                });
-                                indice = 1;
-
+                                        }
+                                    })
+                                })
+                                //Add a timeout to delete everything in the exports folder here once the operation of adding the neumes to the database is finished
                             });
-                        }
-                    }
 
+                            logger.info(file);
+                        });
+                    });
                 }
             });
 
