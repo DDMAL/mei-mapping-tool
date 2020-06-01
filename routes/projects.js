@@ -730,8 +730,8 @@ router.route('/:id') //This is where the classifier would be
                                         "users": userFinal,
                                         "sections": sections,
                                         "neumeSections": neumeSectionArray,
-                                        "positionArray": positionArray
-
+                                        "positionArray": positionArray,
+                                        "owned": true
                                     });
                                 },
                                 json: function() {
@@ -780,10 +780,12 @@ router.route('/public/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('neumes/show', {
+                                res.render('projects/showFork.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
-                                    "neumes": neumeFinal
+                                    "neumes": neumeFinal,
+                                    "user": -1,
+                                    "owned": false
                                 });
                             },
                             json: function() {
@@ -819,7 +821,11 @@ router.route('/forkPublic/:id') //This is where the classifier would be
                     mongoose.model('User').find({
                         _id: req.session.userId
                     }, function(err, users) {
-                        userFinal = users;
+                        
+                        if (users.length > 1) {
+                            logger.error("Multiple users found for the same user ID");
+                        }
+                        userFinal = users[0];
                         // logger.info(userFinal);//This works!!!
 
                         // logger.info(neumeFinal);
@@ -836,7 +842,8 @@ router.route('/forkPublic/:id') //This is where the classifier would be
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
-                                    "users": userFinal
+                                    "user": userFinal,
+                                    "owned": false
                                 });
                             },
                             json: function() {

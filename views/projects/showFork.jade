@@ -59,30 +59,41 @@ html
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
 
-- each user in users
-  div
-    header(style = "padding : 5px").sticky
-        // Main logo
-        a#logo(href='#' style = "padding-left : 30px; position : relative; top : -60px")
-          span Cress - MEI Mapping Tool 🎵
-        // main navigation links
-        nav
-          ul
-              li
+div
+  header(style = "padding : 5px").sticky
+      // Main logo
+      a#logo(href='#' style = "padding-left : 30px; position : relative; top : -60px")
+        span Cress - MEI Mapping Tool 🎵
+      // main navigation links
+      nav
+        ul
+            li
+              if (user != -1)
                 a(href='/about') About
-              li
+              else
+                a(href='/neumes/about') About
+            li
+              if (user != -1)
                 a(href='/projects') Projects
-              li
-                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
-              li
+              else
+                a(href='/neumes/user') Projects
+            li
+              a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+            li
+              if (user != -1)
                 a(href='/') Log out
-              li
-                a(href='#' class= "tooltip" style = "z-index : 10000;") Help
-                 span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.
-              li
+              else
+                a(href='/') Log-in
+            li
+              a(href='#' class= "tooltip" style = "z-index : 10000;") Help
+               span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.
+            li
+              if (user != -1)
                 a(href='/profile') #{user.username} 
                  i.fa.fa-user.fa-lg
-
+              else
+                a(href='#') Public User
+              
 
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection(style = "padding-top : 97px")
@@ -98,13 +109,15 @@ div.neumeSection(style = "padding-top : 97px")
                     |  CSV 
                     span.tooltiptext To download the project as a .csv file, click here!
 
-    form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
+    if (user != -1)
+      form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
               input(type='text',value='#{project.id}', name='IdOfProject' hidden)
               input(type='text',value='#{project.name}', name='projectName' hidden)
               button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                 i.fa.fa-code-fork
                 |  Fork
                 span.tooltiptext To save the project as your own, click here!
+    
     button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "collapseAll();" id = "buttonSavePosition")
       i(id = "compress").fa.fa-caret-up.fa-sm 
       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-sm 
@@ -182,10 +195,10 @@ div.neumeSection(style = "padding-top : 97px")
                   var editor#{neume.id} = ace.edit('#{neume.id}');
                   var textarea = document.getElementById("textarea#{neume.id}");
                   //console.log(textarea);
-                    editor#{neume.id}.getSession().on("change", function () {
-                      textarea = document.getElementById("textarea#{neume.id}");
-                      textarea.value = editor#{neume.id}.getSession().getValue();
-                    });
+                  editor#{neume.id}.getSession().on("change", function () {
+                  textarea = document.getElementById("textarea#{neume.id}");
+                  textarea.value = editor#{neume.id}.getSession().getValue();
+                  });
                   editor#{neume.id}.setTheme("ace/theme/monokai");
                   editor#{neume.id}.session.setMode("ace/mode/xml");
                   var meiString = textarea.value;
@@ -202,115 +215,118 @@ div.neumeSection(style = "padding-top : 97px")
 
                   /*Function to create a canvas for each image inside of the imagepath array of the neume
                   @param element : single imagepath of the array*/
-                    var imagePaths = "#{neume.imagesBinary}";
-                    var imageArray = imagePaths.split(',');
-                    //console.log(imageArray);
-                    imageArray.forEach(function(element) {
-                    var canvas = document.createElement('canvas');
-                    var ctx = canvas.getContext("2d");
-                    canvas.className += "resize";
-                    var image = new Image();
+                  var imagePaths = "#{neume.imagesBinary}";
+                  var imageArray = imagePaths.split(',');
+                  //console.log(imageArray);
+                  imageArray.forEach(function(element) {
+                  var canvas = document.createElement('canvas');
+                  var ctx = canvas.getContext("2d");
+                  canvas.className += "resize";
+                  var image = new Image();
 
-                    image.onload = function () {
+                  image.onload = function () {
+                    // set size proportional to image
+                    canvas.height = image.height*0.5;
+                    canvas.width = image.width*0.5;
 
-                        // set size proportional to image
-                        canvas.height = image.height*0.5;
-                        canvas.width = image.width*0.5;
+                    // step 1 - resize to 50%
+                    var oc = document.createElement('canvas'),
+                    octx = oc.getContext('2d');
 
-                        // step 1 - resize to 50%
-                        var oc = document.createElement('canvas'),
-                            octx = oc.getContext('2d');
+                    oc.width = image.width;
+                    oc.height = image.height;
+                    octx.drawImage(image, 0, 0, oc.width, oc.height);
 
-                        oc.width = image.width;
-                        oc.height = image.height;
-                        octx.drawImage(image, 0, 0, oc.width, oc.height);
+                    // step 2
+                    octx.drawImage(oc, 0, 0, oc.width, oc.height);
 
-                        // step 2
-                        octx.drawImage(oc, 0, 0, oc.width, oc.height);
-
-                        // step 3, resize to final size
-                        ctx.drawImage(oc, 0, 0, oc.width, oc.height,
-                        0, 0, canvas.width, canvas.height);
-                    }
-                    image.src = "data:image/png;base64," + element; //getting the file paths
-                    var imageCard = document.getElementById("image#{neume.id}");//getting
-                    imageCard.appendChild(canvas);
-                    canvas.appendChild(image);//the image is appended
-                    });
+                    // step 3, resize to final size
+                    ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                    0, 0, canvas.width, canvas.height);
+                  }
+                  image.src = "data:image/png;base64," + element; //getting the file paths
+                  var imageCard = document.getElementById("image#{neume.id}");//getting
+                  imageCard.appendChild(canvas);
+                  canvas.appendChild(image);//the image is appended
+                  });
 
                   /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
                   appear if the collapsible button is clicked.*/ 
-                     
-                    var coll = document.getElementById("collapsible#{neume.id}");
-                    
-                    coll.addEventListener("click", function() {
-                     
-                      this.classList.toggle("active");
-                      var content = this.nextElementSibling;
-                      if (content.style.display === "none") {
-                        content.style.display = "block";
-                      } else {
-                        content.style.display = "none";
-                      }
-                      
-                    });
-                    //To save the collapsible state of the neumes
-                      var element = "collapsible#{neume.id}";
-                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
-                      if ($.cookie(element) == "false") {
 
-                        content.style.display = "none";
-                      } else {
-                        content.style.display = "block";
+                  var coll = document.getElementById("collapsible#{neume.id}");
 
-                      }
+                  coll.addEventListener("click", function() {
+
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "none") {
+                      content.style.display = "block";
+                    } else {
+                      content.style.display = "none";
+                    }
+
+                  });
+                  //To save the collapsible state of the neumes
+                  var element = "collapsible#{neume.id}";
+                  var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                  if ($.cookie(element) == "false") {
+                    content.style.display = "none";
+                  } else {
+                    content.style.display = "block";
+                  }
 
                   //Modals event listeners for every modal
                   window.addEventListener('load', function() {
-                      initializeModal('myModal', 'myBtn');
-                      initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
-                    });
+                  initializeModal('myModal', 'myBtn');
+                  initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                  });
+
+                  //Modals event listeners for every modal
+                  window.addEventListener('load', function() {
+                  initializeModal('myModal', 'myBtn');
+                  initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                  });
+
                   $(document).scroll(function() {
                     var y = $(document).scrollTop(), //get page y value 
-                        header = $(".row");
-                        roundedCorners = $(".roundedCorners");
+                    header = $(".row");
+                    roundedCorners = $(".roundedCorners");
 
                     if(y >= 50)  {
-                        header.css({position: "fixed", "top" : "57px"});
-
+                      header.css({position: "fixed", "top" : "57px"});
                     } else {
-                        header.css({position: "fixed", "top" : "159px"}); 
+                      header.css({position: "fixed", "top" : "159px"}); 
                     }
-                    }); 
-                    //Get toggle value : 
-                    console.log(document.getElementById("toggle#{neume.id}").value);
-                    if(document.getElementById("toggle#{neume.id}").value == "Yes"){
-                    document.getElementById("toggle#{neume.id}").checked = true;
-                    }
+                  }); 
+                  //Get toggle value : 
+                  console.log(document.getElementById("toggle#{neume.id}").value);
+                  if(document.getElementById("toggle#{neume.id}").value == "Yes"){
+                  document.getElementById("toggle#{neume.id}").checked = true;
+                  }
 
-                    function check#{neume.id}()
-                    {
-                      if (document.getElementById('toggle#{neume.id}').checked) 
+                  function check#{neume.id}()
+                  {
+                    if (document.getElementById('toggle#{neume.id}').checked) 
                       {
-                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
-                         document.getElementById('toggle#{neume.id}').checked = true;
-                      } else {
-                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
-                      }
+                      document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                      document.getElementById('toggle#{neume.id}').checked = true;
+                    } else {
+                      document.getElementById('inputCheckbox#{neume.id}').value = "No";
                     }
-                    var array = "#{project.positionArray}".split(',');
+                  }
+                  var array = "#{project.positionArray}".split(',');
 
-                      array.forEach(function(element){
-                        document.getElementById("roundedCorners").appendChild(document.getElementById(element));
-                        var elementNeume = document.getElementById(element);})
-                     //Function for the collapse all button
-                    function collapseAll(){
+                  array.forEach(function(element){
+                    document.getElementById("roundedCorners").appendChild(document.getElementById(element));
+                    var elementNeume = document.getElementById(element);
+                  })
+                  //Function for the collapse all button
+                  function collapseAll(){
                     var elements = document.getElementsByClassName("paddingCollapsible");
                     console.log(elements)
-                    for(var x=0; x < elements.length; x++)
-                    {
-                        var content = elements[x].nextElementSibling;
-                        if (content.style.display === "none") {
+                    for(var x=0; x < elements.length; x++) {
+                      var content = elements[x].nextElementSibling;
+                      if (content.style.display === "none") {
                         document.getElementById("compress").style.display = "block";
                         document.getElementById("expand").style.display = "none";
                         content.style.display = "block";
@@ -319,21 +335,19 @@ div.neumeSection(style = "padding-top : 97px")
                         document.getElementById("expand").style.display = "block";
                         document.getElementById("compress").style.display = "none";
                       }
-                      
+
                     }
                     var deleteButtonCollapse = document.getElementsByClassName("button3");
                     console.log(elements)
-                    for(var x=0; x < deleteButtonCollapse.length; x++)
-                    {
-                       var content = deleteButtonCollapse[x];
-                        if (content.style.display === "none") {
+                    for(var x=0; x < deleteButtonCollapse.length; x++) {
+                      var content = deleteButtonCollapse[x];
+                      if (content.style.display === "none") {
                         content.style.display = "block";
                       } else {
                         content.style.display = "none";
                       }
                     }
-                  
-                     }
+                  }
                     <!-- Cookie Consent by https://www.TermsFeed.com -->
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
 script.

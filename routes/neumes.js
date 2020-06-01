@@ -58,6 +58,7 @@ router.route('/cancel')
 router.route('/user')
     //  GET all neumes
     .get(function(req, res, next) {
+        logger.error('neume /user');
         //  retrieve all neumes from Mongo
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
@@ -543,9 +544,11 @@ router.route('/:id')
                 neumedob = neumedob.substring(0, neumedob.indexOf('T'))
                 res.format({
                     html: function() {
-                        res.render('neumes/show', {
+                        res.render('projects/showFork.jade', {
                             "neumedob": neumedob,
-                            "neume": neume
+                            "neume": neume,
+                            "user": -1,
+                            "owned": false
                         });
                     },
                     json: function() {
