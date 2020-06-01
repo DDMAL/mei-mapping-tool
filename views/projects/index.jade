@@ -126,7 +126,11 @@ html
                       h2.projectHeader Other Projects
                       ul
                           - each project, i in other
-                             button.collapsible(style = " clear : left;" onclick = "window.location='/projects/forkPublic/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
+                             if (user.length > 0)
+                              button.collapsible(style = " clear : left;" onclick = "window.location='/projects/forkPublic/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
+                             else
+                              button.collapsible(style = " clear : left;" onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
+                              
                              br
                              br
 
