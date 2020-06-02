@@ -544,7 +544,7 @@ router.route('/:id')
                 neumedob = neumedob.substring(0, neumedob.indexOf('T'))
                 res.format({
                     html: function() {
-                        res.render('projects/showFork.jade', {
+                        res.render('projects/show.jade', {
                             "neumedob": neumedob,
                             "neume": neume,
                             "user": -1,

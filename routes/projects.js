@@ -727,7 +727,7 @@ router.route('/:id') //This is where the classifier would be
                                         "projectdob": projectdob,
                                         "project": project,
                                         "neumes": neumeFinal,
-                                        "users": userFinal,
+                                        "user": userFinal[0],
                                         "sections": sections,
                                         "neumeSections": neumeSectionArray,
                                         "positionArray": positionArray,
@@ -780,7 +780,7 @@ router.route('/public/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/showFork.jade', {
+                                res.render('projects/show.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
@@ -838,7 +838,7 @@ router.route('/forkPublic/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/showFork.jade', {
+                                res.render('projects/show.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
