@@ -546,7 +546,7 @@ router.route('/:id')
                     html: function() {
                         res.render('projects/show.jade', {
                             "neumedob": neumedob,
-                            "neume": neume,
+                            "neumes": neume,
                             "user": -1,
                             "owned": false
                         });
