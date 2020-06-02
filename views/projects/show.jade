@@ -134,7 +134,7 @@ div.navigation.navbar(id = "myHeader").sticky
 //Title section : Adding a neume button and changing the title name                
 div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
   body
-   if (owned)
+  if (owned)
     div
      // Add New Neume Modal
      #myModal.modal
@@ -199,478 +199,478 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
        i.fa.fa-save
        |   Save
 
-    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
-       i(id = "compress").fa.fa-caret-up.fa-lg
-       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
-       span.tooltiptext To collapse/uncollapse neumes, click here!
+  button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
+     i(id = "compress").fa.fa-caret-up.fa-lg
+     i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
+     span.tooltiptext To collapse/uncollapse neumes, click here!
 
-    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px") 
-      i.fa.fa-undo.fa-sm &nbsp;
-      span.tooltiptext To undo a position change, click here!
-      br
+  button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px") 
+    i.fa.fa-undo.fa-sm &nbsp;
+    span.tooltiptext To undo a position change, click here!
+    br
 
-    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
-      i.fa.fa-plus.fa-sm
-      span.tooltiptext To add a new neume, click here!
-    
-    if (user != -1 && !owned)
-      form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-                    input(type='text',value='#{project.name}', name='projectName' hidden)
-                    button(type = 'submit' class = 'button button2CSV' class = 'tooltipfork' style = "font: 14px Avenir, sans-serif; width : 70px")
-                      i.fa.fa-code-fork
-                      |  Fork
-                      span.tooltiptext To save the project as your own and start working on it, click here!
+  button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
+    i.fa.fa-plus.fa-sm
+    span.tooltiptext To add a new neume, click here!
+  
+  if (user != -1 && !owned)
+    form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltipfork' style = "font: 14px Avenir, sans-serif; width : 70px")
+                    i.fa.fa-code-fork
+                    |  Fork
+                    span.tooltiptext To save the project as your own and start working on it, click here!
 
-    if (!owned)
-      form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
-                    input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-                    input(type='text',value='#{project.name}', name='projectName' hidden)
-                    button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
-                      i.fa.fa-download
-                      |  CSV 
-                      span.tooltiptext To download the project as a .csv file, click here!
+  if (!owned)
+    form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                  input(type='text',value='#{project.name}', name='projectName' hidden)
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                    i.fa.fa-download
+                    |  CSV 
+                    span.tooltiptext To download the project as a .csv file, click here!
 
-    //Four Equal Columns
-    .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
-      .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
-      .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
-      .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-        h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
-      .column(style='background-color:#afcfee; width : 35% ; right : 110px')
-        h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
+  //Four Equal Columns
+  .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
+    .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+    .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+    .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+    .column(style='background-color:#afcfee; width : 35% ; right : 110px')
+      h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
 
-    div(id = "menu")
-     //Neume section : 4 components added for each new neume.   
-    .bodyStyle(style = "position : relative")
-      .roundedCorners(style = "position : relative; display : inline-block" id = "roundedCorners")
-        ul(id = "sortable1" class = "connectedSortable")
-            - each neume in neumes
-                if (owned)
-                  // Edit Images Modal
-                  .modal(id = "editImages#{neume.id}")
-                    Modal content
-                    .modal-content
-                      span.close x
-                      h4(style = "font:30px Avenir, sans-serif;") Edit Images
-                      include editNeume.jade
-                  div(class="droptarget")
-                  div(draggable="true"  id="dragtarget")
-                div.ui-state-default(id = "drop#{neume.id}")
-                  button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}  #{neume.source}
-                  form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
-                      .column
-                         .card
-                           .panel.panel-default
-                             .panel-body
-                                div(id = "image#{neume.id}")
-                                    if (owned)
-                                      button( style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
-                                        span.tooltiptext To delete images or add more images to the neume, click here!   
+  div(id = "menu")
+   //Neume section : 4 components added for each new neume.   
+  .bodyStyle(style = "position : relative")
+    .roundedCorners(style = "position : relative; display : inline-block" id = "roundedCorners")
+      ul(id = "sortable1" class = "connectedSortable")
+          - each neume in neumes
+              if (owned)
+                // Edit Images Modal
+                .modal(id = "editImages#{neume.id}")
+                  Modal content
+                  .modal-content
+                    span.close x
+                    h4(style = "font:30px Avenir, sans-serif;") Edit Images
+                    include editNeume.jade
+                div(class="droptarget")
+                div(draggable="true"  id="dragtarget")
+              div.ui-state-default(id = "drop#{neume.id}")
+                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}  #{neume.source}
+                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                    .column
+                       .card
+                         .panel.panel-default
+                           .panel-body
+                              div(id = "image#{neume.id}")
+                                  if (owned)
+                                    button( style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
+                                      span.tooltiptext To delete images or add more images to the neume, click here!   
 
-                      // Name, Folio and Description Section
-                      .column(style = "width : 20%;")
-                        .height
-                         .card(style = "overflow : hidden; text-align : left")
-                              if (owned)
-                                input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+                    // Name, Folio and Description Section
+                    .column(style = "width : 20%;")
+                      .height
+                       .card(style = "overflow : hidden; text-align : left")
+                            if (owned)
+                              input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
 
-                                input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
-                              
-                              .column
-                               p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
-                              .column 
-                               input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute")
-                               br
-                               //Add folio for the neumes
-
-                              p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
-                              .column
-                               input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
-                               br
-                               br
-                               br
-
-
-                      // Classification Section
-                      .column(style = "width : 20%")
-                         .card
-                          input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
+                              input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
                             
+                            .column
+                             p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
+                            .column 
+                             input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute")
+                             br
+                             //Add folio for the neumes
 
-                      // Mei snippet Section
-                      .column(style = "width : 35%;")
-                         .card 
-                          if (owned)
-                            p(class = 'tooltipMEI')
-                             span.tooltiptext 
-                               | How the pitches should be encoded :
-                               br 
-                               | &lt;neume&gt; 
-                               br
-                               | &nbsp;&lt;nc/&gt; 
-                               br
-                               | &nbsp;&lt;nc intm="1S"/&gt; 
-                               br
-                               | &lt;/neume&gt;
-                           .panel.panel-default
-                            .panel-body
-                                 div(id = "#{neume.id}" style = "height : 100px;")
-                                   p 
-                                  textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
-                              label.switch(style = "top : -150px; left : 40%;")
-                                input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
-                                span.slider.round
-                                input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
-
-                      if (owned)
-                            //Submitting the update form
-                            input(type='hidden',value='PUT',name='_method')
-                            
-                            button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
-                              i.fa.fa-pencil
-                              span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
-                            br
-                            br
-                          form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                              input(type='hidden',value='DELETE',name='_method')
-                              button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
-                                  x
-                              .modal(id = "DeleteModal#{neume.id}")
-                                // Modal content
-                                .modal-content
-                                  span.close ×
-                                  h4(style = "text-align : center") Are you sure you want to delete this neume? 
-                                  br
-                                  h3(style = "text-align : center") #{neume.name}
-                                  p
-                                   button(type='submit' class = "button button3DeleteImage") Yes
-                                   button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
-                                   br
-                                   br
-                          form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
-                               input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
-                               input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
+                            p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
+                            .column
+                             input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
+                             br
+                             br
+                             br
 
 
-                    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-                    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
-                    script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
-                    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+                    // Classification Section
+                    .column(style = "width : 20%")
+                       .card
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
+                          
+
+                    // Mei snippet Section
+                    .column(style = "width : 35%;")
+                       .card 
+                        if (owned)
+                          p(class = 'tooltipMEI')
+                           span.tooltiptext 
+                             | How the pitches should be encoded :
+                             br 
+                             | &lt;neume&gt; 
+                             br
+                             | &nbsp;&lt;nc/&gt; 
+                             br
+                             | &nbsp;&lt;nc intm="1S"/&gt; 
+                             br
+                             | &lt;/neume&gt;
+                         .panel.panel-default
+                          .panel-body
+                               div(id = "#{neume.id}" style = "height : 100px;")
+                                 p 
+                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                            label.switch(style = "top : -150px; left : 40%;")
+                              input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
+                              span.slider.round
+                              input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
+
+                    if (owned)
+                          //Submitting the update form
+                          input(type='hidden',value='PUT',name='_method')
+                          
+                          button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
+                            i.fa.fa-pencil
+                            span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
+                          br
+                          br
+                        form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                            input(type='hidden',value='DELETE',name='_method')
+                            button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
+                                x
+                            .modal(id = "DeleteModal#{neume.id}")
+                              // Modal content
+                              .modal-content
+                                span.close ×
+                                h4(style = "text-align : center") Are you sure you want to delete this neume? 
+                                br
+                                h3(style = "text-align : center") #{neume.name}
+                                p
+                                 button(type='submit' class = "button button3DeleteImage") Yes
+                                 button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
+                                 br
+                                 br
+                        form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
+                             input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
+                             input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
 
 
-                script.
+                  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                  script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                  script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
+                  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
-                  //For each neume in the project :
-                  //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
-                  var editor#{neume.id} = ace.edit('#{neume.id}');
-                  var textarea = document.getElementById("textarea#{neume.id}");
-                  //console.log(textarea);
-                    editor#{neume.id}.getSession().on("change", function () {
-                      textarea = document.getElementById("textarea#{neume.id}");
-                      textarea.value = editor#{neume.id}.getSession().getValue();
-                    });
-                  editor#{neume.id}.setTheme("ace/theme/monokai");
-                  editor#{neume.id}.session.setMode("ace/mode/xml");
-                  var meiString = textarea.value;
-                  editor#{neume.id}.setValue(meiString);
 
-                  //Getting the canvas for the mei snippets : 
+              script.
 
-                  var imagePaths = "#{neume.imagePath}";
+                //For each neume in the project :
+                //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
+                var editor#{neume.id} = ace.edit('#{neume.id}');
+                var textarea = document.getElementById("textarea#{neume.id}");
+                //console.log(textarea);
+                  editor#{neume.id}.getSession().on("change", function () {
+                    textarea = document.getElementById("textarea#{neume.id}");
+                    textarea.value = editor#{neume.id}.getSession().getValue();
+                  });
+                editor#{neume.id}.setTheme("ace/theme/monokai");
+                editor#{neume.id}.session.setMode("ace/mode/xml");
+                var meiString = textarea.value;
+                editor#{neume.id}.setValue(meiString);
+
+                //Getting the canvas for the mei snippets : 
+
+                var imagePaths = "#{neume.imagePath}";
+                var imageArray = imagePaths.split(',');
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext("2d");
+                var image = new Image();
+                var imageCard = document.getElementById("#{neume.id}");//getting
+                imageCard.appendChild(canvas);
+
+                /*Function to create a canvas for each image inside of the imagepath array of the neume
+                @param element : single imagepath of the array*/
+                  var imagePaths = "#{neume.imagesBinary}";
                   var imageArray = imagePaths.split(',');
+                  //console.log(imageArray);
+                  imageArray.forEach(function(element) {
                   var canvas = document.createElement('canvas');
                   var ctx = canvas.getContext("2d");
+                  canvas.className += "resize";
                   var image = new Image();
-                  var imageCard = document.getElementById("#{neume.id}");//getting
+
+                  image.onload = function () {
+
+                      // set size proportional to image
+                      canvas.height = image.height*0.5;
+                      canvas.width = image.width*0.5;
+
+                      // step 1 - resize to 50%
+                      var oc = document.createElement('canvas'),
+                          octx = oc.getContext('2d');
+
+                      oc.width = image.width;
+                      oc.height = image.height;
+                      octx.drawImage(image, 0, 0, oc.width, oc.height);
+
+                      // step 2
+                      octx.drawImage(oc, 0, 0, oc.width, oc.height);
+
+                      // step 3, resize to final size
+                      ctx.drawImage(oc, 0, 0, oc.width, oc.height,
+                      0, 0, canvas.width, canvas.height);
+                  }
+                  image.src = "data:image/png;base64," + element; //getting the file paths
+                  var imageCard = document.getElementById("image#{neume.id}");//getting
                   imageCard.appendChild(canvas);
-
-                  /*Function to create a canvas for each image inside of the imagepath array of the neume
-                  @param element : single imagepath of the array*/
-                    var imagePaths = "#{neume.imagesBinary}";
-                    var imageArray = imagePaths.split(',');
-                    //console.log(imageArray);
-                    imageArray.forEach(function(element) {
-                    var canvas = document.createElement('canvas');
-                    var ctx = canvas.getContext("2d");
-                    canvas.className += "resize";
-                    var image = new Image();
-
-                    image.onload = function () {
-
-                        // set size proportional to image
-                        canvas.height = image.height*0.5;
-                        canvas.width = image.width*0.5;
-
-                        // step 1 - resize to 50%
-                        var oc = document.createElement('canvas'),
-                            octx = oc.getContext('2d');
-
-                        oc.width = image.width;
-                        oc.height = image.height;
-                        octx.drawImage(image, 0, 0, oc.width, oc.height);
-
-                        // step 2
-                        octx.drawImage(oc, 0, 0, oc.width, oc.height);
-
-                        // step 3, resize to final size
-                        ctx.drawImage(oc, 0, 0, oc.width, oc.height,
-                        0, 0, canvas.width, canvas.height);
-                    }
-                    image.src = "data:image/png;base64," + element; //getting the file paths
-                    var imageCard = document.getElementById("image#{neume.id}");//getting
-                    imageCard.appendChild(canvas);
-                    canvas.appendChild(image);//the image is appended
-                    });
-
-                    /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
-                    appear if the collapsible button is clicked.*/ 
-
-                    var coll = document.getElementById("collapsible#{neume.id}");
-                    coll.addEventListener("click", function() {
-
-                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
-                     
-                      this.classList.toggle("active");
-                      var content = this.nextElementSibling;
-                      if (content.style.display === "none") {
-                      $.cookie(this.id, "true")
-                      console.log($.cookie(this.id)) 
-
-                        content.style.display = "block";
-
-                        deleteButtonCollapse.style.display = "block"
-                      } else {
-                        $.cookie(this.id, "false")
-                        console.log($.cookie(this.id)) 
-                        content.style.display = "none";
-                        deleteButtonCollapse.style.display = "none";
-                      }
-                      
-                    });
-
-                    //To save the collapsible state of the neumes
-                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
-                      content.style.display = "block";
-                      $(document).ready(function() {
-                      var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
-                      var element = "collapsible#{neume.id}";
-                      var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
-                      if ($.cookie(element) == "false") {
-                      
-                                              content.style.display = "none";
-                      
-                                              deleteButtonCollapse.style.display = "none"
-                                            } else {
-                                              content.style.display = "block";
-                      
-                                              deleteButtonCollapse.style.display = "block"
-                                            }})
-
-                    document.getElementById("NoButton#{neume._id}").onclick = function(){
-                    document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
-                    };
-
-                     //Function for the collapse all button
-                    function collapseAll(){
-                    var elements = document.getElementsByClassName("paddingCollapsible");
-                    console.log(elements)
-                    for(var x=0; x < elements.length; x++)
-                    {
-                        var content = elements[x].nextElementSibling;
-                        if (content.style.display === "none") {
-                        document.getElementById("compress").style.display = "block";
-                        $.cookie(elements[x].id, "true");
-                        document.getElementById("expand").style.display = "none";
-                        content.style.display = "block";
-                      } else {
-                        content.style.display = "none";
-                        $.cookie(elements[x].id, "false");
-                        document.getElementById("expand").style.display = "block";
-                        document.getElementById("compress").style.display = "none";
-                      }
-                      
-                    }
-                    var deleteButtonCollapse = document.getElementsByClassName("button3");
-                    console.log(elements)
-                    for(var x=0; x < deleteButtonCollapse.length; x++)
-                    {
-                       var content = deleteButtonCollapse[x];
-                        if (content.style.display === "none") {
-                        content.style.display = "block";
-                      } else {
-                        content.style.display = "none";
-                      }
-                    }
-                  
-                     }
-
-                  //Modals event listeners for every modal
-                  window.addEventListener('load', function() {
-                      initializeModal('myModal', 'myBtn');
-                      initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
-                      initializeModal('modalSection', 'modalSectionButton');
-                      initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
-                      initializeModal('modalSection', 'sectionButton');
-                      initializeModal('uploadCSV', 'uploadCSVButton');
-                      initializeModal('imageCSV', 'imageCSVButton');
-                    });
-
-                  //Modals event listeners for every modal
-                  window.addEventListener('load', function() {
-                  initializeModal('myModal', 'myBtn');
-                  initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                  canvas.appendChild(image);//the image is appended
                   });
-                  $(document).scroll(function() {
-                    var y = $(document).scrollTop(), //get page y value 
-                        header = $(".row");
-                        roundedCorners = $(".roundedCorners");
 
-                    if(y >= 50)  {
-                        header.css({position: "fixed", "top" : "57px"});
+                  /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
+                  appear if the collapsible button is clicked.*/ 
 
+                  var coll = document.getElementById("collapsible#{neume.id}");
+                  coll.addEventListener("click", function() {
+
+                    var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
+                   
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "none") {
+                    $.cookie(this.id, "true")
+                    console.log($.cookie(this.id)) 
+
+                      content.style.display = "block";
+
+                      deleteButtonCollapse.style.display = "block"
                     } else {
-                        header.css({position: "fixed", "top" : "165px"}); 
+                      $.cookie(this.id, "false")
+                      console.log($.cookie(this.id)) 
+                      content.style.display = "none";
+                      deleteButtonCollapse.style.display = "none";
                     }
-                    }); 
+                    
+                  });
+
+                  //To save the collapsible state of the neumes
+                    var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                    content.style.display = "block";
+                    $(document).ready(function() {
+                    var deleteButtonCollapse = document.getElementById("deleteNeumeButton#{neume.id}");
+                    var element = "collapsible#{neume.id}";
+                    var content = document.getElementById("collapsible#{neume.id}").nextElementSibling;
+                    if ($.cookie(element) == "false") {
+                    
+                                            content.style.display = "none";
+                    
+                                            deleteButtonCollapse.style.display = "none"
+                                          } else {
+                                            content.style.display = "block";
+                    
+                                            deleteButtonCollapse.style.display = "block"
+                                          }})
+
+                  document.getElementById("NoButton#{neume._id}").onclick = function(){
+                  document.getElementById("DeleteModal#{neume.id}").style.display = 'none';
+                  };
+
+                   //Function for the collapse all button
+                  function collapseAll(){
+                  var elements = document.getElementsByClassName("paddingCollapsible");
+                  console.log(elements)
+                  for(var x=0; x < elements.length; x++)
+                  {
+                      var content = elements[x].nextElementSibling;
+                      if (content.style.display === "none") {
+                      document.getElementById("compress").style.display = "block";
+                      $.cookie(elements[x].id, "true");
+                      document.getElementById("expand").style.display = "none";
+                      content.style.display = "block";
+                    } else {
+                      content.style.display = "none";
+                      $.cookie(elements[x].id, "false");
+                      document.getElementById("expand").style.display = "block";
+                      document.getElementById("compress").style.display = "none";
+                    }
+                    
+                  }
+                  var deleteButtonCollapse = document.getElementsByClassName("button3");
+                  console.log(elements)
+                  for(var x=0; x < deleteButtonCollapse.length; x++)
+                  {
+                     var content = deleteButtonCollapse[x];
+                      if (content.style.display === "none") {
+                      content.style.display = "block";
+                    } else {
+                      content.style.display = "none";
+                    }
+                  }
+                
+                   }
+
+                //Modals event listeners for every modal
+                window.addEventListener('load', function() {
+                    initializeModal('myModal', 'myBtn');
+                    initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
+                    initializeModal('modalSection', 'modalSectionButton');
+                    initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
+                    initializeModal('modalSection', 'sectionButton');
+                    initializeModal('uploadCSV', 'uploadCSVButton');
+                    initializeModal('imageCSV', 'imageCSVButton');
+                  });
+
+                //Modals event listeners for every modal
+                window.addEventListener('load', function() {
+                initializeModal('myModal', 'myBtn');
+                initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                });
+                $(document).scroll(function() {
+                  var y = $(document).scrollTop(), //get page y value 
+                      header = $(".row");
+                      roundedCorners = $(".roundedCorners");
+
+                  if(y >= 50)  {
+                      header.css({position: "fixed", "top" : "57px"});
+
+                  } else {
+                      header.css({position: "fixed", "top" : "165px"}); 
+                  }
+                  }); 
 
 
-                    //Function to get collapsibles sorted
-                    $(function() {
-                      t1 = window.performance.now()
-                      //$("#sortable1").sortable().disableSelection();
-                       // $("#sortable1").sortable().enableSelection();
+                  //Function to get collapsibles sorted
+                  $(function() {
+                    t1 = window.performance.now()
+                    //$("#sortable1").sortable().disableSelection();
+                     // $("#sortable1").sortable().enableSelection();
 
-                        //Everytime a neume is added or deleted, the drop array needs to be updated too!
+                      //Everytime a neume is added or deleted, the drop array needs to be updated too!
 
-                      var $sortable1 = $( "#sortable1" ).sortable({
-                        axis: 'y',
-                        handle: 'button',
-                        over : function(event){
-                              console.log("hovered!");
-                              //We need to create the rectangle element
-                               var myDroppable = event.target; //This is the element where it's being dropped
-                           },
-                        out : function(){
-                                //Delete the rectangle element
-                           },
-                      //On load page, get the position of the neume
-                      //On stop sorting, set the position of the neume as the new index.
-                      //Send this on update button.
-                        update: function(event, ui) {
-                              document.getElementById("buttonSavePosition").disabled = false;
-                              var changedList = this.id;
-                              var order = $(this).sortable('toArray');
-                              var positionArray = [];
-                              order.forEach(function(element){
-                                positionArray.push(element);
-                              })
-                              var positions = order.join(';');
-                              console.log({
-                                id: changedList,
-                                positions: positions
-                              });
-  
-                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                    var $sortable1 = $( "#sortable1" ).sortable({
+                      axis: 'y',
+                      handle: 'button',
+                      over : function(event){
+                            console.log("hovered!");
+                            //We need to create the rectangle element
+                             var myDroppable = event.target; //This is the element where it's being dropped
+                         },
+                      out : function(){
+                              //Delete the rectangle element
+                         },
+                    //On load page, get the position of the neume
+                    //On stop sorting, set the position of the neume as the new index.
+                    //Send this on update button.
+                      update: function(event, ui) {
+                            document.getElementById("buttonSavePosition").disabled = false;
+                            var changedList = this.id;
+                            var order = $(this).sortable('toArray');
+                            var positionArray = [];
+                            order.forEach(function(element){
+                              positionArray.push(element);
+                            })
+                            var positions = order.join(';');
+                            console.log({
+                              id: changedList,
+                              positions: positions
+                            });
+
+                          document.getElementById("inputPosition#{neume.id}").value = positionArray;
+                      },
+                      stop: function (event, ui) {
+                              var data = $(this).sortable('serialize');
+                                console.log(data);
+                      },
+                      cancel: 'input,textarea,select,option',
+                      connectWith: ".ui-state-default",
+                        items: ".sorting-initialize"
+                        
+                    });
+                    $sortable1.find(".ui-state-default").one("mouseenter",function(){
+                        $(this).addClass("sorting-initialize");
+                        $sortable1.sortable('refresh');
+                    });
+                   
+                    t2 = window.performance.now()
+                    console.log(t2-t1)
+                  });
+                  var height = " ";
+                  $(".ui-state-default").droppable({
+                        over: function (event, ui) { }, //This worked!
+                        out: function (event, ui) {event.target.style.border = "none";
+                        var id = ui.draggable.attr("id");},
+                        drop: function (event, ui) {
+                          var id = ui.draggable.attr("id"); //This is the element we have. 
                         },
-                        stop: function (event, ui) {
-                                var data = $(this).sortable('serialize');
-                                  console.log(data);
-                        },
-                        cancel: 'input,textarea,select,option',
-                        connectWith: ".ui-state-default",
-                          items: ".sorting-initialize"
+                        greedy: true,
+                        hoverClass: 'highlight'
+                    });
+                  //Get toggle value : 
+                  console.log(document.getElementById("toggle#{neume.id}").value);
+                  if(document.getElementById("toggle#{neume.id}").value == "Yes"){
+                  document.getElementById("toggle#{neume.id}").checked = true;
+                  }
+
+                  function check#{neume.id}()
+                  {
+                    if (document.getElementById('toggle#{neume.id}').checked) 
+                    {
+                       document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                       document.getElementById('toggle#{neume.id}').checked = true;
+                    } else {
+                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                    }
+                  }
+                  function load#{neume.id}()
+                  {
+                    if (document.getElementById('toggle#{neume.id}').checked) 
+                    {
+                       document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                       document.getElementById('toggle#{neume.id}').checked = true;
+                    } else {
+                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                    }
+                  }
+                  //submits the position of the neumes on click of the button
+                  function buttonSaveLoad(){
+                    document.getElementById("position#{neume.id}").submit();
+                  }
+
+                  // When the draggable p element enters the droptarget, change the DIVS's border style
+                  document.addEventListener("dragenter", function(event) {
+                    if ( event.target.className == "droptarget" ) {
+                      event.target.style.border = "3px dotted red";
+                    }
+                  });
+                  document.getElementById("editButton").onclick = function(){
+                      document.getElementsByClassName("editing").style.display = "block";
+                  };
+
+                  //Array for the position of elements from the database. split into the drop#{neume.id}
+                  //Values of div and changing their positions by appending them depending on the order in the database.
+                  //(The string is already ordered in the database from the neume sortable positions)
+                  var array = "#{project.positionArray}".split(',');
+
+                    array.forEach(function(element){
+                      document.getElementById("sortable1").appendChild(document.getElementById(element));
+                      var elementNeume = document.getElementById(element);})
+                  var undoValue = "";
+                  function undo(){
+                    $("#sortable1").sortable('cancel');
+                    var changedList = this.id;
+                            var order = $("#sortable1").sortable('toArray');
+                            var positionArray = [];
+                            order.forEach(function(element){
+                              positionArray.push(element);
+                            })
+                            var positions = order.join(';');
+                            console.log({
+                              id: changedList,
+                              positions: positions});
+                              //Change position here
+
+                          document.getElementById("inputPosition#{neume.id}").value = positionArray;
                           
-                      });
-                      $sortable1.find(".ui-state-default").one("mouseenter",function(){
-                          $(this).addClass("sorting-initialize");
-                          $sortable1.sortable('refresh');
-                      });
-                     
-                      t2 = window.performance.now()
-                      console.log(t2-t1)
-                    });
-                    var height = " ";
-                    $(".ui-state-default").droppable({
-                          over: function (event, ui) { }, //This worked!
-                          out: function (event, ui) {event.target.style.border = "none";
-                          var id = ui.draggable.attr("id");},
-                          drop: function (event, ui) {
-                            var id = ui.draggable.attr("id"); //This is the element we have. 
-                          },
-                          greedy: true,
-                          hoverClass: 'highlight'
-                      });
-                    //Get toggle value : 
-                    console.log(document.getElementById("toggle#{neume.id}").value);
-                    if(document.getElementById("toggle#{neume.id}").value == "Yes"){
-                    document.getElementById("toggle#{neume.id}").checked = true;
-                    }
-
-                    function check#{neume.id}()
-                    {
-                      if (document.getElementById('toggle#{neume.id}').checked) 
-                      {
-                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
-                         document.getElementById('toggle#{neume.id}').checked = true;
-                      } else {
-                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
-                      }
-                    }
-                    function load#{neume.id}()
-                    {
-                      if (document.getElementById('toggle#{neume.id}').checked) 
-                      {
-                         document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
-                         document.getElementById('toggle#{neume.id}').checked = true;
-                      } else {
-                          document.getElementById('inputCheckbox#{neume.id}').value = "No";
-                      }
-                    }
-                    //submits the position of the neumes on click of the button
-                    function buttonSaveLoad(){
-                      document.getElementById("position#{neume.id}").submit();
-                    }
-
-                    // When the draggable p element enters the droptarget, change the DIVS's border style
-                    document.addEventListener("dragenter", function(event) {
-                      if ( event.target.className == "droptarget" ) {
-                        event.target.style.border = "3px dotted red";
-                      }
-                    });
-                    document.getElementById("editButton").onclick = function(){
-                        document.getElementsByClassName("editing").style.display = "block";
-                    };
-
-                    //Array for the position of elements from the database. split into the drop#{neume.id}
-                    //Values of div and changing their positions by appending them depending on the order in the database.
-                    //(The string is already ordered in the database from the neume sortable positions)
-                    var array = "#{project.positionArray}".split(',');
-
-                      array.forEach(function(element){
-                        document.getElementById("sortable1").appendChild(document.getElementById(element));
-                        var elementNeume = document.getElementById(element);})
-                    var undoValue = "";
-                    function undo(){
-                      $("#sortable1").sortable('cancel');
-                      var changedList = this.id;
-                              var order = $("#sortable1").sortable('toArray');
-                              var positionArray = [];
-                              order.forEach(function(element){
-                                positionArray.push(element);
-                              })
-                              var positions = order.join(';');
-                              console.log({
-                                id: changedList,
-                                positions: positions});
-                                //Change position here
-  
-                            document.getElementById("inputPosition#{neume.id}").value = positionArray;
-                            
-                    } 
-                    <!-- Cookie Consent by https://www.TermsFeed.com -->
+                  } 
+                  <!-- Cookie Consent by https://www.TermsFeed.com -->
 if (owned)
   div(id = "section")
      ul
