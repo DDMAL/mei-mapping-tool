@@ -69,7 +69,7 @@ router.route('/user')
                 res.format({
                     //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function() {
-                        res.render('projects/index', {
+                        res.render('projects/projectindex', {
                             title: 'Project',
                             "other": projects,
                             "user": [],
@@ -544,7 +544,7 @@ router.route('/:id')
                 neumedob = neumedob.substring(0, neumedob.indexOf('T'))
                 res.format({
                     html: function() {
-                        res.render('projects/show.jade', {
+                        res.render('projects/showproject.jade', {
                             "neumedob": neumedob,
                             "neumes": neume,
                             "user": -1,

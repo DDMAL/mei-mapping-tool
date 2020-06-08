@@ -66,7 +66,7 @@ router.route('/')
                             //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                             html: function() {
                                 logger.debug(userFinal);
-                                res.render('projects/index', {
+                                res.render('projects/projectindex', {
                                     title: 'Projects',
                                     "projects": projects,
                                     "user": userFinal,
@@ -723,7 +723,7 @@ router.route('/:id') //This is where the classifier would be
                             res.format({
                                 html: function() {
 
-                                    res.render('projects/show', {
+                                    res.render('projects/showproject', {
                                         "projectdob": projectdob,
                                         "project": project,
                                         "neumes": neumeFinal,
@@ -780,7 +780,7 @@ router.route('/public/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/show.jade', {
+                                res.render('projects/showproject.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
@@ -838,7 +838,7 @@ router.route('/forkPublic/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/show.jade', {
+                                res.render('projects/showproject.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
