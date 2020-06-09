@@ -1,5 +1,5 @@
-console.log('hiiiiiiiiiiiiiiiiiiii');
-console.log(neume._id);
+//console.log('hiiiiiiiiiiiiiiiiiiii');
+//console.log(neume._id);
 
 Dropzone.autoDiscover = false;
 if (document.getElementById('dropzone' + neume._id)) {
@@ -22,14 +22,14 @@ myDropzone.on('removedfile', function(file) {
     //document.getElementById
     //Need to add the remove file to true from the dropzone.
     var fs = require('fs');
-    console.log(file);
+    //console.log(file);
 
     /* here do AJAX call to your server ... */
     //try an ajax call with a php file
 });
 //Getting the canvas for the images : 
 var images = neume.imagesBinary;
-console.log(images);
+//console.log(images);
 
 //For each image in the neume
 images.forEach(function(element) {
@@ -64,7 +64,7 @@ images.forEach(function(element) {
     //getting the source of the image from the gallery
     image.src = "data:image/png;base64," + element; //getting the file paths
     var imageSrc = image.src;
-    console.log(imageSrc);
+    //console.log(imageSrc);
     //This element is linked to multiple neumes. We need to change 
     //its id so that it is unique to the neume we want to delete the image from.
     var imageDeletedPath = document.getElementById("imageToDelete" + neume._id);
