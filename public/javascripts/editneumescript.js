@@ -1,9 +1,9 @@
 console.log('hiiiiiiiiiiiiiiiiiiii');
-console.log(neume);
+console.log(neume._id);
 
 Dropzone.autoDiscover = false;
-if (document.getElementById('dropzone' + neume.id)) {
-    var myDropzone = new Dropzone("div#dropzone" + neume.id, {
+if (document.getElementById('dropzone' + neume._id)) {
+    var myDropzone = new Dropzone("div#dropzone" + neume._id, {
         maxFileSize: 10, //MB
         acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
         addRemoveLinks: false,
@@ -28,11 +28,11 @@ myDropzone.on('removedfile', function(file) {
     //try an ajax call with a php file
 });
 //Getting the canvas for the images : 
-var imagePaths = neume.imagesBinary;
-console.log(imagePaths);
+var images = neume.imagesBinary;
+console.log(images);
 
 //For each image in the neume
-imageArray.forEach(function(element) {
+images.forEach(function(element) {
     //creating a canvas
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext("2d");
@@ -67,13 +67,13 @@ imageArray.forEach(function(element) {
     console.log(imageSrc);
     //This element is linked to multiple neumes. We need to change 
     //its id so that it is unique to the neume we want to delete the image from.
-    var imageDeletedPath = document.getElementById("imageToDelete" + neume.id);
+    var imageDeletedPath = document.getElementById("imageToDelete" + neume._id);
     imageDeletedPath.value = element;
     imageDeletedPath.name = "imageDeleted";
     imageDeletedPath.hidden = true;
     //console.log(imageDeletedPath);
 
-    var imageCard = document.getElementById("images" + neume.id); //getting
+    var imageCard = document.getElementById("images" + neume._id); //getting
     //add the image to the canvas
     imageCard.appendChild(canvas);
     //console.log(imageCard); //This is appended
@@ -94,8 +94,8 @@ imageArray.forEach(function(element) {
     //Append the button to the image card.
     imageCard.appendChild(buttonDeleteImage);
     $(buttonDeleteImage).click(function() {
-        document.getElementById("imageToDelete" + neume.id).value = element;
-        $("#deleteImagebutton" + neume.id).click();
+        document.getElementById("imageToDelete" + neume._id).value = element;
+        $("#deleteImagebutton" + neume._id).click();
         //Delete the image :
         canvas.style.display = "none";
         buttonDeleteImage.style.display = "none";
