@@ -1,6 +1,7 @@
 doctype html
 html
   include ../header.jade
+  include ./projectmixins.jade
   head
    title Cress - MEI Mapping Tool 🎵 
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
@@ -272,31 +273,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                               span.slider.round
                               input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
 
-                    if (owned)
-                      //Submitting the update form
-                      input(type='hidden',value='PUT',name='_method')
-                      
-                      button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
-                        i.fa.fa-pencil
-                        span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
-                      br
-                      br
-                      form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                          input(type='hidden',value='DELETE',name='_method')
-                          button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
-                              x
-                          .modal(id = "DeleteModal#{neume.id}")
-                            // Modal content
-                            .modal-content
-                              span.close ×
-                              h4(style = "text-align : center") Are you sure you want to delete this neume? 
-                              br
-                              h3(style = "text-align : center") #{neume.name}
-                              p
-                               button(type='submit' class = "button button3DeleteImage") Yes
-                               button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
-                               br
-                               br
+                    +deletemix(neume)
                       form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
                            input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
                            input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
