@@ -1,5 +1,6 @@
 doctype html
 html
+  include ../header.jade
   head
    link(rel="icon" href="/images/Favicon.png")
   .column
@@ -21,31 +22,7 @@ html
     
     //Column parameters
   div
-    header.sticky
-        // our main logo
-        a#logo(href='#')
-          span Cress - MEI Mapping Tool 🎵 
-        // main navigation links
-        nav
-          ul
-              li
-                if (user.length > 0)
-                  a(href='/about') About
-                else
-                  a(href='/neumes/about') About
-              li
-                if (user.length > 0)
-                  a(href='/projects') Projects
-                else
-                  a(href='/neumes/user') Projects
-              li
-                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
-              li
-                if (user.length > 0)
-                  a(href='/') Log out
-                else
-                  a(href='/') Log-in
-
+    +indexhead
     // the content
     main
       // hero content

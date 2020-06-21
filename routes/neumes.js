@@ -648,6 +648,7 @@ router.route('/:id/edit')
 
     //DELETE a neume by ID
     .delete(function(req, res) {
+        logger.error(':id/edit .delete neume.js');
         //find neume by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
             var ID_project = neume.project;

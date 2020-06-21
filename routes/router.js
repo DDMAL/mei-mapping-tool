@@ -2091,7 +2091,7 @@ router.get('/profile', function(req, res, next) {
                                                 "status": user.role,
                                                 "bio": user.bio,
                                                 "collaborators": user.collaborators,
-                                                "users": usersSelect,
+                                                "user": usersSelect,
                                                 "projects": projectsUsers
                                             });
                                         },

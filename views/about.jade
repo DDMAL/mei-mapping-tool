@@ -2,6 +2,7 @@ doctype html
 if (loggedin)
   - var url = "http://cress-staging.simssa.ca/"
 html
+  include ./header.jade
   head
    link(rel="icon" href="/images/Favicon.png")
   .column
@@ -17,31 +18,7 @@ html
     link(rel="icon" href="/images/Favicon.png")
     //Column parameters
   div
-    header.sticky
-        // our main logo
-        a#logo(href='#')
-          span Cress - MEI Mapping Tool 🎵 
-        // main navigation links
-        nav
-          ul
-              li
-                if (loggedin)
-                  a(href='/neumes/about') About
-                else
-                  a(href='/about') About
-              li
-                if (loggedin)
-                  a(href='/projects') Projects
-                else
-                  a(href='/neumes/user') Projects
-              li
-                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
-              li
-                if (loggedin)
-                  a(href='/') Log out
-                else
-                  a(href='/') Log-in
-                
+    +projecthead           
     // the content
     main
       // hero content

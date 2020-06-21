@@ -1,6 +1,7 @@
 doctype html
 doctype html
 html
+  include ./header.jade
   head
     link(rel="icon" href="/images/Favicon.png")
   .column
@@ -41,23 +42,7 @@ html
     link(rel="images" href="/images/CF-005 (1).png")
     //Column parameters
   div
-    header
-        // our main logo
-        a#logo(href='#')
-          span Cress - MEI Mapping Tool 🎵 
-        // main navigation links
-        nav
-          ul
-              li
-                a(href='/about') About
-              li
-                a(href='/projects') Projects
-              li
-                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
-              li
-                a(href='/') Log out
-              li
-                a(href='#') #{username}
+    +indexhead
 
     // the content
     main
@@ -138,8 +123,8 @@ html
                               p Name: 
                                  select(class = "createProjectInput" name="collabName" id = "selectUser" required)
                                       option(disabled='', selected='', value='')  -- select a username -- 
-                                      - each user in users
-                                          option(value='#{user.id}') #{user.username}                            
+                                      - each u in user
+                                          option(value='#{user.id}') #{u.username}                            
 
                               p Project: 
                                  select(class = "createProjectInput" name="project" id = "selectProject" required)
