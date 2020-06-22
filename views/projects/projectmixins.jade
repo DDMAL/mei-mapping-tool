@@ -1,12 +1,5 @@
 mixin deletemix(neume)
   if (owned)
-    //Submitting the update form
-    input(type='hidden',value='PUT',name='_method')
-    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
-      i.fa.fa-pencil
-      span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
-    br
-    br
     form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
         input(type='hidden',value='DELETE',name='_method')
         button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
@@ -23,3 +16,13 @@ mixin deletemix(neume)
              button(type = "button" class = "button button4" id = "NoButton#{neume._id}") No
              br
              br
+
+mixin submitchangesmix(neume)
+  if (owned)
+    //Submitting the update form
+    input(type='hidden',value='PUT',name='_method')
+    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
+      i.fa.fa-pencil
+      span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
+    br
+    br
