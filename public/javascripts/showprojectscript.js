@@ -30,7 +30,7 @@ function collapseAll() {
 
 }
 
-function initNeume() {
+function initNeume(neume, project) {
 
     var imagePaths = neume.imagePaths;
     var canvas = document.createElement('canvas');
@@ -259,7 +259,7 @@ function initNeume() {
     }
 }
 
-function initSection() {
+function initSection(section) {
     document.getElementById("NoButton" + section._id).onclick = function() {
         document.getElementById("DeleteModal" + section._id).style.display = 'none';
     };
