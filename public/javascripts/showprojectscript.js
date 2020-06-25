@@ -1,4 +1,36 @@
-function run() {
+//Function for the collapse all button
+function collapseAll() {
+    var elements = document.getElementsByClassName("paddingCollapsible");
+    console.log(elements)
+    for (var x = 0; x < elements.length; x++) {
+        var content = elements[x].nextElementSibling;
+        if (content.style.display === "none") {
+            document.getElementById("compress").style.display = "block";
+            $.cookie(elements[x].id, "true");
+            document.getElementById("expand").style.display = "none";
+            content.style.display = "block";
+        } else {
+            content.style.display = "none";
+            $.cookie(elements[x].id, "false");
+            document.getElementById("expand").style.display = "block";
+            document.getElementById("compress").style.display = "none";
+        }
+
+    }
+    var deleteButtonCollapse = document.getElementsByClassName("button3");
+    console.log(elements)
+    for (var x = 0; x < deleteButtonCollapse.length; x++) {
+        var content = deleteButtonCollapse[x];
+        if (content.style.display === "none") {
+            content.style.display = "block";
+        } else {
+            content.style.display = "none";
+        }
+    }
+
+}
+
+function initNeume() {
 
     var imagePaths = neume.imagePaths;
     var canvas = document.createElement('canvas');
@@ -92,38 +124,6 @@ function run() {
     document.getElementById("NoButton" + neume._id).onclick = function() {
         document.getElementById("DeleteModal" + neume._id).style.display = 'none';
     };
-
-    //Function for the collapse all button
-    function collapseAll() {
-        var elements = document.getElementsByClassName("paddingCollapsible");
-        console.log(elements)
-        for (var x = 0; x < elements.length; x++) {
-            var content = elements[x].nextElementSibling;
-            if (content.style.display === "none") {
-                document.getElementById("compress").style.display = "block";
-                $.cookie(elements[x].id, "true");
-                document.getElementById("expand").style.display = "none";
-                content.style.display = "block";
-            } else {
-                content.style.display = "none";
-                $.cookie(elements[x].id, "false");
-                document.getElementById("expand").style.display = "block";
-                document.getElementById("compress").style.display = "none";
-            }
-
-        }
-        var deleteButtonCollapse = document.getElementsByClassName("button3");
-        console.log(elements)
-        for (var x = 0; x < deleteButtonCollapse.length; x++) {
-            var content = deleteButtonCollapse[x];
-            if (content.style.display === "none") {
-                content.style.display = "block";
-            } else {
-                content.style.display = "none";
-            }
-        }
-
-    }
 
     $(document).scroll(function() {
         var y = $(document).scrollTop(), //get page y value 
@@ -228,7 +228,8 @@ function run() {
     };
 
     //Array for the position of elements from the database. split into the drop
-     + neume._id//Values of div and changing their positions by appending them depending on the order in the database.
+    +
+    neume._id //Values of div and changing their positions by appending them depending on the order in the database.
     //(The string is already ordered in the database from the neume sortable positions)
     var array = project.positionArray
 
@@ -256,4 +257,95 @@ function run() {
         document.getElementById("inputPosition" + neume._id).value = positionArray;
 
     }
+}
+
+function initSection() {
+    document.getElementById("NoButton" + section._id).onclick = function() {
+        document.getElementById("DeleteModal" + section._id).style.display = 'none';
+    };
+    window.addEventListener('load', function() {
+        initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');
+
+    });
+    var idSection = document.getElementById("section" + section._id)
+    $(idSection).sortable({
+        connectWith: '.ui-state-default',
+        helper: 'clone',
+        handle: 'button',
+        cancel: 'input,textarea,select,option, .deleteSection',
+        update: function(event, ui) {
+            var changedList = this.id;
+            var order = $(idSection).sortable('toArray');
+            var positionArray = [];
+            order.forEach(function(element) {
+                var neumeid = element.replace(/^\D+/g, '');
+                if (neumeid == "") { console.log("null") } else { positionArray.push(neumeid); }
+            })
+            var positions = positionArray.join(';');
+            $.cookie('sortOrder' + this.id, positions);
+            console.log($.cookie('sortOrder' + this.id))
+        }
+    });
+    $(idSection).droppable({
+
+        //On out, the name of the section of the neume is "";
+        //On out, the section neumeIDs array pulls the neumeID
+        out: function(event, ui) {
+            var id = ui.draggable.attr("id");
+        },
+
+
+
+        drop: function(event, ui) {
+            var id = ui.draggable.attr("id"); //This is the element we have. 
+
+            //On drop, the name of the section of the neume is #{section.name}
+            var neume = document.getElementById(id);
+
+            var neumeID = id.replace(/^\D+/g, ''); // replace all leading non-digits with nothing, which gives us the id of the neume we are adding to the section
+
+            /////Value for the inputs added to the arrays
+            //On drop, the section neumeIDs array gets added the neumeID
+            neumeArray.push(neumeID);
+
+            document.getElementById("inputArraySection" + section._id).value = neumeArray; //This needs to be defined
+
+            console.log(document.getElementById("inputArraySection" + section._id).value);
+            console.log(neumeArray);
+
+            //Get that element on drop and put it as the section Id
+            var IdOfTarget = "" + section._id
+            console.log(IdOfTarget);
+            var IDWithSectionName = IdOfTarget;
+
+            //classOfTarget is the Id of the section
+            document.getElementById("sectionID" + section._id).value = IdOfTarget; //This needs to be defined
+            document.getElementById("buttonSection" + section._id).disabled = false;
+
+            //Show the section id (the class target) and the neumeArray linked to it.
+
+            //Should probably also use the cookie for the neume position on sort.
+        },
+        greedy: true,
+        hoverClass: 'highlight'
+    });
+
+    //Appending the neumes to the sections : 
+    //Get the #{section.neumeIDs}
+    //For each element separated by a comma, append the child to the element #{section._id}, this is the p of the element
+
+    var neumesInSection = section.neumeIDs;
+    var neumeArrays = neumesInSection.split(",");
+    console.log(neumesInSection);
+    neumeArrays.forEach(function(neume) {
+        document.getElementById("section" + section._id).appendChild(document.getElementById("drop" + neume));
+    })
+
+    if (document.getElementById("sectionID" + section._id).value == "")
+        document.getElementById("buttonSection" + section._id).disabled = true;
+    else if (document.getElementById("inputArraySection" + section._id).value == "")
+        document.getElementById("buttonSection" + section._id).disabled = true;
+    else
+        document.getElementById("buttonSection" + section._id).disabled = false;
+
 }
