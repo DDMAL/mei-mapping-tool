@@ -27,11 +27,11 @@ function collapseAll() {
             content.style.display = "none";
         }
     }
-
 }
 
 function initNeume(neume, project) {
 
+    var owned = !{owned};
     var imagePaths = neume.imagePaths;
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext("2d");
@@ -119,11 +119,13 @@ function initNeume(neume, project) {
 
             deleteButtonCollapse.style.display = "block"
         }
-    })
+    });
 
-    document.getElementById("NoButton" + neume._id).onclick = function() {
-        document.getElementById("DeleteModal" + neume._id).style.display = 'none';
-    };
+    if (owned) {
+       document.getElementById("NoButton" + neume._id).onclick = function() {
+           document.getElementById("DeleteModal" + neume._id).style.display = 'none';
+       }; 
+    }  
 
     $(document).scroll(function() {
         var y = $(document).scrollTop(), //get page y value 
@@ -137,7 +139,6 @@ function initNeume(neume, project) {
             header.css({ position: "fixed", "top": "165px" });
         }
     });
-
 
     //Function to get collapsibles sorted
     $(function() {
@@ -207,14 +208,11 @@ function initNeume(neume, project) {
         greedy: true,
         hoverClass: 'highlight'
     });
+
     //Get toggle value : 
     console.log(document.getElementById("toggle" + neume._id).value);
     if (document.getElementById("toggle" + neume._id).value == "Yes") {
         document.getElementById("toggle" + neume._id).checked = true;
-    }
-    //submits the position of the neumes on click of the button
-    function buttonSaveLoad() {
-        document.getElementById("position" + neume._id).submit();
     }
 
     // When the draggable p element enters the droptarget, change the DIVS's border style
@@ -223,40 +221,52 @@ function initNeume(neume, project) {
             event.target.style.border = "3px dotted red";
         }
     });
+
+    /*
     document.getElementById("editButton").onclick = function() {
         document.getElementsByClassName("editing").style.display = "block";
     };
+    */
 
     //Array for the position of elements from the database. split into the drop
-    +
-    neume._id //Values of div and changing their positions by appending them depending on the order in the database.
+    //Values of div and changing their positions by appending them depending on the order in the database.
     //(The string is already ordered in the database from the neume sortable positions)
-    var array = project.positionArray
+    var array = project.positionArray;
 
     array.forEach(function(element) {
         document.getElementById("sortable1").appendChild(document.getElementById(element));
         var elementNeume = document.getElementById(element);
-    })
+    });
     var undoValue = "";
-
-    function undo() {
-        $("#sortable1").sortable('cancel');
-        var changedList = this.id;
-        var order = $("#sortable1").sortable('toArray');
-        var positionArray = [];
-        order.forEach(function(element) {
-            positionArray.push(element);
-        })
-        var positions = order.join(';');
-        console.log({
-            id: changedList,
-            positions: positions
-        });
-        //Change position here
-
-        document.getElementById("inputPosition" + neume._id).value = positionArray;
-
+    if (!owned) {
+        console.log('in');
+        var x = document.getElementById('editImagesButton' + neume._id);
+        x.style.display = "none";
     }
+}
+
+//submits the position of the neumes on click of the button
+function buttonSaveLoad() {
+    document.getElementById("position" + neume._id).submit();
+}
+
+function undo() {
+    $("#sortable1").sortable('cancel');
+    var changedList = this.id;
+    var order = $("#sortable1").sortable('toArray');
+    var positionArray = [];
+    order.forEach(function(element) {
+        positionArray.push(element);
+    })
+    var positions = order.join(';');
+    console.log({
+        id: changedList,
+        positions: positions
+    });
+    //Change position here
+
+    document.getElementById("inputPosition" + neume._id).value = positionArray;
+
 }
 
 function initSection(section) {

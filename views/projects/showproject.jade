@@ -208,13 +208,14 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                 div(draggable="true"  id="dragtarget")
               div.ui-state-default(id = "drop#{neume.id}")
                 button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}  #{neume.source}
-                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
+                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded'
+                  type = owned ? "" : "hidden")
                     .column
                        .card
                          .panel.panel-default
                            .panel-body
-                              div(id = "image#{neume.id}")
-                                  button( style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type="button" class = "button button1" class = "tooltip") Edit
+                              div(id = "image#{neume.id}" type = owned ? "" : "hidden")
+                                  button(style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type= owned ? "button" : "hidden" class = "button button1" class = "tooltip") Edit
                                     span.tooltiptext To delete images or add more images to the neume, click here!   
 
                     // Name, Folio and Description Section
