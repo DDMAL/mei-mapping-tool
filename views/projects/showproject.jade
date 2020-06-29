@@ -284,6 +284,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
               script(type="text/javascript" src="../../javascripts/showprojectscript.js")
               script.
+
                 //For each neume in the project :
                 //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
                 var editor#{neume.id} = ace.edit('#{neume.id}');
@@ -339,8 +340,9 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
                 var neume = !{JSON.stringify(neume)};
                 var project = !{JSON.stringify(project)};
+                var owned = !{owned};
 
-                initNeume(neume, project);
+                initNeume(neume, project, owned);
                 
                   <!-- Cookie Consent by https://www.TermsFeed.com -->
 if (owned)

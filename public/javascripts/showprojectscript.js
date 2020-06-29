@@ -29,9 +29,8 @@ function collapseAll() {
     }
 }
 
-function initNeume(neume, project) {
+function initNeume(neume, project, owned) {
 
-    var owned = !{owned};
     var imagePaths = neume.imagePaths;
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext("2d");
@@ -240,6 +239,7 @@ function initNeume(neume, project) {
     var undoValue = "";
     if (!owned) {
         console.log('in');
+        console.log(owned);
         var x = document.getElementById('editImagesButton' + neume._id);
         x.style.display = "none";
     }
