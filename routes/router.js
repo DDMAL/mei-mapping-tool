@@ -239,46 +239,6 @@ router.route('/about')
         //global.userFinal = []; //The user needs to be added in all the routes
 
     });
-//Update the sections to add neumes inside.
-router.route('/updateSection')
-    .post(function(req, res) {
-        var neumeSectionIds = [];
-        neumeSectionIds.push(req.body.neumeSectionIds); //This is an array of elements
-        var sectionID = req.body.SectionID;
-
-        mongoose.model('section').findOneAndUpdate({
-                _id: sectionID
-            }, {
-                //push the neumes into the imagesBinary array
-                $push: {
-                    neumeIDs: neumeSectionIds
-                }
-            },
-
-            function(err, data) {
-                if (err) {
-                    logger.info(err);
-                } else {
-                    logger.info(data);
-
-
-                    //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                    res.format({
-                        //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
-                        html: function() {
-                            logger.info(userFinal);
-                            res.redirect("back");
-                        },
-                        //JSON response will show all projects in JSON format
-                        json: function() {
-                            res.json(projects);
-                        }
-                    });
-
-                }
-
-            })
-    });
 
 //global.userFinal = []; //The user needs to be added in all the routes
 
