@@ -342,6 +342,7 @@ router.route('/section')
 
 router.route('/sectionDelete')
     .post(function(req, res) {
+        logger.error('router post /sectionDelete');
         var sectionID = req.body.sectionId;
         //find neume by ID
         mongoose.model('section').findById(sectionID, function(err, section) {
@@ -373,142 +374,10 @@ router.route('/sectionDelete')
         });
     });
 
-/* never called?
-router.route('/csv')
-    .post(function(req, res) {
-
-        logger.error('/csv');
-
-        var IdOfNeume = req.body.IdOfNeume;
-        logger.info(IdOfNeume); //This is somehow undefined.
-
-        mongoose.model('neume').findById(IdOfNeume, function(err, neumeCSV) {
-            if (err) {
-                return res.status(500).json({
-                    err
-                });
-            } else {
-                //var neume = neume;
-                logger.info(neumeCSV);
-
-                neumeCSV.imagesBinary = neumeCSV.imagesBinary.split(",");
-                neume.CSV.imagesBinary = neumnCSV.imagesBinary.replace(/[\[\]'"\\\/]/+g, '');
-
-                let csv;
-
-                try {
-                    csv = json2csv(data, {
-                        fields
-                    });
-                } catch (err) {
-                    return res.status(500).json({
-                        err
-                    });
-                }
-                const dateTime = moment().format('YYYYMMDDhhmmss');
-                const filePath = pathName.join(__dirname, "..", "exports", "csv-" + neumeCSV.name + ".csv")
-                var fs = require('fs');
-                var dir = './exports';
-
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir);
-                }
-                fs.writeFile(filePath, csv, function(err) { //This gives an error
-                    if (err) {
-                        return res.json(err).status(500);
-                    } else {
-                        return res.download(filePath);
-                    }
-                });
-
-            }
-        })
-
-    });
-*/
 var multer = require('multer')
 var uploadCSV = multer({
     dest: 'exports/'
 })
-
-/* never called? /uploadCSV is a form not a button
-router.route('/uploadCSV')
-    .post(uploadCSV.single('csvFile'), function(req, res) {
-
-        logger.error('/uploadCSV');
-
-        var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
-        var nameOfProject = req.body.projectName;
-        var csvParser = require('csv-parse');
-        var file = req.file.buffer;
-
-        const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
-        var fs = require('fs');
-        var dir = './exports';
-
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir);
-        }
-        fs.writeFile(filePath, file, function(err) {
-
-        });
-
-        const csv = require('csvtojson');
-
-        csv()
-            .fromFile(req.file.path)
-            .then((jsonObj) => {
-
-                var imagesBinary = jsonObj.imagesBinary.replace(/[\[\]'"\\\/]/+g, '');
-                jsonObj.imagesBinary = imagesBinary;
-
-                mongoose.model("neume").insert(jsonObj)
-                    .then(function(jsonObj) {
-
-                        jsonObj.forEach(function(neume) {
-                            mongoose.model("neume").find({
-                                _id: neume.id
-                            }).update({
-                                project: IdOfProject
-                            }, function(err, neumeElement) {
-                                if (err) {
-                                    res.send("There was a problem updating the information to the database: " + err);
-                                } else {
-                                    mongoose.model('neume').find({
-                                        _id: neume.id
-                                    }).update({
-                                        imagesBinary: neumeElement.imagesBinary.replace(/[\[\]']+/g, ''),
-                                        mei: neumeElement.mei.replace("“$1”", /"([^"]*)"/g)
-                                    }, function(err, neumeElement) {
-                                        if (err) {
-                                            res.send("There was a problem updating the information to the database: " + err);
-                                        } else {
-                                            logger.info("hey");
-                                        }
-                                    })
-                                }
-                            })
-
-                        })
-                        res.redirect("back");
-                    })
-                    .catch(function(err) {
-                        logger.error(err);
-                        err = "There was a problem with downloading the CSV file."
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
-                    });
-            });
-    })
-*/
 
 var fs = require('fs');
 var dir = './exports';
