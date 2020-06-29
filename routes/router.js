@@ -35,7 +35,6 @@ var userFinal = []
 /*Forget Password Page*/
 
 router.get('/forgot', function(req, res) {
-    logger.error('router get /forgot');
     User.findById(req.session.userId)
         .exec(function(error, user) {
             if (error) {
@@ -74,7 +73,6 @@ router.get('/forgot', function(req, res) {
 });
 
 router.post('/forgot', function(req, res, next) {
-    logger.error('router post /forgot');
     async.waterfall([
         function(done) {
             crypto.randomBytes(20, function(err, buf) {
@@ -142,7 +140,6 @@ router.post('/forgot', function(req, res, next) {
 
 //Route for the email reset link
 router.get('/reset/:token', function(req, res) {
-    logger.error('router get /reset/:token');
     User.findOne({
         resetPasswordToken: req.params.token,
         resetPasswordExpires: {
@@ -170,7 +167,6 @@ router.get('/reset/:token', function(req, res) {
 
 //Reset route for posting the new password
 router.post('/reset/:token', function(req, res) {
-    logger.error('router post /reset/:token');  
     async.waterfall([
         function(done) {
             User.findOne({
@@ -204,7 +200,6 @@ router.post('/reset/:token', function(req, res) {
 /* GET about page. */
 router.route('/about')
     .get(function(req, res) {
-        logger.error('router /about get');
         mongoose.model('User').find({
             _id: req.session.userId
         }, function(err, users) {
@@ -238,9 +233,6 @@ router.route('/about')
 //Update the sections to add neumes inside.
 router.route('/updateSection')
     .post(function(req, res) {
-        logger.error('router /updatesection post');
-
-
         var neumeSectionIds = [];
         neumeSectionIds.push(req.body.neumeSectionIds); //This is an array of elements
         var sectionID = req.body.SectionID;
@@ -284,7 +276,6 @@ router.route('/updateSection')
 // im not entirely sure what this does
 router.route('/savePosition')
     .post(function(req, res) {
-        logger.error('router post /saveposition');
 
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var position = req.body.position;
@@ -318,7 +309,6 @@ router.route('/savePosition')
 
 router.route('/section')
     .post(function(req, res) {
-        logger.error('router post /section');
 
         //We want to get the sections collection and add a new section with the 2 neumes inside.
 
@@ -352,7 +342,6 @@ router.route('/section')
 
 router.route('/sectionDelete')
     .post(function(req, res) {
-        logger.error('router post /sectiondelete');
         var sectionID = req.body.sectionId;
         //find neume by ID
         mongoose.model('section').findById(sectionID, function(err, section) {
@@ -543,7 +532,6 @@ var uploadCSV = multer({
 // (for all 4 file types not just csv lol)
 router.route('/imageCSV')
     .post(uploadCSV, function(req, res) {
-        logger.error('/imageCSV');
 
         var fileType = req.body.fileType;
         logger.info(fileType); //This is docx
@@ -558,7 +546,6 @@ router.route('/imageCSV')
             //1. I need to upload the excel file here
             logger.info(originalFileName);
             node_xj = require("xls-to-json");
-            logger.error('first');
             var unzip = require('unzipper');
             var fs = require("fs");
             try {
@@ -573,7 +560,6 @@ router.route('/imageCSV')
             var workbook = XLSX.readFile(req.file.path);
             var sheet_name_list = workbook.SheetNames;
             result = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-            logger.error(result);
 
 
             let workbook_firstRow = XLSX.readFile(req.file.path, {
@@ -912,7 +898,6 @@ router.route('/imageCSV')
                     logger.error(err);
                 } else {
                     var fs = require('fs');
-                    logger.error('second?');
 
                     //2. I need to unzip the file and add the unzipped content to a directory
                     var unzip = require('unzipper');
@@ -1348,8 +1333,6 @@ router.route('/imageCSV')
 
 router.route('/csvProject')
     .post(function(req, res) {
-
-        logger.error('/csvProject');
 
         var IdOfProject = req.body.IdOfProject;
         var nameOfProject = req.body.projectName;

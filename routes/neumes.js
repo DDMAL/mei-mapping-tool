@@ -58,7 +58,6 @@ router.route('/cancel')
 router.route('/user')
     //  GET all neumes
     .get(function(req, res, next) {
-        logger.error('neume /user');
         //  retrieve all neumes from Mongo
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
@@ -120,7 +119,6 @@ router.route('/about')
 router.route('/')
     //  GET all neumes
     .get(function(req, res, next) {
-        logger.error('.route(/) neumes.js');
         //  retrieve all neumes from Monogo
         mongoose.model('neume').find({}, function(err, neumes) {
             if (err) {
@@ -146,7 +144,6 @@ router.route('/')
 
     //  POST a new neume
     .post(function(req, res) {
-        logger.error('/.post numes/js');
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         var name = req.body.name;
         var folio = req.body.folio;
@@ -274,7 +271,6 @@ router.get('/new', function(req, res) {
 // the put function gets called when you add a new neume
 router.route('/:id/editImage')
     .get(function(req, res) {
-        logger.error('/:id/editImage neume.js');
         //search for the neume within Mongo
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
@@ -311,7 +307,6 @@ router.route('/:id/editImage')
     })
     //PUT to update a neume by ID
     .put(function(req, res) {
-        logger.error('put /:id/editImage');
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var name = req.body.name;
         var folio = req.body.folio;
@@ -394,7 +389,6 @@ router.route('/:id/editImage')
     })
     //DELETE an image by ID
     .delete(function(req, res) {
-        logger.error('delete /:id/editImage');
         //imageDeleted is the path of the image we want to delete.
         var imageToDelete = req.body.imageDeleted;
         //logger.log(imageToDelete);
@@ -439,7 +433,6 @@ router.route('/:id/editImage')
 router.route('/:id/deleteImage')
     //DELETE an image by ID
     .delete(function(req, res) {
-        logger.error('/:id/deleteImage');
         //imageDeleted is the path of the image we want to delete.
         var imageToDelete = req.body.imageDeleted; //this seems to be undefined.
 
@@ -501,11 +494,9 @@ router.route('/:id/deleteImage')
 router.param('id', function(req, res, next, id) {
     //logger.log('validating ' + id + ' exists');
     //find the ID in the Database
-    logger.error('param id neume.js');
     mongoose.model('neume').findById(id, function(err, neume) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            logger.error('hiiii');
             logger.log(id + ' was not found');
             res.status(404)
             var err = new Error('Not Found');
@@ -534,7 +525,6 @@ router.param('id', function(req, res, next, id) {
 
 router.route('/:id')
     .get(function(req, res) {
-        logger.error('/:id get!');
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
                 logger.error('GET Error: There was a problem retrieving: ' + err);
@@ -598,7 +588,6 @@ router.route('/:id/edit')
     })
     //PUT to update a neume by ID
     .put(function(req, res) {
-        logger.error('put /:id/edit');
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var name = req.body.name;
         var folio = req.body.folio;
@@ -648,7 +637,6 @@ router.route('/:id/edit')
 
     //DELETE a neume by ID
     .delete(function(req, res) {
-        logger.error(':id/edit .delete neume.js');
         //find neume by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
             var ID_project = neume.project;
