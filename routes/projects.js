@@ -66,11 +66,11 @@ router.route('/')
                             //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                             html: function() {
                                 logger.debug(userFinal);
-                                res.render('projects/index', {
+                                res.render('projects/projectindex', {
                                     title: 'Projects',
                                     "projects": projects,
-                                    "users": userFinal,
-                                    "allProject": projectsAll
+                                    "user": userFinal,
+                                    "other": projectsAll
                                 });
                             },
                             //JSON response will show all projects in JSON format
@@ -232,6 +232,8 @@ router.param('id', function(req, res, next, id) {
     });
 });
 
+// DEPRICATED //
+/*
 router.route('projects/:id/edit')
     //GET the individual project by Mongo ID
     .get(function(req, res) {
@@ -336,6 +338,7 @@ router.route('projects/:id/edit')
     });
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
+// DEPRICATED??
 router.route('/projects')
     //GET all projects
     .get(function(req, res, next) {
@@ -596,6 +599,7 @@ router.route('/project/:id/edit')
         });
     });
 
+*/
 /* Delete dropzone images. */
 router.route('/deleteImageDropzone')
     //DELETE an image by ID
@@ -719,15 +723,15 @@ router.route('/:id') //This is where the classifier would be
                             res.format({
                                 html: function() {
 
-                                    res.render('projects/show', {
+                                    res.render('projects/showproject', {
                                         "projectdob": projectdob,
                                         "project": project,
                                         "neumes": neumeFinal,
-                                        "users": userFinal,
+                                        "user": userFinal[0],
                                         "sections": sections,
                                         "neumeSections": neumeSectionArray,
-                                        "positionArray": positionArray
-
+                                        "positionArray": positionArray,
+                                        "owned": true
                                     });
                                 },
                                 json: function() {
@@ -776,10 +780,12 @@ router.route('/public/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('neumes/show', {
+                                res.render('projects/showproject.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
-                                    "neumes": neumeFinal
+                                    "neumes": neumeFinal,
+                                    "user": -1,
+                                    "owned": false
                                 });
                             },
                             json: function() {
@@ -815,7 +821,11 @@ router.route('/forkPublic/:id') //This is where the classifier would be
                     mongoose.model('User').find({
                         _id: req.session.userId
                     }, function(err, users) {
-                        userFinal = users;
+                        
+                        if (users.length > 1) {
+                            logger.error("Multiple users found for the same user ID");
+                        }
+                        userFinal = users[0];
                         // logger.info(userFinal);//This works!!!
 
                         // logger.info(neumeFinal);
@@ -828,11 +838,12 @@ router.route('/forkPublic/:id') //This is where the classifier would be
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/showFork.jade', {
+                                res.render('projects/showproject.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
-                                    "users": userFinal
+                                    "user": userFinal,
+                                    "owned": false
                                 });
                             },
                             json: function() {

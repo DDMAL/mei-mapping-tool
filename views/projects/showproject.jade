@@ -1,0 +1,395 @@
+doctype html
+html
+  include ../header.jade
+  include ./projectmixins.jade
+  head
+   title Cress - MEI Mapping Tool 🎵 
+   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  script(src='/javascripts/popup.js', type='text/javascript')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+
+   script(src='/javascripts/dropzone.js')
+   link(rel='stylesheet', href='/stylesheets/dropzone.css')
+   script(type='text/javascript' src='/javascripts/ace.js')
+   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/stylesheets/column.css')
+   link(rel='stylesheet', href='/stylesheets/collapsible.css')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+
+   script(src='/javascripts/dropzone.js')
+   link(rel='stylesheet', href='/stylesheets/dropzone.css')
+   script(type='text/javascript' src='/javascripts/ace.js')
+   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
+   link(rel='stylesheet', href='/stylesheets/style.css')
+   link(rel='stylesheet', href='/stylesheets/column.css')
+   link(rel='stylesheet', href='/stylesheets/collapsible.css')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+   link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+   script(src='/javascripts/dropzone.js', type='text/javascript')
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+  script(src='/javascripts/dropzone.js', type='text/javascript')
+  script(src='/javascripts/worker-html.js', type='text/javascript')
+   
+   script(src='/javascripts/worker-html.js', type='text/javascript')
+   link(rel='stylesheet', href='/stylesheets/buttonNeume.css')
+   link(rel='stylesheet', href='/stylesheets/header.css')
+
+  link(href='/stylesheets/popup.css', type='text/css', rel='stylesheet')
+  link(href='/stylesheets/buttonNeume.css', type='text/css', rel='stylesheet')
+  link(rel='stylesheet', href='/stylesheets/editor.css')
+  link(rel='stylesheet', href='/stylesheets/tooltip.css')
+  link(rel="icon" href="/images/Favicon.png")
+  script(src='/javascripts/pageReload.js', type='text/javascript')
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel='stylesheet', href='/stylesheets/tooltip.css')
+  link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
+  link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
+  script(src='/javascripts/scroll-keep.js', type='text/javascript')
+  link(rel='stylesheet', href='/stylesheets/boxSection.css')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+  link(rel='stylesheet', href='/stylesheets/dropdown.css')
+  script(src='/javascripts/dropdown.js', type='text/javascript')
+
+div.navigation.navbar(id = "myHeader").sticky
+  +showphead
+              
+//Title section : Adding a neume button and changing the title name                
+div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
+  body
+  if (owned)
+    div
+     // Add New Neume Modal
+     #myModal.modal
+       // Modal content
+       .modal-content
+         span.close ×
+         include newNeume.jade
+
+     .modal(id = "upload")
+       .modal-content
+         span.close x
+         include upload.jade
+
+     .modal(id = "imageCSV")
+       .modal-content
+         span.close x
+         include imageCSV.jade
+
+       // Add New Neume Modal
+     #modalSection.modal
+       // Modal content
+       .modal-content
+         span.close ×
+         include section.jade
+     button(id = "modalSectionButton" type = "button" hidden)
+
+     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+       
+       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
+       input(type='hidden',value='PUT',name='_method')
+        
+       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
+         i.fa.fa-pencil
+         //span.tooltiptext You can directly change the project name on the page.   
+           br 
+           t When you are satisfied with the new project name, click here!
+     button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton' style = "font: 14px Avenir, sans-serif; width : 4%; display : none" onclick = "initializeModal('upload', 'uploadButton');" )
+       i.fa.fa-upload
+       | 
+
+     button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 70px" onclick = "editButtons()")
+       i.fa.fa-caret-down.fa-lg
+       |  Edit
+     div.editButtons(style = "width : 125px; height : 175px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 10px; top : 140px; z-index : 9000; padding : 10px; display : none")
+
+
+      //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
+      form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                    input(type='text',value='#{project.name}', name='projectName' hidden)
+                    button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+                      i.fa.fa-download
+                      |  CSV 
+                      //span.tooltiptext To download the project as a .csv file, click here!
+      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
+       i.fa.fa-upload
+       |  Upload
+
+      button(class = 'button' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px; display : block; margin-left : 0px;" type = "button")
+       | Section
+      button(type = 'button' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" onclick = "buttonSaveLoad()" id = "buttonSavePosition" disabled)
+       i.fa.fa-save
+       |   Save
+
+    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
+       i(id = "compress").fa.fa-caret-up.fa-lg
+       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
+       span.tooltiptext To collapse/uncollapse neumes, click here!
+
+    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px") 
+      i.fa.fa-undo.fa-sm &nbsp;
+      span.tooltiptext To undo a position change, click here!
+      br
+
+    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
+      i.fa.fa-plus.fa-sm
+      span.tooltiptext To add a new neume, click here!
+  
+  if (!owned)
+    form()
+      
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; font: 35px Avenir, sans-serif; width : 60%; margin : 0px padding : 0px")
+    form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+                      input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                      input(type='text',value='#{project.name}', name='projectName' hidden)
+                      button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                        i.fa.fa-download
+                        |  CSV 
+                        span.tooltiptext To download the project as a .csv file, click here!
+    if (user != -1)
+      form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
+              input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+              input(type='text',value='#{project.name}', name='projectName' hidden)
+              button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                i.fa.fa-code-fork
+                |  Fork
+                span.tooltiptext To save the project as your own, click here!
+    
+    button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "collapseAll();" id = "buttonSavePosition")
+      i(id = "compress").fa.fa-caret-up.fa-sm 
+      i(id = "expand" style = "display : none").fa.fa-caret-down.fa-sm 
+
+  //Four Equal Columns
+  .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
+    .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+    .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+    .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+    .column(style='background-color:#afcfee; width : 35% ; right : 110px')
+      h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
+
+  div(id = "menu")
+   //Neume section : 4 components added for each new neume.   
+  .bodyStyle(style = "position : relative")
+    .roundedCorners(style = "position : relative; display : inline-block" id = "roundedCorners")
+      ul(id = "sortable1" class = "connectedSortable")
+          - each neume in neumes
+              if (owned)
+                // Edit Images Modal
+                .modal(id = "editImages#{neume.id}")
+                  Modal content
+                  .modal-content
+                    span.close x
+                    h4(style = "font:30px Avenir, sans-serif;") Edit Images
+                    include editNeume.jade
+                div(class="droptarget")
+                div(draggable="true"  id="dragtarget")
+              div.ui-state-default(id = "drop#{neume.id}")
+                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}  #{neume.source}
+                form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded'
+                  type = owned ? "" : "hidden")
+                    .column
+                       .card
+                         .panel.panel-default
+                           .panel-body
+                              div(id = "image#{neume.id}" type = owned ? "" : "hidden")
+                                  button(style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type= owned ? "button" : "hidden" class = "button button1" class = "tooltip") Edit
+                                    span.tooltiptext To delete images or add more images to the neume, click here!   
+
+                    // Name, Folio and Description Section
+                    .column(style = "width : 20%;")
+                      .height
+                       .card(style = "overflow : hidden; text-align : left")
+                            input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+
+                            input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
+                            .column
+                             p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
+                            .column 
+                             input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute")
+                             br
+                             //Add folio for the neumes
+
+                            p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
+                            .column
+                             input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
+                             br
+                             br
+                             br
+
+
+                    // Classification Section
+                    .column(style = "width : 20%")
+                       .card
+                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
+                          
+
+                    // Mei snippet Section
+                    .column(style = "width : 35%;")
+                       .card 
+                        p(class = 'tooltipMEI')
+                         span.tooltiptext 
+                           | How the pitches should be encoded :
+                           br 
+                           | &lt;neume&gt; 
+                           br
+                           | &nbsp;&lt;nc/&gt; 
+                           br
+                           | &nbsp;&lt;nc intm="1S"/&gt; 
+                           br
+                           | &lt;/neume&gt;
+                         .panel.panel-default
+                          .panel-body
+                               div(id = "#{neume.id}" style = "height : 100px;")
+                                 p 
+                                textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
+                            label.switch
+                              input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
+                              span.slider.round
+                              input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
+                      +submitchangesmix(neume)
+                  +deletemix(neume)
+                      form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
+                           input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
+                           input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
+
+
+                  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+                  script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+                  script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
+                  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+
+
+              script(type="text/javascript" src="../../javascripts/showprojectscript.js")
+              script.
+                //For each neume in the project :
+                //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
+                var editor#{neume.id} = ace.edit('#{neume.id}');
+                var textarea = document.getElementById("textarea#{neume.id}");
+                //console.log(textarea);
+                editor#{neume.id}.getSession().on("change", function() {
+                    textarea = document.getElementById("textarea#{neume.id}");
+                    textarea.value = editor#{neume.id}.getSession().getValue();
+                });
+                editor#{neume.id}.setTheme("ace/theme/monokai");
+                editor#{neume.id}.session.setMode("ace/mode/xml");
+                var meiString = textarea.value;
+                editor#{neume.id}.setValue(meiString);
+
+                function check#{neume.id}() {
+                    if (document.getElementById('toggle#{neume.id}').checked) {
+                        document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                        document.getElementById('toggle#{neume.id}').checked = true;
+                    } else {
+                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                    }
+                }
+
+                function load#{neume.id}() {
+                    if (document.getElementById('toggle#{neume.id}').checked) {
+                        document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
+                        document.getElementById('toggle#{neume.id}').checked = true;
+                    } else {
+                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
+                    }
+                }
+
+                // I have no idea why, but the modal initialization can't be in the external script file
+                // otherwise it only works for the last element in the 
+                // each neume in neumes loop :(
+
+                //Modals event listeners for every modal
+                window.addEventListener('load', function() {
+                    initializeModal('myModal', 'myBtn');
+                    initializeModal('DeleteModal#{neume.id}', 'deleteNeumeButton#{neume.id}');
+                    initializeModal('modalSection', 'modalSectionButton');
+                    initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
+                    initializeModal('modalSection', 'sectionButton');
+                    initializeModal('uploadCSV', 'uploadCSVButton');
+                    initializeModal('imageCSV', 'imageCSVButton');
+                });
+
+                //Modals event listeners for every modal
+                window.addEventListener('load', function() {
+                    initializeModal('myModal', 'myBtn');
+                    initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                });
+
+                var neume = !{JSON.stringify(neume)};
+                var project = !{JSON.stringify(project)};
+
+                initNeume(neume, project);
+                
+                  <!-- Cookie Consent by https://www.TermsFeed.com -->
+if (owned)
+  div(id = "section")
+     ul
+          - each section in sections
+            div(id = "section#{section._id}" class = "#{section._id}" style = "border-color : black; border-style : solid; border-size : 0.5px; border-radius : 10px; margin : 10px; margin-top : 30px").ui-state-default
+                p(style = "margin : 10px; font : 20px Avenir, sans-serif; " id = "#{section._id}") #{section.name}
+                p(id = "sectionName#{section._id}")
+                form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
+                          input(type='hidden',value='DELETE',name='_method')
+                          input(type='text', value = "#{section._id}", name='sectionId' id = "idForSection" hidden)
+                          button(style = "float : left; right : 10px" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}").
+                              x
+                          .modal(id = "DeleteModal#{section._id}").deleteSection
+                            // Modal content
+                            .modal-content.deleteSection
+                              span.close.deleteSection ×
+                              h4(style = "text-align : center").deleteSection Are you sure you want to delete this section? 
+                              br
+                              h3(style = "text-align : center").deleteSection #{section.name}
+                              p
+                               button(type='submit' class = "button button3DeleteImage deleteSection") Yes
+                               button(type = "button" class = "button button4" class = "NoBtnSection deleteSection" id = "NoButton#{section._id}") No
+                               br
+                               br
+                form(action='/updateSection',method='post',enctype='application/x-www-form-urlencoded')
+
+                    input(type='text', name='neumeSectionIds' id = "inputArraySection#{section._id}" hidden)
+                    input(type='text', name='SectionID' id = "sectionID#{section._id}" hidden)
+
+                    button(id = "buttonSection#{section._id}" type = 'submit' class = 'button button2CSVUpdate' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
+                      i.fa.fa-pencil
+                      //span.tooltiptext To download the project as a .csv file, click here!
+            script.
+              var section = !{JSON.stringify(section)};
+              initSection(section);          
+
+script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
+script.
+
+  document.addEventListener('DOMContentLoaded', function () {
+  cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","change_preferences_selector":"#changePreferences","language":"en","website_name":"Cress"});
+  });
+  insertAfter(document.getElementById("section"), document.getElementById("roundedCorners"));
+  function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+   var neumeArray = [];
+<noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
+<!-- End Cookie Consent -->                                          
+                                       

@@ -28,7 +28,7 @@ router.use(methodOverride(function(req, res) {
     }
 }))
 
-//  Route for the cancel button
+//  Route for the cancel button on editNeume and newNeume
 router.route('/cancel')
     //  GET all neumes
     .get(function(req, res, next) {
@@ -53,7 +53,8 @@ router.route('/cancel')
         })
     })
 
-//  Route for the users
+// This loads the projects page when you're NOT logged in
+// This only gets called if you're a public user
 router.route('/user')
     //  GET all neumes
     .get(function(req, res, next) {
@@ -62,13 +63,16 @@ router.route('/user')
             if (err) {
                 return logger.error(err)
             } else {
+                logger.error(projects);
                 //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
                     //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function() {
-                        res.render('neumes/user', {
+                        res.render('projects/projectindex', {
                             title: 'Project',
-                            "projects": projects
+                            "other": projects,
+                            "user": [],
+                            "projects": []
                         })
                     },
                     //  JSON response will show all neumes in JSON format
@@ -80,7 +84,7 @@ router.route('/user')
         })
     })
 
-//  Route for public user's about page
+//  Route for public user's about page, only called if you're not logged in
 router.route('/about')
     //  GET all neumes
     .get(function(req, res, next) {
@@ -93,9 +97,10 @@ router.route('/about')
                 res.format({
                     //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
                     html: function() {
-                        res.render('neumes/about', {
+                        res.render('about', {
                             title: 'About',
-                            "projects": projects
+                            "projects": projects,
+                            "loggedin": false
                         })
                     },
                     //  JSON response will show all neumes in JSON format
@@ -109,6 +114,8 @@ router.route('/about')
 
 //  build the REST operations at the base for neumes
 //  this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
+// there isn't any jade file available for the get function
+// the .post function gets called when you upload a new neume though?
 router.route('/')
     //  GET all neumes
     .get(function(req, res, next) {
@@ -250,6 +257,7 @@ router.route('/')
     });
 
 /* GET New neume page. */
+// neumes/new isn't a jade file, and this doesn't seem to ever be called
 router.get('/new', function(req, res) {
     res.render('neumes/new', {
         title: 'Add New Neume'
@@ -257,6 +265,10 @@ router.get('/new', function(req, res) {
 });
 
 /* Update edit images. */
+// called in editNeume.jade
+// this seems to be attached to a form, and so doesn't actually ever get called?
+// also neume/edit doesn't exist, so I'm assuming this is depricated
+// the put function gets called when you add a new neume
 router.route('/:id/editImage')
     .get(function(req, res) {
         //search for the neume within Mongo
@@ -417,6 +429,7 @@ router.route('/:id/editImage')
     });
 
 /* Update edit images. */
+// called when you click x on an image
 router.route('/:id/deleteImage')
     //DELETE an image by ID
     .delete(function(req, res) {
@@ -514,16 +527,18 @@ router.route('/:id')
     .get(function(req, res) {
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
-                logger.log('GET Error: There was a problem retrieving: ' + err);
+                logger.error('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //logger.log('GET Retrieving ID: ' + neume._id);
                 var neumedob = neume.dob.toISOString();
                 neumedob = neumedob.substring(0, neumedob.indexOf('T'))
                 res.format({
                     html: function() {
-                        res.render('neumes/show', {
+                        res.render('projects/showproject.jade', {
                             "neumedob": neumedob,
-                            "neume": neume
+                            "neumes": neume,
+                            "user": -1,
+                            "owned": false
                         });
                     },
                     json: function() {
@@ -535,6 +550,9 @@ router.route('/:id')
     });
 //The new projectID should be here.
 
+//again, the get function seems to be broken for the same reason
+// although the delete definitely gets called when you delete a neume,
+// and the put one also works I think
 router.route('/:id/edit')
     //GET the individual neume by Mongo ID
     .get(function(req, res) {
@@ -638,7 +656,7 @@ router.route('/:id/edit')
                             if (err) {
                                 return logger.error(err);
                             } else {
-                                logger.log("worked");
+                                logger.error('worked!');
                             }
                         });
                         //Returning success messages saying it was deleted

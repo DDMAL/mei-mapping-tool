@@ -13,7 +13,7 @@ body
  h6(style = "font: 16px Avenir, sans-serif; text-align: left;") The first column needs to be the column with the names, description and classification. Even if a field is missing, all the columns should be added in the right order. There should be no extra column added at the beginning or at the end of the document.
 
 
- form(action='/uploadCSV',method='post',enctype="multipart/form-data")
+ form(action='/upload',method='post',enctype="multipart/form-data")
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   br
