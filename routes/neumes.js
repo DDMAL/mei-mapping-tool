@@ -58,6 +58,7 @@ router.route('/cancel')
 router.route('/user')
     //  GET all neumes
     .get(function(req, res, next) {
+        req.session.userId = -1;
         //  retrieve all neumes from Mongo
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
@@ -84,40 +85,11 @@ router.route('/user')
         })
     })
 
-//  Route for public user's about page, only called if you're not logged in
-router.route('/about')
-    //  GET all neumes
-    .get(function(req, res, next) {
-        //retrieve all neumes from Mongo
-        mongoose.model('project').find({}, function(err, projects) {
-            if (err) {
-                return logger.error(err)
-            } else {
-                //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                res.format({
-                    //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
-                    html: function() {
-                        res.render('about', {
-                            title: 'About',
-                            "projects": projects,
-                            "loggedin": false
-                        })
-                    },
-                    //  JSON response will show all neumes in JSON format
-                    json: function() {
-                        res.json(projects)
-                    }
-                })
-            }
-        })
-    })
-
 //  build the REST operations at the base for neumes
 //  this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
 // there isn't any jade file available for the get function
 // the .post function gets called when you upload a new neume though?
 router.route('/')
-
     //  POST a new neume
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms

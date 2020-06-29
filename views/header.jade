@@ -7,10 +7,7 @@ mixin projecthead
         nav
           ul
               li
-                if (loggedin)
-                  a(href='/neumes/about') About
-                else
-                  a(href='/about') About
+                a(href='/about') About
               li
                 if (loggedin)
                   a(href='/projects') Projects
@@ -33,10 +30,7 @@ mixin indexhead
         nav
           ul
               li
-                if (user.length > 0)
-                  a(href='/about') About
-                else
-                  a(href='/neumes/about') About
+                a(href='/about') About
               li
                 if (user.length > 0)
                   a(href='/projects') Projects
@@ -58,10 +52,7 @@ mixin showphead
          nav
            ul
              li
-               if (user != -1)
-                 a(href='/about') About
-               else
-                 a(href='/neumes/about') About
+               a(href='/about') About
              li
                if (user != -1)
                  a(href='/projects') Projects

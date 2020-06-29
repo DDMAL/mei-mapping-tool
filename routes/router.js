@@ -200,17 +200,26 @@ router.post('/reset/:token', function(req, res) {
 /* GET about page. */
 router.route('/about')
     .get(function(req, res) {
-        mongoose.model('User').find({
-            _id: req.session.userId
-        }, function(err, users) {
-            userFinal = users;
-        });
-        mongoose.model('User').find({
-            _id: req.session.userId
-        }, function(err, users) {
-            userFinal = users;
-            // logger.info(userFinal);//This works!!!
-        });
+        var logged_in;
+        logger.error('here it is');
+        logger.error(req.session.userId);
+        if (req.session.userId === -1) {
+            userFinal = -1;
+            logged_in = false;
+        }
+        else {
+            logged_in = true;
+            mongoose.model('User').find({
+                _id: req.session.userId
+            }, function(err, users) {
+                userFinal = users;
+            });
+            mongoose.model('User').find({
+                _id: req.session.userId
+            }, function(err, users) {
+                userFinal = users;
+            });
+        }
         //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
         res.format({
             //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -219,7 +228,7 @@ router.route('/about')
                 res.render('about.jade', {
                     title: 'About',
                     "users": userFinal,
-                    "loggedin": true
+                    "loggedin": logged_in
                 });
             },
             //JSON response will show all projects in JSON format
@@ -1674,6 +1683,7 @@ router.route('/deleteCollab')
 //POST route for updating data
 router.post('/', function(req, res, next) {
     var editor = false;
+    req.session.userId = -1;
 
     // confirm that user typed same password twice
     if (req.body.password !== req.body.passwordConf) {
