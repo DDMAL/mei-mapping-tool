@@ -271,7 +271,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                               input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
                       +submitchangesmix(neume)
                   +deletemix(neume)
-                      form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
+                      form(action='/projects/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
                            input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
                            input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
 
