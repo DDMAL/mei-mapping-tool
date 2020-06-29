@@ -1,0 +1,5 @@
+.roundedCorners {
+  border: 2px black;
+  border-radius: 25px;
+  width : 100%;
+}

@@ -1,0 +1,75 @@
+doctype html
+html
+  head
+   link(rel="icon" href="/images/Favicon.png")
+  .column
+    title  Cress - MEI Mapping Tool 🎵 
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel="stylesheet" href="/stylesheets/modal.css")
+    link(rel="images" href="/images/CF-005 (1).png")
+    link(rel="icon" href="/images/Favicon.png")
+  div
+    header.sticky
+        // our main logo
+        a#logo(href='#')
+          span Cress - MEI Mapping Tool 🎵 
+        // main navigation links
+        nav
+          ul
+              li
+                a(href='/neumes/about') About
+              li
+                a(href='/neumes/user') Projects
+              li
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li
+                a(href='/') Log-in
+              li
+                a(href='#') Public User
+
+    // the content
+    main
+      // hero content
+      .hero
+        // content for the hero
+        .hero-content
+
+          h1.hero-title 
+          h1.
+               #{title} 
+          p All of your mei-mapping projects, in one interface.
+
+          a(href='/neumes/about') Learn more
+          br
+          br
+          div     
+            // testimonials section
+            .site-section.site-section-secondary
+                 div#section
+                  .site-section-inside
+                    .section-header
+                      h2.projectHeader Projects
+                      ul
+                          - each project, i in projects
+                             button.collapsible(onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
+                             br
+                             br
+                             br
+
+              footer
+                //img(src='img/avatar.jpeg', alt='Footer Logo')
+                span
+                  | Cress - MEI Mapping Tool
+                  br
+                  | MIT License 2019
+
+
+            script(type='text/javascript' src='/javascripts/addProject.js')
+                      

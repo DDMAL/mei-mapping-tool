@@ -1,0 +1,84 @@
+doctype html
+//
+  Author: W3layouts
+  Author URL: http://w3layouts.com
+  License: Creative Commons Attribution 3.0 Unported
+  License URL: http://creativecommons.org/licenses/by/3.0/
+html
+  head
+    title Cress - MEI Mapping Tool 🎵 
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    // Custom Theme files
+    link(href='css/style.css', rel='stylesheet', type='text/css', media='all')
+    // web-fonts
+    link(href='//fonts.googleapis.com/css?family=Jura:400,300,500,600', rel='stylesheet', type='text/css')
+
+    script(src='/javascripts/reload.js', type='text/javascript')
+    script(src='https://npmcdn.com/js-alert/dist/jsalert.min.js')
+    link(href="popupS.css", rel="stylesheet", type='text/css')
+    link(rel="icon" href="/images/Favicon.png")
+
+  body
+   div#pageContainer(style = "position: relative; min-height: 94.5vh;")
+    h1 Cress - MEI Mapping Tool 🎵 
+    // main
+    .main
+      // login-profile
+      // login-profile
+      // signin-form
+      .w3
+        .signin-form.profile
+          h3 Login
+          .login-form
+            form(action='/', method='post')
+              input(type='text', name='logemail', placeholder='E-mail or Username', required='')
+              input(type='password', name='logpassword', placeholder='Password', required='')
+              .tp
+                input(type='submit', value='LOGIN NOW')
+                br
+                br
+                p
+                  a.btn.btn-link(href='/forgot') Forgot Password?
+                  br
+                  br
+
+              p
+                a(href='/neumes/user' class = "tooltip")  Continue as a public user to see the neumes ->
+      .agile
+        .signin-form.profile
+          h3 Register
+          .login-form
+            form#login(action='/', method='post', onsubmit='event.preventDefault(); validateMyForm();')
+              input(type='text', name='email', placeholder='E-mail', required='')
+              input(type='text', name='username', placeholder='Username', required='')
+              input#password(type='password', name='password', placeholder='Password', required='')
+              input#password_conf(type='password', name='passwordConf', placeholder='Confirm Password', required='')
+              label
+              input(type='submit', value='REGISTER')
+          p
+            a(href='https://github.com/DDMAL/mei-mapping-tool/blob/develop/LICENSE')  By clicking register, you agree to the terms and services
+      .clear
+      // //signin-form
+   
+      
+      //| © 2016 Register Login Widget . All rights reserved | Design by 
+       // a(href='http://w3layouts.com/', target='_blank') W3layouts
+
+     .copyright(style = "position : absolute; bottom : -50px;   left: 0; right : 0px; padding: 1rem; background-color: #efefef; text-align: center; margin : 0px")
+      | More information can be found on 
+      a(href = "https://github.com/DDMAL/mei-mapping-tool/wiki" style = "color : #0000EE") Github
+
+    script(type='text/javascript').
+      var passWordField = document.getElementById('password')
+      var passWordConfirmField = document.getElementById('password_conf')
+      var form = document.getElementById('login')
+      function validateMyForm(){
+      if(passWordField.value != passWordConfirmField.value){
+      alert("Passwords do not match. Please try again.");
+      } else {
+      form.submit()
+      }
+      }

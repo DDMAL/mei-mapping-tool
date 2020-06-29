@@ -1,0 +1,79 @@
+doctype html
+html
+  head
+    link(rel="icon" href="/images/Favicon.png")
+  .column
+    title  Cress - MEI Mapping Tool 🎵 
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel='stylesheet', type='text/css', media='all', href='stylesheets/profile.css')
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel='stylesheet', href='/stylesheets/textarea.css')
+    link(rel='shortcut icon', href='http://designshack.net/favicon.ico')
+    link(rel='icon', href='http://designshack.net/favicon.ico')
+    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
+    link(rel="stylesheet" href="/stylesheets/column.css")
+    //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
+    link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
+    link(rel="stylesheet" href="/stylesheets/modal.css")
+    link(rel="stylesheet" href="/stylesheets/buttonNeume.css")
+    link(rel="stylesheet" href="/stylesheets/reset.css")
+    script(type='text/javascript' src='/javascripts/modals.js')
+
+    
+    script(type='text/javascript', src='javascripts/jquery-1.10.2.min.js')
+
+    link(rel="stylesheet" href="/stylesheets/modal.css")
+
+    link(rel="images" href="/images/CF-005 (1).png")
+    //Column parameters
+  div
+    header
+        // our main logo
+        a#logo(href='#')
+          span Cress - MEI Mapping Tool 🎵 
+        // main navigation links
+        nav
+          ul
+              li
+                a(href='/neumes/about') About
+              li
+                a(href='/neumes/user') Projects
+              li
+                a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+              li
+                a(href='/') Log-in
+
+    // the content
+    main
+      // hero content
+      .hero
+          #w
+            #content.clearfix
+              #userphoto
+                img(src='images/avatar.png', alt='default avatar')
+              section#bio
+                br
+                h2  Forgot your password? 
+                h4  A reset link will be sent to your email.
+                br
+                p.activity
+                  block content
+                    form(method='POST')
+                      legend 
+                      .form-group
+                         label(for='email') Email : 
+                         input.form-control(type='text', name='email', autofocus)
+                      button.btn.btn-primary(type='submit' class = "button button2") Reset Password
+  footer
+    span
+      | Cress - MEI Mapping Tool |  Copyright © 2019

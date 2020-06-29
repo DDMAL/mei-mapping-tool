@@ -1,0 +1,98 @@
+
+head
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+	link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+	link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
+	script(src='/javascripts/dropzone.js', type='text/javascript')
+	script(src='/javascripts/worker-html.js', type='text/javascript')
+	script(src='/javascripts/rm_image_dropzone.js', type='text/javascript')
+
+block content
+	h4.
+		New Neume
+	form#formAddneume(name="addneume",method="post",action="/neumes")
+		link(href='/stylesheets/dropzone.css', rel='stylesheet')
+		div#dropzone-example.dropzone(method='post', action='/image' name="image" required)
+		.fallback
+		p Name: 
+			input#inputName(type="text", placeholder="ex. Punctum", name="name" required)
+
+		p Generic Name: 
+			input#inputGenericName(type="text", placeholder="ex. Generic Name", name="genericName")
+
+		p Source:
+			input#inputSource(type="text", placeholder="ex. Laon 239, Chartres 47", name="source")
+
+		p Folio:
+			input#inputfolio(type="text", placeholder="ex. 1/r3", name="folio")
+
+		p Description (Notes) :
+			input#inputDescription(type="text", placeholder="ex. Punctum", name="description")
+		p(hidden) Project:
+			input#inputProject(type = "text", placeholder = "project", name = "projectID",hidden) 
+			input#inputSection(type = "text", value = " ", name = "neumeSection",hidden)
+			input#inputSection(type = "text", value = " ", name = "neumeSectionName",hidden)  
+		p Classification:
+			input#inputClassification(type="text", placeholder="ex. neume.punctum", name="classification")
+
+		p MEI Snippet:
+			#editor(name = "aceEdit")
+			textarea#mei(name='mei', placeholder="ex. <neume>" style='display: none;')
+			p Put the MEI code under review?
+			label.switch1
+				input(type='checkbox' name = "review" id = "toggle" value = "Yes")
+				span.slider1.round1
+			p#URL(style = 'display:none;')
+			input#inputID(type="text", name="ID_project" style = "margin : 0px")
+		p
+			button#btnSubmit(type="submit" class = "button button5SubmitEdit") submit
+
+form(action='/neumes/cancel',method='post',enctype='application/x-www-form-urlencoded' id = "cancel")  
+	input(type='hidden',value='GET',name='_method')
+	button(type = "submit" id ="cancelButton" class = "button3CancelImage") Cancel
+
+		script.
+			var url = window.location.href;
+			var urlDOM = document.getElementById("URL").innerHTML = url;
+			var array = urlDOM.split("/");
+			var projectID = array[4];
+			console.log(projectID);
+			//console.log(array);
+			document.getElementById("inputID").value = projectID;
+			document.getElementById("inputID").style.visibility = "hidden";
+		
+		
+	//Add these lines to a javascript file:
+	script.
+		var editor = ace.edit("editor");
+		var textareaNew = $('#mei');
+		editor.getSession().on("change", function () {
+			textareaNew.val(editor.getSession().getValue());
+			localStorage.setItem("ace",textareaNew.val());
+		});
+		editor.setTheme("ace/theme/monokai");
+		editor.session.setMode("ace/mode/xml");//xml mode parsing
+
+
+		
+		var aceEditor = localStorage.getItem("ace");
+		Dropzone.autoDiscover = false;
+		var myDropzone = new Dropzone("#dropzone-example", {
+			maxFileSize: 10,
+			acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
+			addRemoveLinks: false,
+		});
+		myDropzone.on("success", function(file, serverResponse) {
+		      if(file.size > (1024 * 1024 * 10)) // not more than 5mb
+		        {
+		        this.removeFile(file); // if you want to remove the file or you can add alert or presentation of a message
+		        alert("The image uploaded is too large. You cannot upload an image bigger than 10 MB. You will be redirected to the main page.")
+		        document.getElementById("cancelButton").click();
+		        }
+		    });
+		myDropzone.on('removedfile', function (file) {
+		//Function from rm_image_dropzone.js to remove file from folder
+		//console.log(file);
+			});
