@@ -274,8 +274,7 @@ function initSection(section) {
         document.getElementById("DeleteModal" + section._id).style.display = 'none';
     };
     window.addEventListener('load', function() {
-        initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');
-
+        initializeModal('DeleteModal' + section._id, 'deleteNeumeButton' + section._id);
     });
     var idSection = document.getElementById("section" + section._id)
     $(idSection).sortable({
@@ -345,11 +344,13 @@ function initSection(section) {
     //For each element separated by a comma, append the child to the element #{section._id}, this is the p of the element
 
     var neumesInSection = section.neumeIDs;
-    var neumeArrays = neumesInSection.split(",");
-    console.log(neumesInSection);
-    neumeArrays.forEach(function(neume) {
-        document.getElementById("section" + section._id).appendChild(document.getElementById("drop" + neume));
-    })
+    if (neumesInSection.length > 0) {
+        var neumeArrays = neumesInSection.split(",");
+        console.log(neumesInSection);
+        neumeArrays.forEach(function(neume) {
+            document.getElementById("section" + section._id).appendChild(document.getElementById("drop" + neume));
+        })
+    }
 
     if (document.getElementById("sectionID" + section._id).value == "")
         document.getElementById("buttonSection" + section._id).disabled = true;
