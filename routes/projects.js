@@ -579,7 +579,6 @@ router.route('/:id/edit')
             }
         });
     });
-module.exports = router;
 
 //Update the sections to add neumes inside.
 router.route('/updateSection')
@@ -688,3 +687,39 @@ router.route('/section')
             }
         });
     });
+
+router.route('/sectionDelete')
+    .delete(function(req, res) {
+        var sectionID = req.body.sectionId;
+        //find neume by ID
+        mongoose.model('section').findById(sectionID, function(err, section) {
+            if (err) {
+                return logger.error(err);
+            } else {
+                logger.error(section);
+                //remove it from Mongo
+                section.remove(function(err, section) {
+                    if (err) {
+                        return logger.error(err);
+                    } else {
+                        //Returning success messages saying it was deleted
+                        res.format({
+                            //HTML returns us back to the main page, or you can create a success page
+                            html: function() {
+                                res.redirect("back");
+                            },
+                            //JSON returns the item with the message that is has been deleted
+                            json: function() {
+                                res.json({
+                                    message: 'deleted',
+                                    item: neume
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+module.exports = router;

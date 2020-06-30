@@ -6,6 +6,7 @@ html
    title Cress - MEI Mapping Tool 🎵 
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+   script(type="text/javascript" src="../../javascripts/showprojectscript.js")
   meta(name='viewport', content='width=device-width, initial-scale=1')
   script(src='/javascripts/popup.js', type='text/javascript')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
@@ -282,7 +283,6 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
 
-              script(type="text/javascript" src="../../javascripts/showprojectscript.js")
               script.
 
                 //For each neume in the project :
@@ -352,7 +352,7 @@ if (owned)
             div(id = "section#{section._id}" class = "#{section._id}" style = "border-color : black; border-style : solid; border-size : 0.5px; border-radius : 10px; margin : 10px; margin-top : 30px").ui-state-default
                 p(style = "margin : 10px; font : 20px Avenir, sans-serif; " id = "#{section._id}") #{section.name}
                 p(id = "sectionName#{section._id}")
-                form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
+                form(action='/projects/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
                           input(type='hidden',value='DELETE',name='_method')
                           input(type='text', value = "#{section._id}", name='sectionId' id = "idForSection" hidden)
                           button(style = "float : left; right : 10px" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}").
@@ -377,6 +377,7 @@ if (owned)
                     button(id = "buttonSection#{section._id}" type = 'submit' class = 'button button2CSVUpdate' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
                       i.fa.fa-pencil
                       //span.tooltiptext To download the project as a .csv file, click here!
+
              script.
               var section = !{JSON.stringify(section)};
               initSection(section);          

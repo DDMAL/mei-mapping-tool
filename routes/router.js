@@ -33,7 +33,6 @@ router.get('/', function(req, res, next) {
 var userFinal = []
 
 /*Forget Password Page*/
-
 router.get('/forgot', function(req, res) {
     User.findById(req.session.userId)
         .exec(function(error, user) {
@@ -242,39 +241,6 @@ router.route('/about')
 
 //global.userFinal = []; //The user needs to be added in all the routes
 
-router.route('/sectionDelete')
-    .post(function(req, res) {
-        logger.error('router post /sectionDelete');
-        var sectionID = req.body.sectionId;
-        //find neume by ID
-        mongoose.model('section').findById(sectionID, function(err, section) {
-            if (err) {
-                return logger.error(err);
-            } else {
-                //remove it from Mongo
-                section.remove(function(err, section) {
-                    if (err) {
-                        return logger.error(err);
-                    } else {
-                        //Returning success messages saying it was deleted
-                        res.format({
-                            //HTML returns us back to the main page, or you can create a success page
-                            html: function() {
-                                res.redirect("back");
-                            },
-                            //JSON returns the item with the message that is has been deleted
-                            json: function() {
-                                res.json({
-                                    message: 'deleted',
-                                    item: neume
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    });
 
 var multer = require('multer')
 var uploadCSV = multer({
