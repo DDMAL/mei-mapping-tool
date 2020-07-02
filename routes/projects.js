@@ -34,7 +34,6 @@ global.neumeSectionArray = []; //Array to keep the neumes in the section
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
     //GET all projects
-    //Get all the neumes from the database :
     .get(function(req, res, next) {
 
         projectIds = req.body._id;
@@ -182,14 +181,6 @@ router.route('/')
         })
     });
 
-/* GET New project page. */
-router.get('/new', function(req, res) {
-    res.render('projects/new', {
-        title: 'Add New project'
-    });
-    //Adding the new names lines
-});
-
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     //logger.info('validating ' + id + ' exists');
@@ -231,10 +222,8 @@ router.param('id', function(req, res, next, id) {
     });
 });
 
-/////ROUTE FOR THE ID!!!!!
-////////////////////////////
-/**************************/
-router.route('/:id') //This is where the classifier would be
+// route for the project when the user owns it
+router.route('/:id') 
     .get(function(req, res, next) {
         mongoose.model('project').findById(req.id, function(err, project) {
 
@@ -352,7 +341,8 @@ router.route('/:id') //This is where the classifier would be
         });
     });
 
-router.route('/public/:id') //This is where the classifier would be
+// route for a project logged out
+router.route('/public/:id')
     .get(function(req, res) {
         var projectName = req.body.projectName;
         logger.info(projectName);
@@ -405,7 +395,8 @@ router.route('/public/:id') //This is where the classifier would be
         });
     });
 
-router.route('/fork/:id') //This is where the classifier would be
+// route for a project when the user is logged in but doesn't own it
+router.route('/fork/:id')
     .get(function(req, res) {
         var projectName = req.body.projectName;
         logger.info(projectName);
@@ -463,6 +454,7 @@ router.route('/fork/:id') //This is where the classifier would be
         });
     });
 
+// route to edit a project
 router.route('/:id/edit')
     //GET the individual project by Mongo ID
     .get(function(req, res) {
@@ -586,7 +578,7 @@ router.route('/:id/edit')
         });
     });
 
-//Update the sections to add neumes inside.
+// Update the sections to add neumes inside.
 router.route('/updateSection')
     .post(function(req, res) {
         var neumeSectionIds = [];
@@ -627,7 +619,7 @@ router.route('/updateSection')
             })
     });
 
-// im not entirely sure what this does
+// save a neumes position (in a section or not)
 router.route('/savePosition')
     .post(function(req, res) {
 
@@ -661,6 +653,7 @@ router.route('/savePosition')
 
     });
 
+// route to make a section
 router.route('/section')
     .post(function(req, res) {
 
@@ -694,6 +687,7 @@ router.route('/section')
         });
     });
 
+// route to delete a section
 router.route('/sectionDelete')
     .delete(function(req, res) {
         var sectionID = req.body.sectionId;

@@ -53,10 +53,8 @@ router.route('/cancel')
         })
     })
 
-//  build the REST operations at the base for neumes
-//  this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
-// there isn't any jade file available for the get function
-// the .post function gets called when you upload a new neume though?
+// build the REST operations at the base for neumes
+// post function to create a new neume
 router.route('/')
     //  POST a new neume
     .post(function(req, res) {
@@ -173,10 +171,7 @@ router.route('/')
     });
 
 /* Update edit images. */
-// called in editNeume.jade
-// this seems to be attached to a form, and so doesn't actually ever get called?
-// also neume/edit doesn't exist, so I'm assuming this is depricated
-// the put function gets called when you add a new neume
+// put function to add a new neume
 router.route('/:id/editImage')
     //PUT to update a neume by ID
     .put(function(req, res) {
@@ -262,6 +257,7 @@ router.route('/:id/editImage')
     })
 
 /* Update edit images. */
+// route to delete an image in a neume
 // called when you click x on an image
 router.route('/:id/deleteImage')
     //DELETE an image by ID
@@ -323,7 +319,7 @@ router.route('/:id/deleteImage')
     });
 
 
-// route middleware to validate :id
+// route middleware to validate neume :id
 router.param('id', function(req, res, next, id) {
     //logger.log('validating ' + id + ' exists');
     //find the ID in the Database
@@ -357,9 +353,7 @@ router.param('id', function(req, res, next, id) {
 }); 
 //The new projectID should be here.
 
-//again, the get function seems to be broken for the same reason
-// although the delete definitely gets called when you delete a neume,
-// and the put one also works I think
+// put route to edit the neume information
 router.route('/:id/edit')
     //PUT to update a neume by ID
     .put(function(req, res) {

@@ -15,7 +15,7 @@ body
  h6(style = "font: 20px Avenir, sans-serif; text-align: left;") This upload might take 2 to 5 minutes, depending on the size of your file.
 
 
- form(action='/imageCSV',method='post',enctype="multipart/form-data")
+ form(action='/uploadFile',method='post',enctype="multipart/form-data")
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
                   br

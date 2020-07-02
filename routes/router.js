@@ -26,12 +26,208 @@ router.use(bodyParser.urlencoded({
     limit: '50mb',
     extended: true
 }))
-// GET route for reading data
+// load the index page, and flag that we're logged out
 router.get('/', function(req, res, next) {
     req.session.userId = -1;
     return res.render('index')
 })
 var userFinal = []
+
+//POST route for updating data
+router.post('/', function(req, res, next) {
+    var editor = false;
+    req.session.userId = -1;
+
+    // confirm that user typed same password twice
+    if (req.body.password !== req.body.passwordConf) {
+        var err = new Error('Passwords do not match. Try again');
+        alert(err, 'yad');
+        return res.redirect('back');
+    }
+
+    if (req.body.email &&
+        req.body.username &&
+        req.body.password &&
+        req.body.passwordConf) {
+
+        var userData = {
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password,
+            role: req.body.role,
+            bio: req.body.bio,
+            active: false
+        }
+        User.findOne({
+                $or: [{
+                    username: req.body.username
+                }, {
+                    email: req.body.email
+                }]
+            })
+            .exec(function(err, user) {
+                if (err) {
+                    return dialog.info("error");
+                } else {
+
+                    if (user == null) {
+                        //find the document by ID
+                        User.findById(req.session.userId)
+                            .exec(function(error, user) {
+                                //update it
+                                User.create(userData, function(err, user) {
+                                    if (err) {
+                                        res.send("There was a problem updating the information to the database: " + err);
+                                    } else {
+                                        async.waterfall([
+                                            function(done) {
+                                                crypto.randomBytes(30, function(err, buf) {
+                                                    var token = buf.toString('hex');
+                                                    done(err, token);
+                                                });
+                                            },
+                                            function(token, done) {
+
+                                                user.password = req.body.password;
+                                                user.activeToken = token;
+                                                user.active = true; //Change this afterwards.
+                                                user.resetActiveTokendExpires = Date.now() + 3600000; // 1 hour
+
+                                                user.save(function(err) {
+                                                    done(err, token, user);
+                                                });
+
+                                            },
+                                            function(token, user, done) {
+                                                const sgMail = require('@sendgrid/mail');
+                                                sgMail.setApiKey(SENDGRID_API_KEY);
+                                                const msg = {
+                                                    to: user.email,
+                                                    from: 'cress-noreply@demo.com',
+                                                    subject: 'Cress Confirmation Email',
+                                                    text: 'You are receiving this because you have created an account with Cress.\n\n' +
+                                                        'Please click on the following link, or paste this into your browser to complete the process and activate your account:\n\n' +
+                                                        'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
+                                                        'If you did not request this, please ignore this email and your account will be deleted automatically.\n',
+                                                    html: '<strong>You are receiving this because you have created an account with Cress. Please click on the following link, or paste this into your browser to complete the process and activate your account: http://' + req.headers.host + '/confirm/' + token + '  . If you did not request this, please ignore this email and your account will be deleted. </strong> ',
+                                                };
+                                                sgMail.send(msg);
+                                            }
+                                        ], function(err) {
+                                            if (err) return next(err);
+                                            res.redirect('/');
+                                        });
+                                        var err = 'Success! You can now log-in to Cress.';
+                                        return res.format({
+                                            html: function() {
+                                                res.render('errorLog', {
+                                                    "error": err,
+                                                });
+                                            },
+                                            json: function() {
+                                                res.json(err);
+                                            }
+                                        });
+                                    }
+                                })
+                            });
+                    } else {
+                        var err = new Error('Email/Username already taken. Please try again');
+                        return res.format({
+                            html: function() {
+                                res.render('errorLog', {
+                                    "error": err,
+                                });
+                            },
+                            json: function() {
+                                res.json(err);
+                            }
+                        });
+                    }
+                }
+            });
+
+
+
+    } else if (req.body.logemail && req.body.logpassword) {
+
+        User.authenticateByEmail(req.body.logemail, req.body.logpassword, function(error, user) {
+
+            if (error || !user) {
+                User.authenticateByUsername(req.body.logemail, req.body.logpassword, function(error, username) {
+                    logger.info(username); //This is undefined
+                    if (error || !username) {
+                        var err = new Error('Wrong email/username or password. Please try again.'); //When entering the right email/user/password, this is going on.
+                        return res.format({
+                            html: function() {
+                                res.render('errorLog', {
+                                    "error": err,
+                                });
+                            },
+                            json: function() {
+                                res.json(err);
+                            }
+                        });
+                    } else {
+                        if (username.active == false) {
+                            var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
+                            return res.format({
+                                html: function() {
+                                    res.render('errorLog', {
+                                        "error": err,
+                                    });
+                                },
+                                json: function() {
+                                    res.json(err);
+                                }
+                            });
+
+                        }
+
+                        req.session.userId = username._id;
+                        return res.redirect('/projects');
+                    }
+
+                });
+            } else {
+                if (user.role == "editor") {
+                    req.session.userId = user._id;
+                    return res.redirect('/projects');
+                }
+                if (user.active == false) {
+                    var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
+                    return res.format({
+                        html: function() {
+                            res.render('errorLog', {
+                                "error": err,
+                            });
+                        },
+                        json: function() {
+                            res.json(err);
+                        }
+                    });
+
+                }
+
+                req.session.userId = user._id;
+                return res.redirect('/projects');
+            }
+
+        });
+    } else {
+        var err = new Error('All fields are required.');
+        return res.format({
+            html: function() {
+                res.render('errorLog', {
+                    "error": err,
+                });
+            },
+            json: function() {
+                res.json(err);
+            }
+        });
+    }
+})
 
 /*Forget Password Page*/
 router.get('/forgot', function(req, res) {
@@ -72,6 +268,7 @@ router.get('/forgot', function(req, res) {
         });
 });
 
+// post forgot password page
 router.post('/forgot', function(req, res, next) {
     async.waterfall([
         function(done) {
@@ -201,7 +398,7 @@ router.post('/reset/:token', function(req, res) {
 router.route('/about')
     .get(function(req, res) {
         var logged_in;
-        logger.error(req.session.userId);
+        // see if the user is logged in
         if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
             userFinal = -1;
             logged_in = false;
@@ -239,9 +436,7 @@ router.route('/about')
 
     });
 
-//global.userFinal = []; //The user needs to be added in all the routes
-
-
+// necessary stuff for file IO
 var multer = require('multer')
 var uploadCSV = multer({
     dest: 'exports/'
@@ -265,9 +460,8 @@ var uploadCSV = multer({
     })
 }).single('fileImage');
 
-// this is the function that seems to be called when uploading a file
-// (for all 4 file types not just csv lol)
-router.route('/imageCSV')
+// route for uploading a file, csv xlsx etc
+router.route('/upladFile')
     .post(uploadCSV, function(req, res) {
 
         var fileType = req.body.fileType;
@@ -1068,7 +1262,8 @@ router.route('/imageCSV')
 
     });
 
-router.route('/csvProject')
+// route for downloading the csv for a project
+router.route('/downloadCSV')
     .post(function(req, res) {
 
         var IdOfProject = req.body.IdOfProject;
@@ -1118,6 +1313,7 @@ router.route('/csvProject')
 
     });
 
+// route for forking someones project
 router.route('/fork')
     .post(function(req, res) {
 
@@ -1539,201 +1735,6 @@ router.route('/deleteCollab')
             }
         });
     });
-//POST route for updating data
-router.post('/', function(req, res, next) {
-    var editor = false;
-    req.session.userId = -1;
-
-    // confirm that user typed same password twice
-    if (req.body.password !== req.body.passwordConf) {
-        var err = new Error('Passwords do not match. Try again');
-        alert(err, 'yad');
-        return res.redirect('back');
-    }
-
-    if (req.body.email &&
-        req.body.username &&
-        req.body.password &&
-        req.body.passwordConf) {
-
-        var userData = {
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password,
-            role: req.body.role,
-            bio: req.body.bio,
-            active: false
-        }
-        User.findOne({
-                $or: [{
-                    username: req.body.username
-                }, {
-                    email: req.body.email
-                }]
-            })
-            .exec(function(err, user) {
-                if (err) {
-                    return dialog.info("error");
-                } else {
-
-                    if (user == null) {
-                        //find the document by ID
-                        User.findById(req.session.userId)
-                            .exec(function(error, user) {
-                                //update it
-                                User.create(userData, function(err, user) {
-                                    if (err) {
-                                        res.send("There was a problem updating the information to the database: " + err);
-                                    } else {
-                                        async.waterfall([
-                                            function(done) {
-                                                crypto.randomBytes(30, function(err, buf) {
-                                                    var token = buf.toString('hex');
-                                                    done(err, token);
-                                                });
-                                            },
-                                            function(token, done) {
-
-                                                user.password = req.body.password;
-                                                user.activeToken = token;
-                                                user.active = true; //Change this afterwards.
-                                                user.resetActiveTokendExpires = Date.now() + 3600000; // 1 hour
-
-                                                user.save(function(err) {
-                                                    done(err, token, user);
-                                                });
-
-                                            },
-                                            function(token, user, done) {
-                                                const sgMail = require('@sendgrid/mail');
-                                                sgMail.setApiKey(SENDGRID_API_KEY);
-                                                const msg = {
-                                                    to: user.email,
-                                                    from: 'cress-noreply@demo.com',
-                                                    subject: 'Cress Confirmation Email',
-                                                    text: 'You are receiving this because you have created an account with Cress.\n\n' +
-                                                        'Please click on the following link, or paste this into your browser to complete the process and activate your account:\n\n' +
-                                                        'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
-                                                        'If you did not request this, please ignore this email and your account will be deleted automatically.\n',
-                                                    html: '<strong>You are receiving this because you have created an account with Cress. Please click on the following link, or paste this into your browser to complete the process and activate your account: http://' + req.headers.host + '/confirm/' + token + '  . If you did not request this, please ignore this email and your account will be deleted. </strong> ',
-                                                };
-                                                sgMail.send(msg);
-                                            }
-                                        ], function(err) {
-                                            if (err) return next(err);
-                                            res.redirect('/');
-                                        });
-                                        var err = 'Success! You can now log-in to Cress.';
-                                        return res.format({
-                                            html: function() {
-                                                res.render('errorLog', {
-                                                    "error": err,
-                                                });
-                                            },
-                                            json: function() {
-                                                res.json(err);
-                                            }
-                                        });
-                                    }
-                                })
-                            });
-                    } else {
-                        var err = new Error('Email/Username already taken. Please try again');
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
-                    }
-                }
-            });
-
-
-
-    } else if (req.body.logemail && req.body.logpassword) {
-
-        User.authenticateByEmail(req.body.logemail, req.body.logpassword, function(error, user) {
-
-            if (error || !user) {
-                User.authenticateByUsername(req.body.logemail, req.body.logpassword, function(error, username) {
-                    logger.info(username); //This is undefined
-                    if (error || !username) {
-                        var err = new Error('Wrong email/username or password. Please try again.'); //When entering the right email/user/password, this is going on.
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
-                    } else {
-                        if (username.active == false) {
-                            var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
-                            return res.format({
-                                html: function() {
-                                    res.render('errorLog', {
-                                        "error": err,
-                                    });
-                                },
-                                json: function() {
-                                    res.json(err);
-                                }
-                            });
-
-                        }
-
-                        req.session.userId = username._id;
-                        return res.redirect('/projects');
-                    }
-
-                });
-            } else {
-                if (user.role == "editor") {
-                    req.session.userId = user._id;
-                    return res.redirect('/projects');
-                }
-                if (user.active == false) {
-                    var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
-                    return res.format({
-                        html: function() {
-                            res.render('errorLog', {
-                                "error": err,
-                            });
-                        },
-                        json: function() {
-                            res.json(err);
-                        }
-                    });
-
-                }
-
-                req.session.userId = user._id;
-                return res.redirect('/projects');
-            }
-
-        });
-    } else {
-        var err = new Error('All fields are required.');
-        return res.format({
-            html: function() {
-                res.render('errorLog', {
-                    "error": err,
-                });
-            },
-            json: function() {
-                res.json(err);
-            }
-        });
-    }
-})
 
 router.get('/confirm/:token', function(req, res) {
     User.findOneAndUpdate({
