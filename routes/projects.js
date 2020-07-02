@@ -38,12 +38,18 @@ router.route('/')
     .get(function(req, res, next) {
 
         projectIds = req.body._id;
-        mongoose.model('User').find({
-            _id: req.session.userId
-        }, function(err, users) {
-            userFinal = users;
-            // logger.info(userFinal);//This works!!!
-        });
+        if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
+            userFinal = -1;
+            logged_in = false;
+        }
+        else {
+            mongoose.model('User').find({
+                _id: req.session.userId
+            }, function(err, users) {
+                userFinal = users;
+                // logger.info(userFinal);//This works!!!
+            });
+        }
         //retrieve all projects from Mongo
         mongoose.model('project').find({
             userID: req.session.userId

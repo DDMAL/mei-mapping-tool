@@ -28,6 +28,7 @@ router.use(bodyParser.urlencoded({
 }))
 // GET route for reading data
 router.get('/', function(req, res, next) {
+    req.session.userId = -1;
     return res.render('index')
 })
 var userFinal = []
@@ -200,9 +201,8 @@ router.post('/reset/:token', function(req, res) {
 router.route('/about')
     .get(function(req, res) {
         var logged_in;
-        logger.error('here it is');
         logger.error(req.session.userId);
-        if (req.session.userId === -1) {
+        if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
             userFinal = -1;
             logged_in = false;
         }
