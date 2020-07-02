@@ -2,6 +2,7 @@
 Web-based app to map squiggles to MEI snippets (under construction)
 
 You can access the public version of the mei-mapping-tool app at https://cress.simssa.ca
+
 If you're on the McGill network, you can access the development version of the mei-mapping-tool app at https://cress-staging.simssa.ca
 
 ## Requirements
