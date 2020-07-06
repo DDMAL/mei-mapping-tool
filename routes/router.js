@@ -1319,7 +1319,7 @@ router.route('/fork')
                                                 a.save(function(err, a) {
                                                     if (err) return renderError(err);;
 
-                                                    logger.error('saved img to mongo');
+                                                    logger.info('saved img to mongo');
                                                 });
 
                                             });

@@ -55,8 +55,7 @@ router.route('/')
         if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
             userFinal = -1;
             logged_in = false;
-        }
-        else {
+        } else {
             mongoose.model('User').find({
                 _id: req.session.userId
             }, function(err, users) {
@@ -225,15 +224,14 @@ router.param('id', function(req, res, next, id) {
 });
 
 // route for the project when the user owns it
-router.route('/:id') 
+router.route('/:id')
     .get(function(req, res, next) {
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
                 return renderError(res, err);
             } else {
-
                 if (project == null) {
-                    renderError(res, 'project is null');
+                    return renderError(res, 'project is null');
                 } else {
                     var positionArray = project.positionArray;
                     mongoose.model('neume').find({
@@ -258,45 +256,43 @@ router.route('/:id')
                         }, function(err, neumes) {
                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
 
-                                if(neume.classifier == undefined){
+                                if (neume.classifier == undefined) {
                                     return renderError(res, "no classifier");
-                                }
+                                } else if (neume.classifier.includes(".xlsx")) {
+                                    var image = neume.imageMedia;
+                                    //logger.info(image);
+                                    if (fs.existsSync('exports/xl/media/' + image)) {
+                                        var imgPath = 'exports/xl/media/' + image; //This is undefined.
+                                        var A = storedImages;
+                                        var a = new A;
+                                        a.projectID = project._id;
+                                        a.neumeID = neume._id;
+                                        a.img.data = fs.readFileSync(imgPath);
+                                        a.img.contentType = 'image/png';
+                                        a.imgBase64 = a.img.data.toString('base64');
 
-                              else if(neume.classifier.includes(".xlsx")){
-                                var image = neume.imageMedia;
-                                //logger.info(image);
-                                if (fs.existsSync('exports/xl/media/' + image)) {
-                                    var imgPath = 'exports/xl/media/' + image; //This is undefined.
-                                    var A = storedImages;
-                                    var a = new A;
-                                    a.projectID = project._id;
-                                    a.neumeID = neume._id;
-                                    a.img.data = fs.readFileSync(imgPath);
-                                    a.img.contentType = 'image/png';
-                                    a.imgBase64 = a.img.data.toString('base64');
+                                        imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
+                                        //logger.info(imageData); //This works
+                                        mongoose.model('neume').find({
+                                            _id: neume._id
+                                        }).update({
+                                                //push the neumes into the imagesBinary array
+                                                imagePath: 'exports/xl/media/' + neume.imageMedia,
+                                                imagesBinary: fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')
+                                            },
 
-                                    imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-                                    //logger.info(imageData); //This works
-                                    mongoose.model('neume').find({
-                                        _id: neume._id
-                                    }).update({
-                                            //push the neumes into the imagesBinary array
-                                            imagePath: 'exports/xl/media/' + neume.imageMedia,
-                                            imagesBinary: fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')
-                                        },
+                                            function(err, data) {
+                                                //logger.info(err, data);
+                                                imageData = [];
 
-                                        function(err, data) {
-                                            //logger.info(err, data);
-                                            imageData = [];
+                                                a.save(function(err, a) {
+                                                    if (err) { return renderError(res, err); }
 
-                                            a.save(function(err, a) {
-                                                if (err) { return renderError(res, err); }
-
-                                                logger.info('saved img to mongo');
+                                                    logger.info('saved img to mongo');
+                                                });
                                             });
-                                        });
+                                    }
                                 }
-                              }
 
                             })
 
@@ -347,10 +343,10 @@ router.route('/public/:id')
         mongoose.model('project').findById(req.id, function(err, project) {
 
             if (err) {
-                renderError(res, err);
+                return renderError(res, err);
             } else {
                 if (project == null) {
-                    renderError(res, 'project is null');
+                    return renderError(res, 'project is null');
                 }
                 //Updating the name
                 //Getting the neumes for each project and showing them in the logger!!
@@ -694,8 +690,6 @@ router.route('/sectionDelete')
             if (err) {
                 return renderError(res, err);
             } else {
-                logger.error(section);
-                //remove it from Mongo
                 section.remove(function(err, section) {
                     if (err) {
                         return renderError(res, err);

@@ -247,7 +247,7 @@ router.route('/:id/editImage')
                         a.save(function(err, a) {
                             if (err) { return renderError(res, err); };
 
-                            logger.error('saved img to mongo');
+                            logger.info('saved img to mongo');
                         });
 
                     });
