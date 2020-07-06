@@ -28,6 +28,20 @@ router.use(methodOverride(function(req, res) {
     }
 }))
 
+function renderError(res, err) {
+    logger.error(err);
+    return res.format({
+        html: function() {
+            res.render('errorLog', {
+                "error": err,
+            });
+        },
+        json: function() {
+            res.json(err);
+        }
+    });
+}
+
 //  Route for the cancel button on editNeume and newNeume
 router.route('/cancel')
     //  GET all neumes
@@ -36,7 +50,7 @@ router.route('/cancel')
 
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
-                return logger.error(err)
+                return renderError(res, err);
             } else {
                 //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
@@ -91,7 +105,7 @@ router.route('/')
 
         }, function(err, neume) {
             if (err) {
-                res.send("There was a problem adding the information to the database.");
+                return renderError(res, err);
             } else {
                 //neume has been created
                 //logger.log('POST creating new neume: ' + neume); //neume holds the new neume
@@ -135,15 +149,16 @@ router.route('/')
                         },
 
                         function(err, data) {
+                            if (err) { return renderError(res, err); }
                             //logger.log(err, data);
                             imageData = [];
                         });
 
 
                     a.save(function(err, a) {
-                        if (err) throw err;
+                        if (err) { return renderError(res, err); };
 
-                        logger.error('saved img to mongo');
+                        logger.info('saved img to mongo');
                     });
 
                 });
@@ -189,6 +204,7 @@ router.route('/:id/editImage')
 
         //find the document by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
+            if (err) { return renderError(res, err); }
             var ID_project = neume.project;
             //update it
             editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
@@ -196,7 +212,7 @@ router.route('/:id/editImage')
                 imagePath: editArray //adding the image to the image array without reinitializng everything
             }, function(err, neumeElement) {
                 if (err) {
-                    res.send("There was a problem updating the information to the database: " + err);
+                    return renderError(res, err);
                 } else {
 
                     imageArray.forEach(function(image) {
@@ -224,11 +240,12 @@ router.route('/:id/editImage')
                             },
 
                             function(err, data) {
+                                if (err) { return renderError(res, err); }
                                 //logger.log(err, data);
                                 imageData = [];
                             });
                         a.save(function(err, a) {
-                            if (err) throw err;
+                            if (err) { return renderError(res, err); };
 
                             logger.error('saved img to mongo');
                         });
@@ -237,6 +254,7 @@ router.route('/:id/editImage')
                     mongoose.model('neume').find({
                         project: ID_project
                     }, function(err, neumes) {
+                        if (err) { return renderError(res, err); }
                         neumeFinal = neumes;
                         //logger.log(neumeFinal);//This works!!!
                     });
@@ -273,7 +291,7 @@ router.route('/:id/deleteImage')
             var ID_project = neume.project;
 
             if (err) {
-                return logger.error(err);
+                return renderError(res, err);
             } else {
                 //This works, when the page is reloaded
                 mongoose.model('neume').findOneAndUpdate({
@@ -326,20 +344,7 @@ router.param('id', function(req, res, next, id) {
     mongoose.model('neume').findById(id, function(err, neume) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            logger.log(id + ' was not found');
-            res.status(404)
-            var err = new Error('Not Found');
-            err.status = 404;
-            res.format({
-                html: function() {
-                    next(err);
-                },
-                json: function() {
-                    res.json({
-                        message: err.status + ' ' + err
-                    });
-                }
-            });
+            return renderError(res, err);
             //if it is found we continue on
         } else {
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
@@ -371,6 +376,7 @@ router.route('/:id/edit')
 
         //find the document by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
+            if (err) { return renderError(res, err); }
             var ID_project = neume.project;
             //update it
             editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
@@ -386,7 +392,7 @@ router.route('/:id/edit')
                 genericName: genericName //adding the image to the image array without reinitializng everything
             }, function(err, neumeID) {
                 if (err) {
-                    res.send("There was a problem updating the information to the database: " + err);
+                    return renderError(res, err);
                 } else {
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
@@ -410,12 +416,12 @@ router.route('/:id/edit')
         mongoose.model('neume').findById(req.id, function(err, neume) {
             var ID_project = neume.project;
             if (err) {
-                return logger.error(err);
+                return renderError(res, err);
             } else {
                 //remove it from Mongo
                 neume.remove(function(err, neume) {
                     if (err) {
-                        return logger.error(err);
+                        return renderError(res, err);
                     } else {
                         //  Finish this when the neumes are deleted
                         mongoose.model("storedImages").remove({
@@ -423,9 +429,9 @@ router.route('/:id/edit')
                         }, function(err, image) {
                             logger.log(image);
                             if (err) {
-                                return logger.error(err);
+                                return renderError(res, err);
                             } else {
-                                logger.error('worked!');
+                                logger.info('worked!');
                             }
                         });
                         //Returning success messages saying it was deleted
@@ -433,8 +439,8 @@ router.route('/:id/edit')
                         mongoose.model('neume').find({
                             project: ID_project
                         }, function(err, neumes) {
+                            if (err) { return renderError(res, err); }
                             neumeFinal = neumes;
-
                         });
 
                         res.format({

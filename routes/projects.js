@@ -30,6 +30,20 @@ global.latestImage = []; //getting the latestImage from the database
 global.imageData = []; //Getting all the imageData in binary from the storedimages collection
 global.neumeSectionArray = []; //Array to keep the neumes in the section
 
+function renderError(res, err) {
+    logger.error(err);
+    return res.format({
+        html: function() {
+            res.render('errorLog', {
+                "error": err,
+            });
+        },
+        json: function() {
+            res.json(err);
+        }
+    });
+}
+
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
@@ -37,6 +51,7 @@ router.route('/')
     .get(function(req, res, next) {
 
         projectIds = req.body._id;
+        // if not logged in
         if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
             userFinal = -1;
             logged_in = false;
@@ -54,7 +69,7 @@ router.route('/')
             userID: req.session.userId
         }, function(err, projects) {
             if (err) {
-                return logger.error(err);
+                return renderError(res, err);
             } else {
                 logger.debug(project._id);
                 mongoose.model('project').find({
@@ -63,7 +78,7 @@ router.route('/')
                     }
                 }, function(err, projectsAll) {
                     if (err) {
-                        return logger.error(err);
+                        return renderError(res, err);
                     } else {
 
                         //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
@@ -109,7 +124,7 @@ router.route('/')
                 imagePath: editArray //adding the image to the image array without reinitializng everything
             }, function(err, projectID) {
                 if (err) {
-                    res.send("There was a problem updating the information to the database: " + err);
+                    return renderError(res, err);
                 } else {
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
@@ -127,7 +142,7 @@ router.route('/')
                     const fs = require('fs');
 
                     fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
-                        if (err) throw err;
+                        if (err) { return renderError(res, err); };
                         logger.info('successfully deleted');
                     });
                 }
@@ -152,7 +167,7 @@ router.route('/')
 
         }, function(err, project) {
             if (err) {
-                res.send("There was a problem adding the information to the database.");
+                return renderError(res, err);
             } else {
                 mongoose.model('User').find({
                     _id: req.session.userId
@@ -190,20 +205,7 @@ router.param('id', function(req, res, next, id) {
     }, function(err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            logger.warn(id + ' was not found');
-            res.status(404)
-            var err = new Error('Not Found');
-            err.status = 404;
-            res.format({
-                html: function() {
-                    next(err);
-                },
-                json: function() {
-                    res.json({
-                        message: err.status + ' ' + err
-                    });
-                }
-            });
+            return renderError(res, err);
             //if it is found we continue on
         } else {
             mongoose.model('User').find({
@@ -226,20 +228,18 @@ router.param('id', function(req, res, next, id) {
 router.route('/:id') 
     .get(function(req, res, next) {
         mongoose.model('project').findById(req.id, function(err, project) {
-
-
             if (err) {
-                logger.info('GET Error: There was a problem retrieving: ' + err);
+                return renderError(res, err);
             } else {
 
                 if (project == null) {
-                    res.redirect("/");
+                    renderError(res, 'project is null');
                 } else {
                     var positionArray = project.positionArray;
                     mongoose.model('neume').find({
                         project: project._id
                     }, function(err, neumes) {
-
+                        if (err) { return renderError(res, err); }
                         neumeFinal = neumes;
 
                         //Updating the name
@@ -249,6 +249,7 @@ router.route('/:id')
                         mongoose.model('User').find({
                             _id: req.session.userId
                         }, function(err, users) {
+                            if (err) { return renderError(res, err); }
                             userFinal = users;
                             // logger.info(userFinal);//This works!!!
                         });
@@ -258,7 +259,7 @@ router.route('/:id')
                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
 
                                 if(neume.classifier == undefined){
-                                    logger.info("no classifier")
+                                    return renderError(res, "no classifier");
                                 }
 
                               else if(neume.classifier.includes(".xlsx")){
@@ -289,9 +290,9 @@ router.route('/:id')
                                             imageData = [];
 
                                             a.save(function(err, a) {
-                                                if (err) throw err;
+                                                if (err) { return renderError(res, err); }
 
-                                                logger.error('saved img to mongo');
+                                                logger.info('saved img to mongo');
                                             });
                                         });
                                 }
@@ -303,12 +304,7 @@ router.route('/:id')
                         mongoose.model("section").find({
                             projectID: project._id
                         }, function(err, sections) {
-
-                            //Here, we need a logic that will produce a variable neumeSection which is all the neumes for each
-                            //section, which is different for each section.
-
-
-
+                            if (err) { return renderError(res, err); }
                             var sections = sections;
                             logger.info(neumeSectionArray); //This is still empty
 
@@ -351,10 +347,10 @@ router.route('/public/:id')
         mongoose.model('project').findById(req.id, function(err, project) {
 
             if (err) {
-                logger.info('GET Error: There was a problem retrieving: ' + err);
+                renderError(res, err);
             } else {
                 if (project == null) {
-                    res.redirect("/");
+                    renderError(res, 'project is null');
                 }
                 //Updating the name
                 //Getting the neumes for each project and showing them in the logger!!
@@ -364,6 +360,7 @@ router.route('/public/:id')
                     mongoose.model('neume').find({
                         project: project._id
                     }, function(err, neumes) {
+                        if (err) { return renderError(res, err); }
                         neumeFinal = neumes;
                         //logger.info(neumeFinal);//This works!!!
 
@@ -405,7 +402,7 @@ router.route('/fork/:id')
         mongoose.model('project').findById(req.id, function(err, project) {
 
             if (err) {
-                logger.info('GET Error: There was a problem retrieving: ' + err);
+                return renderError(res, err);
             } else {
                 //Updating the name
                 //Getting the neumes for each project and showing them in the logger!!
@@ -414,14 +411,15 @@ router.route('/fork/:id')
                 mongoose.model('neume').find({
                     project: project._id
                 }, function(err, neumes) {
+                    if (err) { return renderError(res, err); }
                     neumeFinal = neumes;
                     //logger.info(neumeFinal);//This works!!!
                     mongoose.model('User').find({
                         _id: req.session.userId
                     }, function(err, users) {
-                        
+                        if (err) { return renderError(res, err); }
                         if (users.length > 1) {
-                            logger.error("Multiple users found for the same user ID");
+                            return renderError(res, "Multiple users found for the same user ID");
                         }
                         userFinal = users[0];
                         // logger.info(userFinal);//This works!!!
@@ -461,7 +459,7 @@ router.route('/:id/edit')
         //search for the project within Mongo
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                logger.info('GET Error: There was a problem retrieving: ' + err);
+                return renderError(res, err);
             } else {
                 //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                 res.format({
@@ -492,7 +490,7 @@ router.route('/:id/edit')
 
             }, function(err, projectID) {
                 if (err) {
-                    res.send("There was a problem updating the information to the database: " + err);
+                    return renderError(res, err);
                 } else {
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
@@ -514,18 +512,18 @@ router.route('/:id/edit')
         mongoose.model('project').findById(req.id, function(err, project) {
             var projectid = project._id;
             if (err) {
-                return logger.error(err);
+                return renderError(res, err);
             } else {
                 //remove it from Mongo
                 project.remove(function(err, project) {
                     if (err) {
-                        return logger.error(err);
+                        return renderError(res, err);
                     } else {
 
                         mongoose.model('User').findById(req.session.userId, function(err, user) {
 
                             if (err) {
-                                return logger.error(err);
+                                return renderError(res, err);
                             } else {
                                 //This works, when the page is reloaded
                                 mongoose.model('User').findOneAndUpdate({
@@ -550,7 +548,7 @@ router.route('/:id/edit')
                                 }, function(err, image) {
                                     logger.info(image);
                                     if (err) {
-                                        return logger.error(err);
+                                        return renderError(res, err);
                                     } else {
                                         logger.info("worked");
                                     }
@@ -596,7 +594,7 @@ router.route('/updateSection')
 
             function(err, data) {
                 if (err) {
-                    logger.info(err);
+                    return renderError(res, err);
                 } else {
                     logger.info(data);
 
@@ -634,7 +632,7 @@ router.route('/savePosition')
                 positionArray: position //adding the image to the image array without reinitializng everything
             }, function(err, project) {
                 if (err) {
-                    res.send("There was a problem updating the information to the database: " + err);
+                    return renderError(res, err);
                 } else {
                     logger.info(project.positionArray);
                 }
@@ -671,7 +669,7 @@ router.route('/section')
 
         }, function(err, section) {
             if (err) {
-                res.send("There was a problem adding the information to the database.");
+                return renderError(res, err);
             } else {
                 //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                 res.format({
@@ -694,13 +692,13 @@ router.route('/sectionDelete')
         //find neume by ID
         mongoose.model('section').findById(sectionID, function(err, section) {
             if (err) {
-                return logger.error(err);
+                return renderError(res, err);
             } else {
                 logger.error(section);
                 //remove it from Mongo
                 section.remove(function(err, section) {
                     if (err) {
-                        return logger.error(err);
+                        return renderError(res, err);
                     } else {
                         //Returning success messages saying it was deleted
                         res.format({
