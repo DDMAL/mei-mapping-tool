@@ -51,7 +51,7 @@ html
         .signin-form.profile
           h3 Register
           .login-form
-            form#login(action='/', method='post', onsubmit='event.preventDefault(); validateMyForm();')
+            form#login(action='/', method='post')
               input(type='text', name='email', placeholder='E-mail', required='')
               input(type='text', name='username', placeholder='Username', required='')
               input#password(type='password', name='password', placeholder='Password', required='')
@@ -70,15 +70,3 @@ html
      .copyright(style = "position : absolute; bottom : -50px;   left: 0; right : 0px; padding: 1rem; background-color: #efefef; text-align: center; margin : 0px")
       | More information can be found on 
       a(href = "https://github.com/DDMAL/mei-mapping-tool/wiki" style = "color : #0000EE") Github
-
-    script(type='text/javascript').
-      var passWordField = document.getElementById('password')
-      var passWordConfirmField = document.getElementById('password_conf')
-      var form = document.getElementById('login')
-      function validateMyForm(){
-      if(passWordField.value != passWordConfirmField.value){
-      alert("Passwords do not match. Please try again.");
-      } else {
-      form.submit()
-      }
-      }

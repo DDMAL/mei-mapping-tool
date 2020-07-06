@@ -1,440 +1,36 @@
-var express = require('express')
-var router = express.Router()
-var User = require('../model/User')
-var bodyParser = require('body-parser')
-var alert = require('alert-node')
-const moment = require('moment')
-const pathName = require('path')
-const json2csv = require('json2csv').parse
-const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'classification', 'mei', 'review', 'dob', 'project', 'neumeSection', 'neumeSectionName'];
-global.userArray = []
-global.userArray = []
-var dialog = require('dialog')
-var mongoose = require('mongoose')
-var async = require('async')
-var crypto = require('crypto')
-var flash = require('express-flash')
-var storedImages = require('../model/storedImages')
-var SENDGRID_API_KEY = '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'
+var express = require('express');
+var router = express.Router();
+var User = require('../model/User');
+var bodyParser = require('body-parser');
+var alert = require('alert-node');
+const moment = require('moment');
+const pathName = require('path');
+const json2csv = require('json2csv').parse;
+const fields = ['imagePath', 'imagesBinary', 'name', 'folio',
+    'description', 'classification', 'mei', 'review', 'dob',
+    'project', 'neumeSection', 'neumeSectionName'
+];
+global.userArray = [];
+global.userArray = [];
+var dialog = require('dialog');
+var mongoose = require('mongoose');
+var async = require('async');
+var crypto = require('crypto');
+var flash = require('express-flash');
+var storedImages = require('../model/storedImages');
+var SENDGRID_API_KEY = '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';
 var logger = require('../logger');
 
-router.use(flash())
+router.use(flash());
+
 router.use(bodyParser.json({
     limit: '50mb'
-}))
+}));
+
 router.use(bodyParser.urlencoded({
     limit: '50mb',
     extended: true
-}))
-// load the index page, and flag that we're logged out
-router.get('/', function(req, res, next) {
-    req.session.userId = -1;
-    return res.render('index')
-})
-var userFinal = []
-
-//POST route for updating data
-router.post('/', function(req, res, next) {
-    var editor = false;
-    req.session.userId = -1;
-
-    // confirm that user typed same password twice
-    if (req.body.password !== req.body.passwordConf) {
-        var err = new Error('Passwords do not match. Try again');
-        alert(err, 'yad');
-        return res.redirect('back');
-    }
-
-    if (req.body.email &&
-        req.body.username &&
-        req.body.password &&
-        req.body.passwordConf) {
-
-        var userData = {
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password,
-            role: req.body.role,
-            bio: req.body.bio,
-            active: false
-        }
-        User.findOne({
-                $or: [{
-                    username: req.body.username
-                }, {
-                    email: req.body.email
-                }]
-            })
-            .exec(function(err, user) {
-                if (err) {
-                    return dialog.info("error");
-                } else {
-
-                    if (user == null) {
-                        //find the document by ID
-                        User.findById(req.session.userId)
-                            .exec(function(error, user) {
-                                //update it
-                                User.create(userData, function(err, user) {
-                                    if (err) {
-                                        res.send("There was a problem updating the information to the database: " + err);
-                                    } else {
-                                        async.waterfall([
-                                            function(done) {
-                                                crypto.randomBytes(30, function(err, buf) {
-                                                    var token = buf.toString('hex');
-                                                    done(err, token);
-                                                });
-                                            },
-                                            function(token, done) {
-
-                                                user.password = req.body.password;
-                                                user.activeToken = token;
-                                                user.active = true; //Change this afterwards.
-                                                user.resetActiveTokendExpires = Date.now() + 3600000; // 1 hour
-
-                                                user.save(function(err) {
-                                                    done(err, token, user);
-                                                });
-
-                                            },
-                                            function(token, user, done) {
-                                                const sgMail = require('@sendgrid/mail');
-                                                sgMail.setApiKey(SENDGRID_API_KEY);
-                                                const msg = {
-                                                    to: user.email,
-                                                    from: 'cress-noreply@demo.com',
-                                                    subject: 'Cress Confirmation Email',
-                                                    text: 'You are receiving this because you have created an account with Cress.\n\n' +
-                                                        'Please click on the following link, or paste this into your browser to complete the process and activate your account:\n\n' +
-                                                        'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
-                                                        'If you did not request this, please ignore this email and your account will be deleted automatically.\n',
-                                                    html: '<strong>You are receiving this because you have created an account with Cress. Please click on the following link, or paste this into your browser to complete the process and activate your account: http://' + req.headers.host + '/confirm/' + token + '  . If you did not request this, please ignore this email and your account will be deleted. </strong> ',
-                                                };
-                                                sgMail.send(msg);
-                                            }
-                                        ], function(err) {
-                                            if (err) return next(err);
-                                            res.redirect('/');
-                                        });
-                                        var err = 'Success! You can now log-in to Cress.';
-                                        return res.format({
-                                            html: function() {
-                                                res.render('errorLog', {
-                                                    "error": err,
-                                                });
-                                            },
-                                            json: function() {
-                                                res.json(err);
-                                            }
-                                        });
-                                    }
-                                })
-                            });
-                    } else {
-                        var err = new Error('Email/Username already taken. Please try again');
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
-                    }
-                }
-            });
-
-
-
-    } else if (req.body.logemail && req.body.logpassword) {
-
-        User.authenticateByEmail(req.body.logemail, req.body.logpassword, function(error, user) {
-
-            if (error || !user) {
-                User.authenticateByUsername(req.body.logemail, req.body.logpassword, function(error, username) {
-                    logger.info(username); //This is undefined
-                    if (error || !username) {
-                        var err = new Error('Wrong email/username or password. Please try again.'); //When entering the right email/user/password, this is going on.
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
-                    } else {
-                        if (username.active == false) {
-                            var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
-                            return res.format({
-                                html: function() {
-                                    res.render('errorLog', {
-                                        "error": err,
-                                    });
-                                },
-                                json: function() {
-                                    res.json(err);
-                                }
-                            });
-
-                        }
-
-                        req.session.userId = username._id;
-                        return res.redirect('/projects');
-                    }
-
-                });
-            } else {
-                if (user.role == "editor") {
-                    req.session.userId = user._id;
-                    return res.redirect('/projects');
-                }
-                if (user.active == false) {
-                    var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
-                    return res.format({
-                        html: function() {
-                            res.render('errorLog', {
-                                "error": err,
-                            });
-                        },
-                        json: function() {
-                            res.json(err);
-                        }
-                    });
-
-                }
-
-                req.session.userId = user._id;
-                return res.redirect('/projects');
-            }
-
-        });
-    } else {
-        var err = new Error('All fields are required.');
-        return res.format({
-            html: function() {
-                res.render('errorLog', {
-                    "error": err,
-                });
-            },
-            json: function() {
-                res.json(err);
-            }
-        });
-    }
-})
-
-/*Forget Password Page*/
-router.get('/forgot', function(req, res) {
-    User.findById(req.session.userId)
-        .exec(function(error, user) {
-            if (error) {
-                alert(error, 'yad');
-                return res.redirect('back');
-            } else {
-                if (user === null) {
-                    var err = new Error('Not Authorized.');
-                    return res.format({
-                        html: function() {
-                            res.render('errorLog', {
-                                "error": err,
-                            });
-                        },
-                        json: function() {
-                            res.json(err);
-                        }
-                    });
-                } else {
-
-                    return res.format({
-                        html: function() {
-                            res.render('forgot', {
-                                "username": user.username,
-                                "email": user.email
-                            });
-                        },
-                        json: function() {
-                            res.json(project);
-                        }
-                    });
-
-                }
-            }
-        });
-});
-
-// post forgot password page
-router.post('/forgot', function(req, res, next) {
-    async.waterfall([
-        function(done) {
-            crypto.randomBytes(20, function(err, buf) {
-                var token = buf.toString('hex');
-                done(err, token);
-            });
-        },
-        function(token, done) {
-            User.findOne({
-                email: req.body.email
-            }, function(err, user) {
-                if (!user) {
-                    var err = new Error('No account with that email address exists.');
-                    return res.format({
-                        html: function() {
-                            res.render('errorLog', {
-                                "error": err,
-                            });
-                        },
-                        json: function() {
-                            res.json(err);
-                        }
-                    });
-                }
-
-                user.resetPasswordToken = token;
-                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-
-                user.save(function(err) {
-                    done(err, token, user);
-                });
-            });
-        },
-        function(token, user, done) {
-            const sgMail = require('@sendgrid/mail');
-            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-            const msg = {
-                to: user.email,
-                from: 'cress-noreply@demo.com',
-                subject: 'Cress Password Reset',
-                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                    'If you did not request this, please ignore this email and your password will remain unchanged.\n',
-                html: '<strong>You are receiving this because you (or someone else) have requested the reset of the password for your account.  Please click on the following link, or paste this into your browser to complete the process: http://' + req.headers.host + '/reset/' + token + '  . If you did not request this, please ignore this email and your password will remain unchanged. </strong> ',
-            };
-            sgMail.send(msg);
-            var err = 'Success!! The email has been sent!';
-            return res.format({
-                html: function() {
-                    res.render('errorLog', {
-                        "error": err,
-                    });
-                },
-                json: function() {
-                    res.json(err);
-                }
-            });
-        }
-    ], function(err) {
-        if (err) return next(err);
-        res.redirect('/');
-    });
-});
-
-//Route for the email reset link
-router.get('/reset/:token', function(req, res) {
-    User.findOne({
-        resetPasswordToken: req.params.token,
-        resetPasswordExpires: {
-            $gt: Date.now()
-        }
-    }, function(err, user) {
-        if (!user) {
-            var err = new Error('Password reset token is invalid or has expired.');
-            return res.format({
-                html: function() {
-                    res.render('errorLog', {
-                        "error": err,
-                    });
-                },
-                json: function() {
-                    res.json(err);
-                }
-            });
-        }
-        res.render('reset', {
-            user: req.user
-        });
-    });
-});
-
-//Reset route for posting the new password
-router.post('/reset/:token', function(req, res) {
-    async.waterfall([
-        function(done) {
-            User.findOne({
-                resetPasswordToken: req.params.token
-            }, function(err, user) {
-                if (!user) {
-                    var err = new Error('Password reset token is invalid or has expired.');
-                    return res.format({
-                        html: function() {
-                            res.render('errorLog', {
-                                "error": err,
-                            });
-                        },
-                        json: function() {
-                            res.json(err);
-                        }
-                    });
-                }
-
-                user.password = req.body.password;
-                user.resetPasswordToken = undefined;
-                user.resetPasswordExpires = undefined;
-
-                user.save(function(err) {
-                    res.redirect('/');
-                });
-            });
-        }
-    ]);
-});
-/* GET about page. */
-router.route('/about')
-    .get(function(req, res) {
-        var logged_in;
-        // see if the user is logged in
-        if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
-            userFinal = -1;
-            logged_in = false;
-        }
-        else {
-            logged_in = true;
-            mongoose.model('User').find({
-                _id: req.session.userId
-            }, function(err, users) {
-                userFinal = users;
-            });
-            mongoose.model('User').find({
-                _id: req.session.userId
-            }, function(err, users) {
-                userFinal = users;
-            });
-        }
-        //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-        res.format({
-            //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
-            html: function() {
-                logger.info(userFinal);
-                res.render('about.jade', {
-                    title: 'About',
-                    "users": userFinal,
-                    "loggedin": logged_in
-                });
-            },
-            //JSON response will show all projects in JSON format
-            json: function() {
-                res.json(projects);
-            }
-        });
-        //global.userFinal = []; //The user needs to be added in all the routes
-
-    });
+}));
 
 // necessary stuff for file IO
 var multer = require('multer')
@@ -460,6 +56,322 @@ var uploadCSV = multer({
     })
 }).single('fileImage');
 
+var userFinal = [];
+
+function renderError(res, err) {
+    logger.error(err);
+    return res.format({
+        html: function() {
+            res.render('errorLog', {
+                "error": err,
+            });
+        },
+        json: function() {
+            res.json(err);
+        }
+    });
+}
+
+// load the index page, and flag that we're logged out
+router.get('/', function(req, res, next) {
+    req.session.userId = -1;
+    return res.render('index')
+});
+
+//POST route for updating data
+router.post('/', function(req, res, next) {
+    var editor = false;
+    req.session.userId = -1; // set logged out
+
+    if (req.body.email &&
+        req.body.username &&
+        req.body.password &&
+        req.body.passwordConf) {
+
+        // confirm that user typed same password twice
+        if (req.body.password !== req.body.passwordConf) {
+            var err = new Error('Passwords do not match. Try again');
+            return renderError(res, err);
+        }
+
+        var userData = {
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password,
+            role: req.body.role,
+            bio: req.body.bio,
+            active: false
+        }
+        User.findOne({
+                $or: [{
+                    username: req.body.username
+                }, {
+                    email: req.body.email
+                }]
+            })
+            .exec(function(err, user) {
+                if (err) {
+                    return renderError(res, err);
+                } else {
+                    if (user == null) {
+                        User.create(userData, function(err, user) {
+                            if (err) {
+                                return renderError(res, err);
+                            } else {
+                                async.waterfall([
+                                    function(done) {
+                                        crypto.randomBytes(30, function(err, buf) {
+                                            if (err) {
+                                                return renderError(res, err);
+                                            }
+                                            var token = buf.toString('hex');
+                                            done(err, token);
+                                        });
+                                    },
+                                    function(token, done) {
+
+                                        user.password = req.body.password;
+                                        user.activeToken = token;
+                                        user.active = true; //Change this afterwards.
+                                        user.resetActiveTokendExpires = Date.now() + 3600000; // 1 hour
+
+                                        user.save(function(err) {
+                                            done(err, token, user);
+                                        });
+
+                                    },
+                                    function(token, user, done) {
+                                        const sgMail = require('@sendgrid/mail');
+                                        sgMail.setApiKey(SENDGRID_API_KEY);
+                                        const msg = {
+                                            to: user.email,
+                                            from: 'cress-noreply@demo.com',
+                                            subject: 'Cress Confirmation Email',
+                                            text: 'You are receiving this because you have created an account with Cress.\n\n' +
+                                                'Please click on the following link, or paste this into your browser to complete the process and activate your account:\n\n' +
+                                                'http://' + req.headers.host + '/confirm/' + token + '\n\n' +
+                                                'If you did not request this, please ignore this email and your account will be deleted automatically.\n',
+                                            html: '<strong>You are receiving this because you have created an account with Cress. Please click on the following link, or paste this into your browser to complete the process and activate your account: http://' + req.headers.host + '/confirm/' + token + '  . If you did not request this, please ignore this email and your account will be deleted. </strong> ',
+                                        };
+                                        sgMail.send(msg);
+                                    }
+                                ], function(err) {
+                                    if (err) return next(err);
+                                    res.redirect('/');
+                                });
+                                // use the error logger page to show a success message
+                                var err = 'Success! You can now log-in to Cress';
+                                return renderError(res, err);
+                            }
+                        })
+                    } else {
+                        var err = new Error('Email/Username already taken. Please try again');
+                        return renderError(res, err);
+                    }
+                }
+            });
+
+
+
+    } else if (req.body.logemail && req.body.logpassword) {
+
+        User.authenticateByEmail(req.body.logemail, req.body.logpassword, function(error, user) {
+
+            if (error || !user) {
+                User.authenticateByUsername(req.body.logemail, req.body.logpassword, function(error, username) {
+                    logger.info(username); //This is undefined
+                    if (error || !username) {
+                        var err = new Error('Wrong email/username or password. Please try again.');
+                        return renderError(res, err);
+                    } else {
+                        if (username.active == false) {
+                            var err = 'Account not activated. To activate your account, a confirmation email' +
+                                'has been sent to you. Please confirm your account before proceeding.';
+                            return renderError(res, err);
+                        }
+
+                        req.session.userId = username._id;
+                        return res.redirect('/projects');
+                    }
+
+                });
+            } else {
+                if (user.role == "editor") {
+                    req.session.userId = user._id;
+                    return res.redirect('/projects');
+                }
+                if (user.active == false) {
+                    var err = new Error('Account not activated. To activate your account, a confirmation email has been sent to you. Please confirm your account before proceeding.');
+                    return renderError(res, err);
+                }
+
+                req.session.userId = user._id;
+                return res.redirect('/projects');
+            }
+
+        });
+    } else {
+        var err = new Error('All fields are required.');
+        return renderError(res, err);;
+    }
+});
+
+/*Forget Password Page*/
+router.get('/forgot', function(req, res) {
+    User.findById(req.session.userId)
+        .exec(function(error, user) {
+            if (error) {
+                return renderError(err);
+            } else {
+                if (user === null) {
+                    var err = new Error('Not Authorized.');
+                    return renderError(err);
+                } else {
+
+                    return res.format({
+                        html: function() {
+                            res.render('forgot', {
+                                "username": user.username,
+                                "email": user.email
+                            });
+                        },
+                        json: function() {
+                            res.json(project);
+                        }
+                    });
+
+                }
+            }
+        });
+});
+
+// post forgot password page
+router.post('/forgot', function(req, res, next) {
+    async.waterfall([
+        function(done) {
+            crypto.randomBytes(20, function(err, buf) {
+                if (err) {
+                    return renderError(err);
+                }
+                var token = buf.toString('hex');
+                done(err, token);
+            });
+        },
+        function(token, done) {
+            User.findOne({
+                email: req.body.email
+            }, function(err, user) {
+                if (!user) {
+                    var err = new Error('No account with that email address exists.');
+                    return renderError(err);
+                }
+
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+                user.save(function(err) {
+                    done(err, token, user);
+                });
+            });
+        },
+        function(token, user, done) {
+            const sgMail = require('@sendgrid/mail');
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            const msg = {
+                to: user.email,
+                from: 'cress-noreply@demo.com',
+                subject: 'Cress Password Reset',
+                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+                html: '<strong>You are receiving this because you (or someone else) have requested the reset of the password for your account.  Please click on the following link, or paste this into your browser to complete the process: http://' + req.headers.host + '/reset/' + token + '  . If you did not request this, please ignore this email and your password will remain unchanged. </strong> ',
+            };
+            sgMail.send(msg);
+            var err = 'Success!! The email has been sent!';
+            return renderError(err);
+        }
+    ], function(err) {
+        if (err) return next(err);
+        res.redirect('/');
+    });
+});
+
+//Route for the email reset link
+router.get('/reset/:token', function(req, res) {
+    User.findOne({
+        resetPasswordToken: req.params.token,
+        resetPasswordExpires: {
+            $gt: Date.now()
+        }
+    }, function(err, user) {
+        if (!user) {
+            var err = new Error('Password reset token is invalid or has expired.');
+            return renderError(err);
+        }
+        res.render('reset', {
+            user: req.user
+        });
+    });
+});
+
+//Reset route for posting the new password
+router.post('/reset/:token', function(req, res) {
+    async.waterfall([
+        function(done) {
+            User.findOne({
+                resetPasswordToken: req.params.token
+            }, function(err, user) {
+                if (!user) {
+                    var err = new Error('Password reset token is invalid or has expired.');
+                    return renderError(err);
+                }
+
+                user.password = req.body.password;
+                user.resetPasswordToken = undefined;
+                user.resetPasswordExpires = undefined;
+
+                user.save(function(err) {
+                    res.redirect('/');
+                });
+            });
+        }
+    ]);
+});
+/* GET about page. */
+router.route('/about')
+    .get(function(req, res) {
+        var logged_in;
+        // see if the user is logged in
+        if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
+            userFinal = -1;
+            logged_in = false;
+        } else {
+            logged_in = true;
+            mongoose.model('User').find({
+                _id: req.session.userId
+            }, function(err, users) {
+                userFinal = users;
+            });
+        }
+        //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
+        res.format({
+            //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
+            html: function() {
+                logger.info(userFinal);
+                res.render('about.jade', {
+                    title: 'About',
+                    "users": userFinal,
+                    "loggedin": logged_in
+                });
+            },
+            //JSON response will show all projects in JSON format
+            json: function() {
+                res.json(projects);
+            }
+        });
+    });
+
 // route for uploading a file, csv xlsx etc
 router.route('/upladFile')
     .post(uploadCSV, function(req, res) {
@@ -484,7 +396,7 @@ router.route('/upladFile')
                     path: './exports'
                 }));
             } catch (e) {
-                logger.error('Caught exception: ', e);
+                renderError(err);
             }
             var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
             //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
@@ -512,7 +424,7 @@ router.route('/upladFile')
                             //I also need to add the classifier name as a field
                         }, function(err, neumeElement) {
                             if (err) {
-                                res.send("There was a problem updating the information to the database: " + err);
+                                return renderError(err);
                             } else {
                                 logger.info(neumeElement);
                                 var fs = require('fs');
@@ -534,7 +446,7 @@ router.route('/upladFile')
                                 if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
                                     fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
                                         if (err) {
-                                            throw err;
+                                            return renderError(err);
                                         }
                                         let xmlParser = require('xml2json');
                                         let xmlString = data.toString();
@@ -561,8 +473,7 @@ router.route('/upladFile')
                                                 //An error happens when the neume gets all the files
                                                 fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
                                                     if (err) {
-                                                        var err = 'Error : You cannot upload an old version of excel. Please make sure that your version of excel is updated.';
-
+                                                        return renderError(err);
                                                     } else {
                                                         let xmlParser = require('xml2json');
                                                         let xmlString = data.toString();
@@ -613,6 +524,9 @@ router.route('/upladFile')
                                                     project: IdOfProject
                                                 }]
                                             }, function(err, neumes) {
+                                                if (err) {
+                                                    return renderError(err);
+                                                }
                                                 var indice = 0;
                                                 neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                                                     //update it
@@ -682,8 +596,7 @@ router.route('/upladFile')
                                                                     imageMedia: "." //This didnt get updated
                                                                 }, function(err, neumeElement) {
                                                                     if (err) {
-                                                                        res.send("There was a problem updating the information to the database: " + err);
-                                                                    } else { //logger.info(neumeElement);
+                                                                        return renderError(err);
                                                                     }
                                                                 })
 
@@ -703,6 +616,9 @@ router.route('/upladFile')
                                                 project: IdOfProject
                                             }]
                                         }, function(err, neumes) {
+                                            if (err) {
+                                                return renderError(err);
+                                            }
                                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                                                 var image = neume.imageMedia;
                                                 //logger.info(image);
@@ -727,13 +643,17 @@ router.route('/upladFile')
                                                         },
 
                                                         function(err, data) {
+                                                            if (err) {
+                                                                return renderError(err);
+                                                            }
                                                             //logger.info(err, data);
                                                             imageData = [];
 
                                                             a.save(function(err, a) {
-                                                                if (err) throw err;
-
-                                                                logger.error('saved img to mongo');
+                                                                if (err) {
+                                                                    return renderError(err);
+                                                                }
+                                                                logger.info('saved img to mongo');
                                                             });
                                                         });
                                                 }
@@ -786,13 +706,11 @@ router.route('/upladFile')
                                             function(err, data) {
                                                 //logger.info(err, data);
                                                 imageData = [];
-
-
-
                                                 a.save(function(err, a) {
-                                                    if (err) throw err;
-
-                                                    logger.error('saved img to mongo');
+                                                    if (err) {
+                                                        return renderError(err);
+                                                    }
+                                                    logger.info('saved img to mongo');
                                                 });
                                             });
                                     }
@@ -826,7 +744,7 @@ router.route('/upladFile')
                 rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
             }, function(err, result) {
                 if (err) {
-                    logger.error(err);
+                    renderError(err);
                 } else {
                     var fs = require('fs');
 
@@ -882,7 +800,7 @@ router.route('/upladFile')
                                     }, function(err, neume1) {
 
                                         if (err) {
-                                            res.send("There was a problem updating the information to the database: " + err);
+                                            return renderError(err);
                                         } else {
 
                                             var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined.
@@ -894,21 +812,21 @@ router.route('/upladFile')
                                             a.neumeID = neume._id;
                                             try {
                                                 a.img.data = fs.readFileSync(imgPath);
-                                            } catch {
-                                                logger.info(err);
+                                            } catch(err) {
+                                                return renderError(err);
                                             }
                                             a.img.contentType = 'image/png';
                                             try {
                                                 a.imgBase64 = a.img.data.toString('base64');
-                                            } catch {
-                                                logger.info(err);
+                                            } catch(err) {
+                                                return renderError(err);
                                             }
                                             var imageData = [];
                                             try {
                                                 imageData.push(a.img.data.toString('base64'));
                                             } //This works for all the images stored in the database.
-                                            catch {
-                                                logger.info(err);
+                                            catch(err) {
+                                                return renderError(err);
                                             }
                                             //All the images (images) need to be pushed to an array field in mongodb
                                             mongoose.model('neume').find({
@@ -920,15 +838,16 @@ router.route('/upladFile')
                                                 },
 
                                                 function(err, data) {
+                                                    if (err) { return renderError(err); }
                                                     //logger.info(err, data);
                                                     imageData = [];
 
 
 
                                                     a.save(function(err, a) {
-                                                        if (err) throw err;
+                                                        if (err) return renderError(err);
 
-                                                        logger.error('saved img to mongo');
+                                                        logger.info('saved img to mongo');
                                                     });
                                                 });
 
@@ -966,6 +885,7 @@ router.route('/upladFile')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
+                if (err) { return renderError(err); }
                 logger.info(file); //This is just the name
             });
 
@@ -1000,11 +920,11 @@ router.route('/upladFile')
                                     project: IdOfProject,
                                     mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
                                         .replace(/[\u201C\u201D]/g, '"'),
-                                    imagePath: neume.imagePath.map(function (el) {return el.replace(/[\[\]"\\]/mg, '');}),
-                                    imagesBinary: neume.imagesBinary.map(function (el) {return el.replace(/[\[\]"\\]/mg, '');})
+                                    imagePath: neume.imagePath.map(function(el) { return el.replace(/[\[\]"\\]/mg, ''); }),
+                                    imagesBinary: neume.imagesBinary.map(function(el) { return el.replace(/[\[\]"\\]/mg, ''); })
                                 }, function(err, neumeElement) {
                                     if (err) {
-                                        res.send("There was a problem updating the information to the database: " + err);
+                                        return renderError(err);
                                     } else {
                                         logger.info(neumeElement);
                                     }
@@ -1015,22 +935,11 @@ router.route('/upladFile')
                             res.redirect("back");
                         })
                         .catch(function(err) {
-                            //err = "Please, only upload the csv file downloaded from the project."
-                            logger.error(err);
-                            return res.format({
-                                html: function() {
-                                    res.render('errorLog', {
-                                        "error": err,
-                                    });
-                                },
-                                json: function() {
-                                    res.json(err);
-                                }
-                            });
+                            return renderError(err);
                         });
                 });
         }
-        
+
         if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each
             //Didn't add the classifier field to the neumes here!
 
@@ -1047,6 +956,7 @@ router.route('/upladFile')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
+                if (err) return renderError(err);
                 logger.info(file); //This is just the name
             });
 
@@ -1056,8 +966,8 @@ router.route('/upladFile')
                 fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
                     path: './exports'
                 }));
-            } catch (e) {
-                logger.info('Caught exception: ', e);
+            } catch (err) {
+                return renderError(err);
             }
 
             var mammoth = require("mammoth"); //mammoth might take away
@@ -1071,8 +981,8 @@ router.route('/upladFile')
                     //logger.info(html);
                     const html1 = html.toString(); //# Paste your HTML table
                     fs.writeFile("file.html", result.value, function(err) {
-                        if(err) {
-                            return logger.info(err);
+                        if (err) {
+                            return renderError(err);
                         }
 
                         logger.info("The file was saved!");
@@ -1084,111 +994,112 @@ router.route('/upladFile')
                             logger.info('received data: ' + data);
                             const html = data.toString(); //# Paste your HTML table
 
-                    var HTMLParser = require('node-html-parser');
-                    var neumeArray = [];
-                    var root = HTMLParser.parse(html);
-                    var tables = root.querySelectorAll('td');
-                    var rows = root.querySelectorAll("tr");
-                    var images = root.querySelectorAll("img").rawAttributes;
-                     var images = root.querySelectorAll("img");
-                    var imageArray = [];
-                    images.forEach(function(image){
+                            var HTMLParser = require('node-html-parser');
+                            var neumeArray = [];
+                            var root = HTMLParser.parse(html);
+                            var tables = root.querySelectorAll('td');
+                            var rows = root.querySelectorAll("tr");
+                            var images = root.querySelectorAll("img").rawAttributes;
+                            var images = root.querySelectorAll("img");
+                            var imageArray = [];
+                            images.forEach(function(image) {
 
-                        var imageBinary = image.rawAttributes.src.split(",")[1];;
-                        imageArray.push(imageBinary);
+                                var imageBinary = image.rawAttributes.src.split(",")[1];;
+                                imageArray.push(imageBinary);
 
-                    })
-                    //logger.info(imageArray)
-                    //logger.info(images)
-                    var a = 0;
-                    var x = 0;
-                    var array = []
-                    rows.forEach(function(row){
-                    for(var i = 0; i<6; i++){
-                        if(tables[a] == undefined)
-                            break
-                    var imageBinary = row.firstChild.firstChild;
-                        //logger.info(imageBinary)
-                        var AllRow = tables[a].rawText;
-                        //logger.info( i + " : " + AllRow);
-                        var imageBinary = imageArray[x];
-                        //logger.info(imageBinary)
-                        if(i == 0){
-                            if(a != 0){
-                            AllRow = imageBinary;
-                            }
-                            else{
-                                x--;
-                            }
-                        }
-                        else{
-                            AllRow = AllRow;
-                        }
-                        array.push( i + " : " + AllRow );
-                        a++;
-                    }
-                    x++;
-
-                    })
-                }
-
-                    //logger.info(array);
-                     logger.info(array)
-
-
-
-                    const jsonTables = new HtmlTableToJson(html1);
-                    var arrayJson = [];
-
-                    for (var i = 1; i < jsonTables['results'][0].length; i++) {
-
-                        var json = jsonTables['results'][0][i];
-                        json = JSON.parse(JSON.stringify(json).split('"1":').join('"image":'));
-                        json = JSON.parse(JSON.stringify(json).split('"2":').join('"name":'));
-                        json = JSON.parse(JSON.stringify(json).split('"3":').join('"folio":'));
-                        json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
-                        json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
-                        json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
-                        logger.info(json);
-                        //json = JSON.stringify(json);
-
-                        mongoose.model("neume").insertMany(json)
-                            .then(function(jsonObj) {
-                                jsonObj.forEach(function(neume) {
-                                    imageNumber = imageNumber+1;
-                                    mongoose.model("neume").find({
-                                        _id: neume.id
-                                    }).update({
-                                        classifier: originalFileName,
-                                        project: IdOfProject,
-                                        imagesBinary : imageArray[imageNumber],
-                                        mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
-                                            .replace(/[\u201C\u201D]/g, '"')
-                                    }, function(err, neumeElement) {
-                                        if (err) {
-                                            res.send("There was a problem updating the information to the database: " + err);
+                            })
+                            //logger.info(imageArray)
+                            //logger.info(images)
+                            var a = 0;
+                            var x = 0;
+                            var array = []
+                            rows.forEach(function(row) {
+                                for (var i = 0; i < 6; i++) {
+                                    if (tables[a] == undefined)
+                                        break
+                                    var imageBinary = row.firstChild.firstChild;
+                                    //logger.info(imageBinary)
+                                    var AllRow = tables[a].rawText;
+                                    //logger.info( i + " : " + AllRow);
+                                    var imageBinary = imageArray[x];
+                                    //logger.info(imageBinary)
+                                    if (i == 0) {
+                                        if (a != 0) {
+                                            AllRow = imageBinary;
                                         } else {
-                                            //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
-                                            logger.info(arrayJson);
-                                            for (var laptopItem in arrayJson) {}
+                                            x--;
+                                        }
+                                    } else {
+                                        AllRow = AllRow;
+                                    }
+                                    array.push(i + " : " + AllRow);
+                                    a++;
+                                }
+                                x++;
 
-                                            var messages = result.messages; // Any messages, such as warnings during conversion
+                            })
+                        }
+                        else {
+                            return renderError(err);
+                        }
 
-                                            var dir = './exports';
-                                            var fs = require("fs");
-                                            if (!fs.existsSync(dir)) {
-                                                fs.mkdirSync(dir);
+                        //logger.info(array);
+                        logger.info(array)
+
+
+
+                        const jsonTables = new HtmlTableToJson(html1);
+                        var arrayJson = [];
+
+                        for (var i = 1; i < jsonTables['results'][0].length; i++) {
+
+                            var json = jsonTables['results'][0][i];
+                            json = JSON.parse(JSON.stringify(json).split('"1":').join('"image":'));
+                            json = JSON.parse(JSON.stringify(json).split('"2":').join('"name":'));
+                            json = JSON.parse(JSON.stringify(json).split('"3":').join('"folio":'));
+                            json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
+                            json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
+                            json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
+                            logger.info(json);
+                            //json = JSON.stringify(json);
+
+                            mongoose.model("neume").insertMany(json)
+                                .then(function(jsonObj) {
+                                    jsonObj.forEach(function(neume) {
+                                        imageNumber = imageNumber + 1;
+                                        mongoose.model("neume").find({
+                                            _id: neume.id
+                                        }).update({
+                                            classifier: originalFileName,
+                                            project: IdOfProject,
+                                            imagesBinary: imageArray[imageNumber],
+                                            mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
+                                                .replace(/[\u201C\u201D]/g, '"')
+                                        }, function(err, neumeElement) {
+                                            if (err) {
+                                                return renderError(err);
+                                            } else {
+                                                //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
+                                                logger.info(arrayJson);
+                                                for (var laptopItem in arrayJson) {}
+
+                                                var messages = result.messages; // Any messages, such as warnings during conversion
+
+                                                var dir = './exports';
+                                                var fs = require("fs");
+                                                if (!fs.existsSync(dir)) {
+                                                    fs.mkdirSync(dir);
+                                                }
+
+                                                var fs = require('fs');
+
                                             }
 
-                                            var fs = require('fs');
-
-                                        }
+                                        })
 
                                     })
-
                                 })
-                            })
-                    }
+                        }
 
 
                     });
@@ -1235,7 +1146,7 @@ router.route('/upladFile')
                                             .replace(/[\u201C\u201D]/g, '"')
                                     }, function(err, neumeElement) {
                                         if (err) {
-                                            res.send("There was a problem updating the information to the database: " + err);
+                                            return renderError(err);
                                         } else {
                                             logger.info(neumeElement);
                                         }
@@ -1254,7 +1165,7 @@ router.route('/upladFile')
                     res.redirect('back');
 
                 } else {
-                    logger.info(err);
+                    return renderError(err);
                 }
             });
 
@@ -1273,9 +1184,7 @@ router.route('/downloadCSV')
             project: IdOfProject
         }, function(err, neumeCSV) {
             if (err) {
-                return res.status(500).json({
-                    err
-                });
+                return renderError(err);
             } else {
                 //var neume = neume;
                 //logger.info(neumeCSV);
@@ -1285,9 +1194,7 @@ router.route('/downloadCSV')
                         fields
                     });
                 } catch (err) {
-                    return res.status(500).json({
-                        err
-                    });
+                    return renderError(err);
                 }
                 const dateTime = moment().format('YYYYMMDDhhmmss');
                 const filePath = pathName.join(__dirname, "..", "exports", "csv-" + IdOfProject + "_" + dateTime + ".csv")
@@ -1299,7 +1206,7 @@ router.route('/downloadCSV')
                 }
                 fs.writeFile(filePath, csv, function(err) { //This gives an error
                     if (err) {
-                        return res.json(err).status(500);
+                        return renderError(err);
                     } else {
                         setTimeout(function() {
                             fs.unlinkSync(filePath); // delete this file after 30 seconds
@@ -1324,13 +1231,11 @@ router.route('/fork')
             project: IdOfProject
         }, function(err, neumeCSV) { //This gets all the neumes from the project
             if (err) {
-                return res.status(500).json({
-                    err
-                });
+                return renderError(err);
             } else {
                 mongoose.model('User').findById(req.session.userId, function(err, user) {
                     if (err) {
-                        return logger.error(err);
+                        return renderError(err);
                     } else {
 
                         //1.We need to create a copy of the project
@@ -1344,7 +1249,7 @@ router.route('/fork')
 
                         }, function(err, project) {
                             if (err) {
-                                res.send("There was a problem adding the information to the database.");
+                                return renderError(err);
                             } else {
                                 //project has been created
                                 logger.info('POST creating new project: ' + project);
@@ -1375,7 +1280,7 @@ router.route('/fork')
 
                                     }, function(err, neume) {
                                         if (err) {
-                                            res.send("There was a problem adding the information to the database.");
+                                            return renderError(err);
                                         } else {
                                             mongoose.model('neume').find({
                                                 project: ID_project
@@ -1412,7 +1317,7 @@ router.route('/fork')
 
 
                                                 a.save(function(err, a) {
-                                                    if (err) throw err;
+                                                    if (err) return renderError(err);;
 
                                                     logger.error('saved img to mongo');
                                                 });
@@ -1453,13 +1358,14 @@ router.route('/updateBio')
 
         //find the document by ID
         User.findById(req.session.userId)
-            .exec(function(error, user) {
+            .exec(function(err, user) {
+                if (err) { return renderError(err); }
                 //update it
                 user.update({
                     bio: bio //adding the image to the image array without reinitializng everything
                 }, function(err, user) {
                     if (err) {
-                        res.send("There was a problem updating the information to the database: " + err);
+                        return renderError(err);
                     } else {
                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                         res.format({
@@ -1489,7 +1395,7 @@ router.route('/updateUsername')
             })
             .exec(function(err, user) {
                 if (err) {
-                    return dialog.info("error");
+                    return renderError(err);
                 } else {
 
                     if (user == null) {
@@ -1502,7 +1408,7 @@ router.route('/updateUsername')
 
                                 }, function(err, user) {
                                     if (err) {
-                                        res.send("There was a problem updating the information to the database: " + err);
+                                        return renderError(err);
                                     } else {
                                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                                         res.format({
@@ -1519,16 +1425,7 @@ router.route('/updateUsername')
                             });
                     } else {
                         var err = new Error('Username already taken. Please try again');
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
+                        return renderError(err);
                     }
                 }
             });
@@ -1548,7 +1445,7 @@ router.route('/updateEmail')
             })
             .exec(function(err, userEmail) {
                 if (err) {
-                    return dialog.info("error");
+                    return renderError(err);
                 } else {
 
                     if (userEmail == null) {
@@ -1561,7 +1458,7 @@ router.route('/updateEmail')
 
                                 }, function(err, user) {
                                     if (err) {
-                                        res.send("There was a problem updating the information to the database: " + err);
+                                        return renderError(err);
                                     } else {
                                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                                         res.format({
@@ -1578,16 +1475,7 @@ router.route('/updateEmail')
                             });
                     } else {
                         var err = new Error('Email already taken. Please try again.');
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
+                        return renderError(err);
                     }
                 }
             });
@@ -1614,16 +1502,7 @@ router.route('/collabs')
                 if (data.admin == userCollab) {
                     //find the document by ID
                     var err = new Error('The collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.');
-                    return res.format({
-                        html: function() {
-                            res.render('errorLog', {
-                                "error": err,
-                            });
-                        },
-                        json: function() {
-                            res.json(err);
-                        }
-                    });
+                    return renderError(err);
                 } else {
                     mongoose.model('project').findById(project, function(err, project) {
                         projectCollabName = project.name;
@@ -1637,7 +1516,8 @@ router.route('/collabs')
 
                         //find the document by ID
                         User.findById(req.session.userId)
-                            .exec(function(error, user) {
+                            .exec(function(err, user) {
+                                if (err) { return renderError(err); }
                                 //update it
                                 user.update({
                                     $push: {
@@ -1650,7 +1530,7 @@ router.route('/collabs')
                                     }
                                 }, function(err, user) {
                                     if (err) {
-                                        res.send("There was a problem updating the information to the database: " + err);
+                                        return renderError(err);
                                     } else {
                                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                                         res.format({
@@ -1686,13 +1566,14 @@ router.route('/deleteCollab')
             },
 
             function(err, data) {
-                logger.info(err, data);
+                if (err) { return renderError(err); }
+                logger.info(data);
             });
 
         mongoose.model('User').findById(req.session.userId, function(err, user) {
 
             if (err) {
-                return logger.error(err);
+                return renderError(err);
             } else {
                 //This works, when the page is reloaded
                 mongoose.model('User').findOneAndUpdate({
@@ -1707,6 +1588,7 @@ router.route('/deleteCollab')
                     },
 
                     function(err, data) {
+                        if (err) { return renderError(err); }
                         logger.info(err, data);
                     });
 
@@ -1747,28 +1629,10 @@ router.get('/confirm/:token', function(req, res) {
     }, function(err, user) {
         if (!user) {
             var err = new Error('Confirmation reset token is invalid or has expired.');
-            return res.format({
-                html: function() {
-                    res.render('errorLog', {
-                        "error": err,
-                    });
-                },
-                json: function() {
-                    res.json(err);
-                }
-            });
+            return renderError(err);
         }
         var err = 'Success! Your account has been activated, you can now log-in to Cress.';
-        return res.format({
-            html: function() {
-                res.render('errorLog', {
-                    "error": err,
-                });
-            },
-            json: function() {
-                res.json(err);
-            }
-        });
+        return renderError(err);
     });
 });
 // GET route after registering
@@ -1779,7 +1643,7 @@ router.get('/profile', function(req, res, next) {
         userID: req.session.userId
     }, function(err, projects) {
         if (err) {
-            return logger.error(err);
+            return renderError(err);
         } else {
             projectsUsers = projects;
 
@@ -1789,20 +1653,17 @@ router.get('/profile', function(req, res, next) {
                 }
             }, function(err, users) {
                 if (err) {
-                    return logger.error(err);
+                    return renderError(err);
                 } else {
                     usersSelect = users;
 
                     User.findById(req.session.userId)
                         .exec(function(error, user) {
                             if (error) {
-                                alert(error, 'yad');
-                                return res.redirect('back');
+                                return renderError(err);
                             } else {
                                 if (user === null) {
-                                    var err = new Error('Not Authorized.');
-                                    alert(err, 'yad');
-                                    return res.redirect('back');
+                                    return renderError(err);
                                 } else {
 
                                     return res.format({
@@ -1841,13 +1702,11 @@ router.post('/profile', function(req, res, next) {
     User.findById(req.session.userId)
         .exec(function(error, user) {
             if (error) {
-                alert(error, 'yad');
-                return res.redirect('back');
+                return renderError(err);
             } else {
                 if (user === null) {
                     var err = new Error('Not Authorized.');
-                    alert(err, 'yad');
-                    return res.redirect('back');
+                    return renderError(err);
                 } else {
                     return res.format({
                         html: function() {
