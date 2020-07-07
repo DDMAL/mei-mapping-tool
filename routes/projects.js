@@ -254,10 +254,11 @@ router.route('/:id')
                         mongoose.model("neume").find({
                             project: project._id
                         }, function(err, neumes) {
-                            neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
-
+                            if (err) { return renderError(res, err); }
+                            for (var i = 0; i < neumes.length; i++) {
+                                var neume = neumes[i];
                                 if (neume.classifier == undefined) {
-                                    return renderError(res, "no classifier");
+                                    logger.error('no classifier for neume with id ' + neume._id);
                                 } else if (neume.classifier.includes(".xlsx")) {
                                     var image = neume.imageMedia;
                                     //logger.info(image);
@@ -293,40 +294,39 @@ router.route('/:id')
                                             });
                                     }
                                 }
-
-                            })
-
-                        });
-                        mongoose.model("section").find({
-                            projectID: project._id
-                        }, function(err, sections) {
+                            }
                             if (err) { return renderError(res, err); }
-                            var sections = sections;
-                            logger.info(neumeSectionArray); //This is still empty
+                            mongoose.model("section").find({
+                                projectID: project._id
+                            }, function(err, sections) {
+                                if (err) { return renderError(res, err); }
+                                var sections = sections;
+                                logger.info(neumeSectionArray); //This is still empty
 
-                            logger.info('GET Retrieving ID: ' + project._id);
-                            var projectdob = project.dob.toISOString();
-                            projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+                                logger.info('GET Retrieving ID: ' + project._id);
+                                var projectdob = project.dob.toISOString();
+                                projectdob = projectdob.substring(0, projectdob.indexOf('T'))
 
-                            res.format({
-                                html: function() {
+                                res.format({
+                                    html: function() {
 
-                                    res.render('projects/showproject', {
-                                        "projectdob": projectdob,
-                                        "project": project,
-                                        "neumes": neumeFinal,
-                                        "user": userFinal[0],
-                                        "sections": sections,
-                                        "neumeSections": neumeSectionArray,
-                                        "positionArray": positionArray,
-                                        "owned": true
-                                    });
-                                },
-                                json: function() {
-                                    res.json(project);
-                                }
-                            });
-                        })
+                                        res.render('projects/showproject', {
+                                            "projectdob": projectdob,
+                                            "project": project,
+                                            "neumes": neumeFinal,
+                                            "user": userFinal[0],
+                                            "sections": sections,
+                                            "neumeSections": neumeSectionArray,
+                                            "positionArray": positionArray,
+                                            "owned": true
+                                        });
+                                    },
+                                    json: function() {
+                                        res.json(project);
+                                    }
+                                });
+                            })
+                        });
                     });
                 }
             }
