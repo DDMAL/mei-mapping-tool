@@ -59,6 +59,7 @@ var uploadCSV = multer({
 var userFinal = [];
 
 function renderError(res, err) {
+    logger.error(res);
     logger.error(err);
     return res.format({
         html: function() {
@@ -212,7 +213,7 @@ router.post('/', function(req, res, next) {
         });
     } else {
         var err = new Error('All fields are required.');
-        return renderError(res, err);;
+        return renderError(res, err);
     }
 });
 
@@ -221,11 +222,11 @@ router.get('/forgot', function(req, res) {
     User.findById(req.session.userId)
         .exec(function(error, user) {
             if (error) {
-                return renderError(err);
+                return renderError(res, err);
             } else {
                 if (user === null) {
                     var err = new Error('Not Authorized.');
-                    return renderError(err);
+                    return renderError(res, err);
                 } else {
 
                     return res.format({
@@ -251,7 +252,7 @@ router.post('/forgot', function(req, res, next) {
         function(done) {
             crypto.randomBytes(20, function(err, buf) {
                 if (err) {
-                    return renderError(err);
+                    return renderError(res, err);
                 }
                 var token = buf.toString('hex');
                 done(err, token);
@@ -263,7 +264,7 @@ router.post('/forgot', function(req, res, next) {
             }, function(err, user) {
                 if (!user) {
                     var err = new Error('No account with that email address exists.');
-                    return renderError(err);
+                    return renderError(res, err);
                 }
 
                 user.resetPasswordToken = token;
@@ -289,7 +290,7 @@ router.post('/forgot', function(req, res, next) {
             };
             sgMail.send(msg);
             var err = 'Success!! The email has been sent!';
-            return renderError(err);
+            return renderError(res, err);
         }
     ], function(err) {
         if (err) return next(err);
@@ -307,7 +308,7 @@ router.get('/reset/:token', function(req, res) {
     }, function(err, user) {
         if (!user) {
             var err = new Error('Password reset token is invalid or has expired.');
-            return renderError(err);
+            return renderError(res, err);
         }
         res.render('reset', {
             user: req.user
@@ -324,7 +325,7 @@ router.post('/reset/:token', function(req, res) {
             }, function(err, user) {
                 if (!user) {
                     var err = new Error('Password reset token is invalid or has expired.');
-                    return renderError(err);
+                    return renderError(res, err);
                 }
 
                 user.password = req.body.password;
@@ -373,7 +374,7 @@ router.route('/about')
     });
 
 // route for uploading a file, csv xlsx etc
-router.route('/upladFile')
+router.route('/uploadFile')
     .post(uploadCSV, function(req, res) {
 
         var fileType = req.body.fileType;
@@ -396,7 +397,7 @@ router.route('/upladFile')
                     path: './exports'
                 }));
             } catch (e) {
-                renderError(err);
+                renderError(res, err);
             }
             var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
             //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
@@ -424,7 +425,7 @@ router.route('/upladFile')
                             //I also need to add the classifier name as a field
                         }, function(err, neumeElement) {
                             if (err) {
-                                return renderError(err);
+                                return renderError(res, err);
                             } else {
                                 logger.info(neumeElement);
                                 var fs = require('fs');
@@ -446,7 +447,7 @@ router.route('/upladFile')
                                 if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
                                     fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
                                         if (err) {
-                                            return renderError(err);
+                                            return renderError(res, err);
                                         }
                                         let xmlParser = require('xml2json');
                                         let xmlString = data.toString();
@@ -473,7 +474,7 @@ router.route('/upladFile')
                                                 //An error happens when the neume gets all the files
                                                 fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
                                                     if (err) {
-                                                        return renderError(err);
+                                                        return renderError(res, err);
                                                     } else {
                                                         let xmlParser = require('xml2json');
                                                         let xmlString = data.toString();
@@ -525,7 +526,7 @@ router.route('/upladFile')
                                                 }]
                                             }, function(err, neumes) {
                                                 if (err) {
-                                                    return renderError(err);
+                                                    return renderError(res, err);
                                                 }
                                                 var indice = 0;
                                                 neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
@@ -596,7 +597,7 @@ router.route('/upladFile')
                                                                     imageMedia: "." //This didnt get updated
                                                                 }, function(err, neumeElement) {
                                                                     if (err) {
-                                                                        return renderError(err);
+                                                                        return renderError(res, err);
                                                                     }
                                                                 })
 
@@ -617,7 +618,7 @@ router.route('/upladFile')
                                             }]
                                         }, function(err, neumes) {
                                             if (err) {
-                                                return renderError(err);
+                                                return renderError(res, err);
                                             }
                                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                                                 var image = neume.imageMedia;
@@ -644,14 +645,14 @@ router.route('/upladFile')
 
                                                         function(err, data) {
                                                             if (err) {
-                                                                return renderError(err);
+                                                                return renderError(res, err);
                                                             }
                                                             //logger.info(err, data);
                                                             imageData = [];
 
                                                             a.save(function(err, a) {
                                                                 if (err) {
-                                                                    return renderError(err);
+                                                                    return renderError(res, err);
                                                                 }
                                                                 logger.info('saved img to mongo');
                                                             });
@@ -708,7 +709,7 @@ router.route('/upladFile')
                                                 imageData = [];
                                                 a.save(function(err, a) {
                                                     if (err) {
-                                                        return renderError(err);
+                                                        return renderError(res, err);
                                                     }
                                                     logger.info('saved img to mongo');
                                                 });
@@ -744,7 +745,7 @@ router.route('/upladFile')
                 rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
             }, function(err, result) {
                 if (err) {
-                    renderError(err);
+                    return renderError(res, err);
                 } else {
                     var fs = require('fs');
 
@@ -800,7 +801,7 @@ router.route('/upladFile')
                                     }, function(err, neume1) {
 
                                         if (err) {
-                                            return renderError(err);
+                                            return renderError(res, err);
                                         } else {
 
                                             var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined.
@@ -813,20 +814,20 @@ router.route('/upladFile')
                                             try {
                                                 a.img.data = fs.readFileSync(imgPath);
                                             } catch(err) {
-                                                return renderError(err);
+                                                return renderError(res, err);
                                             }
                                             a.img.contentType = 'image/png';
                                             try {
                                                 a.imgBase64 = a.img.data.toString('base64');
                                             } catch(err) {
-                                                return renderError(err);
+                                                return renderError(res, err);
                                             }
                                             var imageData = [];
                                             try {
                                                 imageData.push(a.img.data.toString('base64'));
                                             } //This works for all the images stored in the database.
                                             catch(err) {
-                                                return renderError(err);
+                                                return renderError(res, err);
                                             }
                                             //All the images (images) need to be pushed to an array field in mongodb
                                             mongoose.model('neume').find({
@@ -838,14 +839,14 @@ router.route('/upladFile')
                                                 },
 
                                                 function(err, data) {
-                                                    if (err) { return renderError(err); }
+                                                    if (err) { return renderError(res, err); }
                                                     //logger.info(err, data);
                                                     imageData = [];
 
 
 
                                                     a.save(function(err, a) {
-                                                        if (err) return renderError(err);
+                                                        if (err) return renderError(res, err);
 
                                                         logger.info('saved img to mongo');
                                                     });
@@ -885,7 +886,7 @@ router.route('/upladFile')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
-                if (err) { return renderError(err); }
+                if (err) { return renderError(res, err); }
                 logger.info(file); //This is just the name
             });
 
@@ -924,7 +925,7 @@ router.route('/upladFile')
                                     imagesBinary: neume.imagesBinary.map(function(el) { return el.replace(/[\[\]"\\]/mg, ''); })
                                 }, function(err, neumeElement) {
                                     if (err) {
-                                        return renderError(err);
+                                        return renderError(res, err);
                                     } else {
                                         logger.info(neumeElement);
                                     }
@@ -935,14 +936,12 @@ router.route('/upladFile')
                             res.redirect("back");
                         })
                         .catch(function(err) {
-                            return renderError(err);
+                            return renderError(res, err);
                         });
                 });
         }
 
-        if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each
-            //Didn't add the classifier field to the neumes here!
-
+        if (fileType == ".docx") {
             var imageNumber = -1;
             var fs = require("fs");
             var originalFileName = req.file.originalname;
@@ -956,7 +955,7 @@ router.route('/upladFile')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
-                if (err) return renderError(err);
+                if (err) { return renderError(res, err) };
                 logger.info(file); //This is just the name
             });
 
@@ -967,7 +966,7 @@ router.route('/upladFile')
                     path: './exports'
                 }));
             } catch (err) {
-                return renderError(err);
+                return renderError(res, err);
             }
 
             var mammoth = require("mammoth"); //mammoth might take away
@@ -982,7 +981,7 @@ router.route('/upladFile')
                     const html1 = html.toString(); //# Paste your HTML table
                     fs.writeFile("file.html", result.value, function(err) {
                         if (err) {
-                            return renderError(err);
+                            return renderError(res, err);
                         }
 
                         logger.info("The file was saved!");
@@ -1040,7 +1039,7 @@ router.route('/upladFile')
                             })
                         }
                         else {
-                            return renderError(err);
+                            return renderError(res, err);
                         }
 
                         //logger.info(array);
@@ -1077,7 +1076,7 @@ router.route('/upladFile')
                                                 .replace(/[\u201C\u201D]/g, '"')
                                         }, function(err, neumeElement) {
                                             if (err) {
-                                                return renderError(err);
+                                                return renderError(res, err);
                                             } else {
                                                 //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
                                                 logger.info(arrayJson);
@@ -1146,7 +1145,7 @@ router.route('/upladFile')
                                             .replace(/[\u201C\u201D]/g, '"')
                                     }, function(err, neumeElement) {
                                         if (err) {
-                                            return renderError(err);
+                                            return renderError(res, err);
                                         } else {
                                             logger.info(neumeElement);
                                         }
@@ -1165,7 +1164,7 @@ router.route('/upladFile')
                     res.redirect('back');
 
                 } else {
-                    return renderError(err);
+                    return renderError(res, err);
                 }
             });
 
@@ -1184,7 +1183,7 @@ router.route('/downloadCSV')
             project: IdOfProject
         }, function(err, neumeCSV) {
             if (err) {
-                return renderError(err);
+                return renderError(res, err);
             } else {
                 //var neume = neume;
                 //logger.info(neumeCSV);
@@ -1194,7 +1193,7 @@ router.route('/downloadCSV')
                         fields
                     });
                 } catch (err) {
-                    return renderError(err);
+                    return renderError(res, err);
                 }
                 const dateTime = moment().format('YYYYMMDDhhmmss');
                 const filePath = pathName.join(__dirname, "..", "exports", "csv-" + IdOfProject + "_" + dateTime + ".csv")
@@ -1206,7 +1205,7 @@ router.route('/downloadCSV')
                 }
                 fs.writeFile(filePath, csv, function(err) { //This gives an error
                     if (err) {
-                        return renderError(err);
+                        return renderError(res, err);
                     } else {
                         setTimeout(function() {
                             fs.unlinkSync(filePath); // delete this file after 30 seconds
@@ -1231,11 +1230,11 @@ router.route('/fork')
             project: IdOfProject
         }, function(err, neumeCSV) { //This gets all the neumes from the project
             if (err) {
-                return renderError(err);
+                return renderError(res, err);
             } else {
                 mongoose.model('User').findById(req.session.userId, function(err, user) {
                     if (err) {
-                        return renderError(err);
+                        return renderError(res, err);
                     } else {
 
                         //1.We need to create a copy of the project
@@ -1249,7 +1248,7 @@ router.route('/fork')
 
                         }, function(err, project) {
                             if (err) {
-                                return renderError(err);
+                                return renderError(res, err);
                             } else {
                                 //project has been created
                                 logger.info('POST creating new project: ' + project);
@@ -1280,7 +1279,7 @@ router.route('/fork')
 
                                     }, function(err, neume) {
                                         if (err) {
-                                            return renderError(err);
+                                            return renderError(res, err);
                                         } else {
                                             mongoose.model('neume').find({
                                                 project: ID_project
@@ -1317,7 +1316,7 @@ router.route('/fork')
 
 
                                                 a.save(function(err, a) {
-                                                    if (err) return renderError(err);;
+                                                    if (err) return renderError(res, err);;
 
                                                     logger.info('saved img to mongo');
                                                 });
@@ -1359,13 +1358,13 @@ router.route('/updateBio')
         //find the document by ID
         User.findById(req.session.userId)
             .exec(function(err, user) {
-                if (err) { return renderError(err); }
+                if (err) { return renderError(res, err); }
                 //update it
                 user.update({
                     bio: bio //adding the image to the image array without reinitializng everything
                 }, function(err, user) {
                     if (err) {
-                        return renderError(err);
+                        return renderError(res, err);
                     } else {
                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                         res.format({
@@ -1395,7 +1394,7 @@ router.route('/updateUsername')
             })
             .exec(function(err, user) {
                 if (err) {
-                    return renderError(err);
+                    return renderError(res, err);
                 } else {
 
                     if (user == null) {
@@ -1408,7 +1407,7 @@ router.route('/updateUsername')
 
                                 }, function(err, user) {
                                     if (err) {
-                                        return renderError(err);
+                                        return renderError(res, err);
                                     } else {
                                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                                         res.format({
@@ -1425,7 +1424,7 @@ router.route('/updateUsername')
                             });
                     } else {
                         var err = new Error('Username already taken. Please try again');
-                        return renderError(err);
+                        return renderError(res, err);
                     }
                 }
             });
@@ -1445,7 +1444,7 @@ router.route('/updateEmail')
             })
             .exec(function(err, userEmail) {
                 if (err) {
-                    return renderError(err);
+                    return renderError(res, err);
                 } else {
 
                     if (userEmail == null) {
@@ -1458,7 +1457,7 @@ router.route('/updateEmail')
 
                                 }, function(err, user) {
                                     if (err) {
-                                        return renderError(err);
+                                        return renderError(res, err);
                                     } else {
                                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                                         res.format({
@@ -1475,7 +1474,7 @@ router.route('/updateEmail')
                             });
                     } else {
                         var err = new Error('Email already taken. Please try again.');
-                        return renderError(err);
+                        return renderError(res, err);
                     }
                 }
             });
@@ -1502,7 +1501,7 @@ router.route('/collabs')
                 if (data.admin == userCollab) {
                     //find the document by ID
                     var err = new Error('The collaborator you want to add is the admin of the project. You cannot add them again as a collaborator.');
-                    return renderError(err);
+                    return renderError(res, err);
                 } else {
                     mongoose.model('project').findById(project, function(err, project) {
                         projectCollabName = project.name;
@@ -1517,7 +1516,7 @@ router.route('/collabs')
                         //find the document by ID
                         User.findById(req.session.userId)
                             .exec(function(err, user) {
-                                if (err) { return renderError(err); }
+                                if (err) { return renderError(res, err); }
                                 //update it
                                 user.update({
                                     $push: {
@@ -1530,7 +1529,7 @@ router.route('/collabs')
                                     }
                                 }, function(err, user) {
                                     if (err) {
-                                        return renderError(err);
+                                        return renderError(res, err);
                                     } else {
                                         //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                                         res.format({
@@ -1566,14 +1565,14 @@ router.route('/deleteCollab')
             },
 
             function(err, data) {
-                if (err) { return renderError(err); }
+                if (err) { return renderError(res, err); }
                 logger.info(data);
             });
 
         mongoose.model('User').findById(req.session.userId, function(err, user) {
 
             if (err) {
-                return renderError(err);
+                return renderError(res, err);
             } else {
                 //This works, when the page is reloaded
                 mongoose.model('User').findOneAndUpdate({
@@ -1588,7 +1587,7 @@ router.route('/deleteCollab')
                     },
 
                     function(err, data) {
-                        if (err) { return renderError(err); }
+                        if (err) { return renderError(res, err); }
                         logger.info(err, data);
                     });
 
@@ -1629,10 +1628,10 @@ router.get('/confirm/:token', function(req, res) {
     }, function(err, user) {
         if (!user) {
             var err = new Error('Confirmation reset token is invalid or has expired.');
-            return renderError(err);
+            return renderError(res, err);
         }
         var err = 'Success! Your account has been activated, you can now log-in to Cress.';
-        return renderError(err);
+        return renderError(res, err);
     });
 });
 // GET route after registering
@@ -1643,7 +1642,7 @@ router.get('/profile', function(req, res, next) {
         userID: req.session.userId
     }, function(err, projects) {
         if (err) {
-            return renderError(err);
+            return renderError(res, err);
         } else {
             projectsUsers = projects;
 
@@ -1653,17 +1652,17 @@ router.get('/profile', function(req, res, next) {
                 }
             }, function(err, users) {
                 if (err) {
-                    return renderError(err);
+                    return renderError(res, err);
                 } else {
                     usersSelect = users;
 
                     User.findById(req.session.userId)
                         .exec(function(error, user) {
                             if (error) {
-                                return renderError(err);
+                                return renderError(res, err);
                             } else {
                                 if (user === null) {
-                                    return renderError(err);
+                                    return renderError(res, err);
                                 } else {
 
                                     return res.format({
@@ -1702,11 +1701,11 @@ router.post('/profile', function(req, res, next) {
     User.findById(req.session.userId)
         .exec(function(error, user) {
             if (error) {
-                return renderError(err);
+                return renderError(res, err);
             } else {
                 if (user === null) {
                     var err = new Error('Not Authorized.');
-                    return renderError(err);
+                    return renderError(res, err);
                 } else {
                     return res.format({
                         html: function() {

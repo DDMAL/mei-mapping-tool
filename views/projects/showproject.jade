@@ -91,11 +91,6 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
          span.close x
          include upload.jade
 
-     .modal(id = "imageCSV")
-       .modal-content
-         span.close x
-         include imageCSV.jade
-
        // Add New Neume Modal
      #modalSection.modal
        // Modal content
@@ -132,7 +127,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                       i.fa.fa-download
                       |  CSV 
                       //span.tooltiptext To download the project as a .csv file, click here!
-      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
+      button(class = 'button' class = 'tooltip' id = 'uploadButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('upload', 'uploadButton');")
        i.fa.fa-upload
        |  Upload
 
@@ -329,7 +324,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                     initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
                     initializeModal('modalSection', 'sectionButton');
                     initializeModal('uploadCSV', 'uploadCSVButton');
-                    initializeModal('imageCSV', 'imageCSVButton');
+                    initializeModal('upload', 'uploadButton');
                 });
 
                 //Modals event listeners for every modal
