@@ -593,8 +593,6 @@ router.route('/updateSection')
                     return renderError(res, err);
                 } else {
                     logger.info(data);
-
-
                     //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                     res.format({
                         //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -607,9 +605,7 @@ router.route('/updateSection')
                             res.json(projects);
                         }
                     });
-
                 }
-
             })
     });
 
