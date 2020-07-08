@@ -32,9 +32,8 @@ body
                   input(type = 'file' name = "fileImage" id = "ImportFile" required)
                   button(type = 'submit' class = 'button button1' id = "uploadSubmitbutton") Upload
                   br
-                  br           
+                  br
 script.
   $('.selectfileclass').change(function() {
     $('#ImportFile').attr("accept", $(this).val())
   })
-
