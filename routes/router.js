@@ -20,6 +20,7 @@ var flash = require('express-flash');
 var storedImages = require('../model/storedImages');
 var SENDGRID_API_KEY = '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';
 var logger = require('../logger');
+var renderError = require('../public/javascripts/error');
 
 router.use(flash());
 
@@ -33,10 +34,10 @@ router.use(bodyParser.urlencoded({
 }));
 
 // necessary stuff for file IO
-var multer = require('multer')
+var multer = require('multer');
 var uploadCSV = multer({
     dest: 'exports/'
-})
+});
 
 var fs = require('fs');
 var dir = './exports';
@@ -58,31 +59,16 @@ var uploadCSV = multer({
 
 var userFinal = [];
 
-function renderError(res, err) {
-    logger.error(res);
-    logger.error(err);
-    return res.format({
-        html: function() {
-            res.render('errorLog', {
-                "error": err,
-            });
-        },
-        json: function() {
-            res.json(err);
-        }
-    });
-}
-
 // load the index page, and flag that we're logged out
 router.get('/', function(req, res, next) {
-    req.session.userId = -1;
+    req.session.userId = null;
     return res.render('index')
 });
 
 //POST route for updating data
 router.post('/', function(req, res, next) {
     var editor = false;
-    req.session.userId = -1; // set logged out
+    req.session.userId = null; // set logged out
 
     if (req.body.email &&
         req.body.username &&
@@ -344,8 +330,8 @@ router.route('/about')
     .get(function(req, res) {
         var logged_in;
         // see if the user is logged in
-        if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
-            userFinal = -1;
+        if (req.session.userId === null) {
+            userFinal = null;
             logged_in = false;
         } else {
             logged_in = true;

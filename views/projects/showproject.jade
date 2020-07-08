@@ -162,7 +162,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                         i.fa.fa-download
                         |  CSV 
                         span.tooltiptext To download the project as a .csv file, click here!
-    if (user != -1)
+    if (user != null)
       form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
               input(type='text',value='#{project.id}', name='IdOfProject' hidden)
               input(type='text',value='#{project.name}', name='projectName' hidden)

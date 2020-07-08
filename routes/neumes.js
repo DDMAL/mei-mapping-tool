@@ -6,12 +6,9 @@ var express = require('express'),
 var storedImages = require('../model/storedImages')
 var fs = require('fs')
 var logger = require('../logger');
-global.neumes_array = []
+global.neumes_array = [];
+var renderError = require('../public/javascripts/error');
 
-//  Any requests to this controller must pass through this 'use' function
-//  Copy and pasted from method-override
-
-//  Change this for the users to go to the projects page
 router.use(bodyParser.json({
     limit: '50mb'
 }))
@@ -27,20 +24,6 @@ router.use(methodOverride(function(req, res) {
         return method
     }
 }))
-
-function renderError(res, err) {
-    logger.error(err);
-    return res.format({
-        html: function() {
-            res.render('errorLog', {
-                "error": err,
-            });
-        },
-        json: function() {
-            res.json(err);
-        }
-    });
-}
 
 //  Route for the cancel button on editNeume and newNeume
 router.route('/cancel')

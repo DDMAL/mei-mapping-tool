@@ -34,7 +34,7 @@ html
           h1.
                #{title} 
           p All of your mei-mapping projects, in one interface.
-          if (user != -1)
+          if (user != null)
             #ex1.modal
                 block content
                   h2.
@@ -100,7 +100,7 @@ html
                       h2.projectHeader Other Projects
                       ul
                           - each project, i in other
-                             if (user != -1)
+                             if (user != null)
                               button.collapsible(style = " clear : left;" onclick = "window.location='/projects/fork/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
                              else
                               button.collapsible(style = " clear : left;" onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}

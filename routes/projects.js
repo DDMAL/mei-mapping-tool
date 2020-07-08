@@ -6,6 +6,7 @@ var express = require('express'),
 fs = require('fs');
 var reload = require('require-reload')(require);
 var logger = require('../logger');
+var renderError = require('../public/javascripts/error');
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
 router.use(bodyParser.json({
@@ -30,20 +31,6 @@ global.latestImage = []; //getting the latestImage from the database
 global.imageData = []; //Getting all the imageData in binary from the storedimages collection
 global.neumeSectionArray = []; //Array to keep the neumes in the section
 
-function renderError(res, err) {
-    logger.error(err);
-    return res.format({
-        html: function() {
-            res.render('errorLog', {
-                "error": err,
-            });
-        },
-        json: function() {
-            res.json(err);
-        }
-    });
-}
-
 //build the REST operations at the base for projects
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
@@ -52,15 +39,14 @@ router.route('/')
 
         projectIds = req.body._id;
         // if not logged in
-        if (req.session.userId === -1 || typeof req.session.userId === 'undefined' || req.session.userId === null) {
-            userFinal = -1;
+        if (req.session.userId === null) {
+            userFinal = null;
             logged_in = false;
         } else {
             mongoose.model('User').find({
                 _id: req.session.userId
             }, function(err, users) {
                 userFinal = users;
-                // logger.info(userFinal);//This works!!!
             });
         }
         //retrieve all projects from Mongo
@@ -100,7 +86,6 @@ router.route('/')
                     }
                 });
             }
-            //global.userFinal = []; //The user needs to be added in all the routes
 
         });
 
@@ -141,7 +126,7 @@ router.route('/')
                     const fs = require('fs');
 
                     fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
-                        if (err) { return renderError(res, err); };
+                        if (err) { return renderError(res, err); }
                         logger.info('successfully deleted');
                     });
                 }
@@ -231,7 +216,7 @@ router.route('/:id')
                 return renderError(res, err);
             } else {
                 if (project == null) {
-                    return renderError(res, 'project is null');
+                    return renderError(res, 'project with id: ' + req.id + ' is null');
                 } else {
                     var positionArray = project.positionArray;
                     mongoose.model('neume').find({
@@ -255,10 +240,9 @@ router.route('/:id')
                             project: project._id
                         }, function(err, neumes) {
                             if (err) { return renderError(res, err); }
-                            for (var i = 0; i < neumes.length; i++) {
-                                var neume = neumes[i];
+                            for (let neume of neumes) {
                                 if (neume.classifier == undefined) {
-                                    logger.error('no classifier for neume with id ' + neume._id);
+                                    logger.info('no classifier for neume with id ' + neume._id);
                                 } else if (neume.classifier.includes(".xlsx")) {
                                     var image = neume.imageMedia;
                                     //logger.info(image);
@@ -272,8 +256,8 @@ router.route('/:id')
                                         a.img.contentType = 'image/png';
                                         a.imgBase64 = a.img.data.toString('base64');
 
-                                        imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-                                        //logger.info(imageData); //This works
+                                        imageData.push(a.img.data.toString('base64'));
+                                        var err_pass; // to receive error and render after the internal function
                                         mongoose.model('neume').find({
                                             _id: neume._id
                                         }).update({
@@ -287,11 +271,12 @@ router.route('/:id')
                                                 imageData = [];
 
                                                 a.save(function(err, a) {
-                                                    if (err) { return renderError(res, err); }
+                                                    if (err) { err_pass = err; return; }
 
                                                     logger.info('saved img to mongo');
                                                 });
                                             });
+                                        if (err_pass) { return RenderError(res, err_pass); }
                                     }
                                 }
                             }
@@ -575,8 +560,7 @@ router.route('/:id/edit')
 // Update the sections to add neumes inside.
 router.route('/updateSection')
     .post(function(req, res) {
-        var neumeSectionIds = [];
-        neumeSectionIds.push(req.body.neumeSectionIds); //This is an array of elements
+        var neumeSectionIds = Array.from(req.body.neumeSectionIds);
         var sectionID = req.body.SectionID;
 
         mongoose.model('section').findOneAndUpdate({
