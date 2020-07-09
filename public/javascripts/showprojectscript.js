@@ -325,7 +325,11 @@ function initSection(section) {
     if (neumesInSection.length > 0) {
         var neumeArrays = neumesInSection.split(",");
         neumeArrays.forEach(function(neume) {
-            document.getElementById("section" + section._id).appendChild(document.getElementById("drop" + neume));
+            try {
+                document.getElementById("section" + section._id).appendChild(document.getElementById("drop" + neume));
+            } catch (err) {
+                console.error(err + 'for: ' + section._id + ' and neume ' + neume);
+            }
         })
     }
 
