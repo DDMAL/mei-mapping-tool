@@ -295,7 +295,7 @@ router.route('/:id/deleteImage')
                 mongoose.model('storedImages').remove({
                     imgBase64: imageToDelete
                 }, function(err, data) {
-                    logger.log(err, data)
+                    if (err) { return renderError(res, err); }
                     //I have to do this now tho
                 });
                 // });
@@ -304,7 +304,7 @@ router.route('/:id/deleteImage')
                     //HTML returns us back to the main page, or you can create a success page
                     html: function() {
                         //res.redirect("back");
-                        res.status(204).send()
+                        res.status(204).send();
                     },
                     //JSON returns the item with the message that is has been deleted
                     json: function() {
