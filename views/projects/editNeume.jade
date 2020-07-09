@@ -21,8 +21,8 @@ body
   input(type='hidden',value='GET',name='_method')
   button(type = "submit" id ="cancelButton" class = "button3CancelImage") Cancel
 
-// make sure that the script has access to the necessary express render variables
+// import the external script and call its helper function
+script(type="text/javascript" src="../../javascripts/editneumescript.js")
 script(type='text/javascript').
   var neume = !{JSON.stringify(neume)};
-
-script(type='text/javascript' src="/javascripts/editneumescript.js")
+  initEditNeume(neume);
