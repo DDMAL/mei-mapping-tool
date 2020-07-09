@@ -6,6 +6,7 @@ html
    title Cress - MEI Mapping Tool 🎵 
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
+   script(type="text/javascript" src="../../javascripts/showprojectscript.js")
   meta(name='viewport', content='width=device-width, initial-scale=1')
   script(src='/javascripts/popup.js', type='text/javascript')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
@@ -90,11 +91,6 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
          span.close x
          include upload.jade
 
-     .modal(id = "imageCSV")
-       .modal-content
-         span.close x
-         include imageCSV.jade
-
        // Add New Neume Modal
      #modalSection.modal
        // Modal content
@@ -124,14 +120,14 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
 
       //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
-      form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+      form(action='/downloadCSV',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                     input(type='text',value='#{project.name}', name='projectName' hidden)
                     button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
                       i.fa.fa-download
                       |  CSV 
                       //span.tooltiptext To download the project as a .csv file, click here!
-      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
+      button(class = 'button' class = 'tooltip' id = 'uploadButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('upload', 'uploadButton');")
        i.fa.fa-upload
        |  Upload
 
@@ -159,14 +155,14 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
     form()
       
       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; font: 35px Avenir, sans-serif; width : 60%; margin : 0px padding : 0px")
-    form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
+    form(action='/downloadCSV',method='post',enctype='application/x-www-form-urlencoded')
                       input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                       input(type='text',value='#{project.name}', name='projectName' hidden)
                       button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
                         i.fa.fa-download
                         |  CSV 
                         span.tooltiptext To download the project as a .csv file, click here!
-    if (user != -1)
+    if (user != null)
       form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
               input(type='text',value='#{project.id}', name='IdOfProject' hidden)
               input(type='text',value='#{project.name}', name='projectName' hidden)
@@ -271,7 +267,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                               input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
                       +submitchangesmix(neume)
                   +deletemix(neume)
-                      form(action='/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
+                      form(action='/projects/savePosition',method='post',enctype='application/x-www-form-urlencoded' id = "position#{neume.id}")
                            input(type='text',value='#{neume.position}', name = 'position' id = "inputPosition#{neume.id}" hidden)
                            input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
 
@@ -282,8 +278,8 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
 
-              script(type="text/javascript" src="../../javascripts/showprojectscript.js")
               script.
+
                 //For each neume in the project :
                 //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
                 var editor#{neume.id} = ace.edit('#{neume.id}');
@@ -328,7 +324,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                     initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
                     initializeModal('modalSection', 'sectionButton');
                     initializeModal('uploadCSV', 'uploadCSVButton');
-                    initializeModal('imageCSV', 'imageCSVButton');
+                    initializeModal('upload', 'uploadButton');
                 });
 
                 //Modals event listeners for every modal
@@ -339,8 +335,9 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
                 var neume = !{JSON.stringify(neume)};
                 var project = !{JSON.stringify(project)};
+                var owned = !{owned};
 
-                initNeume(neume, project);
+                initNeume(neume, project, owned);
                 
                   <!-- Cookie Consent by https://www.TermsFeed.com -->
 if (owned)
@@ -350,7 +347,7 @@ if (owned)
             div(id = "section#{section._id}" class = "#{section._id}" style = "border-color : black; border-style : solid; border-size : 0.5px; border-radius : 10px; margin : 10px; margin-top : 30px").ui-state-default
                 p(style = "margin : 10px; font : 20px Avenir, sans-serif; " id = "#{section._id}") #{section.name}
                 p(id = "sectionName#{section._id}")
-                form(action='/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
+                form(action='/projects/sectionDelete',method='post',enctype='application/x-www-form-urlencoded')
                           input(type='hidden',value='DELETE',name='_method')
                           input(type='text', value = "#{section._id}", name='sectionId' id = "idForSection" hidden)
                           button(style = "float : left; right : 10px" type="button" class = "button button3DeleteSection" class = "deleteSection" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{section._id}").
@@ -367,7 +364,7 @@ if (owned)
                                button(type = "button" class = "button button4" class = "NoBtnSection deleteSection" id = "NoButton#{section._id}") No
                                br
                                br
-                form(action='/updateSection',method='post',enctype='application/x-www-form-urlencoded')
+                form(action='/projects/updateSection',method='post',enctype='application/x-www-form-urlencoded')
 
                     input(type='text', name='neumeSectionIds' id = "inputArraySection#{section._id}" hidden)
                     input(type='text', name='SectionID' id = "sectionID#{section._id}" hidden)
@@ -375,7 +372,8 @@ if (owned)
                     button(id = "buttonSection#{section._id}" type = 'submit' class = 'button button2CSVUpdate' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 3%; right : 50px; top : -52px; max-width : 10%" )
                       i.fa.fa-pencil
                       //span.tooltiptext To download the project as a .csv file, click here!
-            script.
+
+             script.
               var section = !{JSON.stringify(section)};
               initSection(section);          
 

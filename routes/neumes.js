@@ -6,12 +6,9 @@ var express = require('express'),
 var storedImages = require('../model/storedImages')
 var fs = require('fs')
 var logger = require('../logger');
-global.neumes_array = []
+global.neumes_array = [];
+var renderError = require('../public/javascripts/error');
 
-//  Any requests to this controller must pass through this 'use' function
-//  Copy and pasted from method-override
-
-//  Change this for the users to go to the projects page
 router.use(bodyParser.json({
     limit: '50mb'
 }))
@@ -36,7 +33,7 @@ router.route('/cancel')
 
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
-                return logger.error(err)
+                return renderError(res, err);
             } else {
                 //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
@@ -53,95 +50,9 @@ router.route('/cancel')
         })
     })
 
-// This loads the projects page when you're NOT logged in
-// This only gets called if you're a public user
-router.route('/user')
-    //  GET all neumes
-    .get(function(req, res, next) {
-        //  retrieve all neumes from Mongo
-        mongoose.model('project').find({}, function(err, projects) {
-            if (err) {
-                return logger.error(err)
-            } else {
-                logger.error(projects);
-                //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                res.format({
-                    //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
-                    html: function() {
-                        res.render('projects/projectindex', {
-                            title: 'Project',
-                            "other": projects,
-                            "user": [],
-                            "projects": []
-                        })
-                    },
-                    //  JSON response will show all neumes in JSON format
-                    json: function() {
-                        res.json(projects)
-                    }
-                });
-            }
-        })
-    })
-
-//  Route for public user's about page, only called if you're not logged in
-router.route('/about')
-    //  GET all neumes
-    .get(function(req, res, next) {
-        //retrieve all neumes from Mongo
-        mongoose.model('project').find({}, function(err, projects) {
-            if (err) {
-                return logger.error(err)
-            } else {
-                //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                res.format({
-                    //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
-                    html: function() {
-                        res.render('about', {
-                            title: 'About',
-                            "projects": projects,
-                            "loggedin": false
-                        })
-                    },
-                    //  JSON response will show all neumes in JSON format
-                    json: function() {
-                        res.json(projects)
-                    }
-                })
-            }
-        })
-    })
-
-//  build the REST operations at the base for neumes
-//  this will be accessible from http://127.0.0.1:3000/neumes if the default route for / is left unchanged
-// there isn't any jade file available for the get function
-// the .post function gets called when you upload a new neume though?
+// build the REST operations at the base for neumes
+// post function to create a new neume
 router.route('/')
-    //  GET all neumes
-    .get(function(req, res, next) {
-        //  retrieve all neumes from Monogo
-        mongoose.model('neume').find({}, function(err, neumes) {
-            if (err) {
-                return logger.error(err)
-            } else {
-                //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
-                res.format({
-                    //  HTML response will render the index.jade file in the views/neumes folder. We are also setting "neumes" to be an accessible variable in our jade view
-                    html: function() {
-                        res.render('neumes', {
-                            title: 'Neumes',
-                            "neumes": neumes
-                        });
-                    },
-                    //JSON response will show all neumes in JSON format
-                    json: function() {
-                        res.json(neumes);
-                    }
-                })
-            }
-        })
-    })
-
     //  POST a new neume
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
@@ -177,7 +88,7 @@ router.route('/')
 
         }, function(err, neume) {
             if (err) {
-                res.send("There was a problem adding the information to the database.");
+                return renderError(res, err);
             } else {
                 //neume has been created
                 //logger.log('POST creating new neume: ' + neume); //neume holds the new neume
@@ -221,15 +132,16 @@ router.route('/')
                         },
 
                         function(err, data) {
+                            if (err) { return renderError(res, err); }
                             //logger.log(err, data);
                             imageData = [];
                         });
 
 
                     a.save(function(err, a) {
-                        if (err) throw err;
+                        if (err) { return renderError(res, err); };
 
-                        logger.error('saved img to mongo');
+                        logger.info('saved img to mongo');
                     });
 
                 });
@@ -256,55 +168,9 @@ router.route('/')
         })
     });
 
-/* GET New neume page. */
-// neumes/new isn't a jade file, and this doesn't seem to ever be called
-router.get('/new', function(req, res) {
-    res.render('neumes/new', {
-        title: 'Add New Neume'
-    });
-});
-
 /* Update edit images. */
-// called in editNeume.jade
-// this seems to be attached to a form, and so doesn't actually ever get called?
-// also neume/edit doesn't exist, so I'm assuming this is depricated
-// the put function gets called when you add a new neume
+// put function to add a new neume
 router.route('/:id/editImage')
-    .get(function(req, res) {
-        //search for the neume within Mongo
-        mongoose.model('neume').findById(req.id, function(err, neume) {
-            if (err) {
-                logger.log('GET Error: There was a problem retrieving: ' + err);
-            } else {
-                //Return the neume
-                //logger.log('GET Retrieving ID: ' + neume._id);
-                var neumedob = neume.dob.toISOString();
-                neumedob = neumedob.substring(0, neumedob.indexOf('T'))
-                imageArray = [];
-                res.format({
-                    //HTML response will render the 'edit.jade' template
-                    html: function() {
-                        res.render('neumes/edit', {
-                            title: 'neume' + neume._id,
-                            "neumedob": neumedob,
-                            "neume": neume,
-                            "neumeImages": neume.imagePath
-                        });
-                    },
-                    //JSON response will return the JSON output
-                    json: function() {
-                        res.json(neume);
-                    }
-
-                });
-                imageArray = [];
-                res.redirect('back');
-
-            }
-        }).populate('image').exec((err, posts) => {
-            //logger.log("Populated Image " + posts);
-        });
-    })
     //PUT to update a neume by ID
     .put(function(req, res) {
         // Get our REST or form values. These rely on the "name" attributes from the edit page
@@ -321,6 +187,7 @@ router.route('/:id/editImage')
 
         //find the document by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
+            if (err) { return renderError(res, err); }
             var ID_project = neume.project;
             //update it
             editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
@@ -328,7 +195,7 @@ router.route('/:id/editImage')
                 imagePath: editArray //adding the image to the image array without reinitializng everything
             }, function(err, neumeElement) {
                 if (err) {
-                    res.send("There was a problem updating the information to the database: " + err);
+                    return renderError(res, err);
                 } else {
 
                     imageArray.forEach(function(image) {
@@ -356,19 +223,21 @@ router.route('/:id/editImage')
                             },
 
                             function(err, data) {
+                                if (err) { return renderError(res, err); }
                                 //logger.log(err, data);
                                 imageData = [];
                             });
                         a.save(function(err, a) {
-                            if (err) throw err;
+                            if (err) { return renderError(res, err); };
 
-                            logger.error('saved img to mongo');
+                            logger.info('saved img to mongo');
                         });
 
                     });
                     mongoose.model('neume').find({
                         project: ID_project
                     }, function(err, neumes) {
+                        if (err) { return renderError(res, err); }
                         neumeFinal = neumes;
                         //logger.log(neumeFinal);//This works!!!
                     });
@@ -387,48 +256,9 @@ router.route('/:id/editImage')
             })
         });
     })
-    //DELETE an image by ID
-    .delete(function(req, res) {
-        //imageDeleted is the path of the image we want to delete.
-        var imageToDelete = req.body.imageDeleted;
-        //logger.log(imageToDelete);
-        //This is the p element
-        //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
-        //req.body.imageDeleted doesnt seem to work
-        //find neume by ID
-        mongoose.model('neume').findById(req.id, function(err, neume) {
-            var ID_project = neume.project;
-
-            if (err) {
-                return logger.error(err);
-            } else {
-                //deleting the images from the image model
-
-                //logger.log('successfully deleted');
-                // mongoose.model('storedImages').remove({imagepath : imageToDelete}, function (err, image) {
-                //logger.log(image)
-                // });
-
-                res.format({
-                    //HTML returns us back to the main page, or you can create a success page
-                    html: function() {
-                        res.redirect("back");
-                    },
-                    //JSON returns the item with the message that is has been deleted
-                    json: function() {
-                        res.json({
-                            message: 'deleted',
-                            item: neume
-                        });
-                    }
-
-                });
-                imageArray = [];
-            }
-        });
-    });
 
 /* Update edit images. */
+// route to delete an image in a neume
 // called when you click x on an image
 router.route('/:id/deleteImage')
     //DELETE an image by ID
@@ -444,7 +274,7 @@ router.route('/:id/deleteImage')
             var ID_project = neume.project;
 
             if (err) {
-                return logger.error(err);
+                return renderError(res, err);
             } else {
                 //This works, when the page is reloaded
                 mongoose.model('neume').findOneAndUpdate({
@@ -465,7 +295,7 @@ router.route('/:id/deleteImage')
                 mongoose.model('storedImages').remove({
                     imgBase64: imageToDelete
                 }, function(err, data) {
-                    logger.log(err, data)
+                    if (err) { return renderError(res, err); }
                     //I have to do this now tho
                 });
                 // });
@@ -474,7 +304,7 @@ router.route('/:id/deleteImage')
                     //HTML returns us back to the main page, or you can create a success page
                     html: function() {
                         //res.redirect("back");
-                        res.status(204).send()
+                        res.status(204).send();
                     },
                     //JSON returns the item with the message that is has been deleted
                     json: function() {
@@ -490,27 +320,14 @@ router.route('/:id/deleteImage')
     });
 
 
-// route middleware to validate :id
+// route middleware to validate neume :id
 router.param('id', function(req, res, next, id) {
     //logger.log('validating ' + id + ' exists');
     //find the ID in the Database
     mongoose.model('neume').findById(id, function(err, neume) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            logger.log(id + ' was not found');
-            res.status(404)
-            var err = new Error('Not Found');
-            err.status = 404;
-            res.format({
-                html: function() {
-                    next(err);
-                },
-                json: function() {
-                    res.json({
-                        message: err.status + ' ' + err
-                    });
-                }
-            });
+            return renderError(res, err);
             //if it is found we continue on
         } else {
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
@@ -521,71 +338,11 @@ router.param('id', function(req, res, next, id) {
             next();
         }
     });
-});
-
-router.route('/:id')
-    .get(function(req, res) {
-        mongoose.model('neume').findById(req.id, function(err, neume) {
-            if (err) {
-                logger.error('GET Error: There was a problem retrieving: ' + err);
-            } else {
-                //logger.log('GET Retrieving ID: ' + neume._id);
-                var neumedob = neume.dob.toISOString();
-                neumedob = neumedob.substring(0, neumedob.indexOf('T'))
-                res.format({
-                    html: function() {
-                        res.render('projects/showproject.jade', {
-                            "neumedob": neumedob,
-                            "neumes": neume,
-                            "user": -1,
-                            "owned": false
-                        });
-                    },
-                    json: function() {
-                        res.json(neume);
-                    }
-                });
-            }
-        });
-    });
+}); 
 //The new projectID should be here.
 
-//again, the get function seems to be broken for the same reason
-// although the delete definitely gets called when you delete a neume,
-// and the put one also works I think
+// put route to edit the neume information
 router.route('/:id/edit')
-    //GET the individual neume by Mongo ID
-    .get(function(req, res) {
-        //search for the neume within Mongo
-        mongoose.model('neume').findById(req.id, function(err, neume) {
-            if (err) {
-                logger.log('GET Error: There was a problem retrieving: ' + err);
-            } else {
-                //Return the neume
-                //logger.log('GET Retrieving ID: ' + neume._id);
-                var neumedob = neume.dob.toISOString();
-                neumedob = neumedob.substring(0, neumedob.indexOf('T'))
-                res.format({
-                    //HTML response will render the 'edit.jade' template
-                    html: function() {
-                        res.render('neumes/edit', {
-                            title: 'neume' + neume._id,
-                            "neumedob": neumedob,
-                            "neume": neume,
-                            "neumeImages": neume.imagePath
-                        });
-                    },
-                    //JSON response will return the JSON output
-                    json: function() {
-                        res.json(neume);
-                    }
-                });
-                res.redirect('back');
-            }
-        }).populate('image').exec((err, posts) => {
-            //logger.log("Populated Image " + posts);
-        });
-    })
     //PUT to update a neume by ID
     .put(function(req, res) {
         // Get our REST or form values. These rely on the "name" attributes from the edit page
@@ -602,6 +359,7 @@ router.route('/:id/edit')
 
         //find the document by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
+            if (err) { return renderError(res, err); }
             var ID_project = neume.project;
             //update it
             editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
@@ -617,7 +375,7 @@ router.route('/:id/edit')
                 genericName: genericName //adding the image to the image array without reinitializng everything
             }, function(err, neumeID) {
                 if (err) {
-                    res.send("There was a problem updating the information to the database: " + err);
+                    return renderError(res, err);
                 } else {
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
@@ -641,12 +399,12 @@ router.route('/:id/edit')
         mongoose.model('neume').findById(req.id, function(err, neume) {
             var ID_project = neume.project;
             if (err) {
-                return logger.error(err);
+                return renderError(res, err);
             } else {
                 //remove it from Mongo
                 neume.remove(function(err, neume) {
                     if (err) {
-                        return logger.error(err);
+                        return renderError(res, err);
                     } else {
                         //  Finish this when the neumes are deleted
                         mongoose.model("storedImages").remove({
@@ -654,9 +412,9 @@ router.route('/:id/edit')
                         }, function(err, image) {
                             logger.log(image);
                             if (err) {
-                                return logger.error(err);
+                                return renderError(res, err);
                             } else {
-                                logger.error('worked!');
+                                logger.info('worked!');
                             }
                         });
                         //Returning success messages saying it was deleted
@@ -664,8 +422,8 @@ router.route('/:id/edit')
                         mongoose.model('neume').find({
                             project: ID_project
                         }, function(err, neumes) {
+                            if (err) { return renderError(res, err); }
                             neumeFinal = neumes;
-
                         });
 
                         res.format({

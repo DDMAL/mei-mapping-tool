@@ -1,7 +1,6 @@
 //Function for the collapse all button
 function collapseAll() {
     var elements = document.getElementsByClassName("paddingCollapsible");
-    console.log(elements)
     for (var x = 0; x < elements.length; x++) {
         var content = elements[x].nextElementSibling;
         if (content.style.display === "none") {
@@ -18,7 +17,6 @@ function collapseAll() {
 
     }
     var deleteButtonCollapse = document.getElementsByClassName("button3");
-    console.log(elements)
     for (var x = 0; x < deleteButtonCollapse.length; x++) {
         var content = deleteButtonCollapse[x];
         if (content.style.display === "none") {
@@ -29,9 +27,8 @@ function collapseAll() {
     }
 }
 
-function initNeume(neume, project) {
+function initNeume(neume, project, owned) {
 
-    var owned = !{owned};
     var imagePaths = neume.imagePaths;
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext("2d");
@@ -42,7 +39,6 @@ function initNeume(neume, project) {
     /*Function to create a canvas for each image inside of the imagepath array of the neume
     @param element : single imagepath of the array*/
     var imagesBinary = neume.imagesBinary;
-    //console.log(imageArray);
     imagesBinary.forEach(function(element) {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext("2d");
@@ -88,14 +84,12 @@ function initNeume(neume, project) {
         var content = this.nextElementSibling;
         if (content.style.display === "none") {
             $.cookie(this.id, "true")
-            console.log($.cookie(this.id))
 
             content.style.display = "block";
 
             deleteButtonCollapse.style.display = "block"
         } else {
             $.cookie(this.id, "false")
-            console.log($.cookie(this.id))
             content.style.display = "none";
             deleteButtonCollapse.style.display = "none";
         }
@@ -152,7 +146,6 @@ function initNeume(neume, project) {
             axis: 'y',
             handle: 'button',
             over: function(event) {
-                console.log("hovered!");
                 //We need to create the rectangle element
                 var myDroppable = event.target; //This is the element where it's being dropped
             },
@@ -171,16 +164,11 @@ function initNeume(neume, project) {
                     positionArray.push(element);
                 })
                 var positions = order.join(';');
-                console.log({
-                    id: changedList,
-                    positions: positions
-                });
 
                 document.getElementById("inputPosition" + neume._id).value = positionArray;
             },
             stop: function(event, ui) {
                 var data = $(this).sortable('serialize');
-                console.log(data);
             },
             cancel: 'input,textarea,select,option',
             connectWith: ".ui-state-default",
@@ -192,8 +180,7 @@ function initNeume(neume, project) {
             $sortable1.sortable('refresh');
         });
 
-        t2 = window.performance.now()
-        console.log(t2 - t1)
+        t2 = window.performance.now();
     });
     var height = " ";
     $(".ui-state-default").droppable({
@@ -210,7 +197,6 @@ function initNeume(neume, project) {
     });
 
     //Get toggle value : 
-    console.log(document.getElementById("toggle" + neume._id).value);
     if (document.getElementById("toggle" + neume._id).value == "Yes") {
         document.getElementById("toggle" + neume._id).checked = true;
     }
@@ -239,7 +225,6 @@ function initNeume(neume, project) {
     });
     var undoValue = "";
     if (!owned) {
-        console.log('in');
         var x = document.getElementById('editImagesButton' + neume._id);
         x.style.display = "none";
     }
@@ -259,10 +244,6 @@ function undo() {
         positionArray.push(element);
     })
     var positions = order.join(';');
-    console.log({
-        id: changedList,
-        positions: positions
-    });
     //Change position here
 
     document.getElementById("inputPosition" + neume._id).value = positionArray;
@@ -274,8 +255,7 @@ function initSection(section) {
         document.getElementById("DeleteModal" + section._id).style.display = 'none';
     };
     window.addEventListener('load', function() {
-        initializeModal('DeleteModal#{section._id}', 'deleteNeumeButton#{section._id}');
-
+        initializeModal('DeleteModal' + section._id, 'deleteNeumeButton' + section._id);
     });
     var idSection = document.getElementById("section" + section._id)
     $(idSection).sortable({
@@ -320,12 +300,9 @@ function initSection(section) {
 
             document.getElementById("inputArraySection" + section._id).value = neumeArray; //This needs to be defined
 
-            console.log(document.getElementById("inputArraySection" + section._id).value);
-            console.log(neumeArray);
 
             //Get that element on drop and put it as the section Id
             var IdOfTarget = "" + section._id
-            console.log(IdOfTarget);
             var IDWithSectionName = IdOfTarget;
 
             //classOfTarget is the Id of the section
@@ -345,11 +322,16 @@ function initSection(section) {
     //For each element separated by a comma, append the child to the element #{section._id}, this is the p of the element
 
     var neumesInSection = section.neumeIDs;
-    var neumeArrays = neumesInSection.split(",");
-    console.log(neumesInSection);
-    neumeArrays.forEach(function(neume) {
-        document.getElementById("section" + section._id).appendChild(document.getElementById("drop" + neume));
-    })
+    if (neumesInSection.length > 0) {
+        var neumeArrays = neumesInSection.split(",");
+        neumeArrays.forEach(function(neume) {
+            try {
+                document.getElementById("section" + section._id).appendChild(document.getElementById("drop" + neume));
+            } catch (err) {
+                console.error(err + 'for: ' + section._id + ' and neume ' + neume);
+            }
+        })
+    }
 
     if (document.getElementById("sectionID" + section._id).value == "")
         document.getElementById("buttonSection" + section._id).disabled = true;

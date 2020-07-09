@@ -34,7 +34,7 @@ html
           h1.
                #{title} 
           p All of your mei-mapping projects, in one interface.
-          if (user.length > 0)
+          if (user != null)
             #ex1.modal
                 block content
                   h2.
@@ -49,10 +49,7 @@ html
             a(href='#ex1', rel='modal:open') Add project
           
 
-          if (user.length > 0)
-            a(href='/about') Learn more
-          else
-            a(href='/neumes/about') Learn more
+          a(href='/about') About
           br
           br
           div     
@@ -103,8 +100,8 @@ html
                       h2.projectHeader Other Projects
                       ul
                           - each project, i in other
-                             if (user.length > 0)
-                              button.collapsible(style = " clear : left;" onclick = "window.location='/projects/forkPublic/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
+                             if (user != null)
+                              button.collapsible(style = " clear : left;" onclick = "window.location='/projects/fork/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
                              else
                               button.collapsible(style = " clear : left;" onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
                               
