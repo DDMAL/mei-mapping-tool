@@ -121,7 +121,7 @@ ul {
 .hero           {
   min-height: 800px;
   text-align: center;
-  background-image: url('/javascripts/CF-005.png');
+  background-image: url('/images/CF-005.png');
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/CF-005.png');
   background-size: cover;
 }
