@@ -2,6 +2,8 @@ doctype html
 html
   include ../header.jade
   include ./projectmixins.jade
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', type='text/javascript')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
   head
    title Cress - MEI Mapping Tool 🎵 
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
@@ -9,8 +11,6 @@ html
    script(type="text/javascript" src="../../javascripts/showprojectscript.js")
   meta(name='viewport', content='width=device-width, initial-scale=1')
   script(src='/javascripts/popup.js', type='text/javascript')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
 
@@ -331,6 +331,16 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                 window.addEventListener('load', function() {
                     initializeModal('myModal', 'myBtn');
                     initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                });
+
+                console.log($('#editImages#{neume.id}'));
+
+                $('#editImages#{neume.id}').on('shown', function () {
+                  console.log('shown?');
+                  $('body').on('click', function(e) {
+                    console.log('hi');
+                    document.getElementById("cancelButton").click();
+                  });
                 });
 
                 var neume = !{JSON.stringify(neume)};

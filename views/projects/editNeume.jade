@@ -7,16 +7,12 @@ body
         .fallback
         p Images :
           div(id = "images#{neume.id}")
+          input(type="text", name="imageDeleted", id = "imageToDelete#{neume.id}" hidden required)
           input(type='hidden',value='PUT',name='_method') 
 
         
         button#btnSubmit(type="submit" class = "button button5SubmitEdit") submit
-    
-  form(action='/neumes/#{neume._id}/deleteImage',method='post',enctype='application/x-www-form-urlencoded' id = "DeleteImageForm")
-            input(type="text", name="imageDeleted", id = "imageToDelete#{neume.id}" hidden required)     
-            input(type='hidden',value='DELETE',name='_method')
-            button(type = "submit" id ="deleteImagebutton#{neume.id}" hidden) submit
- 
+
  form(action='/neumes/cancel',method='post',enctype='application/x-www-form-urlencoded' id = "cancel")  
   input(type='hidden',value='GET',name='_method')
   button(type = "submit" id ="cancelButton" class = "button3CancelImage") Cancel

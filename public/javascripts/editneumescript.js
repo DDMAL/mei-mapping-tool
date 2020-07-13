@@ -27,6 +27,8 @@ function initEditNeume(neume) {
     //Getting the canvas for the images : 
     var images = neume.imagesBinary;
 
+    var imagesToDelete = [];
+
     //For each image in the neume
     images.forEach(function(element) {
         //creating a canvas
@@ -86,26 +88,12 @@ function initEditNeume(neume) {
         //Append the button to the image card.
         imageCard.appendChild(buttonDeleteImage);
         $(buttonDeleteImage).click(function() {
-            document.getElementById("imageToDelete" + neume._id).value = element;
-            $("#deleteImagebutton" + neume._id).click();
+            imagesToDelete.push(element);
+            document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
             //Delete the image :
             canvas.style.display = "none";
             buttonDeleteImage.style.display = "none";
         })
     });
-    var BASE64_MARKER = ';base64,';
+    document.getElementById('cancelButton').onclick = function() { imagesToDelete = []; };
 }
-
-function convertDataURIToBinary(dataURI) {
-    var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-    var base64 = dataURI.substring(base64Index);
-    var raw = window.atob(base64);
-    var rawLength = raw.length;
-    var array = new Uint8Array(new ArrayBuffer(rawLength));
-
-    for (var i = 0; i < rawLength; i++) {
-        array[i] = raw.charCodeAt(i);
-    }
-    return array;
-}
-
