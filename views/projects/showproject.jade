@@ -26,7 +26,6 @@ html
   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
 
   script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
    script(src='/javascripts/dropzone.js')
    link(rel='stylesheet', href='/stylesheets/dropzone.css')
@@ -271,6 +270,8 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
               script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
               script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
+              script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+              script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
 
               script.
 
@@ -320,12 +321,12 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                     initializeModal('upload', 'uploadButton');
                 });
 
-                $('#uploadButton').on('click', function () {
-                    $('#upload').modal('show');
+                $('#editImagesButton#{neume.id}').on('click', function () {
+                    $('#editImages#{neume.id}').modal('show');
                 });
 
-                $(document).on('hide.bs.modal', '#upload', function() {
-                    alert('hi');
+                $(document).on('hide.bs.modal', '#editImages#{neume.id}', function() {
+                    $('#cancelButton').click();
                 });
 
                 var neume = !{JSON.stringify(neume)};
