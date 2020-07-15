@@ -321,15 +321,22 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                     initializeModal('upload', 'uploadButton');
                 });
 
+                /* we want the page to refresh if the edit neume modal is closed
+                ie if the x button is clicked or if the modal is closed by clicking outside
+                because we want the list of deleted images to be refreshed
+                for some reason the modal hide triggers don't work unless you use code to open the modal
+                so we manually open the modal when the button is clicked,
+                then add listeners to closing the modal or clicking the x button
+                */
+
                 $('#editImagesButton#{neume.id}').on('click', function () {
                     $('#editImages#{neume.id}').modal('show');
                     $('.close').on('click', function() {
                         $('#cancelButton').click();
                     });
-                });
-
-                $(document).on('hidden.bs.modal', '#editImages#{neume.id}', function() {
-                    $('#cancelButton').click();
+                    $(document).on('hide.bs.modal', '#editImages#{neume.id}', function() {
+                        $('#cancelButton').click();
+                    });
                 });
 
                 var neume = !{JSON.stringify(neume)};
