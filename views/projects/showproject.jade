@@ -323,9 +323,12 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
                 $('#editImagesButton#{neume.id}').on('click', function () {
                     $('#editImages#{neume.id}').modal('show');
+                    $('.close').on('click', function() {
+                        $('#cancelButton').click();
+                    });
                 });
 
-                $(document).on('hide.bs.modal', '#editImages#{neume.id}', function() {
+                $(document).on('hidden.bs.modal', '#editImages#{neume.id}', function() {
                     $('#cancelButton').click();
                 });
 
