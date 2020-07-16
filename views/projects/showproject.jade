@@ -172,13 +172,13 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
   //Four Equal Columns
   .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
     .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Images
     .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Folio 
     .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Classification
     .column(style='background-color:#afcfee; width : 35% ; right : 110px')
-      h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
+      h5(style = "font: 15px Avenir, sans-serif; text-align: center;") MEI encoding
 
   div(id = "menu")
    //Neume section : 4 components added for each new neume.   
@@ -275,6 +275,11 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
               script.
 
+                /* unfortunately private javascript variables (ie ones which are dynamically named)
+                   and modal initialization needs to take place right in the jade file
+                   trying to move it to the external js file causes them to fail
+                */
+
                 //For each neume in the project :
                 //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
                 var editor#{neume.id} = ace.edit('#{neume.id}');
@@ -306,10 +311,6 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                         document.getElementById('inputCheckbox#{neume.id}').value = "No";
                     }
                 }
-
-                // I have no idea why, but the modal initialization can't be in the external script file
-                // otherwise it only works for the last element in the 
-                // each neume in neumes loop :(
 
                 //Modals event listeners for every modal
                 window.addEventListener('load', function() {
