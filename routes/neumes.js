@@ -176,7 +176,6 @@ router.route('/')
 router.route('/:id/editImage')
     //PUT to update a neume by ID
     .put(function(req, res) {
-        logger.error('editImage');
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var name = req.body.name;
         var folio = req.body.folio;
