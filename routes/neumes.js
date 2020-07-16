@@ -190,43 +190,45 @@ router.route('/:id/editImage')
         global.editArray = [];
 
         var imagesToDelete = req.body.imageDeleted;
-        imagesToDelete = imagesToDelete.split(',');
+        if (imagesToDelete != 'none') {
+            imagesToDelete = imagesToDelete.split(',');
 
-        for (let imageToDelete of imagesToDelete) {
-            //This is the p element
-            //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
-            //req.body.imageDeleted doesnt seem to work
-            //find neume by ID
-            mongoose.model('neume').findById(req.id, function(err, neume) {
-                var ID_project = neume.project;
+            for (let imageToDelete of imagesToDelete) {
+                //This is the p element
+                //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
+                //req.body.imageDeleted doesnt seem to work
+                //find neume by ID
+                mongoose.model('neume').findById(req.id, function(err, neume) {
+                    var ID_project = neume.project;
 
-                if (err) {
-                    return renderError(res, err);
-                } else {
-                    //This works, when the page is reloaded
-                    mongoose.model('neume').findOneAndUpdate({
-                        _id: neume.id
-                    }, {
-                        $pull: {
-                            imagesBinary: imageToDelete
-                        }
-                    }, function(err, data) {
-                        logger.log(err, data);
-                    });
+                    if (err) {
+                        return renderError(res, err);
+                    } else {
+                        //This works, when the page is reloaded
+                        mongoose.model('neume').findOneAndUpdate({
+                            _id: neume.id
+                        }, {
+                            $pull: {
+                                imagesBinary: imageToDelete
+                            }
+                        }, function(err, data) {
+                            logger.log(err, data);
+                        });
 
-                    //remove from neume array the imagepath = imageDeleted
-                    //deleting the images from the image model
-                    //fs.unlink('uploads/' + imageToDelete, (err) => {
-                    //if (err) throw err;
-                    //logger.log('successfully deleted');
-                    mongoose.model('storedImages').remove({
-                        imgBase64: imageToDelete
-                    }, function(err, data) {
-                        if (err) { return renderError(res, err); }
-                    });
+                        //remove from neume array the imagepath = imageDeleted
+                        //deleting the images from the image model
+                        //fs.unlink('uploads/' + imageToDelete, (err) => {
+                        //if (err) throw err;
+                        //logger.log('successfully deleted');
+                        mongoose.model('storedImages').remove({
+                            imgBase64: imageToDelete
+                        }, function(err, data) {
+                            if (err) { return renderError(res, err); }
+                        });
 
-                }
-            });
+                    }
+                });
+            }
         }
 
         //find the document by ID

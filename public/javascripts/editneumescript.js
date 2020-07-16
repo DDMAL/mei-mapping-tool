@@ -27,7 +27,8 @@ function initEditNeume(neume) {
     //Getting the canvas for the images : 
     var images = neume.imagesBinary;
 
-    var imagesToDelete = [];
+    var imagesToDelete = 'none';
+    document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
 
     //For each image in the neume
     images.forEach(function(element) {
@@ -95,5 +96,5 @@ function initEditNeume(neume) {
             buttonDeleteImage.style.display = "none";
         })
     });
-    document.getElementById('cancelButton').onclick = function() { imagesToDelete = []; };
+    document.getElementById('cancelButton').onclick = function() { imagesToDelete = 'none'; };
 }
