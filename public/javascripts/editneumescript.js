@@ -28,6 +28,9 @@ function initEditNeume(neume) {
     var images = neume.imagesBinary;
 
     var imagesToDelete = 'none';
+    if (images.length > 0) {
+        imagesToDelete = [];
+    }
     document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
 
     //For each image in the neume
@@ -96,5 +99,11 @@ function initEditNeume(neume) {
             buttonDeleteImage.style.display = "none";
         })
     });
-    document.getElementById('cancelButton').onclick = function() { imagesToDelete = 'none'; };
+    document.getElementById('cancelButton').onclick = function() {
+        if (images.length > 0) {
+            imagesToDelete = [];
+        } else {
+            imagesToDelete = 'none';
+        }
+    };
 }
