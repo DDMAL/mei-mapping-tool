@@ -95,7 +95,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
      form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
        
-       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
+       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: top; width : 35%; display : inline-block; border: none; height: 100%;" size = '10' text-align: center;"")
        input(type='hidden',value='PUT',name='_method')
         
        button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
