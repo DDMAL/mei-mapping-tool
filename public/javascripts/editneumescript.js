@@ -31,7 +31,12 @@ function initEditNeume(neume) {
     // or if it is an empty array or empty string
     // so we have to use some non-empty string as default input
     var imagesToDelete = 'none';
-    document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
+    try {
+        document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
+    } catch(e) {
+        console.error(e);
+    }
+    
 
     //For each image in the neume
     images.forEach(function(element) {
@@ -95,7 +100,11 @@ function initEditNeume(neume) {
                 imagesToDelete = [];
             }
             imagesToDelete.push(element);
-            document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
+            try {
+                document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
+            } catch(e) {
+                console.error(e);
+            }
             //Delete the image :
             canvas.style.display = "none";
             buttonDeleteImage.style.display = "none";

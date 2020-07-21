@@ -255,6 +255,9 @@ router.route('/:id/editImage')
         
         if (imagesToDelete != 'none') {
             imagesToDelete = imagesToDelete.split(',');
+            // in mongoose in order to delete or pull multiple entries
+            // you have to pass the array using the $in formatting
+            // so then below each imageBinary which is in the array is removed
             mongoose.model('neume').findOneAndUpdate({
                 _id: req.id
             }, {
