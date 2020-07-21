@@ -27,6 +27,9 @@ function initEditNeume(neume) {
     //Getting the canvas for the images : 
     var images = neume.imagesBinary;
 
+    // the form can't be submitted if the input empty
+    // or if it is an empty array or empty string
+    // so we have to use some non-empty string as default input
     var imagesToDelete = 'none';
     document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
 
