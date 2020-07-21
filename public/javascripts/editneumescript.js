@@ -28,9 +28,6 @@ function initEditNeume(neume) {
     var images = neume.imagesBinary;
 
     var imagesToDelete = 'none';
-    if (images.length > 0) {
-        imagesToDelete = [];
-    }
     document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
 
     //For each image in the neume
@@ -69,7 +66,6 @@ function initEditNeume(neume) {
         //This element is linked to multiple neumes. We need to change 
         //its id so that it is unique to the neume we want to delete the image from.
         var imageDeletedPath = document.getElementById("imageToDelete" + neume._id);
-        imageDeletedPath.value = element;
         imageDeletedPath.name = "imageDeleted";
         imageDeletedPath.hidden = true;
 
@@ -91,7 +87,10 @@ function initEditNeume(neume) {
         }
         //Append the button to the image card.
         imageCard.appendChild(buttonDeleteImage);
-        $(buttonDeleteImage).click(function() {
+        buttonDeleteImage.onclick = ('click', function() {
+            if (imagesToDelete == 'none') {
+                imagesToDelete = [];
+            }
             imagesToDelete.push(element);
             document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
             //Delete the image :
@@ -100,10 +99,6 @@ function initEditNeume(neume) {
         })
     });
     document.getElementById('cancelButton').onclick = function() {
-        if (images.length > 0) {
-            imagesToDelete = [];
-        } else {
-            imagesToDelete = 'none';
-        }
+        imagesToDelete = 'none';
     };
 }

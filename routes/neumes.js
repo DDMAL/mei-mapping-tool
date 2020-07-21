@@ -188,47 +188,8 @@ router.route('/:id/editImage')
         var genericName = req.body.genericName;
         global.editArray = [];
 
+
         var imagesToDelete = req.body.imageDeleted;
-        if (imagesToDelete != 'none') {
-            imagesToDelete = imagesToDelete.split(',');
-
-            for (let imageToDelete of imagesToDelete) {
-                //This is the p element
-                //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
-                //req.body.imageDeleted doesnt seem to work
-                //find neume by ID
-                mongoose.model('neume').findById(req.id, function(err, neume) {
-                    var ID_project = neume.project;
-
-                    if (err) {
-                        return renderError(res, err);
-                    } else {
-                        //This works, when the page is reloaded
-                        mongoose.model('neume').findOneAndUpdate({
-                            _id: neume.id
-                        }, {
-                            $pull: {
-                                imagesBinary: imageToDelete
-                            }
-                        }, function(err, data) {
-                            logger.log(err, data);
-                        });
-
-                        //remove from neume array the imagepath = imageDeleted
-                        //deleting the images from the image model
-                        //fs.unlink('uploads/' + imageToDelete, (err) => {
-                        //if (err) throw err;
-                        //logger.log('successfully deleted');
-                        mongoose.model('storedImages').remove({
-                            imgBase64: imageToDelete
-                        }, function(err, data) {
-                            if (err) { return renderError(res, err); }
-                        });
-
-                    }
-                });
-            }
-        }
 
         //find the document by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
@@ -287,18 +248,37 @@ router.route('/:id/editImage')
                         //logger.log(neumeFinal);//This works!!!
                     });
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
-                    res.format({
-                        html: function() {
-                            res.redirect("back");
-                        },
-                        //JSON responds showing the updated values
-                        json: function() {
-                            res.json(neume);
-                        }
-                    });
                     imageArray = [];
                 }
             })
+        });
+        
+        if (imagesToDelete != 'none') {
+            imagesToDelete = imagesToDelete.split(',');
+            mongoose.model('neume').findOneAndUpdate({
+                _id: req.id
+            }, {
+                $pull: {
+                    imagesBinary: { $in: imagesToDelete }
+                }
+            }, function(err, data) {
+                logger.log(err, data);
+                mongoose.model('storedImages').deleteMany({
+                    imgBase64: { $in: imagesToDelete }
+                }, function(err, data) {
+                    if (err) { return renderError(res, err); }
+                });
+            });
+        }
+
+        res.format({
+            html: function() {
+                res.redirect("back");
+            },
+            //JSON responds showing the updated values
+            json: function() {
+                res.json(neume);
+            }
         });
     })
 
