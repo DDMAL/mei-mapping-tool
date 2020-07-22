@@ -27,6 +27,17 @@ function initEditNeume(neume) {
     //Getting the canvas for the images : 
     var images = neume.imagesBinary;
 
+    // the form can't be submitted if the input empty
+    // or if it is an empty array or empty string
+    // so we have to use some non-empty string as default input
+    var imagesToDelete = 'none';
+    try {
+        document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
+    } catch(e) {
+        console.error(e);
+    }
+    
+
     //For each image in the neume
     images.forEach(function(element) {
         //creating a canvas
@@ -63,7 +74,6 @@ function initEditNeume(neume) {
         //This element is linked to multiple neumes. We need to change 
         //its id so that it is unique to the neume we want to delete the image from.
         var imageDeletedPath = document.getElementById("imageToDelete" + neume._id);
-        imageDeletedPath.value = element;
         imageDeletedPath.name = "imageDeleted";
         imageDeletedPath.hidden = true;
 
@@ -85,27 +95,22 @@ function initEditNeume(neume) {
         }
         //Append the button to the image card.
         imageCard.appendChild(buttonDeleteImage);
-        $(buttonDeleteImage).click(function() {
-            document.getElementById("imageToDelete" + neume._id).value = element;
-            $("#deleteImagebutton" + neume._id).click();
+        buttonDeleteImage.onclick = ('click', function() {
+            if (imagesToDelete == 'none') {
+                imagesToDelete = [];
+            }
+            imagesToDelete.push(element);
+            try {
+                document.getElementById("imageToDelete" + neume._id).value = imagesToDelete;
+            } catch(e) {
+                console.error(e);
+            }
             //Delete the image :
             canvas.style.display = "none";
             buttonDeleteImage.style.display = "none";
         })
     });
-    var BASE64_MARKER = ';base64,';
+    document.getElementById('cancelButton').onclick = function() {
+        imagesToDelete = 'none';
+    };
 }
-
-function convertDataURIToBinary(dataURI) {
-    var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-    var base64 = dataURI.substring(base64Index);
-    var raw = window.atob(base64);
-    var rawLength = raw.length;
-    var array = new Uint8Array(new ArrayBuffer(rawLength));
-
-    for (var i = 0; i < rawLength; i++) {
-        array[i] = raw.charCodeAt(i);
-    }
-    return array;
-}
-

@@ -2,20 +2,22 @@ var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    methodOverride = require('method-override') // used to manipulate POST
-var storedImages = require('../model/storedImages')
-var fs = require('fs')
+    methodOverride = require('method-override'); // used to manipulate POST
+var storedImages = require('../model/storedImages');
+var fs = require('fs');
 var logger = require('../logger');
 global.neumes_array = [];
 var renderError = require('../public/javascripts/error');
 
 router.use(bodyParser.json({
     limit: '50mb'
-}))
+}));
 router.use(bodyParser.urlencoded({
     limit: '50mb',
     extended: true
-}))
+}));
+
+// add javascript to create array and make that part of put request
 router.use(methodOverride(function(req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
@@ -23,13 +25,13 @@ router.use(methodOverride(function(req, res) {
         delete req.body._method
         return method
     }
-}))
+}));
 
 //  Route for the cancel button on editNeume and newNeume
 router.route('/cancel')
     //  GET all neumes
     .get(function(req, res, next) {
-        imageArray = []
+        imageArray = [];
 
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
@@ -169,7 +171,8 @@ router.route('/')
     });
 
 /* Update edit images. */
-// put function to add a new neume
+// put function to add a new image to a neume
+// ie the submit button on the editNeume modal
 router.route('/:id/editImage')
     //PUT to update a neume by ID
     .put(function(req, res) {
@@ -184,6 +187,9 @@ router.route('/:id/editImage')
         var projectName = req.body.projectName;
         var genericName = req.body.genericName;
         global.editArray = [];
+
+
+        var imagesToDelete = req.body.imageDeleted;
 
         //find the document by ID
         mongoose.model('neume').findById(req.id, function(err, neume) {
@@ -242,83 +248,42 @@ router.route('/:id/editImage')
                         //logger.log(neumeFinal);//This works!!!
                     });
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
-                    res.format({
-                        html: function() {
-                            res.redirect("back");
-                        },
-                        //JSON responds showing the updated values
-                        json: function() {
-                            res.json(neume);
-                        }
-                    });
                     imageArray = [];
                 }
             })
         });
-    })
-
-/* Update edit images. */
-// route to delete an image in a neume
-// called when you click x on an image
-router.route('/:id/deleteImage')
-    //DELETE an image by ID
-    .delete(function(req, res) {
-        //imageDeleted is the path of the image we want to delete.
-        var imageToDelete = req.body.imageDeleted; //this seems to be undefined.
-
-        //This is the p element
-        //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
-        //req.body.imageDeleted doesnt seem to work
-        //find neume by ID
-        mongoose.model('neume').findById(req.id, function(err, neume) {
-            var ID_project = neume.project;
-
-            if (err) {
-                return renderError(res, err);
-            } else {
-                //This works, when the page is reloaded
-                mongoose.model('neume').findOneAndUpdate({
-                    _id: neume.id
-                }, {
-                    $pull: {
-                        imagesBinary: imageToDelete
-                    }
-                }, function(err, data) {
-                    logger.log(err, data);
-                });
-
-                //remove from neume array the imagepath = imageDeleted
-                //deleting the images from the image model
-                //fs.unlink('uploads/' + imageToDelete, (err) => {
-                //if (err) throw err;
-                //logger.log('successfully deleted');
-                mongoose.model('storedImages').remove({
-                    imgBase64: imageToDelete
+        
+        if (imagesToDelete != 'none') {
+            imagesToDelete = imagesToDelete.split(',');
+            // in mongoose in order to delete or pull multiple entries
+            // you have to pass the array using the $in formatting
+            // so then below each imageBinary which is in the array is removed
+            mongoose.model('neume').findOneAndUpdate({
+                _id: req.id
+            }, {
+                $pull: {
+                    imagesBinary: { $in: imagesToDelete }
+                }
+            }, function(err, data) {
+                logger.log(err, data);
+                mongoose.model('storedImages').deleteMany({
+                    imgBase64: { $in: imagesToDelete }
                 }, function(err, data) {
                     if (err) { return renderError(res, err); }
-                    //I have to do this now tho
                 });
-                // });
+            });
+        }
 
-                res.format({
-                    //HTML returns us back to the main page, or you can create a success page
-                    html: function() {
-                        //res.redirect("back");
-                        res.status(204).send();
-                    },
-                    //JSON returns the item with the message that is has been deleted
-                    json: function() {
-                        res.json({
-                            message: 'deleted',
-                            item: neume
-                        });
-                    }
-
-                });
+        res.format({
+            html: function() {
+                res.redirect("back");
+            },
+            //JSON responds showing the updated values
+            json: function() {
+                res.json(neume);
             }
         });
-    });
-
+    })
 
 // route middleware to validate neume :id
 router.param('id', function(req, res, next, id) {
@@ -338,7 +303,7 @@ router.param('id', function(req, res, next, id) {
             next();
         }
     });
-}); 
+});
 //The new projectID should be here.
 
 // put route to edit the neume information

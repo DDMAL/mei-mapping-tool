@@ -9,8 +9,6 @@ html
    script(type="text/javascript" src="../../javascripts/showprojectscript.js")
   meta(name='viewport', content='width=device-width, initial-scale=1')
   script(src='/javascripts/popup.js', type='text/javascript')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
 
@@ -24,9 +22,10 @@ html
    meta(name='viewport', content='width=device-width, initial-scale=1.0')
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
    script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
+
+  script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
 
    script(src='/javascripts/dropzone.js')
    link(rel='stylesheet', href='/stylesheets/dropzone.css')
@@ -36,17 +35,13 @@ html
    link(rel='stylesheet', href='/stylesheets/column.css')
    link(rel='stylesheet', href='/stylesheets/collapsible.css')
    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
    link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
    script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
-   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
    link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
    script(src='/javascripts/dropzone.js', type='text/javascript')
 
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
   link(href='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css', type='text/css', rel='stylesheet')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js', type='text/javascript')
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
   link(href='/stylesheets/dropzone.css', type='text/css', rel='stylesheet')
   script(src='/javascripts/dropzone.js', type='text/javascript')
   script(src='/javascripts/worker-html.js', type='text/javascript')
@@ -63,11 +58,10 @@ html
   script(src='/javascripts/pageReload.js', type='text/javascript')
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   link(rel='stylesheet', href='/stylesheets/tooltip.css')
-  link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin="anonymous")
+  link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp' crossorigin="anonymous")
   link(rel='stylesheet', href='/stylesheets/w3-toggle.css')
   script(src='/javascripts/scroll-keep.js', type='text/javascript')
   link(rel='stylesheet', href='/stylesheets/boxSection.css')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
   link(rel='stylesheet', href='/stylesheets/dropdown.css')
   script(src='/javascripts/dropdown.js', type='text/javascript')
 
@@ -101,7 +95,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
      form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
        
-       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
+       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: top; width : 35%; display : inline-block; border: none; height: 100%;" size = '10' text-align: center;"")
        input(type='hidden',value='PUT',name='_method')
         
        button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
@@ -178,13 +172,13 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
   //Four Equal Columns
   .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
     .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Images
+      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Images
     .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Folio 
+      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Folio 
     .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 18px Avenir, sans-serif; text-align: center;") Classification
+      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Classification
     .column(style='background-color:#afcfee; width : 35% ; right : 110px')
-      h5(style = "font: 18px Avenir, sans-serif; text-align: center;") MEI encoding
+      h5(style = "font: 15px Avenir, sans-serif; text-align: center;") MEI encoding
 
   div(id = "menu")
    //Neume section : 4 components added for each new neume.   
@@ -272,13 +266,19 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                            input(type='text',value='#{project._id}', name = 'projectIDPosition' id = "inputPosition#{project._id}" hidden)
 
 
-                  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
                   script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
-                  script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
-                  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
 
+              script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
+              script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
+              script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', type='text/javascript')
+              script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js", type='text/javascript')
 
               script.
+
+                /* unfortunately private javascript variables (ie ones which are dynamically named)
+                   and modal initialization needs to take place right in the jade file
+                   trying to move it to the external js file causes them to fail
+                */
 
                 //For each neume in the project :
                 //Have an ace editor and add the value of the ace editor to a textarea, which is linked to the database
@@ -312,10 +312,6 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                     }
                 }
 
-                // I have no idea why, but the modal initialization can't be in the external script file
-                // otherwise it only works for the last element in the 
-                // each neume in neumes loop :(
-
                 //Modals event listeners for every modal
                 window.addEventListener('load', function() {
                     initializeModal('myModal', 'myBtn');
@@ -323,14 +319,25 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
                     initializeModal('modalSection', 'modalSectionButton');
                     initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
                     initializeModal('modalSection', 'sectionButton');
-                    initializeModal('uploadCSV', 'uploadCSVButton');
                     initializeModal('upload', 'uploadButton');
                 });
 
-                //Modals event listeners for every modal
-                window.addEventListener('load', function() {
-                    initializeModal('myModal', 'myBtn');
-                    initializeModal('editImages#{neume.id}', 'editImagesButton#{neume.id}');
+                /* we want the page to refresh if the edit neume modal is closed
+                ie if the x button is clicked or if the modal is closed by clicking outside
+                because we want the list of deleted images to be refreshed
+                for some reason the modal hide triggers don't work unless you use code to open the modal
+                so we manually open the modal when the button is clicked,
+                then add listeners to closing the modal or clicking the x button
+                */
+
+                $('#editImagesButton#{neume.id}').on('click', function () {
+                    $('#editImages#{neume.id}').modal('show');
+                    $('.close').on('click', function() {
+                        $('#cancelButton').click();
+                    });
+                    $(document).on('hide.bs.modal', '#editImages#{neume.id}', function() {
+                        $('#cancelButton').click();
+                    });
                 });
 
                 var neume = !{JSON.stringify(neume)};
