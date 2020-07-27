@@ -123,6 +123,19 @@
   top : -52px;
   position : relative;
 }
+.otherButton {
+  background-color: white; 
+  color: black; 
+  float : right;
+  top : -52px;
+  position : relative;
+  background-color: white; 
+  color: black; 
+  width: 100px;
+  margin : 0px 0px 10px 0px;
+  border: 2px solid #008CBA;
+  margin-right: 10px;
+}
 .button2:hover {
   background-color: #008CBA;
   color: white;
