@@ -39,7 +39,13 @@ function initNeume(neume, project, owned) {
     /*Function to create a canvas for each image inside of the imagepath array of the neume
     @param element : single imagepath of the array*/
     var imagesBinary = neume.imagesBinary;
-    imagesBinary.forEach(function(element) {
+    // only append two images to the front page to reduce space
+    // if there are more than 2 indicate that
+    if (imagesBinary.length > 2) {
+        console.log(neume._id);
+        $('#editImagesButton' + neume._id).html('Edit/See all');
+    }
+    imagesBinary.slice(0,2).forEach(function(element) {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext("2d");
         canvas.className += "resize";
