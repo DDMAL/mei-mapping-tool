@@ -69,7 +69,7 @@ div.navigation.navbar(id = "myHeader").sticky
   +showphead
               
 //Title section : Adding a neume button and changing the title name                
-div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
+div.neumeSection(style = "padding-top : 50px")
   body
   if (owned)
     div
@@ -95,10 +95,10 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
 
      form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
        
-       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: top; width : 35%; display : inline-block; border: none; height: 100%;" size = '10' text-align: center;"")
+       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: bottom; width : 35%; display : inline-block; border: none; height: 100%; margin-top: 10px" size = '10' text-align: center;)
        input(type='hidden',value='PUT',name='_method')
         
-       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
+       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block; margin-top: 10px')
          i.fa.fa-pencil
          //span.tooltiptext You can directly change the project name on the page.   
            br 
@@ -162,7 +162,7 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 97px")
       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-sm 
 
   //Four Equal Columns
-  .row(class="position-sticky" style = "position : fixed; width :100%; top : 164px; z-index : 1001; padding-left:5px; padding-right : 75px;")
+  .row(class="position-sticky" style = "position : fixed; width :100%; z-index : 1001; padding-left:5px; padding-right : 75px;")
     .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
       h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Images
     .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')

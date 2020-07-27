@@ -126,12 +126,7 @@ function initNeume(neume, project, owned) {
             header = $(".row");
         roundedCorners = $(".roundedCorners");
 
-        if (y >= 50) {
-            header.css({ position: "fixed", "top": "57px" });
-
-        } else {
-            header.css({ position: "fixed", "top": "165px" });
-        }
+        header.css({ position: "fixed", "top": "120px" });
     });
 
     //Function to get collapsibles sorted
