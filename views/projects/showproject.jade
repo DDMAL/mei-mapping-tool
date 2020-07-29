@@ -125,12 +125,12 @@ div.neumeSection(style = "padding-top : 50px")
 
 
     // z-index values to make sure the tooltip information things can be seen over top of the buttons and header
-    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px; z-index: 1000000" onclick = "collapseAll();" id = "buttonSavePosition")
+    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px; z-index: 10002" onclick = "collapseAll();" id = "buttonSavePosition")
        i(id = "compress").fa.fa-caret-up.fa-lg
        i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
        span.tooltiptext To collapse/uncollapse neumes, click here!
 
-    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px; z-index: 100000") 
+    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px; z-index: 10001") 
       i.fa.fa-undo.fa-sm &nbsp;
       span.tooltiptext To undo a position change, click here!
       br
