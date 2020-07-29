@@ -21,7 +21,7 @@ mixin submitchangesmix(neume)
   if (owned)
     //Submitting the update form
     input(type='hidden',value='PUT',name='_method')
-    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%" class = 'tooltip') 
+    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%; margin-top: 60px" class = 'tooltip') 
       i.fa.fa-pencil
       span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
     br
