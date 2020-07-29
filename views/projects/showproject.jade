@@ -142,11 +142,11 @@ div.neumeSection(style = "padding-top : 50px")
   if (!owned)
     form()
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; font: 35px Avenir, sans-serif; width : 60%; margin : 0px padding : 0px")
+      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; font: 35px Avenir, sans-serif; width : 60%; margin : 0px padding : 0px; margin-top: 20px")
     form(action='/downloadCSV',method='post',enctype='application/x-www-form-urlencoded')
                       input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                       input(type='text',value='#{project.name}', name='projectName' hidden)
-                      button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+                      button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = 'z-index: 10001; margin-top: 20px')
                         i.fa.fa-download
                         |  CSV 
                         span.tooltiptext To download the project as a .csv file, click here!
@@ -154,12 +154,12 @@ div.neumeSection(style = "padding-top : 50px")
       form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
               input(type='text',value='#{project.id}', name='IdOfProject' hidden)
               input(type='text',value='#{project.name}', name='projectName' hidden)
-              button(type = 'submit' class = 'button button2CSV' class = 'tooltip')
+              button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = 'z-index: 10001; margin-top: 20px')
                 i.fa.fa-code-fork
                 |  Fork
                 span.tooltiptext To save the project as your own, click here!
     
-    button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%" onclick = "collapseAll();" id = "buttonSavePosition")
+    button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%; z-index: 100001; margin-top: 10px" onclick = "collapseAll();" id = "buttonSavePosition")
       i(id = "compress").fa.fa-caret-up.fa-sm 
       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-sm 
 
@@ -183,8 +183,7 @@ div.neumeSection(style = "padding-top : 50px")
               .modal(id = 'seeInfo' style = 'height: 100%; width: 100%; margin: none')
                .modal-content(style = 'height: 45%; width: 50%')
                  span.close x
-                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded'
-                    type = owned ? "" : "hidden")
+                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
                    p(style = "position : absolute; font: 16px Avenir, sans-serif;") Name: 
                    input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
 
@@ -197,7 +196,7 @@ div.neumeSection(style = "padding-top : 50px")
                    p(style = "font: 16px Avenir, sans-serif;") Description:  
                    input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
 
-                   button#btnSubmit(type="submit" class = "button button5SubmitEdit") Submit changes
+                   button#btnSubmit6(type="submit" class = "button button5SubmitEdit") Submit changes
               if (owned)
                 // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
@@ -217,7 +216,7 @@ div.neumeSection(style = "padding-top : 50px")
                          .panel.panel-default
                            .panel-body
                               div(id = "image#{neume.id}" type = owned ? "" : "hidden")
-                                  button(style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type= owned ? "button" : "hidden" class = "button button1" class = "tooltip") Edit
+                                  button(style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit
                                     span.tooltiptext To delete images or add more images to the neume, click here!   
 
                     // Name, Folio and Description Section
@@ -255,8 +254,8 @@ div.neumeSection(style = "padding-top : 50px")
                                  p 
                                 textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
                             label.switch
-                              input( onclick="check#{neume.id}();" type='checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
-                              span.slider.round(class = 'tooltip' style = 'margin-top: 50px')
+                              input( onclick="check#{neume.id}();" type= 'checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
+                              span.slider.round(class = 'tooltip' style = 'margin-top: 50px' id = 'meislider#{neume.id}')
                                 span.tooltiptext Click this button to validate the MEI for this neume
                               input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
                       +submitchangesmix(neume)
