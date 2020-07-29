@@ -320,6 +320,7 @@ router.route('/:id/edit')
             var name = req.body.name;
             var folio = req.body.folio;
             var description = req.body.description;
+            var genericName = req.body.genericName;
             updateObject = {
                 name: name,
                 folio: folio,
@@ -333,7 +334,6 @@ router.route('/:id/edit')
             var mei = req.body.mei;
             var dob = req.body.dob;
             var projectName = req.body.projectName;
-            var genericName = req.body.genericName;
             updateObject = {
                 classification: classification,
                 mei: mei,
