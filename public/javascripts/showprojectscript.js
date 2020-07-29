@@ -230,7 +230,7 @@ function initNeume(neume, project, owned) {
         x.style.display = "none";
         x = document.getElementById('btnSubmit6');
         x.style.display = "none";
-        $('#seeAllInfo' + neume._id).html('See Info');
+        $('#seeInfoButton' + neume._id).html('See Info');
         x = document.getElementById('meislider' + neume._id);
         x.style.display = "none";
     }

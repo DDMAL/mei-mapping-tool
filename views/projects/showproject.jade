@@ -180,7 +180,7 @@ div.neumeSection(style = "padding-top : 50px")
     .roundedCorners(style = "position : relative; display : inline-block; padding: none" id = "roundedCorners")
       ul(id = "sortable1" class = "connectedSortable")
           - each neume in neumes
-              .modal(id = 'seeInfo' style = 'height: 100%; width: 100%; margin: none')
+              .modal(id = 'seeInfo#{neume.id}' style = 'height: 100%; width: 100%; margin: none')
                .modal-content(style = 'height: 45%; width: 50%')
                  span.close x
                  form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
@@ -225,7 +225,7 @@ div.neumeSection(style = "padding-top : 50px")
                        .card(style = "overflow : hidden; text-align : left")
                             p(style = "font: 24px Avenir, sans-serif;") #{neume.name}
 
-                            button(style = "font: 14px Avenir, sans-serif;" id = "seeAllInfo#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit Info
+                            button(style = "font: 14px Avenir, sans-serif;" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
 
 
                     // Classification Section
@@ -320,7 +320,7 @@ div.neumeSection(style = "padding-top : 50px")
                     initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
                     initializeModal('modalSection', 'sectionButton');
                     initializeModal('upload', 'uploadButton');
-                    initializeModal('seeInfo', 'seeAllInfo#{neume.id}');
+                    initializeModal('seeInfo#{neume.id}', 'seeInfoButton#{neume.id}');
                 });
 
                 /* we want the page to refresh if the edit neume modal is closed
