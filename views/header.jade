@@ -60,7 +60,7 @@ mixin showphead
              li
                a(href='#' class= "tooltip" style = "z-index : 10000;") Help
                 span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.
-             li
+             li(style='height: 0px')
                if (user != null)
                  a(href='/profile') #{user.username} 
                   i.fa.fa-user.fa-lg

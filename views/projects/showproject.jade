@@ -95,10 +95,10 @@ div.neumeSection(style = "padding-top : 50px")
 
      form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
        
-       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: bottom; width : 35%; display : inline-block; border: none; height: 100%; margin-top: 10px" size = '10' text-align: center;)
+       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: bottom; width : 35%; display : inline-block; border: none; height: 100%; margin-top: 20px" size = '10' text-align: center;)
        input(type='hidden',value='PUT',name='_method')
         
-       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block; margin-top: 10px')
+       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block; margin-top: 20px')
          i.fa.fa-pencil
          //span.tooltiptext You can directly change the project name on the page.   
            br 
@@ -123,17 +123,17 @@ div.neumeSection(style = "padding-top : 50px")
     button(type = 'button' class = 'button button2AddNeume' style = "font: 14px Avenir, sans-serif; margin-right: 10px" onclick = "buttonSaveLoad()" id = "buttonSavePosition")
      i.fa.fa-save
 
-    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px" onclick = "collapseAll();" id = "buttonSavePosition")
+    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px; z-index: 1000000" onclick = "collapseAll();" id = "buttonSavePosition")
        i(id = "compress").fa.fa-caret-up.fa-lg
        i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
        span.tooltiptext To collapse/uncollapse neumes, click here!
 
-    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px") 
+    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px; z-index: 100000") 
       i.fa.fa-undo.fa-sm &nbsp;
       span.tooltiptext To undo a position change, click here!
       br
 
-    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
+    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px; z-index: 10000") 
       i.fa.fa-plus.fa-sm
       span.tooltiptext To add a new neume, click here!
   
@@ -204,7 +204,7 @@ div.neumeSection(style = "padding-top : 50px")
                     span.close x
                     h4(style = "font:30px Avenir, sans-serif;") Edit Images
                     include editNeume.jade
-                div(class="droptarget")
+                div(class="droptarget" style='height: 0px')
                 div(draggable="true"  id="dragtarget")
               div.ui-state-default(id = "drop#{neume.id}")
                 button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = "height: 0px", type = "button") 
