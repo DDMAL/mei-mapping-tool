@@ -54,8 +54,8 @@ function initNeume(neume, project, owned) {
         image.onload = function() {
 
             // set size proportional to image
-            canvas.height = image.height * 0.5;
-            canvas.width = image.width * 0.5;
+            canvas.height = image.height * 0.4;
+            canvas.width = image.width * 0.4;
 
             // step 1 - resize to 50%
             var oc = document.createElement('canvas'),

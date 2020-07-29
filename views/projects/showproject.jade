@@ -175,9 +175,24 @@ div.neumeSection(style = "padding-top : 50px")
   div(id = "menu")
    //Neume section : 4 components added for each new neume.   
   .bodyStyle(style = "position : relative")
-    .roundedCorners(style = "position : relative; display : inline-block" id = "roundedCorners")
+    .roundedCorners(style = "position : relative; display : inline-block; padding: none" id = "roundedCorners")
       ul(id = "sortable1" class = "connectedSortable")
           - each neume in neumes
+              .modal(id = 'seeInfo' style = 'height: 100%; width: 100%; margin: none')
+               .modal-content(style = 'height: 45%; width: 50%')
+                 span.close x
+
+                 p(style = "position : absolute; font: 16px Avenir, sans-serif;") Name: 
+                 input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+
+                 p(style = "font: 16px Avenir, sans-serif;") Generic Name: 
+                 input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
+
+                 p(style = "font: 16px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
+                 input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+                 //Add folio for the neumes
+                 p(style = "font: 16px Avenir, sans-serif;") Description:  
+                 input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
               if (owned)
                 // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
@@ -189,7 +204,7 @@ div.neumeSection(style = "padding-top : 50px")
                 div(class="droptarget")
                 div(draggable="true"  id="dragtarget")
               div.ui-state-default(id = "drop#{neume.id}")
-                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " font: 18px Avenir, sans-serif;", type = "button") #{neume.name}  #{neume.source}
+                button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = " height: 0px", type = "button") 
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded'
                   type = owned ? "" : "hidden")
                     .column
@@ -204,22 +219,9 @@ div.neumeSection(style = "padding-top : 50px")
                     .column(style = "width : 20%;")
                       .height
                        .card(style = "overflow : hidden; text-align : left")
-                            input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+                            p(style = "font: 24px Avenir, sans-serif;") #{neume.name}
 
-                            input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
-                            .column
-                             p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
-                            .column 
-                             input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute")
-                             br
-                             //Add folio for the neumes
-
-                            p(style = "position : absolute; padding-top : 15px; font: 14px Avenir, sans-serif;") Description:  
-                            .column
-                             input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px;  margin-bottom : 0px; margin-top : 20px; height : 20px; font: 14px Avenir, sans-serif; position: absolute; width : 40%")
-                             br
-                             br
-                             br
+                            button(style = "font: 14px Avenir, sans-serif;" id = "seeAllInfo#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit Info
 
 
                     // Classification Section
@@ -314,6 +316,7 @@ div.neumeSection(style = "padding-top : 50px")
                     initializeModal("editImages#{neume.id}", "editImagesButton#{neume.id}");
                     initializeModal('modalSection', 'sectionButton');
                     initializeModal('upload', 'uploadButton');
+                    initializeModal('seeInfo', 'seeAllInfo#{neume.id}');
                 });
 
                 /* we want the page to refresh if the edit neume modal is closed
