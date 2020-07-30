@@ -107,6 +107,13 @@
   padding : 0px;
   margin-right : 10px; 
 }
+.viewNameButton {
+  position : relative;
+  float : left;
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
 .button2Update {
   background-color: white; 
   color: black; 

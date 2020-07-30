@@ -26,3 +26,11 @@ mixin submitchangesmix(neume)
       span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
     br
     br
+
+mixin collapsebutton(neume)
+  //Submitting the update form
+  button(style = "font: 14px Avenir, sans-serif; width: 100px; top: -140px; right: 860px" id = "showName#{neume.id}" type= "button" class = "button viewNameButton" class = "tooltip")
+    i.fa.fa-caret-down.fa-lg 
+    |     #{neume.name}
+  br
+  br
