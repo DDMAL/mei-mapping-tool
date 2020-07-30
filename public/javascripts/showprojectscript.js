@@ -27,6 +27,47 @@ function collapseAll() {
     }
 }
 
+// helper functions for collapsing and uncollapsing neumes
+function collapse(id) {
+    var coll = document.getElementById("collapsible" + id);
+    var nameButton = document.getElementById('showName' + id);
+    var content = coll.nextElementSibling;
+    var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + id);
+
+    $.cookie(this.id, "false");
+    // change the contents of the nameButton to have the correct arrow direction
+    var inner = nameButton.innerHTML;
+    var splitInner = inner.split('>');
+    nameButton.innerHTML = '<i class=\"fa fa-caret-right fa-lg\"></i>' + splitInner[splitInner.length - 1];
+
+    // since the position is set manually, we need to modify it
+    nameButton.style.top = '-25px';
+    nameButton.style.right = '20px';
+
+    // hide the contents of the neume
+    content.style.display = "none";
+    deleteButtonCollapse.style.display = "none";
+}
+
+function uncollapse(id) {
+    var coll = document.getElementById("collapsible" + id);
+    var nameButton = document.getElementById('showName' + id);
+    var content = coll.nextElementSibling;
+    var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + id);
+    $.cookie(this.id, "true")
+
+    var inner = nameButton.innerHTML;
+    var splitInner = inner.split('>');
+    nameButton.innerHTML = '<i class=\"fa fa-caret-down fa-lg\"></i>' + splitInner[splitInner.length - 1];
+
+    nameButton.style.top = '-140px';
+    nameButton.style.right = '860px';
+
+    content.style.display = "block";
+
+    deleteButtonCollapse.style.display = "block";
+}
+
 function initNeume(neume, project, owned) {
 
     var imagePaths = neume.imagePaths;
@@ -82,42 +123,23 @@ function initNeume(neume, project, owned) {
     appear if the collapsible button is clicked.*/
 
     var coll = document.getElementById("collapsible" + neume._id);
-    coll.addEventListener("click", function() {
+    var nameButton = document.getElementById('showName' + neume._id);
+    var content = coll.nextElementSibling;
 
-        var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + neume._id);
-
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
+    coll.addEventListener("click", function () {
         if (content.style.display === "none") {
-            $.cookie(this.id, "true")
-
-            content.style.display = "block";
-
-            deleteButtonCollapse.style.display = "block"
-        } else {
-            $.cookie(this.id, "false")
-            content.style.display = "none";
-            deleteButtonCollapse.style.display = "none";
+            uncollapse(neume._id);
         }
-
+        else {
+            collapse(neume._id);
+        }
     });
-
-    //To save the collapsible state of the neumes
-    var content = document.getElementById("collapsible" + neume._id).nextElementSibling;
-    content.style.display = "block";
-    $(document).ready(function() {
-        var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + neume._id);
-        var element = "collapsible" + neume._id;
-        var content = document.getElementById("collapsible" + neume._id).nextElementSibling;
-        if ($.cookie(element) == "false") {
-
-            content.style.display = "none";
-
-            deleteButtonCollapse.style.display = "none"
-        } else {
-            content.style.display = "block";
-
-            deleteButtonCollapse.style.display = "block"
+    nameButton.addEventListener("click", function () {
+        if (content.style.display === "none") {
+            uncollapse(neume._id);
+        }
+        else {
+            collapse(neume._id);
         }
     });
 

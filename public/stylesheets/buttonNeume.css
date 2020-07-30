@@ -107,6 +107,12 @@
   padding : 0px;
   margin-right : 10px; 
 }
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
 .viewNameButton {
   position : relative;
   float : left;
