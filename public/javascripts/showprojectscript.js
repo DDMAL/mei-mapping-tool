@@ -1,29 +1,25 @@
 //Function for the collapse all button
 function collapseAll() {
     var elements = document.getElementsByClassName("paddingCollapsible");
-    for (var x = 0; x < elements.length; x++) {
-        var content = elements[x].nextElementSibling;
-        if (content.style.display === "none") {
-            document.getElementById("compress").style.display = "block";
-            $.cookie(elements[x].id, "true");
-            document.getElementById("expand").style.display = "none";
-            content.style.display = "block";
-        } else {
-            content.style.display = "none";
-            $.cookie(elements[x].id, "false");
-            document.getElementById("expand").style.display = "block";
-            document.getElementById("compress").style.display = "none";
+    var buttonCollapseAll = document.getElementById('buttonCollapseAll');
+    var collapsed = buttonCollapseAll.value;
+    console.log(elements.length);
+    console.log(collapsed);
+    if (elements.length == collapsed) {
+        // all of them are collapsed, so uncollapse all
+        for (let element of elements) {
+            var id = element.id.substr(11,); // extract the id
+            uncollapse(id);
         }
-
+        buttonCollapseAll.value = 0;
     }
-    var deleteButtonCollapse = document.getElementsByClassName("button3");
-    for (var x = 0; x < deleteButtonCollapse.length; x++) {
-        var content = deleteButtonCollapse[x];
-        if (content.style.display === "none") {
-            content.style.display = "block";
-        } else {
-            content.style.display = "none";
+    else {
+        // at least one of them is collapsed, so collapse all
+        for (let element of elements) {
+            var id = element.id.substr(11,); // extract the id
+            collapse(id);
         }
+        buttonCollapseAll.value = elements.length;
     }
 }
 
@@ -33,6 +29,7 @@ function collapse(id) {
     var nameButton = document.getElementById('showName' + id);
     var content = coll.nextElementSibling;
     var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + id);
+    var collapseAllButton = document.getElementById("buttonCollapseAll");
 
     $.cookie(this.id, "false");
     // change the contents of the nameButton to have the correct arrow direction
@@ -47,6 +44,8 @@ function collapse(id) {
     // hide the contents of the neume
     content.style.display = "none";
     deleteButtonCollapse.style.display = "none";
+
+    collapseAllButton.value = Number(collapseAllButton.value) + 1;
 }
 
 function uncollapse(id) {
@@ -54,6 +53,8 @@ function uncollapse(id) {
     var nameButton = document.getElementById('showName' + id);
     var content = coll.nextElementSibling;
     var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + id);
+    var collapseAllButton = document.getElementById("buttonCollapseAll");
+
     $.cookie(this.id, "true")
 
     var inner = nameButton.innerHTML;
@@ -66,6 +67,8 @@ function uncollapse(id) {
     content.style.display = "block";
 
     deleteButtonCollapse.style.display = "block";
+
+    collapseAllButton.value = Number(collapseAllButton.value) - 1;
 }
 
 function initNeume(neume, project, owned) {
