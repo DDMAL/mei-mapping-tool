@@ -1,8 +1,8 @@
 mixin deletemix(neume)
   if (owned)
-    form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+    form(action='/neumes/#{neume._id}/edit',method='post',enctype='application/x-www-form-urlencoded' style: 'position: relative')
         input(type='hidden',value='DELETE',name='_method')
-        button(style = "float : right" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
+        button(style = "float : right;" type="button" class = "button button3" data-toggle='modal' data-target='#exampleModal' id = "deleteNeumeButton#{neume.id}").
             x
         .modal(id = "DeleteModal#{neume.id}")
           // Modal content
@@ -21,7 +21,7 @@ mixin submitchangesmix(neume)
   if (owned)
     //Submitting the update form
     input(type='hidden',value='PUT',name='_method')
-    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%; position: relative; top: -140px;" class = 'tooltip') 
+    button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%; position: absolute; top: -30px" class = 'tooltip') 
       i.fa.fa-pencil
       span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
     br
@@ -29,7 +29,7 @@ mixin submitchangesmix(neume)
 
 mixin collapsebutton(neume)
   //Submitting the update form
-  button(style = "font: 14px Avenir, sans-serif; width: 100px; top: -125px; right: 20px" id = "showName#{neume.id}" type= "button" class = "button viewNameButton notransition" class = "tooltip")
+  button(style = "font: 14px Avenir, sans-serif; width: 100px; position: absolute; top: 15px" id = "showName#{neume.id}" type= "button" class = "button viewNameButton notransition" class = "tooltip")
     i.fa.fa-caret-down.fa-lg 
     |     #{neume.name}
   br

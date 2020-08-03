@@ -37,9 +37,6 @@ function collapse(id) {
     var splitInner = inner.split('>');
     nameButton.innerHTML = '<i class=\"fa fa-caret-right fa-lg\"></i>' + splitInner[splitInner.length - 1];
 
-    // since the position is set manually, we need to modify it
-    nameButton.style.top = '-25px';
-
     // hide the contents of the neume
     content.style.display = "none";
     deleteButtonCollapse.style.display = "none";
@@ -59,8 +56,6 @@ function uncollapse(id) {
     var inner = nameButton.innerHTML;
     var splitInner = inner.split('>');
     nameButton.innerHTML = '<i class=\"fa fa-caret-down fa-lg\"></i>' + splitInner[splitInner.length - 1];
-
-    nameButton.style.top = '-125px';
 
     content.style.display = "block";
 
