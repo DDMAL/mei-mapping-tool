@@ -383,7 +383,7 @@ router.route('/uploadFile')
                     path: './exports'
                 }));
             } catch (e) {
-                renderError(res, err);
+                logger.error(res, err);
             }
             var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
             //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
@@ -411,7 +411,7 @@ router.route('/uploadFile')
                             //I also need to add the classifier name as a field
                         }, function(err, neumeElement) {
                             if (err) {
-                                return renderError(res, err);
+                                return logger.error(res, err);
                             } else {
                                 logger.info(neumeElement);
                                 var fs = require('fs');
@@ -433,7 +433,7 @@ router.route('/uploadFile')
                                 if (fs.existsSync('./exports/xl/drawings/drawing1.xml') && fs.existsSync("./exports/xl/drawings/_rels/drawing1.xml.rels")) {
                                     fs.readFile("./exports/xl/drawings/drawing1.xml", function(err, data) {
                                         if (err) {
-                                            return renderError(res, err);
+                                            return logger.error(res, err);
                                         }
                                         let xmlParser = require('xml2json');
                                         let xmlString = data.toString();
@@ -460,7 +460,7 @@ router.route('/uploadFile')
                                                 //An error happens when the neume gets all the files
                                                 fs.readFile("./exports/xl/drawings/_rels/drawing1.xml.rels", function(err, data) {
                                                     if (err) {
-                                                        return renderError(res, err);
+                                                        return logger.error(res, err);
                                                     } else {
                                                         let xmlParser = require('xml2json');
                                                         let xmlString = data.toString();
@@ -512,7 +512,7 @@ router.route('/uploadFile')
                                                 }]
                                             }, function(err, neumes) {
                                                 if (err) {
-                                                    return renderError(res, err);
+                                                    return logger.error(res, err);
                                                 }
                                                 var indice = 0;
                                                 neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
@@ -583,7 +583,7 @@ router.route('/uploadFile')
                                                                     imageMedia: "." //This didnt get updated
                                                                 }, function(err, neumeElement) {
                                                                     if (err) {
-                                                                        return renderError(res, err);
+                                                                        return logger.error(res, err);
                                                                     }
                                                                 })
 
@@ -604,7 +604,7 @@ router.route('/uploadFile')
                                             }]
                                         }, function(err, neumes) {
                                             if (err) {
-                                                return renderError(res, err);
+                                                return logger.error(res, err);
                                             }
                                             neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                                                 var image = neume.imageMedia;
@@ -631,14 +631,14 @@ router.route('/uploadFile')
 
                                                         function(err, data) {
                                                             if (err) {
-                                                                return renderError(res, err);
+                                                                return logger.error(res, err);
                                                             }
                                                             //logger.info(err, data);
                                                             imageData = [];
 
                                                             a.save(function(err, a) {
                                                                 if (err) {
-                                                                    return renderError(res, err);
+                                                                    return logger.error(res, err);
                                                                 }
                                                                 logger.info('saved img to mongo');
                                                             });
@@ -695,7 +695,7 @@ router.route('/uploadFile')
                                                 imageData = [];
                                                 a.save(function(err, a) {
                                                     if (err) {
-                                                        return renderError(res, err);
+                                                        return logger.error(res, err);
                                                     }
                                                     logger.info('saved img to mongo');
                                                 });
@@ -731,7 +731,7 @@ router.route('/uploadFile')
                 rowsToSkip: 0 // number of rows to skip at the top of the sheet; defaults to 0
             }, function(err, result) {
                 if (err) {
-                    return renderError(res, err);
+                    return logger.error(res, err);
                 } else {
                     var fs = require('fs');
 
@@ -787,7 +787,7 @@ router.route('/uploadFile')
                                     }, function(err, neume1) {
 
                                         if (err) {
-                                            return renderError(res, err);
+                                            return logger.error(res, err);
                                         } else {
 
                                             var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined.
@@ -800,20 +800,20 @@ router.route('/uploadFile')
                                             try {
                                                 a.img.data = fs.readFileSync(imgPath);
                                             } catch(err) {
-                                                return renderError(res, err);
+                                                return logger.error(res, err);
                                             }
                                             a.img.contentType = 'image/png';
                                             try {
                                                 a.imgBase64 = a.img.data.toString('base64');
                                             } catch(err) {
-                                                return renderError(res, err);
+                                                return logger.error(res, err);
                                             }
                                             var imageData = [];
                                             try {
                                                 imageData.push(a.img.data.toString('base64'));
                                             } //This works for all the images stored in the database.
                                             catch(err) {
-                                                return renderError(res, err);
+                                                return logger.error(res, err);
                                             }
                                             //All the images (images) need to be pushed to an array field in mongodb
                                             mongoose.model('neume').find({
@@ -825,14 +825,14 @@ router.route('/uploadFile')
                                                 },
 
                                                 function(err, data) {
-                                                    if (err) { return renderError(res, err); }
+                                                    if (err) { return logger.error(res, err); }
                                                     //logger.info(err, data);
                                                     imageData = [];
 
 
 
                                                     a.save(function(err, a) {
-                                                        if (err) return renderError(res, err);
+                                                        if (err) return logger.error(res, err);
 
                                                         logger.info('saved img to mongo');
                                                     });
@@ -872,7 +872,7 @@ router.route('/uploadFile')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
-                if (err) { return renderError(res, err); }
+                if (err) { return logger.error(res, err); }
                 logger.info(file); //This is just the name
             });
 
@@ -911,7 +911,7 @@ router.route('/uploadFile')
                                     imagesBinary: neume.imagesBinary.map(function(el) { return el.replace(/[\[\]"\\]/mg, ''); })
                                 }, function(err, neumeElement) {
                                     if (err) {
-                                        return renderError(res, err);
+                                        return logger.error(res, err);
                                     } else {
                                         logger.info(neumeElement);
                                     }
@@ -922,7 +922,7 @@ router.route('/uploadFile')
                             res.redirect("back");
                         })
                         .catch(function(err) {
-                            return renderError(res, err);
+                            return logger.error(res, err);
                         });
                 });
         }
@@ -941,7 +941,7 @@ router.route('/uploadFile')
                 fs.mkdirSync(dir);
             }
             fs.writeFile(filePath, file, function(err) {
-                if (err) { return renderError(res, err) };
+                if (err) { return logger.error(res, err) };
                 logger.info(file); //This is just the name
             });
 
@@ -952,7 +952,7 @@ router.route('/uploadFile')
                     path: './exports'
                 }));
             } catch (err) {
-                return renderError(res, err);
+                return logger.error(res, err);
             }
 
             var mammoth = require("mammoth"); //mammoth might take away
@@ -967,7 +967,7 @@ router.route('/uploadFile')
                     const html1 = html.toString(); //# Paste your HTML table
                     fs.writeFile("file.html", result.value, function(err) {
                         if (err) {
-                            return renderError(res, err);
+                            return logger.error(res, err);
                         }
 
                         logger.info("The file was saved!");
@@ -1025,7 +1025,7 @@ router.route('/uploadFile')
                             })
                         }
                         else {
-                            return renderError(res, err);
+                            return logger.error(res, err);
                         }
 
                         //logger.info(array);
@@ -1062,7 +1062,7 @@ router.route('/uploadFile')
                                                 .replace(/[\u201C\u201D]/g, '"')
                                         }, function(err, neumeElement) {
                                             if (err) {
-                                                return renderError(res, err);
+                                                return logger.error(res, err);
                                             } else {
                                                 //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
                                                 logger.info(arrayJson);
@@ -1131,7 +1131,7 @@ router.route('/uploadFile')
                                             .replace(/[\u201C\u201D]/g, '"')
                                     }, function(err, neumeElement) {
                                         if (err) {
-                                            return renderError(res, err);
+                                            return logger.error(res, err);
                                         } else {
                                             logger.info(neumeElement);
                                         }
@@ -1150,7 +1150,7 @@ router.route('/uploadFile')
                     res.redirect('back');
 
                 } else {
-                    return renderError(res, err);
+                    return logger.error(res, err);
                 }
             });
 
