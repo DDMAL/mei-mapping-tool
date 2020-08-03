@@ -3,12 +3,12 @@ function collapseAll() {
     var elements = document.getElementsByClassName("paddingCollapsible");
     var buttonCollapseAll = document.getElementById('buttonCollapseAll');
     var collapsed = buttonCollapseAll.value;
-    console.log(elements.length);
-    console.log(collapsed);
     if (elements.length == collapsed) {
         // all of them are collapsed, so uncollapse all
         for (let element of elements) {
-            var id = element.id.substr(11,); // extract the id
+            // elements have the form 'collapsible#{neume.id}'
+            // so the 11th position is the start of the neume id
+            var id = element.id.substr(11,);
             uncollapse(id);
         }
         buttonCollapseAll.value = 0;
@@ -16,7 +16,9 @@ function collapseAll() {
     else {
         // at least one of them is collapsed, so collapse all
         for (let element of elements) {
-            var id = element.id.substr(11,); // extract the id
+            // elements have the form 'collapsible#{neume.id}'
+            // so the 11th position is the start of the neume id
+            var id = element.id.substr(11,);
             collapse(id);
         }
         buttonCollapseAll.value = elements.length;
@@ -31,7 +33,9 @@ function collapse(id) {
     var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + id);
     var collapseAllButton = document.getElementById("buttonCollapseAll");
 
-    $.cookie(this.id, "false");
+    // cookie used on collapsible element to save if a neume is collapsed
+    // if it is then collapse it when the page is reloaded
+    $.cookie(id, "true");
     // change the contents of the nameButton to have the correct arrow direction
     var inner = nameButton.innerHTML;
     var splitInner = inner.split('>');
@@ -51,7 +55,7 @@ function uncollapse(id) {
     var deleteButtonCollapse = document.getElementById("deleteNeumeButton" + id);
     var collapseAllButton = document.getElementById("buttonCollapseAll");
 
-    $.cookie(this.id, "true")
+    $.cookie(id, "false")
 
     var inner = nameButton.innerHTML;
     var splitInner = inner.split('>');
@@ -90,7 +94,8 @@ function initNeume(neume, project, owned) {
 
         image.onload = function() {
 
-            // set size proportional to image
+            // set size of image so that it fits in card
+            // 0.4 is number that keeps the image card the same as the others
             canvas.height = image.height * 0.4;
             canvas.width = image.width * 0.4;
 
@@ -144,14 +149,6 @@ function initNeume(neume, project, owned) {
            document.getElementById("DeleteModal" + neume._id).style.display = 'none';
        }; 
     }  
-
-    $(document).scroll(function() {
-        var y = $(document).scrollTop(), //get page y value 
-            header = $(".row");
-        roundedCorners = $(".roundedCorners");
-
-        header.css({ position: "fixed", "top": "120px" });
-    });
 
     //Function to get collapsibles sorted
     $(function() {
@@ -261,6 +258,11 @@ function initNeume(neume, project, owned) {
         x = document.getElementById('meislider' + neume._id);
         x.style.display = "none";
     }
+    // if a neume is collapsed, collapse it on load
+    if ($.cookie(neume._id) == 'true') {
+        collapse(neume._id);
+    }
+
 }
 
 //submits the position of the neumes on click of the button
