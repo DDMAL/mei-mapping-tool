@@ -24,7 +24,6 @@
   color: black; 
   border-radius: 30px;
   width : 30%;
-  height : 1%;
   border: 2px solid #4caf50;
   z-index: 5000;
 }
@@ -107,6 +106,19 @@
   padding : 0px;
   margin-right : 10px; 
 }
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+.viewNameButton {
+  position : relative;
+  float : left;
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
 .button2Update {
   background-color: white; 
   color: black; 
@@ -122,6 +134,19 @@
   float : right;
   top : -52px;
   position : relative;
+}
+.otherButton {
+  background-color: white; 
+  color: black; 
+  float : right;
+  top : -52px;
+  position : relative;
+  background-color: white; 
+  color: black; 
+  width: 100px;
+  margin : 0px 0px 10px 0px;
+  border: 2px solid #008CBA;
+  margin-right: 10px;
 }
 .button2:hover {
   background-color: #008CBA;

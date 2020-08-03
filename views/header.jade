@@ -57,15 +57,10 @@ mixin showphead
                  a(href='/') Log out
                else
                  a(href='/') Log-in
-             li
-               a(href='#' class= "tooltip" style = "z-index : 10000;") Help
-                span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.
-             li
+             li(style='height: 0px')
                if (user != null)
                  a(href='/profile') #{user.username} 
                   i.fa.fa-user.fa-lg
-               else
-                 a(href='#') Public User
 
                if (owned)
                  div.mobile-nav(style = "position : fixed; right : 50px; top : 15px; z-index : 1000000000000;" id = "hamburger" )

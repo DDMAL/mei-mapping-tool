@@ -310,16 +310,39 @@ router.param('id', function(req, res, next, id) {
 router.route('/:id/edit')
     //PUT to update a neume by ID
     .put(function(req, res) {
-        // Get our REST or form values. These rely on the "name" attributes from the edit page
-        var name = req.body.name;
-        var folio = req.body.folio;
-        var description = req.body.description;
-        var classification = req.body.classification;
-        var review = req.body.review;
-        var mei = req.body.mei;
-        var dob = req.body.dob;
-        var projectName = req.body.projectName;
-        var genericName = req.body.genericName;
+        logger.error(':id/edit');
+        logger.error(req.id);
+        
+        // two different submit options depending on which submit button is used 
+        // ie in the seeInfo modal or not
+        var updateObject;
+        if (req.body.name) {
+            var name = req.body.name;
+            var folio = req.body.folio;
+            var description = req.body.description;
+            var genericName = req.body.genericName;
+            updateObject = {
+                name: name,
+                folio: folio,
+                description: description,
+                genericName: genericName //adding the image to the image array without reinitializng everything
+            };
+        }
+        else {
+            var classification = req.body.classification;
+            var review = req.body.review;
+            var mei = req.body.mei;
+            var dob = req.body.dob;
+            var projectName = req.body.projectName;
+            updateObject = {
+                classification: classification,
+                mei: mei,
+                review: review,
+                dob: dob,
+            };
+        }
+        
+        
         global.editArray = [];
 
         //find the document by ID
@@ -328,17 +351,7 @@ router.route('/:id/edit')
             var ID_project = neume.project;
             //update it
             editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
-            neume.update({
-                name: name,
-                folio: folio,
-                description: description,
-                classification: classification,
-                mei: mei,
-                review: review,
-                dob: dob,
-                imagePath: editArray,
-                genericName: genericName //adding the image to the image array without reinitializng everything
-            }, function(err, neumeID) {
+            neume.update(updateObject, function(err, neumeID) {
                 if (err) {
                     return renderError(res, err);
                 } else {
