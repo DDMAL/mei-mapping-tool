@@ -359,7 +359,7 @@ router.route('/public/:id')
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
-                                    "user": -1,
+                                    "user": null,
                                     "owned": false
                                 });
                             },
