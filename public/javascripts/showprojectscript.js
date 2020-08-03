@@ -243,10 +243,10 @@ function initNeume(neume, project, owned) {
     if (!owned) {
         // set the edit and delete neume buttons invisible
         // use visibility not display to preserve positioning of other elements
-        var y = document.getElementById('deleteNeumeButton' + neume.id);
-        y.style.visibility = 'none';
+        var y = document.getElementById('deleteNeumeButton' + neume._id);
+        y.style.visibility = 'hidden';
         y = document.getElementById('btnUpdateSubmit' + neume._id);
-        y.style.visibility = 'none';
+        y.style.visibility = 'hidden';
 
         // don't display editing buttons
         // positions aren't affected, so use display
