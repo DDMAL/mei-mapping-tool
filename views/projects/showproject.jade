@@ -123,14 +123,6 @@ div.neumeSection(style = "padding-top : 50px")
     button(type = 'button' class = 'button button2AddNeume' style = "font: 14px Avenir, sans-serif; margin-right: 10px" onclick = "buttonSaveLoad()" id = "buttonSavePosition")
      i.fa.fa-save
 
-
-    // z-index values to make sure the tooltip information things can be seen over top of the buttons and header
-    // value of collapseall button counts how many are currently collapsed
-    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px; z-index: 10002" onclick = "collapseAll();" id = "buttonCollapseAll" value = '0')
-       i(id = "compress").fa.fa-caret-up.fa-lg
-       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
-       span.tooltiptext To collapse/uncollapse neumes, click here!
-
     button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px; z-index: 10001") 
       i.fa.fa-undo.fa-sm &nbsp;
       span.tooltiptext To undo a position change, click here!
@@ -159,10 +151,13 @@ div.neumeSection(style = "padding-top : 50px")
                 i.fa.fa-code-fork
                 |  Fork
                 span.tooltiptext To save the project as your own, click here!
-    
-    button(type = 'button' class = 'button button2AddNeume' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 4%; z-index: 100001; margin-top: 10px" onclick = "collapseAll();" id = "buttonSavePosition")
-      i(id = "compress").fa.fa-caret-up.fa-sm 
-      i(id = "expand" style = "display : none").fa.fa-caret-down.fa-sm 
+
+  // z-index values to make sure the tooltip information things can be seen over top of the buttons and header
+  // value of collapseall button counts how many are currently collapsed
+  button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px; z-index: 10002" onclick = "collapseAll();" id = "buttonCollapseAll" value = '0')
+     i(id = "compress").fa.fa-caret-up.fa-lg
+     i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
+     span.tooltiptext To collapse/uncollapse neumes, click here!
 
   //Four Equal Columns
   .row(class="position-sticky" style = "position : fixed; width :100%; z-index : 1001; padding-left:5px; padding-right : 75px;")

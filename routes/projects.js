@@ -73,9 +73,9 @@ router.route('/')
                                 logger.debug(userFinal);
                                 res.render('projects/projectindex', {
                                     title: 'Projects',
-                                    "projects": projects,
+                                    "projects": projects.reverse(), // the projects come in reverse chronological order of creation, so reverse
                                     "user": userFinal,
-                                    "other": projectsAll
+                                    "other": projectsAll.reverse()
                                 });
                             },
                             //JSON response will show all projects in JSON format
