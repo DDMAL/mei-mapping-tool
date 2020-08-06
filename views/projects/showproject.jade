@@ -176,24 +176,6 @@ div.neumeSection(style = "padding-top : 50px")
     .roundedCorners(style = "position : relative; display : inline-block; padding: none" id = "roundedCorners")
       ul(id = "sortable1" class = "connectedSortable")
           - each neume in neumes
-              .modal(id = 'seeInfo#{neume.id}' style = 'height: 100%; width: 100%; margin: none')
-               .modal-content(style = 'height: 45%; width: 50%')
-                 span.close x
-                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
-                   p(style = "position : absolute; font: 16px Avenir, sans-serif;") Name: 
-                   input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
-
-                   p(style = "font: 16px Avenir, sans-serif;") Generic Name: 
-                   input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
-
-                   p(style = "font: 16px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
-                   input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
-                   //Add folio for the neumes
-                   p(style = "font: 16px Avenir, sans-serif;") Description:  
-                   input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
-
-                   input(type='hidden',value='PUT',name='_method')
-                   button#btnSubmit6(type="submit" class = "button button5SubmitEdit") Submit changes
               if (owned)
                 // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
@@ -222,7 +204,7 @@ div.neumeSection(style = "padding-top : 50px")
                        .card(style = "overflow : hidden; text-align : left; height: 70px")
                             p(style = "font: 20px Avenir, sans-serif;") #{neume.name}
 
-                            button(style = "font: 14px Avenir, sans-serif; top: -50px" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
+                            +seeinfomixin(neume)
 
 
                     // Classification Section
