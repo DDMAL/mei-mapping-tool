@@ -263,6 +263,15 @@ function initNeume(neume, project, owned) {
         collapse(neume._id);
     }
 
+    // neume name is required,
+    // but when uploading a file it can be missing sometimes
+    // so if it isn't there, shift the button down so that the UI looks nice
+    if (neume.name == '' || !neume.name) {
+        console.log('no name');
+        var t = document.getElementById('seeInfoButton' + neume._id);
+        t.style.top = '';
+    }
+
 }
 
 //submits the position of the neumes on click of the button
