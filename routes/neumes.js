@@ -311,8 +311,6 @@ router.route('/:id/edit')
     //PUT to update a neume by ID
     .put(function(req, res) {
         
-        // two different submit options depending on which submit button is used 
-        // ie in the seeInfo modal or not
         var updateObject;
         var name = req.body.name;
         var folio = req.body.folio;
