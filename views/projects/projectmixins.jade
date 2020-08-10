@@ -35,7 +35,7 @@ mixin collapsebutton(neume)
   br
 
 mixin seeinfomixin(neume, owned)
-  button(style = "font: 14px Avenir, sans-serif; top: -50px" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
+  button(style = "font: 14px Avenir, sans-serif" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
   .modal(id = 'seeInfo#{neume.id}' style = 'height: 100%; width: 100%; margin: none')
    .modal-content(style = 'height: 45%; width: 50%')
      span.close(onclick='$(seeInfo#{neume.id}).modal("hide")') x
