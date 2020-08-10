@@ -222,12 +222,6 @@ function initNeume(neume, project, owned) {
         }
     });
 
-    /*
-    document.getElementById("editButton").onclick = function() {
-        document.getElementsByClassName("editing").style.display = "block";
-    };
-    */
-
     //Array for the position of elements from the database. split into the drop
     //Values of div and changing their positions by appending them depending on the order in the database.
     //(The string is already ordered in the database from the neume sortable positions)
@@ -245,11 +239,11 @@ function initNeume(neume, project, owned) {
         y.style.visibility = 'hidden';
         y = document.getElementById('btnUpdateSubmit' + neume._id);
         y.style.visibility = 'hidden';
+        y = document.getElementById('editImagesButton' + neume._id);
+        y.style.visibility = 'hidden';
 
         // don't display editing buttons
         // positions aren't affected, so use display
-        var x = document.getElementById('editImagesButton' + neume._id);
-        x.style.display = "none";
         $('#seeInfoButton' + neume._id).html('See Info');
         x = document.getElementById('meislider' + neume._id);
         x.style.display = "none";
