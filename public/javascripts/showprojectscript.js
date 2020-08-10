@@ -94,10 +94,8 @@ function initNeume(neume, project, owned) {
 
         image.onload = function() {
 
-            // set size of image so that it fits in card
-            // 0.4 is number that keeps the image card the same as the others
-            canvas.height = image.height * 0.4;
-            canvas.width = image.width * 0.4;
+            canvas.height = image.height;
+            canvas.width = image.width;
 
             // step 1 - resize to 50%
             var oc = document.createElement('canvas'),
