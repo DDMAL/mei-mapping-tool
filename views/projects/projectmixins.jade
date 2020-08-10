@@ -34,7 +34,7 @@ mixin collapsebutton(neume)
   br
   br
 
-mixin seeinfomixin(neume)
+mixin seeinfomixin(neume, owned)
   button(style = "font: 14px Avenir, sans-serif; top: -50px" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
   .modal(id = 'seeInfo#{neume.id}' style = 'height: 100%; width: 100%; margin: none')
    .modal-content(style = 'height: 45%; width: 50%')
@@ -52,7 +52,7 @@ mixin seeinfomixin(neume)
      input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
 
      input(type='hidden',value='PUT',name='_method')
-     button#btnSubmit6(type="submit" class = "button button5SubmitEdit") Submit changes
+     button#btnSubmit6(type="submit" class = "button button5SubmitEdit" style = !{owned} ? "" : "display: none") Submit changes
        
   br
   br

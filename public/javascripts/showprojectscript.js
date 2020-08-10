@@ -252,8 +252,6 @@ function initNeume(neume, project, owned) {
         // positions aren't affected, so use display
         var x = document.getElementById('editImagesButton' + neume._id);
         x.style.display = "none";
-        x = document.getElementById('btnSubmit6');
-        x.style.display = "none";
         $('#seeInfoButton' + neume._id).html('See Info');
         x = document.getElementById('meislider' + neume._id);
         x.style.display = "none";
