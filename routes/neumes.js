@@ -310,38 +310,29 @@ router.param('id', function(req, res, next, id) {
 router.route('/:id/edit')
     //PUT to update a neume by ID
     .put(function(req, res) {
-        logger.error(':id/edit');
-        logger.error(req.id);
         
         // two different submit options depending on which submit button is used 
         // ie in the seeInfo modal or not
         var updateObject;
-        if (req.body.name) {
-            var name = req.body.name;
-            var folio = req.body.folio;
-            var description = req.body.description;
-            var genericName = req.body.genericName;
-            updateObject = {
-                name: name,
-                folio: folio,
-                description: description,
-                genericName: genericName //adding the image to the image array without reinitializng everything
-            };
-        }
-        else {
-            var classification = req.body.classification;
-            var review = req.body.review;
-            var mei = req.body.mei;
-            var dob = req.body.dob;
-            var projectName = req.body.projectName;
-            updateObject = {
-                classification: classification,
-                mei: mei,
-                review: review,
-                dob: dob,
-            };
-        }
-        
+        var name = req.body.name;
+        var folio = req.body.folio;
+        var description = req.body.description;
+        var genericName = req.body.genericName;
+        var classification = req.body.classification;
+        var review = req.body.review;
+        var mei = req.body.mei;
+        var dob = req.body.dob;
+        var projectName = req.body.projectName;
+        updateObject = {
+            name: name,
+            folio: folio,
+            description: description,
+            genericName: genericName, //adding the image to the image array without reinitializng everything
+            classification: classification,
+            mei: mei,
+            review: review,
+            dob: dob,
+        };
         
         global.editArray = [];
 
