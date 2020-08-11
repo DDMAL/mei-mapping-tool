@@ -223,4 +223,5 @@ bottom: 100%;  /* At the top of the tooltip */
     height: 100px;
     object-fit: contain;
     border-radius : 20px;
+    margin-top: 5px;
 }

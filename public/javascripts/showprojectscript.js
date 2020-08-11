@@ -94,10 +94,8 @@ function initNeume(neume, project, owned) {
 
         image.onload = function() {
 
-            // set size of image so that it fits in card
-            // 0.4 is number that keeps the image card the same as the others
-            canvas.height = image.height * 0.4;
-            canvas.width = image.width * 0.4;
+            canvas.height = image.height;
+            canvas.width = image.width;
 
             // step 1 - resize to 50%
             var oc = document.createElement('canvas'),
@@ -224,12 +222,6 @@ function initNeume(neume, project, owned) {
         }
     });
 
-    /*
-    document.getElementById("editButton").onclick = function() {
-        document.getElementsByClassName("editing").style.display = "block";
-    };
-    */
-
     //Array for the position of elements from the database. split into the drop
     //Values of div and changing their positions by appending them depending on the order in the database.
     //(The string is already ordered in the database from the neume sortable positions)
@@ -247,13 +239,11 @@ function initNeume(neume, project, owned) {
         y.style.visibility = 'hidden';
         y = document.getElementById('btnUpdateSubmit' + neume._id);
         y.style.visibility = 'hidden';
+        y = document.getElementById('editImagesButton' + neume._id);
+        y.style.visibility = 'hidden';
 
         // don't display editing buttons
         // positions aren't affected, so use display
-        var x = document.getElementById('editImagesButton' + neume._id);
-        x.style.display = "none";
-        x = document.getElementById('btnSubmit6');
-        x.style.display = "none";
         $('#seeInfoButton' + neume._id).html('See Info');
         x = document.getElementById('meislider' + neume._id);
         x.style.display = "none";
@@ -261,6 +251,15 @@ function initNeume(neume, project, owned) {
     // if a neume is collapsed, collapse it on load
     if ($.cookie(neume._id) == 'true') {
         collapse(neume._id);
+    }
+
+    // neume name is required,
+    // but when uploading a file it can be missing sometimes
+    // so if it isn't there, shift the button down so that the UI looks nice
+    if (neume.name == '' || !neume.name) {
+        console.log('no name');
+        var t = document.getElementById('seeInfoButton' + neume._id);
+        t.style.top = '';
     }
 
 }

@@ -135,7 +135,7 @@ div.neumeSection(style = "padding-top : 50px")
   if (!owned)
     form()
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font-size:35px; font: 35px Avenir, sans-serif; width : 60%; margin : 0px padding : 0px; margin-top: 20px")
+      p(style='font: 18px Avenir, sans-serif; font-size:35px;') #{project.name}
     form(action='/downloadCSV',method='post',enctype='application/x-www-form-urlencoded')
                       input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                       input(type='text',value='#{project.name}', name='projectName' hidden)
@@ -176,24 +176,6 @@ div.neumeSection(style = "padding-top : 50px")
     .roundedCorners(style = "position : relative; display : inline-block; padding: none" id = "roundedCorners")
       ul(id = "sortable1" class = "connectedSortable")
           - each neume in neumes
-              .modal(id = 'seeInfo#{neume.id}' style = 'height: 100%; width: 100%; margin: none')
-               .modal-content(style = 'height: 45%; width: 50%')
-                 span.close x
-                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded')
-                   p(style = "position : absolute; font: 16px Avenir, sans-serif;") Name: 
-                   input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
-
-                   p(style = "font: 16px Avenir, sans-serif;") Generic Name: 
-                   input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
-
-                   p(style = "font: 16px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
-                   input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
-                   //Add folio for the neumes
-                   p(style = "font: 16px Avenir, sans-serif;") Description:  
-                   input#inputDescription(type='text', value='#{neume.description}', name='description', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
-
-                   input(type='hidden',value='PUT',name='_method')
-                   button#btnSubmit6(type="submit" class = "button button5SubmitEdit") Submit changes
               if (owned)
                 // Edit Images Modal
                 .modal(id = "editImages#{neume.id}")
@@ -209,32 +191,31 @@ div.neumeSection(style = "padding-top : 50px")
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded'
                   type = owned ? "" : "hidden" style='position: relative')
                     .column
-                       .card(style = 'overflow : visible; height: 100px')
-                         .panel.panel-default
+                       .panel.panel-default
                            .panel-body
-                              div(id = "image#{neume.id}" type = owned ? "" : "hidden")
-                                  button(style = "font: 14px Avenir, sans-serif;" id = "editImagesButton#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit
-                                    span.tooltiptext To delete images or add more images to the neume, click here!   
+                              div(id = "image#{neume.id}" type = owned ? "" : "hidden" style = 'padding-left: 120px')
+                                  button(style = "font: 14px Avenir, sans-serif; top: 10px" id = "editImagesButton#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit
+                                    span.tooltiptext To delete images or add more images to the neume, click here!  
+                          
 
                     // Name, Folio and Description Section
                     .column(style = "width : 20%;")
                       .height
-                       .card(style = "overflow : hidden; text-align : left; height: 70px")
-                            p(style = "font: 20px Avenir, sans-serif;") #{neume.name}
+                       p(style = "font: 20px Avenir, sans-serif;") #{neume.name}
 
-                            button(style = "font: 14px Avenir, sans-serif; top: -50px" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
+                            +seeinfomixin(neume, owned)
+                            
 
 
                     // Classification Section
                     .column(style = "width : 20%")
-                       .card
-                        input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
+                       input#inputClassification(type='text',value='#{neume.classification}', name='classification' style="font-size:12px; font: 14px Avenir, sans-serif;")
+                        
                           
 
                     // Mei snippet Section
                     .column(style = "width : 35%;")
-                       .card(style = 'overflow : visible; height: 100px')
-                        p(class = 'tooltipMEI')
+                       p(class = 'tooltipMEI')
                          span.tooltiptext 
                            | How the pitches should be encoded :
                            br 
@@ -255,6 +236,7 @@ div.neumeSection(style = "padding-top : 50px")
                               span.slider.round(class = 'tooltip' style = 'top: 80px; right: -200px;' id = 'meislider#{neume.id}')
                                 span.tooltiptext Click this button to validate the MEI for this neume
                               input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
+                        
                     +submitchangesmix(neume)
                   +deletemix(neume)
                 +collapsebutton(neume)
