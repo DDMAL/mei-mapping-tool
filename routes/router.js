@@ -371,22 +371,33 @@ router.route('/uploadFile')
         var originalFileName = req.file.originalname;
 
         if (fileType == '.xlsx') {
+
             // first is special version to get image cells
-            // second is for reading the rest
+            // second is to convert to csv
+            // csv parse is so that we can convert
+            // we do xlsx -> csv -> json so that empty rows aren't skipped
+            // if there are empty rows which are ignored, then it messes up the image-neume association
+
             var lsxlsx = require('ls-xlsx');
             var XLSX = require('xlsx');
+            var csvparse = require('csv-parse/lib/sync');
             var workbook = lsxlsx.readFile(req.file.path);
+
             // want to get first sheet, but it's an object not a list, so convert it
             var first_sheet_name = Object.keys(workbook['Sheets'])[0];
+
             // extract the image information including position
             var images = workbook['Sheets'][first_sheet_name]['!images'];
 
             workbook = XLSX.readFile(req.file.path);
-            var neumes = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
-            // add the missing project and classifier information
+            var csv = XLSX.utils.sheet_to_csv(workbook.Sheets[first_sheet_name]);
+            var neumes = csvparse(csv, {
+                columns: true,
+                skip_empty_lines: false
+            })
+
+            // initialize the imagesbinary array
             for (let neume of neumes) {
-                neume['project'] = IdOfProject;
-                neume['classifier'] = originalFileName;
                 neume['imagesBinary'] = [];
             }
 
@@ -409,6 +420,7 @@ router.route('/uploadFile')
             // so one entry to each per image
             var imagebins = [];
             var imagepos = [];
+
             // get the image binaries
             for (let img of images) {
                 var path = './exports/xl/media/' + img['name'];
@@ -419,7 +431,6 @@ router.route('/uploadFile')
             }
 
             // add the images to the correct neumes!
-            // we assume the first neume is in the second row of the sheet and that no rows are skipped
             // also the image reading (in the imagepos array) ignores the header row
             // so that means row 1 in the imagepos array should correspond to the 0th element in our neume array :)
             // and if an image is outside the bounds then we ignore it :)
@@ -427,11 +438,34 @@ router.route('/uploadFile')
             // need the index so use regular for loop
             for (var i = 0; i < imagepos.length; i++) {
                 var pos = imagepos[i];
-                var row = pos['from']['row'];
+                var from = Number(pos['from']['row']);
+                var to = Number(pos['to']['row']);
+                // get the position of the middle of the image
+                // and make sure it's in range
+                var row = Math.floor((to + from)/2);
                 var neumepos = row - 1;
                 if (neumepos >= 0 && neumepos < neumes.length) { 
                     neumes[neumepos]['imagesBinary'].push(imagebins[i]) 
                 };
+            }
+
+            // delete any empty entries
+            // filter the list of neumes, using the condition that
+            // at least one entry in the object is non-empty
+            neumes = neumes.filter(function(neume) {
+                return Object.values(neume).some(function(val) {
+
+                    // val.length checks for string or array length :)
+                    // and the expression val.length != 0 returns True when x is a number :)
+                    return (val !== null && val.length != 0);
+                })
+            });
+
+            // add the project id and classifier
+            // note this needs to be done at the end so that we can easily filter out blank rows
+            for (let neume of neumes) {
+                neume['project'] = IdOfProject;
+                neume['classifier'] = originalFileName;
             }
 
             mongoose.model("neume").insertMany(neumes)
