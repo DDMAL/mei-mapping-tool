@@ -551,173 +551,130 @@ router.route('/uploadFile')
                 });
         }
 
-        if (fileType == ".docx") {
-            var imageNumber = -1;
-            var fs = require("fs");
-            var originalFileName = req.file.originalname;
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
+        if (fileType == '.docx') {
 
-            const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
             var fs = require('fs');
-            var dir = './docx'; //join the path name with this folder.
+            var dir = './exports';
 
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-            fs.writeFile(filePath, file, function(err) {
-                if (err) { return logger.error(res, err) };
-                logger.info(file); //This is just the name
-            });
 
-            ////For the images, we unzip the files and we get the images from the unzipped files in media again, just like for the excel file
-            var unzip = require('unzipper');
-            try {
-                fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
-                    path: './exports'
-                }));
-            } catch (err) {
-                return logger.error(res, err);
-            }
-
-            var mammoth = require("mammoth"); //mammoth might take away
-            const HtmlTableToJson = require('html-table-to-json');
+            var mammoth = require("mammoth");
 
             mammoth.convertToHtml({ // Mammoth library used for converting the docx to html, since parsing an html table is much easier
-                    path: pathName.join(__dirname, "..", req.file.path)
+                    path: req.file.path
                 })
                 .then(function(result) {
-                    var html = result.value; // The generated HTML
-                    //logger.info(html);
-                    const html1 = html.toString(); //# Paste your HTML table
-                    fs.writeFile("file.html", result.value, function(err) {
-                        if (err) {
-                            return logger.error(res, err);
-                        }
 
-                        logger.info("The file was saved!");
-                    });
-                    fs.readFile("file.html", {
-                        encoding: 'utf-8'
-                    }, function(err, data) {
-                        if (!err) {
-                            logger.info('received data: ' + data);
-                            const html = data.toString(); //# Paste your HTML table
-
-                            var HTMLParser = require('node-html-parser');
-                            var neumeArray = [];
-                            var root = HTMLParser.parse(html);
-                            var tables = root.querySelectorAll('td');
-                            var rows = root.querySelectorAll("tr");
-                            var images = root.querySelectorAll("img").rawAttributes;
-                            var images = root.querySelectorAll("img");
-                            var imageArray = [];
-                            images.forEach(function(image) {
-
-                                var imageBinary = image.rawAttributes.src.split(",")[1];;
-                                imageArray.push(imageBinary);
-
-                            })
-                            //logger.info(imageArray)
-                            //logger.info(images)
-                            var a = 0;
-                            var x = 0;
-                            var array = []
-                            rows.forEach(function(row) {
-                                for (var i = 0; i < 6; i++) {
-                                    if (tables[a] == undefined)
-                                        break
-                                    var imageBinary = row.firstChild.firstChild;
-                                    //logger.info(imageBinary)
-                                    var AllRow = tables[a].rawText;
-                                    //logger.info( i + " : " + AllRow);
-                                    var imageBinary = imageArray[x];
-                                    //logger.info(imageBinary)
-                                    if (i == 0) {
-                                        if (a != 0) {
-                                            AllRow = imageBinary;
-                                        } else {
-                                            x--;
-                                        }
-                                    } else {
-                                        AllRow = AllRow;
-                                    }
-                                    array.push(i + " : " + AllRow);
-                                    a++;
-                                }
-                                x++;
-
-                            })
-                        }
-                        else {
-                            return logger.error(res, err);
-                        }
-
-                        //logger.info(array);
-                        logger.info(array)
+                    /*
+                    table
+                        tr (row)
+                            td (cell)
+                                p (contents, including the text)
+                                    img (if there is one)
+                    */
 
 
+                    // get out the html data and find the table
+                    var html = result.value;
+                    const htmlparser = require('node-html-parser');
+                    const root = htmlparser.parse(html);
+                    var table = root.querySelectorAll('table')[0];
+                    var rows = table['childNodes'];
 
-                        const jsonTables = new HtmlTableToJson(html1);
-                        var arrayJson = [];
+                    // get the keys from the header row
+                    var header = rows[0];
+                    var keys = [];
+                    for (let cell of header['childNodes']) {
+                        var key = cell.firstChild.text;
+                        keys.push(key);
+                    }
 
-                        for (var i = 1; i < jsonTables['results'][0].length; i++) {
+                    var neumes = [];
 
-                            var json = jsonTables['results'][0][i];
-                            json = JSON.parse(JSON.stringify(json).split('"1":').join('"image":'));
-                            json = JSON.parse(JSON.stringify(json).split('"2":').join('"name":'));
-                            json = JSON.parse(JSON.stringify(json).split('"3":').join('"folio":'));
-                            json = JSON.parse(JSON.stringify(json).split('"4":').join('"description":'));
-                            json = JSON.parse(JSON.stringify(json).split('"5":').join('"classification":'));
-                            json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
-                            logger.info(json);
-                            //json = JSON.stringify(json);
+                    // skip the header row
+                    for (let row of rows.slice(1)) {
 
-                            mongoose.model("neume").insertMany(json)
-                                .then(function(jsonObj) {
-                                    jsonObj.forEach(function(neume) {
-                                        imageNumber = imageNumber + 1;
-                                        mongoose.model("neume").find({
-                                            _id: neume.id
-                                        }).update({
-                                            classifier: originalFileName,
-                                            project: IdOfProject,
-                                            imagesBinary: imageArray[imageNumber],
-                                            mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
-                                                .replace(/[\u201C\u201D]/g, '"')
-                                        }, function(err, neumeElement) {
-                                            if (err) {
-                                                return logger.error(res, err);
-                                            } else {
-                                                //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
-                                                logger.info(arrayJson);
-                                                for (var laptopItem in arrayJson) {}
+                        var vals = row['childNodes'];
+                        var neume = {};
 
-                                                var messages = result.messages; // Any messages, such as warnings during conversion
+                        // need the index, so use a regular for loop
+                        for (var i = 0; i < vals.length; i++) {
 
-                                                var dir = './exports';
-                                                var fs = require("fs");
-                                                if (!fs.existsSync(dir)) {
-                                                    fs.mkdirSync(dir);
-                                                }
+                            // get the p element
+                            var val = vals[i].firstChild; 
+                            
+                            // if the cell is empty then continue
+                            if (!val) {
+                                continue;
+                            }
+                            // if it has images we need to extract them
+                            if (keys[i] == 'image') {
 
-                                                var fs = require('fs');
+                                // query the cell instead of the p element just in case
+                                var image_html_elements = vals[i].querySelectorAll('img');
+                                var image_binaries = image_html_elements.map(function(el){
 
-                                            }
+                                    // the src holds the image binary
+                                    // but it has some information at the beginning (like base 64)
+                                    // so get rid of that
+                                    var fullstring = el.getAttribute('src')
+                                    return fullstring.split(',')[1];
 
-                                        })
-
-                                    })
                                 })
+                                // remember to set the right name for the database
+                                neume['imagesBinary'] = image_binaries;
+
+                            }
+                            // otherwise just get the text
+                            else {
+                                neume[keys[i]] = val.text;
+                            }
+
                         }
 
+                        neumes.push(neume);
+                    }
 
+                    // delete any empty entries
+                    // filter the list of neumes, using the condition that
+                    // at least one entry in the object is non-empty
+                    neumes = neumes.filter(function(neume) {
+                        return Object.values(neume).some(function(val) {
+
+                            // val.length checks for string or array length :)
+                            // and the expression val.length != 0 returns True when x is a number :)
+                            return (val !== null && val.length != 0);
+                        })
                     });
 
-                    res.redirect('back');
+                    // add the project id and classifier
+                    // note this needs to be done at the end so that we can easily filter out blank rows
+                    for (let neume of neumes) {
+                        neume['project'] = IdOfProject;
+                        neume['classifier'] = originalFileName;
+                    }
+
+
+
+                    mongoose.model("neume").insertMany(neumes)
+                        .then(function(output){
+                                res.format({
+                                    html: function() {
+                                        res.redirect("/projects/" + IdOfProject);
+                                    },
+                                    //JSON responds showing the updated values
+                                    json: function() {
+                                        res.json(output);
+                                    }
+                                });
+                        })
+
                 })
-                .done();
 
         }
+
         if (fileType == ".html") {
             var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var fs = require('fs');
