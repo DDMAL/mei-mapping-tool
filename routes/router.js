@@ -367,7 +367,6 @@ router.route('/uploadFile')
         var nameOfProject = req.body.projectName;
 
         var fileType = req.body.fileType;
-        logger.info(fileType); //This is docx
         var originalFileName = req.file.originalname;
 
         if (fileType == '.xlsx') {
@@ -415,61 +414,65 @@ router.route('/uploadFile')
             } catch (e) {
                 logger.info('Caught exception: ', e);
             }
+            // need to give unzipper time to get all the image files
+            // without the timeout they tend not to be ready by the time we get the binaries
+            setTimeout(function(){
+                // these two arrays are indexed per image
+                // so one entry to each per image
+                var imagebins = [];
+                var imagepos = [];
 
-            // these two arrays are indexed per image
-            // so one entry to each per image
-            var imagebins = [];
-            var imagepos = [];
+                // get the image binaries
+                for (let img of images) {
+                    var path = './exports/xl/media/' + img['name'];
+                    var bin = fs.readFileSync(path).toString('base64');
+                    var pos = img['position'];
+                    imagebins.push(bin);
+                    imagepos.push(pos);
+                }
 
-            // get the image binaries
-            for (let img of images) {
-                var path = './exports/xl/media/' + img['name'];
-                var bin = fs.readFileSync(path).toString('base64');
-                var pos = img['position'];
-                imagebins.push(bin);
-                imagepos.push(pos);
-            }
+                // add the images to the correct neumes!
+                // also the image reading (in the imagepos array) ignores the header row
+                // so that means row 1 in the imagepos array should correspond to the 0th element in our neume array :)
+                // and if an image is outside the bounds then we ignore it :)
 
-            // add the images to the correct neumes!
-            // also the image reading (in the imagepos array) ignores the header row
-            // so that means row 1 in the imagepos array should correspond to the 0th element in our neume array :)
-            // and if an image is outside the bounds then we ignore it :)
+                // need the index so use regular for loop
+                for (var i = 0; i < imagepos.length; i++) {
+                    var pos = imagepos[i];
+                    var from = Number(pos['from']['row']);
+                    var to = Number(pos['to']['row']);
+                    // get the position of the middle of the image
+                    // and make sure it's in range
+                    var row = Math.floor((to + from)/2);
+                    var neumepos = row - 1;
+                    if (neumepos >= 0 && neumepos < neumes.length) { 
+                        neumes[neumepos]['imagesBinary'].push(imagebins[i]) 
+                    };
+                }
 
-            // need the index so use regular for loop
-            for (var i = 0; i < imagepos.length; i++) {
-                var pos = imagepos[i];
-                var from = Number(pos['from']['row']);
-                var to = Number(pos['to']['row']);
-                // get the position of the middle of the image
-                // and make sure it's in range
-                var row = Math.floor((to + from)/2);
-                var neumepos = row - 1;
-                if (neumepos >= 0 && neumepos < neumes.length) { 
-                    neumes[neumepos]['imagesBinary'].push(imagebins[i]) 
-                };
-            }
+                // delete any empty entries
+                // filter the list of neumes, using the condition that
+                // at least one entry in the object is non-empty
+                neumes = neumes.filter(function(neume) {
+                    return Object.values(neume).some(function(val) {
 
-            // delete any empty entries
-            // filter the list of neumes, using the condition that
-            // at least one entry in the object is non-empty
-            neumes = neumes.filter(function(neume) {
-                return Object.values(neume).some(function(val) {
+                        // val.length checks for string or array length :)
+                        // and the expression val.length != 0 returns True when x is a number :)
+                        return (val !== null && val.length != 0);
+                    })
+                });
 
-                    // val.length checks for string or array length :)
-                    // and the expression val.length != 0 returns True when x is a number :)
-                    return (val !== null && val.length != 0);
-                })
-            });
+                // add the project id and classifier
+                // note this needs to be done at the end so that we can easily filter out blank rows
+                for (let neume of neumes) {
+                    neume['project'] = IdOfProject;
+                    neume['classifier'] = originalFileName;
+                }
 
-            // add the project id and classifier
-            // note this needs to be done at the end so that we can easily filter out blank rows
-            for (let neume of neumes) {
-                neume['project'] = IdOfProject;
-                neume['classifier'] = originalFileName;
-            }
-
-            mongoose.model("neume").insertMany(neumes)
-                .then(function(output){
+                mongoose.model("neume").insertMany(neumes)
+                    .then(function(output){
+                        var del = require('del');
+                        const deletedPaths = del.sync('./exports/xl/media/*');
                         res.format({
                             html: function() {
                                 res.redirect("/projects/" + IdOfProject);
@@ -479,7 +482,8 @@ router.route('/uploadFile')
                                 res.json(output);
                             }
                         });
-                })
+                    })
+            }, 500) 
         }
 
         if (fileType == ".csv") {
@@ -568,6 +572,7 @@ router.route('/uploadFile')
                 .then(function(result) {
 
                     /*
+                    
                     table
                         tr (row)
                             td (cell)
@@ -610,7 +615,8 @@ router.route('/uploadFile')
                                 continue;
                             }
                             // if it has images we need to extract them
-                            if (keys[i] == 'image') {
+                            // give some flexibility in the header name by using includes instead of ==
+                            if (keys[i].toLowerCase().includes('image')) {
 
                                 // query the cell instead of the p element just in case
                                 var image_html_elements = vals[i].querySelectorAll('img');
@@ -629,7 +635,9 @@ router.route('/uploadFile')
                             }
                             // otherwise just get the text
                             else {
-                                neume[keys[i]] = val.text;
+                                // the database needs the values in lower case
+                                // so if the header is 'Name' this catches that
+                                neume[keys[i].toLowerCase()] = val.text;
                             }
 
                         }
@@ -655,8 +663,6 @@ router.route('/uploadFile')
                         neume['project'] = IdOfProject;
                         neume['classifier'] = originalFileName;
                     }
-
-
 
                     mongoose.model("neume").insertMany(neumes)
                         .then(function(output){
