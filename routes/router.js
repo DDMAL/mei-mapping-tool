@@ -377,18 +377,13 @@ router.route('/uploadFile')
             // we do xlsx -> csv -> json so that empty rows aren't skipped
             // if there are empty rows which are ignored, then it messes up the image-neume association
 
-            var lsxlsx = require('ls-xlsx');
+            var Excel = require('exceljs');
             var XLSX = require('xlsx');
             var csvparse = require('csv-parse/lib/sync');
-            var workbook = lsxlsx.readFile(req.file.path);
 
+            var workbook = XLSX.readFile(req.file.path);
             // want to get first sheet, but it's an object not a list, so convert it
             var first_sheet_name = Object.keys(workbook['Sheets'])[0];
-
-            // extract the image information including position
-            var images = workbook['Sheets'][first_sheet_name]['!images'];
-
-            workbook = XLSX.readFile(req.file.path);
             var csv = XLSX.utils.sheet_to_csv(workbook.Sheets[first_sheet_name]);
             var neumes = csvparse(csv, {
                 columns: true,
@@ -400,7 +395,10 @@ router.route('/uploadFile')
                 neume['imagesBinary'] = [];
             }
 
-            // now extract the images and add them to the correct neumes
+            // get the version which has image position information
+            workbook = new Excel.Workbook();
+
+            // now extract the images
             var fs = require('fs');
             var unzip = require('unzipper');
             var dir = './exports';
@@ -411,79 +409,102 @@ router.route('/uploadFile')
                 fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
                     path: './exports'
                 }));
+
+                // somtimes the images aren't done extracting before we try to read them
+                // 500ms timeout seems to work for files with up to 100 images
+                setTimeout(function() {
+                    workbook.xlsx.readFile(req.file.path).then(function() {
+                        var worksheet = workbook.worksheets[0];
+
+                        // get the position of each image
+                        var image_rows = worksheet['_media'].map(function (med) {
+                            return med['range']['tl']['nativeRow'];
+                        });
+
+                        // get the index of each image
+                        // since sometimes this differs from the order they are read
+                        var image_inds = worksheet['_media'].map(function (med) {
+                            return med['imageId'];
+                        });
+
+                        // get the extension type of each image
+                        // this is so terrible but it seems to be what works
+                        var image_extensions = worksheet['_media'][0]['worksheet']['_workbook']['media'].map(function (med) {
+                            return med['extension'];
+                        })
+
+                        var image_bins = []
+
+                        // get image binaries
+                        // need the index so use regular for loop
+                        for (var i = 0; i < image_extensions.length; i++) {
+                            var path = './exports/xl/media/image' + (i+1).toString() + '.' + image_extensions[i];
+                            var bin = fs.readFileSync(path).toString('base64');
+                            image_bins.push(bin);
+                        }
+
+                        // add the images to the correct neumes!
+                        // and if an image is outside the bounds then we ignore it :)
+
+                        // need the index so use regular for loop
+                        for (var i = 0; i < image_rows.length; i++) {
+                            var row = image_rows[i];
+                            if (row > 0 && row <= neumes.length) { 
+                                neumes[Number(row) - 1]['imagesBinary'].push(image_bins[i]) 
+                            };
+                        }
+
+                        // delete any empty entries
+                        // filter the list of neumes, using the condition that
+                        // at least one values in the object is non-empty
+                        neumes = neumes.filter(function(neume) {
+                            return Object.values(neume).some(function(val) {
+
+                                // val.length checks for string or array length :)
+                                // and the expression val.length != 0 returns True when x is a number :)
+                                return (val !== null && val.length != 0);
+                            })
+                        });
+
+                        // add the project id and classifier
+                        // note this needs to be done at the end so that we can easily filter out blank rows
+
+                        // also we want to convert each of the keys to lower case to allow more flexibility
+                        // so if the column header is "Name" it can go into the database as 'name'
+                        // and any entries which don't match the model will just be ignored by mongo so we can leave them
+                        for (let neume of neumes) {
+                            neume['project'] = IdOfProject;
+                            neume['classifier'] = originalFileName;
+                            for (let key of Object.keys(neume)) {
+                                if (key != (lower = key.toLowerCase())) {
+                                    neume[lower] = neume[key];
+                                }
+                            }
+                        }
+
+                        // insert the neumes and delete the images once the binaries are saved in the db
+                        mongoose.model("neume").insertMany(neumes)
+                            .then(function(output){
+                                var del = require('del');
+                                const deletedPaths = del.sync('./exports/xl/media/*');
+                                res.format({
+                                    html: function() {
+                                        res.redirect("/projects/" + IdOfProject);
+                                    },
+                                    //JSON responds showing the updated values
+                                    json: function() {
+                                        res.json(output);
+                                    }
+                                });
+                            })
+                    })
+                }, 500);
+
             } catch (e) {
                 logger.info('Caught exception: ', e);
             }
-            // need to give unzipper time to get all the image files
-            // without the timeout they tend not to be ready by the time we get the binaries
-            setTimeout(function(){
-                // these two arrays are indexed per image
-                // so one entry to each per image
-                var imagebins = [];
-                var imagepos = [];
 
-                // get the image binaries
-                for (let img of images) {
-                    var path = './exports/xl/media/' + img['name'];
-                    var bin = fs.readFileSync(path).toString('base64');
-                    var pos = img['position'];
-                    imagebins.push(bin);
-                    imagepos.push(pos);
-                }
-
-                // add the images to the correct neumes!
-                // also the image reading (in the imagepos array) ignores the header row
-                // so that means row 1 in the imagepos array should correspond to the 0th element in our neume array :)
-                // and if an image is outside the bounds then we ignore it :)
-
-                // need the index so use regular for loop
-                for (var i = 0; i < imagepos.length; i++) {
-                    var pos = imagepos[i];
-                    var from = Number(pos['from']['row']);
-                    var to = Number(pos['to']['row']);
-                    // get the position of the middle of the image
-                    // and make sure it's in range
-                    var row = Math.floor((to + from)/2);
-                    var neumepos = row - 1;
-                    if (neumepos >= 0 && neumepos < neumes.length) { 
-                        neumes[neumepos]['imagesBinary'].push(imagebins[i]) 
-                    };
-                }
-
-                // delete any empty entries
-                // filter the list of neumes, using the condition that
-                // at least one entry in the object is non-empty
-                neumes = neumes.filter(function(neume) {
-                    return Object.values(neume).some(function(val) {
-
-                        // val.length checks for string or array length :)
-                        // and the expression val.length != 0 returns True when x is a number :)
-                        return (val !== null && val.length != 0);
-                    })
-                });
-
-                // add the project id and classifier
-                // note this needs to be done at the end so that we can easily filter out blank rows
-                for (let neume of neumes) {
-                    neume['project'] = IdOfProject;
-                    neume['classifier'] = originalFileName;
-                }
-
-                mongoose.model("neume").insertMany(neumes)
-                    .then(function(output){
-                        var del = require('del');
-                        const deletedPaths = del.sync('./exports/xl/media/*');
-                        res.format({
-                            html: function() {
-                                res.redirect("/projects/" + IdOfProject);
-                            },
-                            //JSON responds showing the updated values
-                            json: function() {
-                                res.json(output);
-                            }
-                        });
-                    })
-            }, 500) 
+            
         }
 
         if (fileType == ".csv") {
@@ -566,12 +587,13 @@ router.route('/uploadFile')
 
             var mammoth = require("mammoth");
 
-            mammoth.convertToHtml({ // Mammoth library used for converting the docx to html, since parsing an html table is much easier
+            // Mammoth library used for converting the docx to html, since parsing an html table is much easier
+            mammoth.convertToHtml({ 
                     path: req.file.path
                 })
                 .then(function(result) {
 
-                    /*
+                    /* Format of the html table:
                     
                     table
                         tr (row)
@@ -585,6 +607,10 @@ router.route('/uploadFile')
                     var html = result.value;
                     const htmlparser = require('node-html-parser');
                     const root = htmlparser.parse(html);
+
+                    // sometimes images appear in tables within tables
+                    // so we can't easily account for multiple top level tables having neumes
+                    // so just take the first one
                     var table = root.querySelectorAll('table')[0];
                     var rows = table['childNodes'];
 
