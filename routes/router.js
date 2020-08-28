@@ -483,20 +483,25 @@ router.route('/uploadFile')
                         }
 
                         // insert the neumes and delete the images once the binaries are saved in the db
-                        mongoose.model("neume").insertMany(neumes)
-                            .then(function(output){
-                                var del = require('del');
-                                const deletedPaths = del.sync('./exports/xl/media/*');
-                                res.format({
-                                    html: function() {
-                                        res.redirect("/projects/" + IdOfProject);
-                                    },
-                                    //JSON responds showing the updated values
-                                    json: function() {
-                                        res.json(output);
-                                    }
-                                });
-                            })
+                        mongoose.model('neume').deleteMany({
+                            'project': IdOfProject 
+                        }, function (err, result) {
+                                mongoose.model("neume").insertMany(neumes)
+                                    .then(function(output){
+                                        var del = require('del');
+                                        const deletedPaths = del.sync('./exports/xl/media/*');
+                                        res.format({
+                                            html: function() {
+                                                res.redirect("/projects/" + IdOfProject);
+                                            },
+                                            //JSON responds showing the updated values
+                                            json: function() {
+                                                res.json(output);
+                                            }
+                                        });
+                                    })
+                        })
+                        
                     })
                 }, 500);
 
@@ -690,18 +695,22 @@ router.route('/uploadFile')
                         neume['classifier'] = originalFileName;
                     }
 
-                    mongoose.model("neume").insertMany(neumes)
-                        .then(function(output){
-                                res.format({
-                                    html: function() {
-                                        res.redirect("/projects/" + IdOfProject);
-                                    },
-                                    //JSON responds showing the updated values
-                                    json: function() {
-                                        res.json(output);
-                                    }
-                                });
-                        })
+                    mongoose.model("neume").deleteMany({
+                        'project': IdOfProject
+                    }, function(err, result) {
+                        mongoose.model("neume").insertMany(neumes)
+                            .then(function(output){
+                                    res.format({
+                                        html: function() {
+                                            res.redirect("/projects/" + IdOfProject);
+                                        },
+                                        //JSON responds showing the updated values
+                                        json: function() {
+                                            res.json(output);
+                                        }
+                                    });
+                            })
+                    })
 
                 })
 
