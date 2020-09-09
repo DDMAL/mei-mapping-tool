@@ -363,7 +363,7 @@ router.route('/about')
 router.route('/uploadFile')
     .post(uploadCSV, function(req, res) {
 
-        var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
+        var pid = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
         var nameOfProject = req.body.projectName;
 
         var fileType = req.body.fileType;
@@ -405,14 +405,13 @@ router.route('/uploadFile')
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
+            // extract the contents
+            // unzipper sends the 'close' event when its done extracting everything
+            // wait until then to make sure we can access all the images :)
             try {
                 fs.createReadStream('./exports/' + req.file.originalname).pipe(unzip.Extract({
                     path: './exports'
-                }));
-
-                // somtimes the images aren't done extracting before we try to read them
-                // 500ms timeout seems to work for files with up to 100 images
-                setTimeout(function() {
+                })).on('close', function () {
                     workbook.xlsx.readFile(req.file.path).then(function() {
                         var worksheet = workbook.worksheets[0];
 
@@ -473,7 +472,7 @@ router.route('/uploadFile')
                         // so if the column header is "Name" it can go into the database as 'name'
                         // and any entries which don't match the model will just be ignored by mongo so we can leave them
                         for (let neume of neumes) {
-                            neume['project'] = IdOfProject;
+                            neume['project'] = pid;
                             neume['classifier'] = originalFileName;
                             for (let key of Object.keys(neume)) {
                                 if (key != (lower = key.toLowerCase())) {
@@ -484,7 +483,7 @@ router.route('/uploadFile')
 
                         // insert the neumes and delete the images once the binaries are saved in the db
                         mongoose.model('neume').deleteMany({
-                            'project': IdOfProject 
+                            'project': pid 
                         }, function (err, result) {
                                 mongoose.model("neume").insertMany(neumes)
                                     .then(function(output){
@@ -492,7 +491,7 @@ router.route('/uploadFile')
                                         const deletedPaths = del.sync('./exports/xl/media/*');
                                         res.format({
                                             html: function() {
-                                                res.redirect("/projects/" + IdOfProject);
+                                                res.redirect("/projects/" + pid);
                                             },
                                             //JSON responds showing the updated values
                                             json: function() {
@@ -503,7 +502,7 @@ router.route('/uploadFile')
                         })
                         
                     })
-                }, 500);
+                });
 
             } catch (e) {
                 logger.info('Caught exception: ', e);
@@ -513,7 +512,7 @@ router.route('/uploadFile')
         }
 
         if (fileType == ".csv") {
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
+            var pid = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
             var csvParser = require('csv-parse');
             var file = req.file.buffer;
@@ -530,7 +529,7 @@ router.route('/uploadFile')
                 logger.info(file); //This is just the name
             });
 
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
+            var pid = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
             var csvParser = require('csv-parse');
             var file = req.file.buffer;
@@ -558,7 +557,7 @@ router.route('/uploadFile')
                                 mongoose.model("neume").find({
                                     _id: neume.id
                                 }).update({
-                                    project: IdOfProject,
+                                    project: pid,
                                     mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
                                         .replace(/[\u201C\u201D]/g, '"'),
                                     imagePath: neume.imagePath.map(function(el) { return el.replace(/[\[\]"\\]/mg, ''); }),
@@ -691,18 +690,18 @@ router.route('/uploadFile')
                     // add the project id and classifier
                     // note this needs to be done at the end so that we can easily filter out blank rows
                     for (let neume of neumes) {
-                        neume['project'] = IdOfProject;
+                        neume['project'] = pid;
                         neume['classifier'] = originalFileName;
                     }
 
                     mongoose.model("neume").deleteMany({
-                        'project': IdOfProject
+                        'project': pid
                     }, function(err, result) {
                         mongoose.model("neume").insertMany(neumes)
                             .then(function(output){
                                     res.format({
                                         html: function() {
-                                            res.redirect("/projects/" + IdOfProject);
+                                            res.redirect("/projects/" + pid);
                                         },
                                         //JSON responds showing the updated values
                                         json: function() {
@@ -717,7 +716,7 @@ router.route('/uploadFile')
         }
 
         if (fileType == ".html") {
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
+            var pid = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var fs = require('fs');
             const filePath = pathName.join(__dirname, "..", req.file.path) //This works
             const HtmlTableToJson = require('html-table-to-json');
@@ -748,7 +747,7 @@ router.route('/uploadFile')
                                     mongoose.model("neume").find({
                                         _id: neume.id
                                     }).update({
-                                        project: IdOfProject,
+                                        project: pid,
                                         mei: neume.mei.replace(/[\u2018\u2019]/g, "'")
                                             .replace(/[\u201C\u201D]/g, '"')
                                     }, function(err, neumeElement) {
@@ -784,11 +783,11 @@ router.route('/uploadFile')
 router.route('/downloadCSV')
     .post(function(req, res) {
 
-        var IdOfProject = req.body.IdOfProject;
+        var pid = req.body.IdOfProject;
         var nameOfProject = req.body.projectName;
 
         mongoose.model('neume').find({
-            project: IdOfProject
+            project: pid
         }, function(err, neumeCSV) {
             if (err) {
                 return renderError(res, err);
@@ -804,7 +803,7 @@ router.route('/downloadCSV')
                     return renderError(res, err);
                 }
                 const dateTime = moment().format('YYYYMMDDhhmmss');
-                const filePath = pathName.join(__dirname, "..", "exports", "csv-" + IdOfProject + "_" + dateTime + ".csv")
+                const filePath = pathName.join(__dirname, "..", "exports", "csv-" + pid + "_" + dateTime + ".csv")
                 var fs = require('fs');
                 var dir = './exports';
 
@@ -831,11 +830,11 @@ router.route('/downloadCSV')
 router.route('/fork')
     .post(function(req, res) {
 
-        var IdOfProject = req.body.IdOfProject;
+        var pid = req.body.IdOfProject;
         var nameOfProject = req.body.projectName;
 
         mongoose.model('neume').find({
-            project: IdOfProject
+            project: pid
         }, function(err, neumeCSV) { //This gets all the neumes from the project
             if (err) {
                 return renderError(res, err);
