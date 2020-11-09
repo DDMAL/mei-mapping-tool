@@ -663,6 +663,12 @@ router.route('/uploadFile')
                                 neume['imagesBinary'] = image_binaries;
 
                             }
+                            else if (keys[i].toLowerCase().includes('class')) {
+                                neume['classification'] = val.text;
+                            }
+                            else if (keys[i].toLowerCase().includes('encoding') || keys[i].toLowerCase().includes('mei')) {
+                                neume['mei'] = val.text;
+                            }
                             // otherwise just get the text
                             else {
                                 // the database needs the values in lower case
