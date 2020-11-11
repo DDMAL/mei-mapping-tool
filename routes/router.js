@@ -824,8 +824,8 @@ router.route('/downloadCSV')
 
     });
 
-// route for forking someones project
-router.route('/fork')
+// route for making a copy of a project
+router.route('/makeCopy')
     .post(function(req, res) {
 
         var pid = req.body.IdOfProject;
@@ -859,16 +859,16 @@ router.route('/fork')
                                 logger.info('POST creating new project: ' + project);
                                 //2.1 Get the id of the project we just created
                                 // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-                                neumeCSV.forEach(function(neumeFork) {
-                                    var name = neumeFork.name;
-                                    var folio = neumeFork.folio;
-                                    var description = neumeFork.description;
-                                    var imageArray = neumeFork.imagesBinary;
-                                    var classification = neumeFork.classification;
-                                    var mei = neumeFork.mei;
-                                    var dob = neumeFork.dob;
+                                neumeCSV.forEach(function(newNeume) {
+                                    var name = newNeume.name;
+                                    var folio = newNeume.folio;
+                                    var description = newNeume.description;
+                                    var imageArray = newNeume.imagesBinary;
+                                    var classification = newNeume.classification;
+                                    var mei = newNeume.mei;
+                                    var dob = newNeume.dob;
                                     var ID_project = project._id;
-                                    var review = neumeFork.review;
+                                    var review = newNeume.review;
 
                                     //call the create function for our database
                                     mongoose.model('neume').create({

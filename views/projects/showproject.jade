@@ -144,12 +144,12 @@ div.neumeSection(style = "padding-top : 50px")
                         |  CSV 
                         span.tooltiptext To download the project as a .csv file, click here!
     if (user != null)
-      form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
+      form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
               input(type='text',value='#{project.id}', name='IdOfProject' hidden)
               input(type='text',value='#{project.name}', name='projectName' hidden)
               button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = 'z-index: 10001; margin-top: 20px')
                 i.fa.fa-code-fork
-                |  Fork
+                |  saveCopy
                 span.tooltiptext To save the project as your own, click here!
 
   // z-index values to make sure the tooltip information things can be seen over top of the buttons and header
