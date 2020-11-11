@@ -120,6 +120,14 @@ div.neumeSection(style = "padding-top : 50px")
     button(class = 'button' class = 'tooltip otherButton' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px;" type = "button")
      | Add Section
 
+    form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
+              input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+              input(type='text',value='#{project.name}', name='projectName' hidden)
+              button#myBtn(type = 'submit' class = 'button tooltip otherButton' style = 'z-index: 10001')
+                i.fa.fa-code-fork
+                |  saveCopy
+                span.tooltiptext To save the project as your own, click here!
+
     button(type = 'button' class = 'button button2AddNeume' style = "font: 14px Avenir, sans-serif; margin-right: 10px" onclick = "buttonSaveLoad()" id = "buttonSavePosition")
      i.fa.fa-save
 
