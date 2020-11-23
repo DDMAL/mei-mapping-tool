@@ -91,6 +91,18 @@ div.neumeSection(style = "padding-top : 50px")
        .modal-content
          span.close ×
          include section.jade
+
+     .modal(id = "saveCopyModal")
+       .modal-content
+         span.close x
+         form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
+          h5(style = "font: 18px Avenir, sans-serif; text-align: left;") Enter the name you would like to save the copy
+                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                   input(type='text',value='#{project.name}', name='projectName' hidden)
+                   input(type='text',vame='newName')
+                   button#myBtn(type = 'submit' class = 'button tooltip otherButton' style = 'z-index: 10001')
+                     |  Submit
+
      button(id = "modalSectionButton" type = "button" hidden)
 
      form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
@@ -120,13 +132,9 @@ div.neumeSection(style = "padding-top : 50px")
     button(class = 'button' class = 'tooltip otherButton' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px;" type = "button")
      | Add Section
 
-    form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
-              input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-              input(type='text',value='#{project.name}', name='projectName' hidden)
-              button#myBtn(type = 'submit' class = 'button tooltip otherButton' style = 'z-index: 10001')
-                i.fa.fa-code-fork
-                |  saveCopy
-                span.tooltiptext To save the project as your own, click here!
+    button(class = "button otherButton" class = 'tooltipAdd' id = 'saveCopyButton' style = "font: 14px Avenir, sans-serif" onclick = "initializeModal('saveCopyModal', 'saveCopyButton');") 
+      i.fa.fa-code-fork
+      |  saveCopy
 
     button(type = 'button' class = 'button button2AddNeume' style = "font: 14px Avenir, sans-serif; margin-right: 10px" onclick = "buttonSaveLoad()" id = "buttonSavePosition")
      i.fa.fa-save
@@ -152,13 +160,20 @@ div.neumeSection(style = "padding-top : 50px")
                         |  CSV 
                         span.tooltiptext To download the project as a .csv file, click here!
     if (user != null)
-      form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
-              input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-              input(type='text',value='#{project.name}', name='projectName' hidden)
-              button(type = 'submit' class = 'button button2CSV' class = 'tooltip' style = 'z-index: 10001; margin-top: 20px')
-                i.fa.fa-code-fork
-                |  saveCopy
-                span.tooltiptext To save the project as your own, click here!
+      .modal(id = "saveCopyModal")
+       .modal-content
+         span.close x
+         form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
+          h5(style = "font: 18px Avenir, sans-serif; text-align: left;") Enter the name you would like to save the copy under
+                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                   input(type='text',value='#{project.name}', name='projectName' hidden)
+                   input(type='text',name='newName')
+                   button#myBtn(type = 'submit' class = 'button tooltip otherButton' style = 'z-index: 10001')
+                     |  Submit
+
+      button(class = "button otherButton" class = 'tooltipAdd' id = 'saveCopyButton' style = "font: 14px Avenir, sans-serif" onclick = "initializeModal('saveCopyModal', 'saveCopyButton');") 
+          i.fa.fa-code-fork
+          |  saveCopy
 
   // z-index values to make sure the tooltip information things can be seen over top of the buttons and header
   // value of collapseall button counts how many are currently collapsed

@@ -830,6 +830,7 @@ router.route('/makeCopy')
 
         var pid = req.body.IdOfProject;
         var nameOfProject = req.body.projectName;
+        var newName = req.body.newName;
 
         mongoose.model('neume').find({
             project: pid
@@ -843,7 +844,7 @@ router.route('/makeCopy')
                     } else {
 
                         //1.We need to create a copy of the project
-                        var name = user.username + "/" + nameOfProject; //We'll start with the userID added to the name, then we'll change it to the username
+                        var name = newName;
                         var projectUserID = req.session.userId;
                         var projectArray = [];
                         projectArray.push(projectUserID) //3.Add that project to the user.
