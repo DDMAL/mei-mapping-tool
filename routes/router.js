@@ -633,11 +633,18 @@ router.route('/uploadFile')
                         // need the index, so use a regular for loop
                         for (var i = 0; i < vals.length; i++) {
 
-                            // get the p element
-                            var val = vals[i].firstChild; 
+                            var text_elements = vals[i].querySelectorAll('p');
+
+                            // extract and append all the text from all the text elements
+
+                            var text = '';
+                            for (let val of text_elements) {
+                                text = text.concat(val.text);
+                                text = text.concat('\n');
+                            }
                             
                             // if the cell is empty then continue
-                            if (!val) {
+                            if (!text_elements) {
                                 continue;
                             }
                             // if it has images we need to extract them
@@ -657,19 +664,20 @@ router.route('/uploadFile')
                                 })
                                 // remember to set the right name for the database
                                 neume['imagesBinary'] = image_binaries;
+                                continue;
 
                             }
                             else if (keys[i].toLowerCase().includes('class')) {
-                                neume['classification'] = val.text;
+                                neume['classification'] = text;
                             }
                             else if (keys[i].toLowerCase().includes('encoding') || keys[i].toLowerCase().includes('mei')) {
-                                neume['mei'] = val.text;
+                                neume['mei'] = text;
                             }
                             // otherwise just get the text
                             else {
                                 // the database needs the values in lower case
                                 // so if the header is 'Name' this catches that
-                                neume[keys[i].toLowerCase()] = val.text;
+                                neume[keys[i].toLowerCase()] = text;
                             }
 
                         }
