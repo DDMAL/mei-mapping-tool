@@ -643,10 +643,6 @@ router.route('/uploadFile')
                                 text = text.concat('\n');
                             }
                             
-                            // if the cell is empty then continue
-                            if (!text_elements) {
-                                continue;
-                            }
                             // if it has images we need to extract them
                             // give some flexibility in the header name by using includes instead of ==
                             if (keys[i].toLowerCase().includes('image')) {
@@ -666,6 +662,10 @@ router.route('/uploadFile')
                                 neume['imagesBinary'] = image_binaries;
                                 continue;
 
+                            }
+                            // if the cell is empty then continue
+                            else if (!text_elements) {
+                                continue;
                             }
                             else if (keys[i].toLowerCase().includes('class')) {
                                 neume['classification'] = text;
