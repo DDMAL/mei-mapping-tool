@@ -633,16 +633,6 @@ router.route('/uploadFile')
                         // need the index, so use a regular for loop
                         for (var i = 0; i < vals.length; i++) {
 
-                            var text_elements = vals[i].querySelectorAll('p');
-
-                            // extract and append all the text from all the text elements
-
-                            var text = '';
-                            for (let val of text_elements) {
-                                text = text.concat(val.text);
-                                text = text.concat('\n');
-                            }
-                            
                             // if it has images we need to extract them
                             // give some flexibility in the header name by using includes instead of ==
                             if (keys[i].toLowerCase().includes('image')) {
@@ -663,21 +653,33 @@ router.route('/uploadFile')
                                 continue;
 
                             }
+
+                            var text_elements = vals[i].querySelectorAll('p');
+                            
                             // if the cell is empty then continue
-                            else if (!text_elements) {
-                                continue;
-                            }
-                            else if (keys[i].toLowerCase().includes('class')) {
-                                neume['classification'] = text;
-                            }
-                            else if (keys[i].toLowerCase().includes('encoding') || keys[i].toLowerCase().includes('mei')) {
-                                neume['mei'] = text;
-                            }
-                            // otherwise just get the text
-                            else {
-                                // the database needs the values in lower case
-                                // so if the header is 'Name' this catches that
-                                neume[keys[i].toLowerCase()] = text;
+                            if (text_elements) {
+
+                                // extract and append all the text from all the text elements
+                                var text = '';
+                                for (let val of text_elements) {
+                                    text = text.concat(val.text);
+                                    text = text.concat('\n');
+                                }
+
+                                if (keys[i].toLowerCase().includes('class')) {
+                                    neume['classification'] = text;
+                                }
+                                
+                                else if (keys[i].toLowerCase().includes('encoding') || keys[i].toLowerCase().includes('mei')) {
+                                    neume['mei'] = text;
+                                }
+
+                                // otherwise just get the text
+                                else {
+                                    // the database needs the values in lower case
+                                    // so if the header is 'Name' this catches that
+                                    neume[keys[i].toLowerCase()] = text;
+                                }
                             }
 
                         }
