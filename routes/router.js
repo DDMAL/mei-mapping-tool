@@ -482,24 +482,20 @@ router.route('/uploadFile')
                         }
 
                         // insert the neumes and delete the images once the binaries are saved in the db
-                        mongoose.model('neume').deleteMany({
-                            'project': pid 
-                        }, function (err, result) {
-                                mongoose.model("neume").insertMany(neumes)
-                                    .then(function(output){
-                                        var del = require('del');
-                                        const deletedPaths = del.sync('./exports/xl/media/*');
-                                        res.format({
-                                            html: function() {
-                                                res.redirect("/projects/" + pid);
-                                            },
-                                            //JSON responds showing the updated values
-                                            json: function() {
-                                                res.json(output);
-                                            }
-                                        });
-                                    })
-                        })
+                        mongoose.model("neume").insertMany(neumes)
+                            .then(function(output){
+                                var del = require('del');
+                                const deletedPaths = del.sync('./exports/xl/media/*');
+                                res.format({
+                                    html: function() {
+                                        res.redirect("/projects/" + pid);
+                                    },
+                                    //JSON responds showing the updated values
+                                    json: function() {
+                                        res.json(output);
+                                    }
+                                });
+                            })
                         
                     })
                 });
@@ -637,13 +633,6 @@ router.route('/uploadFile')
                         // need the index, so use a regular for loop
                         for (var i = 0; i < vals.length; i++) {
 
-                            // get the p element
-                            var val = vals[i].firstChild; 
-                            
-                            // if the cell is empty then continue
-                            if (!val) {
-                                continue;
-                            }
                             // if it has images we need to extract them
                             // give some flexibility in the header name by using includes instead of ==
                             if (keys[i].toLowerCase().includes('image')) {
@@ -661,13 +650,36 @@ router.route('/uploadFile')
                                 })
                                 // remember to set the right name for the database
                                 neume['imagesBinary'] = image_binaries;
+                                continue;
 
                             }
-                            // otherwise just get the text
-                            else {
-                                // the database needs the values in lower case
-                                // so if the header is 'Name' this catches that
-                                neume[keys[i].toLowerCase()] = val.text;
+
+                            var text_elements = vals[i].querySelectorAll('p');
+                            
+                            // if the cell is empty then continue
+                            if (text_elements) {
+
+                                // extract and append all the text from all the text elements
+                                var text = '';
+                                for (let val of text_elements) {
+                                    text = text.concat(val.text);
+                                    text = text.concat('\n');
+                                }
+
+                                if (keys[i].toLowerCase().includes('class')) {
+                                    neume['classification'] = text;
+                                }
+                                
+                                else if (keys[i].toLowerCase().includes('encoding') || keys[i].toLowerCase().includes('mei')) {
+                                    neume['mei'] = text;
+                                }
+
+                                // otherwise just get the text
+                                else {
+                                    // the database needs the values in lower case
+                                    // so if the header is 'Name' this catches that
+                                    neume[keys[i].toLowerCase()] = text;
+                                }
                             }
 
                         }
@@ -694,22 +706,18 @@ router.route('/uploadFile')
                         neume['classifier'] = originalFileName;
                     }
 
-                    mongoose.model("neume").deleteMany({
-                        'project': pid
-                    }, function(err, result) {
-                        mongoose.model("neume").insertMany(neumes)
-                            .then(function(output){
-                                    res.format({
-                                        html: function() {
-                                            res.redirect("/projects/" + pid);
-                                        },
-                                        //JSON responds showing the updated values
-                                        json: function() {
-                                            res.json(output);
-                                        }
-                                    });
-                            })
-                    })
+                    mongoose.model("neume").insertMany(neumes)
+                        .then(function(output){
+                                res.format({
+                                    html: function() {
+                                        res.redirect("/projects/" + pid);
+                                    },
+                                    //JSON responds showing the updated values
+                                    json: function() {
+                                        res.json(output);
+                                    }
+                                });
+                        })
 
                 })
 
@@ -826,12 +834,13 @@ router.route('/downloadCSV')
 
     });
 
-// route for forking someones project
-router.route('/fork')
+// route for making a copy of a project
+router.route('/makeCopy')
     .post(function(req, res) {
 
         var pid = req.body.IdOfProject;
         var nameOfProject = req.body.projectName;
+        var newName = req.body.newName;
 
         mongoose.model('neume').find({
             project: pid
@@ -845,7 +854,7 @@ router.route('/fork')
                     } else {
 
                         //1.We need to create a copy of the project
-                        var name = user.username + "/" + nameOfProject; //We'll start with the userID added to the name, then we'll change it to the username
+                        var name = newName;
                         var projectUserID = req.session.userId;
                         var projectArray = [];
                         projectArray.push(projectUserID) //3.Add that project to the user.
@@ -861,16 +870,16 @@ router.route('/fork')
                                 logger.info('POST creating new project: ' + project);
                                 //2.1 Get the id of the project we just created
                                 // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-                                neumeCSV.forEach(function(neumeFork) {
-                                    var name = neumeFork.name;
-                                    var folio = neumeFork.folio;
-                                    var description = neumeFork.description;
-                                    var imageArray = neumeFork.imagesBinary;
-                                    var classification = neumeFork.classification;
-                                    var mei = neumeFork.mei;
-                                    var dob = neumeFork.dob;
+                                neumeCSV.forEach(function(newNeume) {
+                                    var name = newNeume.name;
+                                    var folio = newNeume.folio;
+                                    var description = newNeume.description;
+                                    var imageArray = newNeume.imagesBinary;
+                                    var classification = newNeume.classification;
+                                    var mei = newNeume.mei;
+                                    var dob = newNeume.dob;
                                     var ID_project = project._id;
-                                    var review = neumeFork.review;
+                                    var review = newNeume.review;
 
                                     //call the create function for our database
                                     mongoose.model('neume').create({
