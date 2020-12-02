@@ -147,7 +147,11 @@ div.neumeSection(style = "padding-top : 50px")
     button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px; z-index: 10000") 
       i.fa.fa-plus.fa-sm
       span.tooltiptext To add a new neume, click here!
-  
+
+    button#myBtn(class="button button2AddNeume tooltipAdd validatebutton" style="margin-right : 10px; z-index: 10000" onclick="validate_mei();" value=0) 
+      | ?
+      span.tooltiptext Click this to toggle MEI validation
+
   if (!owned)
     form()
       
@@ -255,9 +259,6 @@ div.neumeSection(style = "padding-top : 50px")
                                  p 
                                 textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
                             label.switch
-                              input( onclick="check#{neume.id}();" type= 'checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
-                              span.slider.round(class = 'tooltip' style = 'top: 80px; right: -200px;' id = 'meislider#{neume.id}')
-                                span.tooltiptext Click this button to validate the MEI for this neume
                               input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
                         
                     +submitchangesmix(neume)
@@ -297,23 +298,7 @@ div.neumeSection(style = "padding-top : 50px")
                 var meiString = textarea.value;
                 editor#{neume.id}.setValue(meiString);
 
-                function check#{neume.id}() {
-                    if (document.getElementById('toggle#{neume.id}').checked) {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
-                        document.getElementById('toggle#{neume.id}').checked = true;
-                    } else {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
-                    }
-                }
-
-                function load#{neume.id}() {
-                    if (document.getElementById('toggle#{neume.id}').checked) {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
-                        document.getElementById('toggle#{neume.id}').checked = true;
-                    } else {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
-                    }
-                }
+                editor#{neume.id}.getSession().setUseWorker(false);
 
                 //Modals event listeners for every modal
                 window.addEventListener('load', function() {
@@ -348,7 +333,7 @@ div.neumeSection(style = "padding-top : 50px")
                 var project = !{JSON.stringify(project)};
                 var owned = !{owned};
 
-                initNeume(neume, project, owned);
+                initNeume(neume, project, owned, editor#{neume.id});
                 
                   <!-- Cookie Consent by https://www.TermsFeed.com -->
 if (owned)
