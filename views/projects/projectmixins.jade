@@ -39,7 +39,7 @@ mixin seeinfomixin(neume, owned)
   .modal(id = 'seeInfo#{neume.id}' style = 'height: 100%; width: 100%; margin: none')
    .modal-content(style = 'height: 45%; width: 50%')
      span.close(onclick='$(seeInfo#{neume.id}).modal("hide")') x
-     p(style = "position : absolute; font: 16px Avenir, sans-serif;") Name: 
+     p(style = "font: 16px Avenir, sans-serif;") Name: 
      input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
 
      p(style = "font: 16px Avenir, sans-serif;") Generic Name: 
