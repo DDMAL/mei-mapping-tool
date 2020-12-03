@@ -217,11 +217,11 @@ div.neumeSection(style = "padding-top : 50px")
                 button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = "height: 0px", type = "button")
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded'
                   type = owned ? "" : "hidden" style='position: relative')
-                    .column
+                    .column(onclick = 'document.getElementById("editImagesButton#{neume.id}").click()')
                        .panel.panel-default
                            .panel-body
                               div(id = "image#{neume.id}" type = owned ? "" : "hidden" style = 'padding-left: 120px')
-                                  button(style = "font: 14px Avenir, sans-serif; top: 10px" id = "editImagesButton#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit
+                                  button(style = "display: none" id = "editImagesButton#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit
                                     span.tooltiptext To delete images or add more images to the neume, click here!  
                           
 
