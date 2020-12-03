@@ -226,7 +226,7 @@ div.neumeSection(style = "padding-top : 50px")
                           
 
                     // Name, Folio and Description Section
-                    .column(style = "width : 20%;")
+                    .column(style = "width : 20%;" onclick='document.getElementById("seeInfoButton#{neume.id}").click();')
                       .height
                        p(style = "font: 20px Avenir, sans-serif;") #{neume.name}
 
