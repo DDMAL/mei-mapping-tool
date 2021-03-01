@@ -37,6 +37,8 @@ You can access the development version of the mei-mapping-tool app at https://cr
   `npm start`
   
   You should be able to see the message *node ./bin/www*
+  
+If you are seeing errors, such as `TypeError: require(...) is not a function` in regard to `var MongoStore = require('connect-mongo')(session);`, package.json dependencies may have been updated to incompatible versions. Delete `package-lock.json`, revert to the original package.json from this repo, and run `npm install` again. 
 
 You can work on the developement version of the mei-mapping-tool by accessing the page http://localhost:8800/
 
