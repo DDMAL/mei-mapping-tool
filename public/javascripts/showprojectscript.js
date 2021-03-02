@@ -1,3 +1,5 @@
+var ace_editors = []
+
 //Function for the collapse all button
 function collapseAll() {
     var elements = document.getElementsByClassName("paddingCollapsible");
@@ -68,7 +70,23 @@ function uncollapse(id) {
     collapseAllButton.value = Number(collapseAllButton.value) - 1;
 }
 
-function initNeume(neume, project, owned) {
+function validate_mei() {
+    if(document.getElementsByClassName('validatebutton')[0].value == 0){
+        for (let editor of ace_editors){
+            editor.getSession().setUseWorker(true);
+        }
+        document.getElementsByClassName('validatebutton')[0].value = 1;
+    }
+    else {
+        for (let editor of ace_editors){
+            editor.getSession().setUseWorker(false);
+        }
+        document.getElementsByClassName('validatebutton')[0].value = 0;
+    }
+
+}
+
+function initNeume(neume, project, owned, editor) {
 
     var imagePaths = neume.imagePaths;
     var canvas = document.createElement('canvas');
@@ -76,6 +94,8 @@ function initNeume(neume, project, owned) {
     var image = new Image();
     var imageCard = document.getElementById(neume._id); //getting
     imageCard.appendChild(canvas);
+
+    ace_editors.push(editor);
 
     /*Function to create a canvas for each image inside of the imagepath array of the neume
     @param element : single imagepath of the array*/

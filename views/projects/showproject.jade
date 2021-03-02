@@ -139,15 +139,20 @@ div.neumeSection(style = "padding-top : 50px")
     button(type = 'button' class = 'button button2AddNeume' style = "font: 14px Avenir, sans-serif; margin-right: 10px" onclick = "buttonSaveLoad()" id = "buttonSavePosition")
      i.fa.fa-save
 
-    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px; z-index: 10001") 
+    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px; z-index: 10005") 
       i.fa.fa-undo.fa-sm &nbsp;
       span.tooltiptext To undo a position change, click here!
       br
 
-    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px; z-index: 10000") 
+    script(src='https://kit.fontawesome.com/a076d05399.js')
+    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px; z-index: 10004") 
       i.fa.fa-plus.fa-sm
       span.tooltiptext To add a new neume, click here!
-  
+
+    button#myBtn(class="button button2AddNeume tooltipAdd validatebutton" style="margin-right : 10px; z-index: 10003" onclick="validate_mei();" value=0) 
+      i(class = 'fas fa-stamp')
+      span.tooltiptext Click this to toggle MEI validation
+
   if (!owned)
     form()
       
@@ -213,16 +218,16 @@ div.neumeSection(style = "padding-top : 50px")
                 button.collapsible.paddingCollapsible(id = "collapsible#{neume.id}" style = "height: 0px", type = "button")
                 form(action='/neumes/#{neume._id}/edit',method='post',name='updateneume',enctype='application/x-www-form-urlencoded'
                   type = owned ? "" : "hidden" style='position: relative')
-                    .column
+                    .column(onclick = 'document.getElementById("editImagesButton#{neume.id}").click()')
                        .panel.panel-default
                            .panel-body
                               div(id = "image#{neume.id}" type = owned ? "" : "hidden" style = 'padding-left: 120px')
-                                  button(style = "font: 14px Avenir, sans-serif; top: 10px" id = "editImagesButton#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit
+                                  button(style = "display: none" id = "editImagesButton#{neume.id}" type= "button" class = "button button1" class = "tooltip") Edit
                                     span.tooltiptext To delete images or add more images to the neume, click here!  
                           
 
                     // Name, Folio and Description Section
-                    .column(style = "width : 20%;")
+                    .column(style = "width : 20%;" onclick='document.getElementById("seeInfoButton#{neume.id}").click();')
                       .height
                        p(style = "font: 20px Avenir, sans-serif;") #{neume.name}
 
@@ -251,13 +256,10 @@ div.neumeSection(style = "padding-top : 50px")
                            | &lt;/neume&gt;
                          .panel.panel-default
                           .panel-body
-                               div(id = "#{neume.id}" style = "height : 50px;")
+                               div(id = "#{neume.id}" style = "height : 60px;")
                                  p 
                                 textarea(name='mei' style='display: none;' id = 'textarea#{neume.id}') #{neume.mei}
                             label.switch
-                              input( onclick="check#{neume.id}();" type= 'checkbox', id = "toggle#{neume.id}" value = "#{neume.review}")
-                              span.slider.round(class = 'tooltip' style = 'top: 80px; right: -200px;' id = 'meislider#{neume.id}')
-                                span.tooltiptext Click this button to validate the MEI for this neume
                               input(type = "text" name = "review", id = "inputCheckbox#{neume.id}" hidden value = "#{neume.review}")
                         
                     +submitchangesmix(neume)
@@ -297,23 +299,7 @@ div.neumeSection(style = "padding-top : 50px")
                 var meiString = textarea.value;
                 editor#{neume.id}.setValue(meiString);
 
-                function check#{neume.id}() {
-                    if (document.getElementById('toggle#{neume.id}').checked) {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
-                        document.getElementById('toggle#{neume.id}').checked = true;
-                    } else {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
-                    }
-                }
-
-                function load#{neume.id}() {
-                    if (document.getElementById('toggle#{neume.id}').checked) {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "Yes";
-                        document.getElementById('toggle#{neume.id}').checked = true;
-                    } else {
-                        document.getElementById('inputCheckbox#{neume.id}').value = "No";
-                    }
-                }
+                editor#{neume.id}.getSession().setUseWorker(false);
 
                 //Modals event listeners for every modal
                 window.addEventListener('load', function() {
@@ -348,7 +334,7 @@ div.neumeSection(style = "padding-top : 50px")
                 var project = !{JSON.stringify(project)};
                 var owned = !{owned};
 
-                initNeume(neume, project, owned);
+                initNeume(neume, project, owned, editor#{neume.id});
                 
                   <!-- Cookie Consent by https://www.TermsFeed.com -->
 if (owned)

@@ -22,7 +22,7 @@ mixin submitchangesmix(neume)
   input(type='hidden',value='PUT',name='_method')
   button(type='submit' href = "/neumes" class = "button button2Update" id = "btnUpdateSubmit#{neume.id}" style = "width : 5%; position: absolute; top: -30px" class = 'tooltip') 
     i.fa.fa-save
-    span.tooltiptext You can directly edit the fields on the neume. Once you're satisfied with the changes, click here!  
+    span.tooltiptext Click here to save changes to the MEI 
   br
   br
 
@@ -35,11 +35,11 @@ mixin collapsebutton(neume)
   br
 
 mixin seeinfomixin(neume, owned)
-  button(style = "font: 14px Avenir, sans-serif" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
+  button(style = "display: none" id = "seeInfoButton#{neume.id}" type= "button" class = "button button1" class = "tooltip" onclick = "  $(seeInfo#{neume.id}).modal();") Edit Info
   .modal(id = 'seeInfo#{neume.id}' style = 'height: 100%; width: 100%; margin: none')
    .modal-content(style = 'height: 45%; width: 50%')
-     span.close(onclick='$(seeInfo#{neume.id}).modal("hide")') x
-     p(style = "position : absolute; font: 16px Avenir, sans-serif;") Name: 
+     span.close(onclick='location.reload()') x
+     p(style = "font: 16px Avenir, sans-serif;") Name: 
      input#inputName(type='text', value='#{neume.name}', name='name' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
 
      p(style = "font: 16px Avenir, sans-serif;") Generic Name: 

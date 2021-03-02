@@ -10,12 +10,12 @@ You can access the development version of the mei-mapping-tool app at https://cr
 * [Mongodb](https://docs.mongodb.com/manual/installation/) Make sure MongoDB is installed (`brew install mongodb`)
 * [Mongoose](https://mongoosejs.com/docs/) `npm install mongoose`
 * [npm](https://www.npmjs.com/get-npm):
- `npm install npm@latest -g` 
- 
+ `npm install npm@latest -g`
+
  To check if you have npm or node.js, you can run these commands in your terminal :
- 
+
   `npm -v`
- 
+
   `node -v`
 
 ## Setup
@@ -35,7 +35,7 @@ You can access the development version of the mei-mapping-tool app at https://cr
 4. Start the server
 
   `npm start`
-  
+
   You should be able to see the message *node ./bin/www*
   
 If you are seeing errors, such as `TypeError: require(...) is not a function` in regard to `var MongoStore = require('connect-mongo')(session);`, package.json dependencies may have been updated to incompatible versions. Delete `package-lock.json`, revert to the original package.json from this repo, and run `npm install` again. 
@@ -47,17 +47,17 @@ You can work on the developement version of the mei-mapping-tool by accessing th
 Depending on your OS, you should follow the instructions to install and run MongoDB as a service upon start.
 
 To install it in Ubuntu 18.04 follow [these instructions](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
-  
+
 If the installation was fine, when opening the terminal window and typing
- 
+
 `mongo`
-  
+
 you should be able to interact with the database with mongodb commands like `show dbs`to show a list of all the databases. A list of useful commands can be found in this link : https://docs.mongodb.com/manual/reference/mongo-shell/
- 
+
  ### With the MongoDB Compass Community object
  1. Open the MongoDB compass community application and connect to the `localhost:27017`.
  2. Open the Collections tab of the mei-mapping-tool database to see the information from the collections.
- 
-For more information about how the application works, you can go to the Cress [wiki](https://github.com/DDMAL/mei-mapping-tool/wiki). 
+
+For more information about how the application works, you can go to the Cress [wiki](https://github.com/DDMAL/mei-mapping-tool/wiki).
 
 Reporting an issue? Click [here](https://github.com/DDMAL/mei-mapping-tool/wiki/Issues)!
