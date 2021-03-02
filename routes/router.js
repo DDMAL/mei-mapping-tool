@@ -453,8 +453,8 @@ router.route('/uploadFile')
                         // need the index so use regular for loop
                         for (var i = 0; i < image_rows.length; i++) {
                             var row = image_rows[i];
-                            if (row > 0 && row <= neumes.length) { 
-                                neumes[Number(row) - 1]['imagesBinary'].push(image_bins[i]) 
+                            if (row > 0 && row <= neumes.length) {
+                                neumes[Number(row) - 1]['imagesBinary'].push(image_bins[i])
                             };
                         }
 
@@ -501,7 +501,7 @@ router.route('/uploadFile')
                                     }
                                 });
                             })
-                        
+
                     })
                 });
 
@@ -509,7 +509,7 @@ router.route('/uploadFile')
                 logger.info('Caught exception: ', e);
             }
 
-            
+
         }
 
         if (fileType == ".csv") {
@@ -593,13 +593,13 @@ router.route('/uploadFile')
             var mammoth = require("mammoth");
 
             // Mammoth library used for converting the docx to html, since parsing an html table is much easier
-            mammoth.convertToHtml({ 
+            mammoth.convertToHtml({
                     path: req.file.path
                 })
                 .then(function(result) {
 
                     /* Format of the html table:
-                    
+
                     table
                         tr (row)
                             td (cell)
@@ -660,7 +660,7 @@ router.route('/uploadFile')
                             }
 
                             var text_elements = vals[i].querySelectorAll('p');
-                            
+
                             // if the cell is empty then continue
                             if (text_elements) {
 
@@ -674,7 +674,7 @@ router.route('/uploadFile')
                                 if (keys[i].toLowerCase().includes('class')) {
                                     neume['classification'] = text;
                                 }
-                                
+
                                 else if (keys[i].toLowerCase().includes('encoding') || keys[i].toLowerCase().includes('mei')) {
                                     neume['mei'] = text;
                                 }
