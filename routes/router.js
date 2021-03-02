@@ -428,9 +428,14 @@ router.route('/uploadFile')
 
                         // get the extension type of each image
                         // this is so terrible but it seems to be what works
-                        var image_extensions = worksheet['_media'][0]['worksheet']['_workbook']['media'].map(function (med) {
-                            return med['extension'];
-                        })
+                        try {
+                          var image_extensions = worksheet['_media'][0]['worksheet']['_workbook']['media'].map(function (med) {
+                              return med['extension'];
+                          });
+                        } catch (e) {
+                          var image_extensions = [];
+                        }
+
 
                         var image_bins = []
 
