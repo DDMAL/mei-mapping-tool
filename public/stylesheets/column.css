@@ -14,6 +14,9 @@ body {
   padding: 0 2px;
   color :black;
 }
+.neume-image-column {
+  min-height: 100px;
+}
 .btn-dropzon-cre{
   width: 95%;
   height: 95%;
