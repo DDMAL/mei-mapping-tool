@@ -18,6 +18,7 @@ html
    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css')
    link(rel='stylesheet', href='/stylesheets/style.css')
    link(rel='stylesheet', href='/stylesheets/column.css')
+   link(rel='stylesheet', href='/stylesheets/projectsStyle.css')
    link(rel='stylesheet', href='/stylesheets/collapsible.css')
    meta(name='viewport', content='width=device-width, initial-scale=1.0')
    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
@@ -67,54 +68,50 @@ html
 
 div.navigation.navbar(id = "myHeader").sticky
   +showphead
-              
-//Title section : Adding a neume button and changing the title name                
-div.neumeSection(style = "padding-top : 50px")
-  body
-  if (owned)
-    div
+if (owned)
+  div.project-nav
+   // Add New Neume Modal
+   #myModal.modal
+     // Modal content
+     .modal-content
+       span.close ×
+       include newNeume.jade
+
+   .modal(id = "upload")
+     .modal-content
+       span.close x
+       include upload.jade
+
      // Add New Neume Modal
-     #myModal.modal
-       // Modal content
-       .modal-content
-         span.close ×
-         include newNeume.jade
+   #modalSection.modal
+     // Modal content
+     .modal-content
+       span.close ×
+       include section.jade
 
-     .modal(id = "upload")
-       .modal-content
-         span.close x
-         include upload.jade
+   .modal(id = "saveCopyModal")
+     .modal-content
+       span.close x
+       form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
+        h5(style = "font: 18px Avenir, sans-serif; text-align: left;") Enter the name you would like to save the copy
+                 input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                 input(type='text',value='#{project.name}', name='projectName' hidden)
+                 input(type='text',name='newName')
+                 button#myBtn(type = 'submit' class = 'button tooltip otherButton' style = 'z-index: 10001')
+                   |  Submit
 
-       // Add New Neume Modal
-     #modalSection.modal
-       // Modal content
-       .modal-content
-         span.close ×
-         include section.jade
+   button(id = "modalSectionButton" type = "button" hidden)
 
-     .modal(id = "saveCopyModal")
-       .modal-content
-         span.close x
-         form(action='/makeCopy',method='post',enctype='application/x-www-form-urlencoded')
-          h5(style = "font: 18px Avenir, sans-serif; text-align: left;") Enter the name you would like to save the copy
-                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                   input(type='text',name='newName')
-                   button#myBtn(type = 'submit' class = 'button tooltip otherButton' style = 'z-index: 10001')
-                     |  Submit
-
-     button(id = "modalSectionButton" type = "button" hidden)
-
-     form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
-       
-       input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: bottom; width : 35%; display : inline-block; border: none; height: 100%; margin-top: 20px" size = '10' text-align: center;)
-       input(type='hidden',value='PUT',name='_method')
-        
-       button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block; margin-top: 20px')
-         i.fa.fa-save
-         //span.tooltiptext You can directly change the project name on the page.   
-           br 
-           t When you are satisfied with the new project name, click here!
+   form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded')
+     
+     input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="font: 18px Avenir, sans-serif; font-size:35px; margin : 0px padding : 0px; font-size:35px; vertical-align: bottom; width : 35%; display : inline-block; border: none; height: 100%; margin-top: 15px; margin-bottom: 10px;" size = '10' text-align: center;)
+     input(type='hidden',value='PUT',name='_method')
+      
+     button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block; margin-top: 20px')
+       i.fa.fa-save
+       //span.tooltiptext You can directly change the project name on the page.   
+         br 
+         t When you are satisfied with the new project name, click here!
 
     button(class = "button otherButton" class = 'tooltipAdd' id = 'uploadButton' style = "font: 14px Avenir, sans-serif" onclick = "initializeModal('upload', 'uploadButton');") 
       i.fa.fa-upload
@@ -127,7 +124,7 @@ div.neumeSection(style = "padding-top : 50px")
                     i.fa.fa-download
                     |  CSV 
                     //span.tooltiptext To download the project as a .csv file, click here!
-    
+  
 
     button(class = 'button' class = 'tooltip otherButton' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px;" type = "button")
      | Add Section
@@ -144,14 +141,33 @@ div.neumeSection(style = "padding-top : 50px")
       span.tooltiptext To undo a position change, click here!
       br
 
-    script(src='https://kit.fontawesome.com/a076d05399.js')
-    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px; z-index: 10004") 
+    
+    button.add-neume(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px; z-index: 10004") 
       i.fa.fa-plus.fa-sm
       span.tooltiptext To add a new neume, click here!
 
-    button#myBtn(class="button button2AddNeume tooltipAdd validatebutton" style="margin-right : 10px; z-index: 10003" onclick="validate_mei();" value=0) 
+    button.validate-mei(class="button button2AddNeume tooltipAdd validatebutton" style="margin-right : 10px; z-index: 10003" onclick="validate_mei();" value=0) 
       i(class = 'fas fa-stamp')
       span.tooltiptext Click this to toggle MEI validation
+    
+    button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px; z-index: 10002" onclick = "collapseAll();" id = "buttonCollapseAll" value = '0')
+      i(id = "compress").fa.fa-caret-up.fa-lg
+      i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
+      span.tooltiptext To collapse/uncollapse neumes, click here!
+    
+    .row(class="position-sticky" style = "position : fixed; width :100%; z-index : 1001; padding-left:5px; padding-right : 75px;")
+      .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Images
+      .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Name 
+      .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
+        h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Classification
+      .column(style='background-color:#afcfee; width : 35% ; right : 110px')
+        h5(style = "font: 15px Avenir, sans-serif; text-align: center;") MEI encoding
+    
+//Title section : Adding a neume button and changing the title name                
+div.neumeSection(style = "padding-top : 50px")
+  body
 
   if (!owned)
     form()
@@ -180,23 +196,7 @@ div.neumeSection(style = "padding-top : 50px")
           i.fa.fa-code-fork
           |  Save Copy
 
-  // z-index values to make sure the tooltip information things can be seen over top of the buttons and header
-  // value of collapseall button counts how many are currently collapsed
-  button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px; margin-right : 10px; z-index: 10002" onclick = "collapseAll();" id = "buttonCollapseAll" value = '0')
-     i(id = "compress").fa.fa-caret-up.fa-lg
-     i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
-     span.tooltiptext To collapse/uncollapse neumes, click here!
-
   //Four Equal Columns
-  .row(class="position-sticky" style = "position : fixed; width :100%; z-index : 1001; padding-left:5px; padding-right : 75px;")
-    .column(style='background-color:#afcfee; width : 25%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Images
-    .column(style='background-color:#afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Name 
-    .column(style='background-color:   #afcfee; width : 20%; border-right : #819fff; border-width : 1px; border-style : solid; border-left : none; border-bottom : none;  border-top : none;')
-      h5(style = " font: 15px Avenir, sans-serif; text-align: center;") Classification
-    .column(style='background-color:#afcfee; width : 35% ; right : 110px')
-      h5(style = "font: 15px Avenir, sans-serif; text-align: center;") MEI encoding
 
   div(id = "menu")
    //Neume section : 4 components added for each new neume.   
@@ -375,6 +375,7 @@ if (owned)
               initSection(section);          
 
 script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
+script(src='https://kit.fontawesome.com/a076d05399.js')
 script.
 
   document.addEventListener('DOMContentLoaded', function () {
