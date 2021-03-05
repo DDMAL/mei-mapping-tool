@@ -113,34 +113,7 @@ ul {
 
 }
 /* styling our main content */
-.hero           {
-  min-height: 800px;
-  text-align: center;
-  background-image: url('/images/CF-005.png');
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/CF-005.png');
-  background-size: cover;
-}
-.hero-content   {
-  color: #FFF;
-  padding-top: 130px;
-}
-.hero-content h1   {
-  font-size: 100px;
-  margin: 0;
-}
-.hero-content p    {
-  font-size: 50px;
-}
-.hero-content a    {
-  display: inline-block;
-  color: #FFF;
-  border: 3px solid #FFF;
-  border-radius: 3px;
-  padding: 15px 30px;
-  margin-right: 20px;
-  text-decoration: none;
-  font-size: 28px;
-}
+
 .padding {
   padding: 15px 50px;
   margin-right: 20px;
