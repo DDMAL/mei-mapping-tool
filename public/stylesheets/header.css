@@ -72,10 +72,14 @@ h3 {
 nav     {
   font-size: 16px;
   width: 50%;
-  height:40px;
+  /* height:40px; */
+  height: auto !important;
+  position: relative;
+  top: 1px;
   display: inline-block;
   text-align: right;
   background: #222;
+  line-height: normal;
 }
 nav ul   {
   list-style: none;
@@ -83,14 +87,15 @@ nav ul   {
 }
 nav ul li {
   display: inline-block;
+  float: none;
 }
 nav ul li a    {
 	 font-size: 16px;
   position : relative;
-  top : -18px;
+  /* top : -18px; */
   text-decoration: none;
   display: block;
-  padding:10px 15px;
+  padding:0px 15px;
   border-radius: 3px;
   transition: 0.3s ease all;
 }
