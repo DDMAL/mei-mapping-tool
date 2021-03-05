@@ -17,12 +17,24 @@ var mongoose = require('mongoose');
 var async = require('async');
 var crypto = require('crypto');
 var flash = require('express-flash');
+var sass_middle = require('node-sass-middleware');
+var connect = require('connect');
+var serveStatic = require('serve-static');
 var storedImages = require('../model/storedImages');
 var SENDGRID_API_KEY = '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';
 var logger = require('../logger');
 var renderError = require('../public/javascripts/error');
 
 router.use(flash());
+
+// var server = connect.createServer(
+//   sass_middle({
+//        src: __dirname
+//        , dest: __dirname + '/public'
+//        , debug: true
+//     }),
+//    serveStatic(__dirname + '/public')
+// )
 
 router.use(bodyParser.json({
     limit: '50mb'

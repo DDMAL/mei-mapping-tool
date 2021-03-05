@@ -10,15 +10,16 @@ html
     link(rel="stylesheet" href="/stylesheets/column.css")
     //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
     link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
+    link(rel="stylesheet" href="/stylesheets/header.css")
     link(rel="images" href="/images/CF-005.png")
     if 'loggedin'
       link(rel="shortcut icon" href="/images/CF-005.png" type="image/png")
     link(rel="icon" href="/images/Favicon.png")
     //Column parameters
-  div
-    +projecthead           
+  div.navigation.navbar(id = "myHeader").sticky
+    +showphead          
     // the content
-    main
+  main
       // hero content
       div(id="about").hero
         // content for the hero
