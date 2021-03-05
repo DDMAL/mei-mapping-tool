@@ -340,13 +340,13 @@ router.post('/reset/:token', function(req, res) {
 /* GET about page. */
 router.route('/about')
     .get(function(req, res) {
-        var logged_in;
+        // var logged_in;
         // see if the user is logged in
         if (req.session.userId === null) {
             userFinal = null;
-            logged_in = false;
+            // logged_in = false;
         } else {
-            logged_in = true;
+            // logged_in = true;
             mongoose.model('User').find({
                 _id: req.session.userId
             }, function(err, users) {
@@ -360,8 +360,8 @@ router.route('/about')
                 logger.info(userFinal);
                 res.render('about.jade', {
                     title: 'About',
-                    "users": userFinal,
-                    "loggedin": logged_in
+                    "user": userFinal,
+                    // "loggedin": logged_in
                 });
             },
             //JSON response will show all projects in JSON format
