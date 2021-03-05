@@ -2,8 +2,7 @@ doctype html
 html
   include ../header.jade
   head
-   link(rel="icon" href="/images/Favicon.png")
-  .column
+    link(rel="icon" href="/images/Favicon.png")
     title  Cress - MEI Mapping Tool 🎵 
     link(rel="stylesheet" href="/stylesheets/style.css")
     link(rel="stylesheet" href="/stylesheets/buttonProjects.css")
@@ -11,6 +10,7 @@ html
     //link(rel="stylesheet" href="/stylesheets/loginStyle.css")
     link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
     link(rel="stylesheet" href="/stylesheets/header.css")
+    link(rel="stylesheet" href="/stylesheets/hero.css")
     link(rel="stylesheet" href="/stylesheets/project-index.css")
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
@@ -23,104 +23,100 @@ html
     link(rel="icon" href="/images/Favicon.png")
     
     //Column parameters
-  div
-    div.navigation.navbar(id = "myHeader").sticky
-      +showphead
+  div.navigation.navbar(id = "myHeader").sticky
+    +showphead
     // the content
-    main
-      // hero content
-      .hero
-        // content for the hero
-        .hero-content
+  main
+    // hero content
+    .hero
+      // content for the hero
+      .hero-content
 
-          h1.hero-title 
-          h1.
-               #{title} 
-          p All of your mei-mapping projects, in one interface.
-          if (user != null)
-            #ex1.modal
-                block content
-                  h2.
-                   New Project
-                  form#formAddproject(name="addproject",method="post",action="/projects")
+        h1.
+             #{title} 
+        p All of your mei-mapping projects, in one interface.
+        if (user != null)
+          #ex1.modal
+              block content
+                h2.
+                 New Project
+                form#formAddproject(name="addproject",method="post",action="/projects")
 
-                            p Name: 
-                               input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
-                            p
-                               button#btnSubmit(type="submit" class = "button buttonAddProject") submit
-              // Link to open the modal
-            a(href='#ex1', rel='modal:open') Add project
-          
+                          p Name: 
+                             input#inputName(class = "createProjectInput" type="text", placeholder="ex. Project", name="name" required)
+                          p
+                             button#btnSubmit(type="submit" class = "button buttonAddProject") submit
+            // Link to open the modal
+          a(href='#ex1', rel='modal:open') Add project
+        
 
-          a(href='/about') About
-          br
-          br
-          div     
-            // testimonials section
-            .site-section.site-section-secondary
-                 div#section
-                  .site-section-inside
-                    .section-header(style = "overflow : auto;")
-                      if (projects.length > 0)
-                        h2.projectHeader My Projects
-                        ul.project-list
-                            - each project, i in projects
-                               div 
-                                 button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
-                                 
-                                 form#formProjectDelete.delete-button-form(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                                   input(type='hidden',value='DELETE',name='_method')
-                                   button(type='button' class="button button3" id = "buttonProject#{project._id}").
-                                          x
-                                   br
-                                   br
-
-                                   .modalDeleteCollab(id = "DeleteProjectModal#{project._id}")
-                                      // Modal content
-                                      .modalDeleteCollab-content
-                                        span.closeDeleteCollab(id = "closingModal#{project._id}") ×
-                                        h3 Are you sure you want to delete this project? 
-                                        h3 #{project.name}
-                                        p
-                                         button(type='submit' class = "button3DeleteProject") Yes
-                                         button(type = "button" class = "buttonNo" id = "NoButton#{project._id}") No
-                                         br
-
-                                         script.
-                                             //Modals event listeners for every modal
-                                              window.addEventListener('load', function() {
-                                                
-                                                  initializeModal('DeleteProjectModal#{project._id}', 'buttonProject#{project._id}');
-                                             
-                                                });
-
-                                                   document.getElementById("NoButton#{project._id}").onclick = function(){
-                                                              document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
-                                                              };
-                                                   document.getElementById("closingModal#{project._id}").onclick = function(){
-                                                    document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
-                                                    };
-
-                      h2.projectHeader Other Projects
-                      ul
-                          - each project, i in other
-                             div
-                               if (user != null)
-                                button.collapsible(style = " clear : left;" onclick = "window.location='/projects/fork/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
-                               else
-                                button.collapsible(style = " clear : left;" onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
-                                
+        a(href='/about') About
+    div     
+        // testimonials section
+        .site-section.site-section-secondary
+             div#section
+              .site-section-inside
+                .section-header(style = "overflow : auto;")
+                  if (projects.length > 0)
+                    h2.projectHeader My Projects
+                    ul.project-list
+                        - each project, i in projects
+                           div 
+                             button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
+                             
+                             form#formProjectDelete.delete-button-form(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                               input(type='hidden',value='DELETE',name='_method')
+                               button(type='button' class="button button3" id = "buttonProject#{project._id}").
+                                      x
                                br
                                br
 
+                               .modalDeleteCollab(id = "DeleteProjectModal#{project._id}")
+                                  // Modal content
+                                  .modalDeleteCollab-content
+                                    span.closeDeleteCollab(id = "closingModal#{project._id}") ×
+                                    h3 Are you sure you want to delete this project? 
+                                    h3 #{project.name}
+                                    p
+                                     button(type='submit' class = "button3DeleteProject") Yes
+                                     button(type = "button" class = "buttonNo" id = "NoButton#{project._id}") No
+                                     br
 
-              footer
-                //img(src='img/avatar.jpeg', alt='Footer Logo')
-                span
-                  | Cress - MEI Mapping Tool
-                  br
-                  | MIT License 2019
+                                     script.
+                                         //Modals event listeners for every modal
+                                          window.addEventListener('load', function() {
+                                            
+                                              initializeModal('DeleteProjectModal#{project._id}', 'buttonProject#{project._id}');
+                                         
+                                            });
+
+                                               document.getElementById("NoButton#{project._id}").onclick = function(){
+                                                          document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
+                                                          };
+                                               document.getElementById("closingModal#{project._id}").onclick = function(){
+                                                document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
+                                                };
+
+                  h2.projectHeader Other Projects
+                  ul
+                      - each project, i in other
+                         div
+                           if (user != null)
+                            button.collapsible(style = " clear : left;" onclick = "window.location='/projects/fork/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
+                           else
+                            button.collapsible(style = " clear : left;" onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
+                            
+                           br
+                           br
 
 
-            script(type='text/javascript' src='/javascripts/addProject.js')
+            footer
+              //img(src='img/avatar.jpeg', alt='Footer Logo')
+              span
+                | Cress - MEI Mapping Tool
+                br
+                | MIT License 2019
+
+
+          script(type='text/javascript' src='/javascripts/addProject.js')
                       
