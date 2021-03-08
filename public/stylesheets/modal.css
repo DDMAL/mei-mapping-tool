@@ -52,3 +52,20 @@
   background-color: #008CBA; /* Green */
   color: white;
 }
+
+.neume-info-modal {
+
+}
+
+.neume-info-modal .button {
+  position: relative;
+  display: block;
+  float: none;
+  width: auto;
+  padding: 10px;
+  margin-left: auto;
+}
+
+.neume-edit-form {
+  min-height: 75px;
+}
