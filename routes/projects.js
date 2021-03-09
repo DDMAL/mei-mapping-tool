@@ -352,7 +352,7 @@ router.route('/public/:id')
 
                         res.format({
                             html: function() {
-                                logger.info(neumeFinal); //This is shown on the logger!
+                                // logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
                                 res.render('projects/showproject.jade', {
