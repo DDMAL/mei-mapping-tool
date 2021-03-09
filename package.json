@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "watch": "nodemon --ext js,pug --ignore public"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
@@ -104,6 +105,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "grunt-contrib-connect": "^3.0.0",
+    "nodemon": "^2.0.7",
     "serve-static": "^1.14.1"
   }
 }
