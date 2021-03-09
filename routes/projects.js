@@ -211,6 +211,7 @@ router.param('id', function(req, res, next, id) {
 // route for the project when the user owns it
 router.route('/:id')
     .get(function(req, res, next) {
+        let neumeFinalNew = []
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
                 return renderError(res, err);
@@ -223,7 +224,12 @@ router.route('/:id')
                         project: project._id
                     }, function(err, neumes) {
                         if (err) { return renderError(res, err); }
-                        neumeFinal = neumes;
+                        for (let neume_id of positionArray) {
+
+                          neumeFinalNew.push(neumes.find(obj => 'drop' + obj._id === neume_id));
+                        }
+                        // logger.info('Neume final new: ');
+                        // logger.info(neumeFinalNew);
 
                         //Updating the name
                         //Getting the neumes for each project and showing them in the logger!!
@@ -286,9 +292,9 @@ router.route('/:id')
                             }, function(err, sections) {
                                 if (err) { return renderError(res, err); }
                                 var sections = sections;
-                                logger.info(neumeSectionArray); //This is still empty
+                                // logger.info(neumeSectionArray); //This is still empty
 
-                                logger.info('GET Retrieving ID: ' + project._id);
+                                // logger.info('GET Retrieving ID: ' + project._id);
                                 var projectdob = project.dob.toISOString();
                                 projectdob = projectdob.substring(0, projectdob.indexOf('T'))
 
@@ -298,12 +304,13 @@ router.route('/:id')
                                         res.render('projects/showproject', {
                                             "projectdob": projectdob,
                                             "project": project,
-                                            "neumes": neumeFinal,
+                                            "neumes": neumeFinalNew,
                                             "user": userFinal[0],
                                             "sections": sections,
                                             "neumeSections": neumeSectionArray,
                                             "positionArray": positionArray,
-                                            "owned": true
+                                            "owned": true,
+                                            "testAttr": 'yes'
                                         });
                                     },
                                     json: function() {
@@ -346,7 +353,7 @@ router.route('/public/:id')
                         //logger.info(neumeFinal);//This works!!!
 
                         // logger.info(neumeFinal);
-                        logger.info('GET Retrieving ID: ' + project._id);
+                        // logger.info('GET Retrieving ID: ' + project._id);
                         var projectdob = project.dob.toISOString();
                         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
 
@@ -412,7 +419,7 @@ router.route('/fork/:id')
 
                         res.format({
                             html: function() {
-                                logger.info(neumeFinal); //This is shown on the logger!
+                                // logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
                                 res.render('projects/showproject.jade', {
@@ -518,7 +525,7 @@ router.route('/:id/edit')
                                     },
 
                                     function(err, data) {
-                                        logger.info(err, data);
+                                        // logger.info(err, data);
                                     });
                                 //That's it.
                                 mongoose.model('neume').remove({
@@ -527,7 +534,7 @@ router.route('/:id/edit')
                                 mongoose.model("storedImages").remove({
                                     projectID: project._id
                                 }, function(err, image) {
-                                    logger.info(image);
+                                    // logger.info(image);
                                     if (err) {
                                         return renderError(res, err);
                                     } else {
@@ -576,7 +583,7 @@ router.route('/updateSection')
                 if (err) {
                     return renderError(res, err);
                 } else {
-                    logger.info(data);
+                    // logger.info(data);
                     //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                     res.format({
                         //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
@@ -600,16 +607,18 @@ router.route('/savePosition')
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var position = req.body.position;
         var projectID = req.body.projectIDPosition;
-
+        var positions = position.split(',')
+        console.log(positions);
         //find the document by ID
         mongoose.model('project').findById(projectID, function(err, project) {
             //update it
-            project.update({
-                positionArray: position //adding the image to the image array without reinitializng everything
-            }, function(err, project) {
+            //adding the image to the image array without reinitializng everything
+            project.update({$set: {positionArray: positions}},
+              function(err, project) {
                 if (err) {
                     return renderError(res, err);
                 } else {
+                    logger.info('peepee');
                     logger.info(project.positionArray);
                 }
             })

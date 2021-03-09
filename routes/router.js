@@ -579,7 +579,7 @@ router.route('/uploadFile')
                                     if (err) {
                                         return logger.error(res, err);
                                     } else {
-                                        logger.info(neumeElement);
+                                        // logger.info(neumeElement);
                                     }
                                 })
 
@@ -779,7 +779,7 @@ router.route('/uploadFile')
                                         if (err) {
                                             return logger.error(res, err);
                                         } else {
-                                            logger.info(neumeElement);
+                                            // logger.info(neumeElement);
                                         }
                                     })
 
@@ -788,7 +788,7 @@ router.route('/uploadFile')
                         arrayJson.push(json);
                     }
                     //So column 1 is images binary, 2 is name, 3 is folio, 4 is description, 5 is classification and 6 is mei encoding
-                    logger.info(arrayJson);
+                    // logger.info(arrayJson);
                     for (var laptopItem in arrayJson) {}
 
 
@@ -796,7 +796,7 @@ router.route('/uploadFile')
                     res.redirect('back');
 
                 } else {
-                    return logger.error(res, err);
+                    // return logger.error(res, err);
                 }
             });
 
@@ -1199,7 +1199,7 @@ router.route('/deleteCollab')
 
             function(err, data) {
                 if (err) { return renderError(res, err); }
-                logger.info(data);
+                // logger.info(data);
             });
 
         mongoose.model('User').findById(req.session.userId, function(err, user) {
@@ -1221,7 +1221,7 @@ router.route('/deleteCollab')
 
                     function(err, data) {
                         if (err) { return renderError(res, err); }
-                        logger.info(err, data);
+                        // logger.info(err, data);
                     });
 
                 //Deleting the element from the userArray

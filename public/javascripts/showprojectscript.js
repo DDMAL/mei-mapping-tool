@@ -86,6 +86,10 @@ function validate_mei() {
 
 }
 
+function initProject(project, neumes, owned) {
+  console.log(project.positionArray);
+}
+
 function initNeume(neume, project, owned, editor) {
 
     var imagePaths = neume.imagePaths;
@@ -94,9 +98,10 @@ function initNeume(neume, project, owned, editor) {
     var image = new Image();
     var imageCard = document.getElementById(neume._id); //getting
     imageCard.appendChild(canvas);
-
+    console.log('opk');
     ace_editors.push(editor);
-
+    var array = project.positionArray;
+    console.log('Neume position array:', array)
     /*Function to create a canvas for each image inside of the imagepath array of the neume
     @param element : single imagepath of the array*/
     var imagesBinary = neume.imagesBinary;
@@ -138,7 +143,7 @@ function initNeume(neume, project, owned, editor) {
         canvas.appendChild(image); //the image is appended
     });
 
-    /*On click function of the collapsible buttons. It makes the immediate children of the collapsible 
+    /*On click function of the collapsible buttons. It makes the immediate children of the collapsible
     appear if the collapsible button is clicked.*/
 
     var coll = document.getElementById("collapsible" + neume._id);
@@ -165,8 +170,8 @@ function initNeume(neume, project, owned, editor) {
     if (owned) {
        document.getElementById("NoButton" + neume._id).onclick = function() {
            document.getElementById("DeleteModal" + neume._id).style.display = 'none';
-       }; 
-    }  
+       };
+    }
 
     //Function to get collapsibles sorted
     $(function() {
@@ -186,6 +191,9 @@ function initNeume(neume, project, owned, editor) {
             out: function() {
                 //Delete the rectangle element
             },
+            start: function(){
+              console.log('sorting has begun');
+            },
             //On load page, get the position of the neume
             //On stop sorting, set the position of the neume as the new index.
             //Send this on update button.
@@ -197,9 +205,10 @@ function initNeume(neume, project, owned, editor) {
                 order.forEach(function(element) {
                     positionArray.push(element);
                 })
-                var positions = order.join(';');
-
-                document.getElementById("inputPosition" + neume._id).value = positionArray;
+                var positions = order.join(',');
+                console.log('HERE ARE THE POSITIONS IN THE NEUME POSITION ARRAY');
+                console.log(positions);
+                // document.getElementById("inputPosition" + neume._id).value = positionArray;
             },
             stop: function(event, ui) {
                 var data = $(this).sortable('serialize');
@@ -224,13 +233,13 @@ function initNeume(neume, project, owned, editor) {
             var id = ui.draggable.attr("id");
         },
         drop: function(event, ui) {
-            var id = ui.draggable.attr("id"); //This is the element we have. 
+            var id = ui.draggable.attr("id"); //This is the element we have.
         },
         greedy: true,
         hoverClass: 'highlight'
     });
 
-    //Get toggle value : 
+    //Get toggle value :
     if (document.getElementById("toggle" + neume._id).value == "Yes") {
         document.getElementById("toggle" + neume._id).checked = true;
     }
@@ -246,7 +255,7 @@ function initNeume(neume, project, owned, editor) {
     //Values of div and changing their positions by appending them depending on the order in the database.
     //(The string is already ordered in the database from the neume sortable positions)
     var array = project.positionArray;
-
+    console.log('Neume position array:', array)
     array.forEach(function(element) {
         document.getElementById("sortable1").appendChild(document.getElementById(element));
         var elementNeume = document.getElementById(element);
@@ -286,7 +295,20 @@ function initNeume(neume, project, owned, editor) {
 
 //submits the position of the neumes on click of the button
 function buttonSaveLoad() {
-    document.getElementById("position" + neume._id).submit();
+    var positionList = ''
+    var neumes = $('.ui-state-default.neume-wrapper')
+    neumes.each(function(index){
+      if (index === neumes.length - 1) {
+        positionList += $(this).attr('id');
+      } else {
+        positionList += $(this).attr('id') + ',';
+      }
+    })
+    console.log(positionList);
+    $('#positionForm #inputPosition').attr('value', positionList);
+    // console.log(document.getElementById("position" + neume._id));
+    // document.getElementById("position" + neume._id).submit();
+    document.getElementById("positionForm").submit();
 }
 
 function undo() {
@@ -341,7 +363,7 @@ function initSection(section) {
 
 
         drop: function(event, ui) {
-            var id = ui.draggable.attr("id"); //This is the element we have. 
+            var id = ui.draggable.attr("id"); //This is the element we have.
 
             //On drop, the name of the section of the neume is #{section.name}
             var neume = document.getElementById(id);
@@ -371,7 +393,7 @@ function initSection(section) {
         hoverClass: 'highlight'
     });
 
-    //Appending the neumes to the sections : 
+    //Appending the neumes to the sections :
     //Get the #{section.neumeIDs}
     //For each element separated by a comma, append the child to the element #{section._id}, this is the p of the element
 

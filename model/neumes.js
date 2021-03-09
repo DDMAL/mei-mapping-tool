@@ -7,6 +7,7 @@ var neumeSchema = new mongoose.Schema({
     classification: String,
     mei: String,
     review: String,
+    position: Number,
     //Make sure the image path is linked to the user id
     dob: {
         type: Date,
