@@ -17,6 +17,9 @@ var flash = require('express-flash')
 var storedImages = require('../model/storedImages')
 var SENDGRID_API_KEY = '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'
 
+console.log('ding dong');
+
+
 router.use(flash())
 router.use(bodyParser.json({
     limit: '50mb'
@@ -228,7 +231,7 @@ router.route('/about')
         //global.userFinal = []; //The user needs to be added in all the routes
 
     });
-//Update the sections to add neumes inside. 
+//Update the sections to add neumes inside.
 router.route('/updateSection')
     .post(function(req, res) {
 
@@ -430,7 +433,7 @@ var uploadCSV = multer({
 router.route('/uploadCSV')
     .post(uploadCSV.single('csvFile'), function(req, res) {
 
-        var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+        var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
         var nameOfProject = req.body.projectName;
         var csvParser = require('csv-parse');
         var file = req.file.buffer;
@@ -532,7 +535,7 @@ router.route('/imageCSV')
         if (fileType == ".xlsx") {
 
             //Add error message if the names or the column order are not right
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
 
             //1. I need to upload the excel file here
@@ -556,7 +559,7 @@ router.route('/imageCSV')
                     } catch (e) {
                         console.log('Caught exception: ', e);
                     }
-                    var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the 
+                    var XLSX = require('xlsx'); //xlsx skips rows if they are blank. The first picture not being in the right order is because the
                     //excel book has an extra first image that is a green background. If the green background picture is taken away, the excel upload will be in the right order.
                     var workbook = XLSX.readFile(req.file.path);
                     var sheet_name_list = workbook.SheetNames;
@@ -621,7 +624,7 @@ router.route('/imageCSV')
                                                     var imageArray = [];
                                                     var a = 0;
                                                     for (var i = 0; i < jsonArray.length; i++) {
-                                                        //console.log(jsonArray[i] + "hey") 
+                                                        //console.log(jsonArray[i] + "hey")
                                                         if (jsonArray[i].includes("\"xdr:row\":")) { //console.log(jsonArray[i].split(":")[2]);
                                                             var rowValue = jsonArray[i].split(":")[2]; //this is the xdr:row that we have from the element
 
@@ -649,7 +652,7 @@ router.route('/imageCSV')
                                                                     imageArray = [];
 
                                                                     for (var i = 0; i < jsonArray.length; i++) {
-                                                                        //console.log(jsonArray[i] + "hey") 
+                                                                        //console.log(jsonArray[i] + "hey")
                                                                         if (jsonArray[i].includes("Id")) { //console.log(jsonArray[i].split(":")[2] );
                                                                             rowValue = jsonArray[i].split(":")[2];
                                                                             if (jsonArray[i].split(":")[2] == null || jsonArray[i].split(":")[2] == "") {
@@ -777,11 +780,11 @@ router.route('/imageCSV')
                                                             project: IdOfProject
                                                         }]
                                                     }, function(err, neumes) {
-                                                        neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
+                                                        neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
                                                             var image = neume.imageMedia;
                                                             //console.log(image);
                                                             if (fs.existsSync('exports/xl/media/' + image)) {
-                                                                var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                                                                var imgPath = 'exports/xl/media/' + image; //This is undefined.
                                                                 var A = storedImages;
                                                                 var a = new A;
                                                                 a.projectID = IdOfProject;
@@ -835,7 +838,7 @@ router.route('/imageCSV')
                                             if (fs.existsSync('exports/xl/media/' + image)) { //This is making wayyy too many files in the storedImages collection
                                                 //if(file.name == neume.field)
                                                 //if(neume.indice == fileNameIndice){
-                                                var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                                                var imgPath = 'exports/xl/media/' + image; //This is undefined.
 
                                                 // our imageStored model
                                                 var A = storedImages;
@@ -892,7 +895,7 @@ router.route('/imageCSV')
                 });
             });
 
-            //Delete the exports folder after the loading is done. 
+            //Delete the exports folder after the loading is done.
 
 
             //1. I need to upload the excel file here
@@ -968,7 +971,7 @@ router.route('/imageCSV')
                                                                     res.send("There was a problem updating the information to the database: " + err);
                                                                 } else {
 
-                                                                    var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined. 
+                                                                    var imgPath = 'exports/xl/media/' + indiceValue; //This is undefined.
 
                                                                     // our imageStored model
                                                                     var A = storedImages;
@@ -1030,7 +1033,7 @@ router.route('/imageCSV')
                                             });
                                         }
                                     }
-                             
+
                 }
             });
 
@@ -1042,7 +1045,7 @@ router.route('/imageCSV')
 
         if (fileType == ".csv") {
 
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
             var csvParser = require('csv-parse');
             var file = req.file.buffer;
@@ -1122,7 +1125,7 @@ router.route('/imageCSV')
                 return (arrData);
             }
 
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var nameOfProject = req.body.projectName;
             var csvParser = require('csv-parse');
             var file = req.file.buffer;
@@ -1183,11 +1186,11 @@ router.route('/imageCSV')
         }
         var imageNumber = -1;
 
-        if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each 
+        if (fileType == ".docx") { // Each filetype has their own route. In the future, we could also do different files for each
             //Didn't add the classifier field to the neumes here!
             var fs = require("fs");
             var originalFileName = req.file.originalname;
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
 
             const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
             var fs = require('fs');
@@ -1210,7 +1213,7 @@ router.route('/imageCSV')
                 console.log('Caught exception: ', e);
             }
 
-            var mammoth = require("mammoth"); //mammoth might take away 
+            var mammoth = require("mammoth"); //mammoth might take away
             const HtmlTableToJson = require('html-table-to-json');
 
             mammoth.convertToHtml({ // Mammoth library used for converting the docx to html, since parsing an html table is much easier
@@ -1226,7 +1229,7 @@ router.route('/imageCSV')
                         }
 
                         console.log("The file was saved!");
-                    }); 
+                    });
                     fs.readFile("file.html", {
                         encoding: 'utf-8'
                     }, function(err, data) {
@@ -1252,7 +1255,7 @@ router.route('/imageCSV')
                     //console.log(images)
                     var a = 0;
                     var x = 0;
-                    var array = [] 
+                    var array = []
                     rows.forEach(function(row){
                     for(var i = 0; i<6; i++){
                         if(tables[a] == undefined)
@@ -1285,7 +1288,7 @@ router.route('/imageCSV')
                     //console.log(array);
                      console.log(array)
 
-                    
+
 
                     const jsonTables = new HtmlTableToJson(html1);
                     var arrayJson = [];
@@ -1301,7 +1304,7 @@ router.route('/imageCSV')
                         json = JSON.parse(JSON.stringify(json).split('"6":').join('"mei":'));
                         console.log(json);
                         //json = JSON.stringify(json);
-                        
+
                         mongoose.model("neume").insertMany(json)
                             .then(function(jsonObj) {
                                 jsonObj.forEach(function(neume) {
@@ -1331,11 +1334,11 @@ router.route('/imageCSV')
                                             }
 
                                             var fs = require('fs');
-     
+
                                         }
-                                         
+
                                     })
-                                   
+
                                 })
                             })
                     }
@@ -1349,7 +1352,7 @@ router.route('/imageCSV')
 
         }
         if (fileType == ".html") {
-            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created. 
+            var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
             var fs = require('fs');
             const filePath = pathName.join(__dirname, "..", req.file.path) //This works
             const HtmlTableToJson = require('html-table-to-json');
@@ -1486,7 +1489,7 @@ router.route('/fork')
                         var name = user.username + "/" + nameOfProject; //We'll start with the userID added to the name, then we'll change it to the username
                         var projectUserID = req.session.userId;
                         var projectArray = [];
-                        projectArray.push(projectUserID) //3.Add that project to the user. 
+                        projectArray.push(projectUserID) //3.Add that project to the user.
                         mongoose.model('project').create({
                             name: name,
                             userID: projectArray //This will be the userID
@@ -1795,7 +1798,7 @@ router.route('/collabs')
                                             projectID: project,
                                             collabUserName: userCollabName,
                                             collabProjectName: projectCollabName
-                                        } //inserted data is the object to be inserted 
+                                        } //inserted data is the object to be inserted
                                     }
                                 }, function(err, user) {
                                     if (err) {
@@ -1851,7 +1854,7 @@ router.route('/deleteCollab')
                             collaborators: {
                                 nameCollab: userCollab,
                                 projectID: projectCollab
-                            } //inserted data is the object to be inserted 
+                            } //inserted data is the object to be inserted
                         }
                     },
 
