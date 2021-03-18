@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "watch": "nodemon --ext js,pug --ignore public",
+    "dev_start": "nodemon ./bin/www"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
