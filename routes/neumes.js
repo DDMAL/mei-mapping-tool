@@ -5,6 +5,7 @@ var express = require('express'),
     methodOverride = require('method-override') // used to manipulate POST
 var storedImages = require('../model/storedImages')
 var fs = require('fs')
+var logger = require('../logger');
 global.neumes_array = []
 
 //  Any requests to this controller must pass through this 'use' function
@@ -35,7 +36,7 @@ router.route('/cancel')
 
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
-                return console.error(err)
+                return logger.error(err)
             } else {
                 //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
@@ -59,7 +60,7 @@ router.route('/user')
         //  retrieve all neumes from Mongo
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
-                return console.error(err)
+                return logger.error(err)
             } else {
                 //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
@@ -86,7 +87,7 @@ router.route('/about')
         //retrieve all neumes from Mongo
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
-                return console.error(err)
+                return logger.error(err)
             } else {
                 //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
@@ -114,7 +115,7 @@ router.route('/')
         //  retrieve all neumes from Monogo
         mongoose.model('neume').find({}, function(err, neumes) {
             if (err) {
-                return console.error(err)
+                return logger.error(err)
             } else {
                 //  respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
@@ -172,14 +173,14 @@ router.route('/')
                 res.send("There was a problem adding the information to the database.");
             } else {
                 //neume has been created
-                //console.log('POST creating new neume: ' + neume); //neume holds the new neume
+                //logger.log('POST creating new neume: ' + neume); //neume holds the new neume
                 //Show neume array
                 //Neume requests for the images inside of neumes
                 mongoose.model('neume').find({
                     project: ID_project
                 }, function(err, neumes) {
                     neumeFinal = neumes;
-                    //console.log(neumeFinal);//This works!!!
+                    //logger.log(neumeFinal);//This works!!!
                 });
                 //Creating an xml file to store mei for each neume => neume.mei and neume._id for the name of the file
                 //Making the xml files folder if it doesnt exist
@@ -213,7 +214,7 @@ router.route('/')
                         },
 
                         function(err, data) {
-                            //console.log(err, data);
+                            //logger.log(err, data);
                             imageData = [];
                         });
 
@@ -221,7 +222,7 @@ router.route('/')
                     a.save(function(err, a) {
                         if (err) throw err;
 
-                        console.error('saved img to mongo');
+                        logger.error('saved img to mongo');
                     });
 
                 });
@@ -229,7 +230,7 @@ router.route('/')
 
                 //Using GridFS, we can create a file, find that file in the uploads folder.
                 //Then create a GridFSInputFile set that filename as the new name
-                //Then save the file. 
+                //Then save the file.
 
                 res.format({
                     html: function() {
@@ -261,10 +262,10 @@ router.route('/:id/editImage')
         //search for the neume within Mongo
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.log('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //Return the neume
-                //console.log('GET Retrieving ID: ' + neume._id);
+                //logger.log('GET Retrieving ID: ' + neume._id);
                 var neumedob = neume.dob.toISOString();
                 neumedob = neumedob.substring(0, neumedob.indexOf('T'))
                 imageArray = [];
@@ -289,7 +290,7 @@ router.route('/:id/editImage')
 
             }
         }).populate('image').exec((err, posts) => {
-            //console.log("Populated Image " + posts);
+            //logger.log("Populated Image " + posts);
         });
     })
     //PUT to update a neume by ID
@@ -343,13 +344,13 @@ router.route('/:id/editImage')
                             },
 
                             function(err, data) {
-                                //console.log(err, data);
+                                //logger.log(err, data);
                                 imageData = [];
                             });
                         a.save(function(err, a) {
                             if (err) throw err;
 
-                            console.error('saved img to mongo');
+                            logger.error('saved img to mongo');
                         });
 
                     });
@@ -357,7 +358,7 @@ router.route('/:id/editImage')
                         project: ID_project
                     }, function(err, neumes) {
                         neumeFinal = neumes;
-                        //console.log(neumeFinal);//This works!!!
+                        //logger.log(neumeFinal);//This works!!!
                     });
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                     res.format({
@@ -378,7 +379,7 @@ router.route('/:id/editImage')
     .delete(function(req, res) {
         //imageDeleted is the path of the image we want to delete.
         var imageToDelete = req.body.imageDeleted;
-        //console.log(imageToDelete);
+        //logger.log(imageToDelete);
         //This is the p element
         //The image deleted from the page is going to have imageDeleted as a name in the editNeume.jade file
         //req.body.imageDeleted doesnt seem to work
@@ -387,13 +388,13 @@ router.route('/:id/editImage')
             var ID_project = neume.project;
 
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
-                //deleting the images from the image model 
+                //deleting the images from the image model
 
-                //console.log('successfully deleted');
+                //logger.log('successfully deleted');
                 // mongoose.model('storedImages').remove({imagepath : imageToDelete}, function (err, image) {
-                //console.log(image)
+                //logger.log(image)
                 // });
 
                 res.format({
@@ -430,7 +431,7 @@ router.route('/:id/deleteImage')
             var ID_project = neume.project;
 
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //This works, when the page is reloaded
                 mongoose.model('neume').findOneAndUpdate({
@@ -440,18 +441,18 @@ router.route('/:id/deleteImage')
                         imagesBinary: imageToDelete
                     }
                 }, function(err, data) {
-                    console.log(err, data);
+                    logger.log(err, data);
                 });
 
                 //remove from neume array the imagepath = imageDeleted
-                //deleting the images from the image model 
+                //deleting the images from the image model
                 //fs.unlink('uploads/' + imageToDelete, (err) => {
                 //if (err) throw err;
-                //console.log('successfully deleted');
+                //logger.log('successfully deleted');
                 mongoose.model('storedImages').remove({
                     imgBase64: imageToDelete
                 }, function(err, data) {
-                    console.log(err, data)
+                    logger.log(err, data)
                     //I have to do this now tho
                 });
                 // });
@@ -478,12 +479,12 @@ router.route('/:id/deleteImage')
 
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
-    //console.log('validating ' + id + ' exists');
+    //logger.log('validating ' + id + ' exists');
     //find the ID in the Database
     mongoose.model('neume').findById(id, function(err, neume) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            console.log(id + ' was not found');
+            logger.log(id + ' was not found');
             res.status(404)
             var err = new Error('Not Found');
             err.status = 404;
@@ -500,7 +501,7 @@ router.param('id', function(req, res, next, id) {
             //if it is found we continue on
         } else {
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
-            //console.log(neume);
+            //logger.log(neume);
             // once validation is done save the new item in the req
             req.id = id;
             // go to the next thing
@@ -513,9 +514,9 @@ router.route('/:id')
     .get(function(req, res) {
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.log('GET Error: There was a problem retrieving: ' + err);
             } else {
-                //console.log('GET Retrieving ID: ' + neume._id);
+                //logger.log('GET Retrieving ID: ' + neume._id);
                 var neumedob = neume.dob.toISOString();
                 neumedob = neumedob.substring(0, neumedob.indexOf('T'))
                 res.format({
@@ -532,7 +533,7 @@ router.route('/:id')
             }
         });
     });
-//The new projectID should be here. 
+//The new projectID should be here.
 
 router.route('/:id/edit')
     //GET the individual neume by Mongo ID
@@ -540,10 +541,10 @@ router.route('/:id/edit')
         //search for the neume within Mongo
         mongoose.model('neume').findById(req.id, function(err, neume) {
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.log('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //Return the neume
-                //console.log('GET Retrieving ID: ' + neume._id);
+                //logger.log('GET Retrieving ID: ' + neume._id);
                 var neumedob = neume.dob.toISOString();
                 neumedob = neumedob.substring(0, neumedob.indexOf('T'))
                 res.format({
@@ -564,7 +565,7 @@ router.route('/:id/edit')
                 res.redirect('back');
             }
         }).populate('image').exec((err, posts) => {
-            //console.log("Populated Image " + posts);
+            //logger.log("Populated Image " + posts);
         });
     })
     //PUT to update a neume by ID
@@ -622,26 +623,26 @@ router.route('/:id/edit')
         mongoose.model('neume').findById(req.id, function(err, neume) {
             var ID_project = neume.project;
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //remove it from Mongo
                 neume.remove(function(err, neume) {
                     if (err) {
-                        return console.error(err);
+                        return logger.error(err);
                     } else {
                         //  Finish this when the neumes are deleted
                         mongoose.model("storedImages").remove({
                             neumeID: neume._id
                         }, function(err, image) {
-                            console.log(image);
+                            logger.log(image);
                             if (err) {
-                                return console.error(err);
+                                return logger.error(err);
                             } else {
-                                console.log("worked");
+                                logger.log("worked");
                             }
                         });
                         //Returning success messages saying it was deleted
-                        //console.log('DELETE removing ID: ' + neume._id);
+                        //logger.log('DELETE removing ID: ' + neume._id);
                         mongoose.model('neume').find({
                             project: ID_project
                         }, function(err, neumes) {

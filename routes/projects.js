@@ -5,6 +5,7 @@ var express = require('express'),
     methodOverride = require('method-override'); //used to manipulate POST
 fs = require('fs');
 var reload = require('require-reload')(require);
+var logger = require('../logger');
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
 router.use(bodyParser.json({
@@ -33,7 +34,7 @@ global.neumeSectionArray = []; //Array to keep the neumes in the section
 //this will be accessible from http://127.0.0.1:3000/projects if the default route for / is left unchanged
 router.route('/')
     //GET all projects
-    //Get all the neumes from the database : 
+    //Get all the neumes from the database :
     .get(function(req, res, next) {
 
         projectIds = req.body._id;
@@ -41,30 +42,30 @@ router.route('/')
             _id: req.session.userId
         }, function(err, users) {
             userFinal = users;
-            // console.log(userFinal);//This works!!!
+            // logger.info(userFinal);//This works!!!
         });
         //retrieve all projects from Mongo
         mongoose.model('project').find({
             userID: req.session.userId
         }, function(err, projects) {
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
-                console.log(project._id);
+                logger.debug(project._id);
                 mongoose.model('project').find({
                     userID: {
                         $nin: [req.session.userId]
                     }
                 }, function(err, projectsAll) {
                     if (err) {
-                        return console.error(err);
+                        return logger.error(err);
                     } else {
 
                         //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                         res.format({
                             //HTML response will render the index.jade file in the views/projects folder. We are also setting "projects" to be an accessible variable in our jade view
                             html: function() {
-                                console.log(userFinal);
+                                logger.debug(userFinal);
                                 res.render('projects/index', {
                                     title: 'Projects',
                                     "projects": projects,
@@ -122,7 +123,7 @@ router.route('/')
 
                     fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
                         if (err) throw err;
-                        console.log('successfully deleted');
+                        logger.info('successfully deleted');
                     });
                 }
             })
@@ -137,7 +138,7 @@ router.route('/')
         var projectArray = [];
         var admin = req.session.userId; //This is the admin id that created the project
         projectArray.push(projectUserID)
-        //console.log(projectUsername); //This is undefined. 
+        //logger.info(projectUsername); //This is undefined.
         //call the create function for our database
         mongoose.model('project').create({
             name: name,
@@ -152,10 +153,10 @@ router.route('/')
                     _id: req.session.userId
                 }, function(err, users) {
                     userFinal = users;
-                    // console.log(userFinal);//This works!!!
+                    // logger.info(userFinal);//This works!!!
                 });
                 //project has been created
-                console.log('POST creating new project: ' + project);
+                logger.info('POST creating new project: ' + project);
 
                 //project requests for the images inside of projects
                 res.format({
@@ -192,14 +193,14 @@ router.get('/:id/new', function(req, res) {
 
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
-    //console.log('validating ' + id + ' exists');
+    //logger.info('validating ' + id + ' exists');
     //find the ID in the Database
     mongoose.model('project').find({
         _id: id
     }, function(err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            console.log(id + ' was not found');
+            logger.warn(id + ' was not found');
             res.status(404)
             var err = new Error('Not Found');
             err.status = 404;
@@ -219,10 +220,10 @@ router.param('id', function(req, res, next, id) {
                 _id: req.session.userId
             }, function(err, users) {
                 userFinal = users;
-                // console.log(userFinal);//This works!!!
+                // logger.info(userFinal);//This works!!!
             });
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
-            //console.log(project);
+            //logger.info(project);
             // once validation is done save the new item in the req
             req.id = id;
             // go to the next thing
@@ -237,10 +238,10 @@ router.route('projects/:id/edit')
         //search for the project within Mongo
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.warn('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //Return the project
-                console.log('GET Retrieving ID: ' + project._id);
+                logger.debug('GET Retrieving ID: ' + project._id);
                 var projectdob = project.dob.toISOString();
                 projectdob = projectdob.substring(0, projectdob.indexOf('T'))
                 res.format({
@@ -255,14 +256,14 @@ router.route('projects/:id/edit')
                 });
             }
         }).populate('image').exec((err, posts) => {
-            console.log("Populated Image " + posts);
+            logger.debug("Populated Image " + posts);
         });
     })
     //PUT to update a project by ID
     .put(function(req, res) {
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var name = req.body.projectName;
-        console.log(name); //this isnt shown
+        logger.debug(name); //this isnt shown
         //find the document by ID
         mongoose.model('project').findById(req.id, function(err, project) {
 
@@ -289,7 +290,7 @@ router.route('projects/:id/edit')
 
                     fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
                         if (err) throw err;
-                        console.log('successfully deleted');
+                        logger.debug('successfully deleted');
                     });
                 }
             })
@@ -300,20 +301,20 @@ router.route('projects/:id/edit')
         //find project by ID
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //remove it from Mongo
                 project.remove(function(err, project) {
                     if (err) {
-                        return console.error(err);
+                        return logger.error(err);
                     } else {
                         //Returning success messages saying it was deleted
-                        console.log('DELETE removing ID: ' + project._id);
+                        logger.info('DELETE removing ID: ' + project._id);
                         mongoose.model('User').find({
                             _id: req.session.userId
                         }, function(err, users) {
                             userFinal = users;
-                            // console.log(userFinal);//This works!!!
+                            // logger.info(userFinal);//This works!!!
                         });
                         res.format({
                             //HTML returns us back to the main page, or you can create a success page
@@ -341,7 +342,7 @@ router.route('/projects')
         //retrieve all projects from Monogo
         mongoose.model('project').find({}, function(err, projects) {
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //respond to both HTML and JSON. JSON responses require 'Accept: application/json;' in the Request Header
                 res.format({
@@ -387,7 +388,7 @@ router.route('/projects')
                 res.send("There was a problem adding the information to the database.");
             } else {
                 //project has been created
-                console.log('POST creating new project: ' + project); //project holds the new project
+                logger.info('POST creating new project: ' + project); //project holds the new project
 
                 //project requests for the images inside of projects
                 res.format({
@@ -411,12 +412,12 @@ router.route('/projects')
 // route middleware to validate :id
 router.param('/project/id', function(req, res, next, id) {
     global.projectIds = id;
-    //console.log('validating ' + id + ' exists');
+    //logger.info('validating ' + id + ' exists');
     //find the ID in the Database
     mongoose.model('project').findById(id, function(err, project) {
         //if it isn't found, we are going to repond with 404
         if (err) {
-            console.log(id + ' was not found');
+            logger.warn(id + ' was not found');
             res.status(404)
             var err = new Error('Not Found');
             err.status = 404;
@@ -434,7 +435,7 @@ router.param('/project/id', function(req, res, next, id) {
         } else {
 
             //uncomment this next line if you want to see every JSON document response for every GET/PUT/DELETE call
-            //console.log(project);
+            //logger.info(project);
             // once validation is done save the new item in the req
             req.id = id;
             // go to the next thing
@@ -449,16 +450,16 @@ router.route('/project/:id') //Doesnt lead to the projects page, see projects/:i
         mongoose.model('project').findById(req.id, function(err, project) {
 
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.warn('GET Error: There was a problem retrieving: ' + err);
             } else {
 
-                console.log('GET Retrieving ID: ' + project._id);
+                logger.debug('GET Retrieving ID: ' + project._id);
                 mongoose.model('neume').find({
                     project: project._id
                 }, function(err, neumes) {
                     global.ArrayNeumes = [];
                     ArrayNeumes.push(neumes);
-                    console.log(ArrayNeumes);
+                    logger.debug(ArrayNeumes);
                 });
                 var projectdob = project.dob.toISOString();
                 projectdob = projectdob.substring(0, projectdob.indexOf('T'))
@@ -476,7 +477,7 @@ router.route('/project/:id') //Doesnt lead to the projects page, see projects/:i
                 });
             }
         });
-        console.log(project._id);
+        logger.debug(project._id);
     });
 
 
@@ -486,10 +487,10 @@ router.route('/project/:id/edit')
         //search for the project within Mongo
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.warn('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //Return the project
-                console.log('GET Retrieving ID: ' + project._id);
+                logger.info('GET Retrieving ID: ' + project._id);
                 var projectdob = project.dob.toISOString();
                 projectdob = projectdob.substring(0, projectdob.indexOf('T'))
                 res.format({
@@ -509,7 +510,7 @@ router.route('/project/:id/edit')
                 });
             }
         }).populate('image').exec((err, posts) => {
-            console.log("Populated Image " + posts);
+            logger.debug("Populated Image " + posts);
         });
     })
     //PUT to update a project by ID
@@ -556,7 +557,7 @@ router.route('/project/:id/edit')
 
                     fs.unlink('uploads/' + req.body.name + ".jpg", (err) => {
                         if (err) throw err;
-                        console.log('successfully deleted');
+                        logger.info('successfully deleted');
                     });
                 }
             })
@@ -567,15 +568,15 @@ router.route('/project/:id/edit')
         //find project by ID
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //remove it from Mongo
                 project.remove(function(err, project) {
                     if (err) {
-                        return console.error(err);
+                        return logger.error(err);
                     } else {
                         //Returning success messages saying it was deleted
-                        console.log('DELETE removing ID: ' + project._id);
+                        logger.debug('DELETE removing ID: ' + project._id);
                         res.format({
                             //HTML returns us back to the main page, or you can create a success page
                             html: function() {
@@ -602,12 +603,12 @@ router.route('/deleteImageDropzone')
         //imageDeleted is the path of the image we want to delete.
         global.imageToDeleteDropzone = id;
         //remove from neume array the imagepath = imageDeleted
-        //deleting the images from the image model 
+        //deleting the images from the image model
         fs.unlink('uploads/' + imageToDeleteDropzone, (err) => {
             if (err)
                 throw err;
             else {
-                console.log('successfully deleted'); //This worked.
+                logger.debug('successfully deleted'); //This worked.
 
                 for (var i = 0; i < imageArray.length; i++) {
                     if (imageArray[i] === imageToDeleteDropzone) {
@@ -628,7 +629,7 @@ router.route('/:id') //This is where the classifier would be
 
 
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.info('GET Error: There was a problem retrieving: ' + err);
             } else {
 
                 if (project == null) {
@@ -642,29 +643,29 @@ router.route('/:id') //This is where the classifier would be
                         neumeFinal = neumes;
 
                         //Updating the name
-                        //Getting the neumes for each project and showing them in the console!!
+                        //Getting the neumes for each project and showing them in the logger!!
                         //Element in face
-                        console.log(neumeFinal);
+                        logger.info(neumeFinal);
                         mongoose.model('User').find({
                             _id: req.session.userId
                         }, function(err, users) {
                             userFinal = users;
-                            // console.log(userFinal);//This works!!!
+                            // logger.info(userFinal);//This works!!!
                         });
                         mongoose.model("neume").find({
                             project: project._id
                         }, function(err, neumes) {
-                            neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.     
-                                
+                            neumes.forEach(function(neume) { //Change this to a for loop to make the data faster. Right now the performance is almost 5 minutes.
+
                                 if(neume.classifier == undefined){
-                                    console.log("no classifier")
+                                    logger.info("no classifier")
                                 }
 
                               else if(neume.classifier.includes(".xlsx")){
                                 var image = neume.imageMedia;
-                                //console.log(image);
+                                //logger.info(image);
                                 if (fs.existsSync('exports/xl/media/' + image)) {
-                                    var imgPath = 'exports/xl/media/' + image; //This is undefined. 
+                                    var imgPath = 'exports/xl/media/' + image; //This is undefined.
                                     var A = storedImages;
                                     var a = new A;
                                     a.projectID = project._id;
@@ -674,7 +675,7 @@ router.route('/:id') //This is where the classifier would be
                                     a.imgBase64 = a.img.data.toString('base64');
 
                                     imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-                                    //console.log(imageData); //This works
+                                    //logger.info(imageData); //This works
                                     mongoose.model('neume').find({
                                         _id: neume._id
                                     }).update({
@@ -684,13 +685,13 @@ router.route('/:id') //This is where the classifier would be
                                         },
 
                                         function(err, data) {
-                                            //console.log(err, data);
+                                            //logger.info(err, data);
                                             imageData = [];
 
                                             a.save(function(err, a) {
                                                 if (err) throw err;
 
-                                                console.error('saved img to mongo');
+                                                logger.error('saved img to mongo');
                                             });
                                         });
                                 }
@@ -703,15 +704,15 @@ router.route('/:id') //This is where the classifier would be
                             projectID: project._id
                         }, function(err, sections) {
 
-                            //Here, we need a logic that will produce a variable neumeSection which is all the neumes for each 
+                            //Here, we need a logic that will produce a variable neumeSection which is all the neumes for each
                             //section, which is different for each section.
 
 
 
                             var sections = sections;
-                            console.log(neumeSectionArray); //This is still empty
+                            logger.info(neumeSectionArray); //This is still empty
 
-                            console.log('GET Retrieving ID: ' + project._id);
+                            logger.info('GET Retrieving ID: ' + project._id);
                             var projectdob = project.dob.toISOString();
                             projectdob = projectdob.substring(0, projectdob.indexOf('T'))
 
@@ -743,37 +744,37 @@ router.route('/:id') //This is where the classifier would be
 router.route('/public/:id') //This is where the classifier would be
     .get(function(req, res) {
         var projectName = req.body.projectName;
-        console.log(projectName);
+        logger.info(projectName);
         global.nameOfProject = projectName;
 
         mongoose.model('project').findById(req.id, function(err, project) {
 
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.info('GET Error: There was a problem retrieving: ' + err);
             } else {
                 if (project == null) {
                     res.redirect("/");
                 }
                 //Updating the name
-                //Getting the neumes for each project and showing them in the console!!
+                //Getting the neumes for each project and showing them in the logger!!
                 //Element in face
-                //console.log(userFinal);//This works! 
+                //logger.info(userFinal);//This works!
                 else {
                     mongoose.model('neume').find({
                         project: project._id
                     }, function(err, neumes) {
                         neumeFinal = neumes;
-                        //console.log(neumeFinal);//This works!!!
+                        //logger.info(neumeFinal);//This works!!!
 
-                        // console.log(neumeFinal);
-                        console.log('GET Retrieving ID: ' + project._id);
+                        // logger.info(neumeFinal);
+                        logger.info('GET Retrieving ID: ' + project._id);
                         var projectdob = project.dob.toISOString();
                         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
 
                         res.format({
                             html: function() {
-                                console.log(neumeFinal); //This is shown on the console!
-                                console.log(userFinal) //This is shown on the console!
+                                logger.info(neumeFinal); //This is shown on the logger!
+                                logger.info(userFinal) //This is shown on the logger!
 
                                 res.render('neumes/show', {
                                     "projectdob": projectdob,
@@ -794,38 +795,38 @@ router.route('/public/:id') //This is where the classifier would be
 router.route('/forkPublic/:id') //This is where the classifier would be
     .get(function(req, res) {
         var projectName = req.body.projectName;
-        console.log(projectName);
+        logger.info(projectName);
         global.nameOfProject = projectName;
         var userFinal = [];
         mongoose.model('project').findById(req.id, function(err, project) {
 
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.info('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //Updating the name
-                //Getting the neumes for each project and showing them in the console!!
+                //Getting the neumes for each project and showing them in the logger!!
                 //Element in face
-                //console.log(userFinal);//This works! 
+                //logger.info(userFinal);//This works!
                 mongoose.model('neume').find({
                     project: project._id
                 }, function(err, neumes) {
                     neumeFinal = neumes;
-                    //console.log(neumeFinal);//This works!!!
+                    //logger.info(neumeFinal);//This works!!!
                     mongoose.model('User').find({
                         _id: req.session.userId
                     }, function(err, users) {
                         userFinal = users;
-                        // console.log(userFinal);//This works!!!
+                        // logger.info(userFinal);//This works!!!
 
-                        // console.log(neumeFinal);
-                        console.log('GET Retrieving ID: ' + project._id);
+                        // logger.info(neumeFinal);
+                        logger.info('GET Retrieving ID: ' + project._id);
                         var projectdob = project.dob.toISOString();
                         projectdob = projectdob.substring(0, projectdob.indexOf('T'))
 
                         res.format({
                             html: function() {
-                                console.log(neumeFinal); //This is shown on the console!
-                                console.log(userFinal) //This is shown on the console!
+                                logger.info(neumeFinal); //This is shown on the logger!
+                                logger.info(userFinal) //This is shown on the logger!
 
                                 res.render('projects/showFork.jade', {
                                     "projectdob": projectdob,
@@ -850,7 +851,7 @@ router.route('/:id/edit')
         //search for the project within Mongo
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
-                console.log('GET Error: There was a problem retrieving: ' + err);
+                logger.info('GET Error: There was a problem retrieving: ' + err);
             } else {
                 //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
                 res.format({
@@ -871,7 +872,7 @@ router.route('/:id/edit')
     .put(function(req, res) {
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var projectName = req.body.nameProject; //Its getting the information from the edit page
-        console.log(projectName);
+        logger.info(projectName);
 
         //find the document by ID
         mongoose.model('project').findById(req.id, function(err, project) {
@@ -903,18 +904,18 @@ router.route('/:id/edit')
         mongoose.model('project').findById(req.id, function(err, project) {
             var projectid = project._id;
             if (err) {
-                return console.error(err);
+                return logger.error(err);
             } else {
                 //remove it from Mongo
                 project.remove(function(err, project) {
                     if (err) {
-                        return console.error(err);
+                        return logger.error(err);
                     } else {
 
                         mongoose.model('User').findById(req.session.userId, function(err, user) {
 
                             if (err) {
-                                return console.error(err);
+                                return logger.error(err);
                             } else {
                                 //This works, when the page is reloaded
                                 mongoose.model('User').findOneAndUpdate({
@@ -923,29 +924,29 @@ router.route('/:id/edit')
                                         $pull: {
                                             collaborators: {
                                                 projectID: projectid
-                                            } //inserted data is the object to be inserted 
+                                            } //inserted data is the object to be inserted
                                         }
                                     },
 
                                     function(err, data) {
-                                        console.log(err, data);
+                                        logger.info(err, data);
                                     });
-                                //That's it. 
+                                //That's it.
                                 mongoose.model('neume').remove({
                                     project: project._id
                                 }).exec();
                                 mongoose.model("storedImages").remove({
                                     projectID: project._id
                                 }, function(err, image) {
-                                    console.log(image);
+                                    logger.info(image);
                                     if (err) {
-                                        return console.error(err);
+                                        return logger.error(err);
                                     } else {
-                                        console.log("worked");
+                                        logger.info("worked");
                                     }
                                 });
                                 //Returning success messages saying it was deleted
-                                console.log('DELETE removing ID: ' + project._id);
+                                logger.info('DELETE removing ID: ' + project._id);
                                 res.format({
                                     //HTML returns us back to the main page, or you can create a success page
                                     html: function() {
