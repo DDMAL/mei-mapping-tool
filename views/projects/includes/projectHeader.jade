@@ -1,0 +1,49 @@
+div.navigation.navbar(id = "myHeader").sticky
+ div.nav-horizontal
+  header.project-header
+      a#logo(href='#' style = "position : relative;") Cress - MEI Mapping Tool 🎵 
+      // main navigation links
+      nav
+        ul
+            li.navigate
+              a(href='/about' ) About
+            li.navigate
+              a(href='/projects') Projects
+            li.navigate
+              a(href='http://ddmal.music.mcgill.ca/') DDMAL 
+            li.navigate
+              a(href='/') Log out
+            li.navigate 
+              a(href='#' class = "tooltip" style = "z-index : 10000;" ) Help 
+               span.tooltiptext(style = "font : 12px Avenir, sans-serif;") If you do not see the neumes on the page, reload the page once.  
+               
+            li.navigate
+              a(href='/profile') #{user.username}     
+               i.fa.fa-user.fa-lg
+            div.mobile-nav(style = "position : fixed; right : 50px; top : 15px; z-index : 1000000000000;" id = "hamburger" )
+              .menu-btn(id = "menu-btn" style = "z-index : 0; width : 25px; position : absolute" onclick="animation(this)")
+               span(style = "background-color : white").bar1
+               span(style = "background-color : white").bar2
+               span(style = "background-color : white").bar3
+              .responsive-menu
+                ul
+                  li(style = "height : 50px")
+                   a(href='/about' style = "font-size: 14px; height : 10px") About
+                   br
+                  li(style = "height : 50px")
+                    a(href='/projects' style = "font-size: 14px") Projects
+                    br
+                  li(style = "height : 50px") 
+                   a(href='http://ddmal.music.mcgill.ca/' style = "font-size: 14px") DDMAL 
+                   br
+                  li(style = "height : 50px") 
+                    a(href='/' style = "font-size: 14px") Log out
+                   br
+                  li(style = "height : 50px") 
+                    a(href='/' style = "font-size: 14px") 
+                   br
+                  li(style = "height : 50px") 
+                    a(href='/' style = "font-size: 14px") 
+                  li(style = "height : 50px") 
+                    a(href='/profile' style = "font-size: 14px") #{user.username} 
+                   br
