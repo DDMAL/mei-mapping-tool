@@ -645,7 +645,7 @@ router.route('/:id') //This is where the classifier would be
                         //Updating the name
                         //Getting the neumes for each project and showing them in the logger!!
                         //Element in face
-                        logger.info(neumeFinal);
+                        // logger.info(neumeFinal);
                         mongoose.model('User').find({
                             _id: req.session.userId
                         }, function(err, users) {
