@@ -18,8 +18,6 @@ var storedImages = require('../model/storedImages')
 var SENDGRID_API_KEY = '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'
 var logger = require('../logger');
 
-console.log('ding dong');
-
 
 router.use(flash())
 router.use(bodyParser.json({
