@@ -465,7 +465,7 @@ router.route('/project/:id') //Doesnt lead to the projects page, see projects/:i
                 projectdob = projectdob.substring(0, projectdob.indexOf('T'))
                 res.format({
                     html: function() {
-                        res.render('projects/show', {
+                        res.render('projects/showLuckySheet', {
                             "projectdob": projectdob,
                             "project": project,
                             "neumes": ArrayNeumes
@@ -719,7 +719,7 @@ router.route('/:id') //This is where the classifier would be
                             res.format({
                                 html: function() {
 
-                                    res.render('projects/show', {
+                                    res.render('projects/showLuckySheet', {
                                         "projectdob": projectdob,
                                         "project": project,
                                         "neumes": neumeFinal,
