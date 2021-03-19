@@ -52,6 +52,7 @@
     "json-query": "^2.2.2",
     "json2csv": "^4.5.4",
     "jsonwebtoken": "^8.5.1",
+    "luckysheet": "^2.1.13",
     "mailchimp-api-v3": "^1.13.1",
     "mammoth": "^1.4.9",
     "method-override": "^2.3.10",
