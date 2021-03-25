@@ -1,0 +1,47 @@
+doctype html
+html
+  include includes/projectHead.jade
+
+//Header parameters
+   //Column parameters
+- each user in users
+  include includes/projectHeader.jade
+  include includes/projectNav.jade
+
+//Title section : Adding a neume button and changing the title name                
+div.neumeSection(style = "padding-bottom : 3px; padding-top : 170px" id="neume-sheet")
+  
+
+
+
+
+script(type="text/javascript").
+  $(function () {
+      //Configuration item
+      var options = {
+          container: 'neume-sheet', //luckysheet is the container id
+          title: '#{project.name}',
+          data: [
+            {
+              "name": '#{project.name}'
+            }
+          ]
+      }
+      luckysheet.create(options)
+  })
+
+//- script(src='/javascripts/projectSheet.js') 
+script(src='//www.termsfeed.com/cookie-consent/releases/3.0.0/cookie-consent.js')
+script.
+
+  document.addEventListener('DOMContentLoaded', function () {
+  cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","change_preferences_selector":"#changePreferences","language":"en","website_name":"Cress"});
+  });
+  insertAfter(document.getElementById("section"), document.getElementById("roundedCorners"));
+  function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+   var neumeArray = [];
+<noscript>Cookie Consent by <a href="https://www.termsfeed.com/">TermsFeed</a></noscript>
+<!-- End Cookie Consent -->                                          
+                                       

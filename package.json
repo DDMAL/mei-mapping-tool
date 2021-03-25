@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "watch": "nodemon --ext js,pug --ignore public",
+    "dev_start": "nodemon ./bin/www"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
@@ -29,6 +31,7 @@
     "del": "^5.1.0",
     "dialog": "^0.3.1",
     "docx-tables": "^0.1.1",
+    "dotenv": "^8.2.0",
     "edit-json-file": "^1.4.0",
     "eslint-plugin-node": "^9.1.0",
     "exceljs": "^4.1.1",
@@ -52,13 +55,13 @@
     "json-query": "^2.2.2",
     "json2csv": "^4.5.4",
     "jsonwebtoken": "^8.5.1",
-    "ls-xlsx": "^0.11.5",
+    "luckysheet": "^2.1.13",
     "mailchimp-api-v3": "^1.13.1",
     "mammoth": "^1.4.9",
     "method-override": "^2.3.10",
     "moment": "^2.24.0",
     "mongo-date-query": "^1.2.2",
-    "mongoose": "^5.9.3",
+    "mongoose": "^5.12.2",
     "mongoose-uuid2": "^2.3.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
