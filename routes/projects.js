@@ -295,7 +295,7 @@ router.route('/:id')
                                 res.format({
                                     html: function() {
 
-                                        res.render('projects/showproject', {
+                                        res.render('projects/show', {
                                             "projectdob": projectdob,
                                             "project": project,
                                             "neumes": neumeFinal,
@@ -355,7 +355,7 @@ router.route('/public/:id')
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/showproject.jade', {
+                                res.render('projects/show.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
@@ -415,7 +415,7 @@ router.route('/fork/:id')
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/showproject.jade', {
+                                res.render('projects/show.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
