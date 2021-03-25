@@ -8,3 +8,5 @@ node_modules/
 sendgrid.env
 output.json
 sendgrid.env
+package-lock.json
+.env

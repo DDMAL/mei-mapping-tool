@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('express-node-mongo-skeleton:server');
 var http = require('http');
 
+var env_config = require('dotenv').config()
+
 var logger = require('../logger');
 
 /**
@@ -78,6 +80,10 @@ function onError(error) {
       throw error;
   }
 }
+
+
+console.log('\nCress is running on port:', process.env.PORT, '\nPort config is stored in the project root file ".env"\n');
+
 
 /**
  * Event listener for HTTP server "listening" event.

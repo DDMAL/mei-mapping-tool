@@ -34,8 +34,8 @@
   border-color: #4caf50;
   border-width: 2px;
   padding: 10px 10px;
-  top: 100%;
-  left: 50%; 
+  top: 115%;
+  left: 50%;
   margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
   /* Position the tooltip */
   position: absolute;
@@ -54,9 +54,10 @@
   border-color: #4caf50;
   border-width: 2px;
   padding: 10px 10px;
-  top: -100%;
-  right: 105%; 
-  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  top: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -74,9 +75,9 @@
   border-color: #4caf50;
   border-width: 2px;
   padding: 10px 10px;
-  top: -100%;
-  right: 105%; 
-  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  top: 115%;
+  left: 50%;
+  transform: translateX(-50%);
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -94,9 +95,9 @@
   border-color: #4caf50;
   border-width: 2px;
   padding: 10px 10px;
-  top: -100%;
-  right: 105%; 
-  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  top: 115%;
+  left: 50%;
+  transform: translateX(-50%);
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -114,9 +115,9 @@
   border-color: #4caf50;
   border-width: 2px;
   padding: 10px 10px;
-  top: -100%;
-  right: 105%; 
-  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  top: 105%;
+  left: 50%;
+  transform: translateX(-50%);
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -135,7 +136,7 @@
   border-width: 2px;
   padding: 10px 10px;
   top: 100%;
-  left: 50%; 
+  left: 50%;
   margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
   /* Position the tooltip */
   position: absolute;
@@ -174,38 +175,38 @@ bottom: 100%;  /* At the top of the tooltip */
   border-style: solid;
   border-color: transparent transparent  white transparent;
 }
-.tooltipcollapse .tooltiptext::after {
+/* .tooltipcollapse .tooltiptext::after {
   content: " ";
   position: absolute;
     top: 50%;
-  left: 100%; /* To the right of the tooltip */
+  left: 100%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
   border-color: transparent transparent  white transparent;
-}
+} */
 .tooltipfork .tooltiptext::after {
 }
-.tooltipundo .tooltiptext::after {
+/* .tooltipundo .tooltiptext::after {
   content: " ";
   position: absolute;
     top: 50%;
-  left: 100%; /* To the right of the tooltip */
+  left: 100%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
   border-color: transparent transparent  white transparent;
-}
-.tooltipAdd .tooltiptext::after {
+} */
+/* .tooltipAdd .tooltiptext::after {
   content: " ";
   position: absolute;
     top: 50%;
-  left: 100%; /* To the right of the tooltip */
+  left: 100%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
   border-color: transparent transparent  white transparent;
-}
+} */
 
 .tooltipMEI .tooltiptext::after {
   content: " ";
@@ -223,5 +224,4 @@ bottom: 100%;  /* At the top of the tooltip */
     height: 100px;
     object-fit: contain;
     border-radius : 20px;
-    margin-top: 5px;
 }

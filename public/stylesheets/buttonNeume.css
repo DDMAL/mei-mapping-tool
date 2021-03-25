@@ -20,18 +20,18 @@
 .button1 {
   margin: auto;
   float: right;
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border-radius: 30px;
   width : 30%;
   border: 2px solid #4caf50;
   z-index: 5000;
 }
 .button1UpdateName {
-  margin : 0px 0px 10px 0px;
+  /* margin : 0px 0px 10px 0px; */
   float: left;
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border-radius: 30px;
   width : 38px;
   height : 1%;
@@ -51,19 +51,19 @@
 .button2 {
   margin: 20px;
   float: right;
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border-radius: 30px;
   width : 30%;
   height : 5%;
   border: 2px solid #008CBA;
 }
 .button2CSV {
-  margin: 10px;
-  float: right;
-  top : -59px;
-  background-color: DodgerBlue; 
-  color: white; 
+  /* margin: 10px; */
+  /* float: right; */
+  /* top : -59px; */
+  background-color: DodgerBlue;
+  color: white;
   border-radius: 30px;
   width : 15%;
   text-align: center;
@@ -77,8 +77,8 @@
   margin-left: 10px;
   float: right;
   top : 0px;
-  background-color: DodgerBlue; 
-  color: white; 
+  background-color: DodgerBlue;
+  color: white;
   border-radius: 30px;
   width : 15%;
   text-align: center;
@@ -89,11 +89,11 @@
   position : static;
 }
 .button2CSV:hover{
-  background-color: royalBlue; 
+  background-color: royalBlue;
 }
 .button2Update {
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border: 2px solid #008CBA;
   margin: 10px;
   position : relative;
@@ -104,7 +104,7 @@
   height : 30px;
   max-width : 40px;
   padding : 0px;
-  margin-right : 10px; 
+  margin-right : 10px;
 }
 .notransition {
   -webkit-transition: none !important;
@@ -120,19 +120,19 @@
   border: 2px solid #008CBA;
 }
 .button2Update {
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border: 2px solid #008CBA;
   width : 15%;
 }
 .button2AddNeume {
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border: 2px solid #008CBA;
   width : 38px;
-  margin : 0px 0px 10px 0px;
-  float : right;
-  top : -52px;
+  /* margin : 0px 0px 10px 0px; */
+  /* float : right; */
+  /* top : -52px; */
   position : relative;
 }
 .otherButton {
@@ -154,8 +154,8 @@
 }
 
 .button3DeleteCollab {
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border: 2px solid #f44336;
   width : 4.7%;
   left : 470px;
@@ -164,8 +164,8 @@
   /*Adding the neumes for the projects.*/
 }
 .button3 {
- background-color: white; 
-  color: black; 
+ background-color: white;
+  color: black;
   border: 2px solid #f44336;
   max-width : 3%;
   /*Adding the delete button to the collapsible element*/
@@ -178,8 +178,8 @@
   /*Adding the neumes for the projects.*/
 }
 .button3DeleteSection {
- background-color: white; 
-  color: black; 
+ background-color: white;
+  color: black;
   border: 2px solid #f44336;
   max-width : 3%;
   min-width : 3%;
@@ -194,16 +194,16 @@
   /*Adding the neumes for the projects.*/
 }
 .button3DeleteImage {
- background-color: white; 
-  color: black; 
+ background-color: white;
+  color: black;
   border: 2px solid #f44336;
   border-radius: 15px;
 }
 .button3CancelImage {
   float: center;
-  background-color: white; 
+  background-color: white;
   width : 16%;
-  color: black; 
+  color: black;
   border: 2px solid #f44336;
   border-radius: 30px;
   height : 37px;
@@ -240,8 +240,8 @@
 .button5 {
   margin : -50px 0px -100px 0px;
   float: center;
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border-radius: 30px;
   width : 15%;
   height : 10%;
@@ -254,8 +254,8 @@
 .button5SubmitEdit {
   margin : 0.5px;
   float: center;
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border-radius: 30px;
   width : 15%;
   border: 2px solid #555555;

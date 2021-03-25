@@ -252,7 +252,7 @@ router.route('/:id/editImage')
                 }
             })
         });
-        
+
         if (imagesToDelete != 'none') {
             imagesToDelete = imagesToDelete.split(',');
             // in mongoose in order to delete or pull multiple entries
@@ -310,7 +310,7 @@ router.param('id', function(req, res, next, id) {
 router.route('/:id/edit')
     //PUT to update a neume by ID
     .put(function(req, res) {
-        
+
         var updateObject;
         var name = req.body.name;
         var folio = req.body.folio;
@@ -331,7 +331,7 @@ router.route('/:id/edit')
             review: review,
             dob: dob,
         };
-        
+
         global.editArray = [];
 
         //find the document by ID
@@ -363,6 +363,7 @@ router.route('/:id/edit')
     //DELETE a neume by ID
     .delete(function(req, res) {
         //find neume by ID
+        logger.log('info', 'yes ok');
         mongoose.model('neume').findById(req.id, function(err, neume) {
             var ID_project = neume.project;
             if (err) {
@@ -377,11 +378,11 @@ router.route('/:id/edit')
                         mongoose.model("storedImages").remove({
                             neumeID: neume._id
                         }, function(err, image) {
-                            logger.log(image);
+                            logger.log('info', image);
                             if (err) {
                                 return renderError(res, err);
                             } else {
-                                logger.info('worked!');
+                                logger.log('info', "worked");
                             }
                         });
                         //Returning success messages saying it was deleted

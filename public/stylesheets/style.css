@@ -2,6 +2,10 @@ body {
   background-color: white;
 }
 
+.fa-lg {
+  height: auto
+}
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -47,10 +51,10 @@ body {
 }
 
 body{
-  font-family:Arial, Helvetica, sans-serif; 
+  font-family:Arial, Helvetica, sans-serif;
   font-size:13px;
   }
-  
+
   .success, .error, .validation {
   border: 1px solid;
   margin: 10px 0px;
@@ -74,12 +78,12 @@ body{
     font-size: 12px;
   }
   .container{
-  margin: 0 auto; 
+  margin: 0 auto;
   width: 50%;
 }
 
 .content{
-  padding: 5px; 
+  padding: 5px;
   margin: 0 auto;
 }
 .content span{
@@ -97,8 +101,41 @@ body{
   object-fit: cover;
 }
 
+.project-nav-wrapper {
+  position: fixed;
+  padding: 55px 40px 0;
+  z-index: 1200;
+  width: 100%;
+  /* margin: 0 40px; */
+  background-color: #e4e4e4;
+}
+
+.top-row-wrapper {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.sheet-column-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  border: 1px solid DodgerBlue;
+}
+
+.sheet-column-wrapper div {
+  background-color:#afcfee;
+  text-align: center;
+  line-height: 35px;
+  font-size: 16px;
+}
+
+.sheet-column-wrapper div:not(:last-child) {
+  border-right: 1px solid #819fff;
+}
+
 .bodyStyle {
-  height : 5px;
+  /* height : 5px; */
 }
 .image-area {
   position: relative;
