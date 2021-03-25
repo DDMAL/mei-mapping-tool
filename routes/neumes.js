@@ -620,6 +620,7 @@ router.route('/:id/edit')
     //DELETE a neume by ID
     .delete(function(req, res) {
         //find neume by ID
+        logger.log('info', 'yes ok');
         mongoose.model('neume').findById(req.id, function(err, neume) {
             var ID_project = neume.project;
             if (err) {
@@ -634,11 +635,11 @@ router.route('/:id/edit')
                         mongoose.model("storedImages").remove({
                             neumeID: neume._id
                         }, function(err, image) {
-                            logger.log(image);
+                            logger.log('info', image);
                             if (err) {
                                 return logger.error(err);
                             } else {
-                                logger.log("worked");
+                                logger.log('info', "worked");
                             }
                         });
                         //Returning success messages saying it was deleted
