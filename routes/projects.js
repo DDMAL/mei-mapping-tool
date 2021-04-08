@@ -295,7 +295,7 @@ router.route('/:id')
                                 res.format({
                                     html: function() {
 
-                                        res.render('projects/show', {
+                                        res.render('projects/showLuckySheet', {
                                             "projectdob": projectdob,
                                             "project": project,
                                             "neumes": neumeFinal,
@@ -355,7 +355,7 @@ router.route('/public/:id')
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/show.jade', {
+                                res.render('projects/showLuckySheet.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
@@ -415,7 +415,7 @@ router.route('/fork/:id')
                                 logger.info(neumeFinal); //This is shown on the logger!
                                 logger.info(userFinal) //This is shown on the logger!
 
-                                res.render('projects/show.jade', {
+                                res.render('projects/showLuckySheet.jade', {
                                     "projectdob": projectdob,
                                     "project": project,
                                     "neumes": neumeFinal,
@@ -438,6 +438,7 @@ router.route('/:id/edit')
     //GET the individual project by Mongo ID
     .get(function(req, res) {
         //search for the project within Mongo
+        logger.log('info', 'Entered get portion of /edit');
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
                 return renderError(res, err);
@@ -461,7 +462,7 @@ router.route('/:id/edit')
     .put(function(req, res) {
         // Get our REST or form values. These rely on the "name" attributes from the edit page
         var projectName = req.body.nameProject; //Its getting the information from the edit page
-        logger.info(projectName);
+        logger.log('info', 'Entered put portion of /edit: ' + projectName);
 
         //find the document by ID
         mongoose.model('project').findById(req.id, function(err, project) {
@@ -474,6 +475,14 @@ router.route('/:id/edit')
                     return renderError(res, err);
                 } else {
                     //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                    mongoose.model('neume').find({
+                      project: project._id
+                    }, function(err,neumes) {
+                      neumes.forEach((neume, index) => {
+                        // logger.log('info', neume);
+                      })
+                    });
+
                     res.format({
                         html: function() {
                             res.redirect("/projects/" + project._id);
@@ -490,6 +499,7 @@ router.route('/:id/edit')
     //~~~> Function used to DELETE a project by ID (This is the only one that has action on the project)
     .delete(function(req, res) {
         //find project by ID
+        logger.log('info', 'Entered delete portion of /edit');
         mongoose.model('project').findById(req.id, function(err, project) {
             var projectid = project._id;
             if (err) {

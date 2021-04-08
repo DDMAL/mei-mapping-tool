@@ -44,6 +44,7 @@
     "file-base64": "^1.0.0",
     "fs-js": "^1.0.6",
     "fstream": "^1.0.12",
+    "handsontable": "^8.3.2",
     "html-table-to-json": "^0.4.1",
     "html-to-json": "^0.6.0",
     "jade": "^1.11.0",

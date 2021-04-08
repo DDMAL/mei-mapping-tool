@@ -339,6 +339,7 @@ router.route('/:id/edit')
             if (err) { return renderError(res, err); }
             var ID_project = neume.project;
             //update it
+            logger.log('info', 'neume updated');
             editArray = neume.imagePath.concat(imageArray); //This element is added only when the page is reloaded
             neume.update(updateObject, function(err, neumeID) {
                 if (err) {
