@@ -6,6 +6,7 @@
 
 .neume-table-header {
   height: 40px;
+  border: 1px solid DodgerBlue;
 }
 
 .neumeSection {
@@ -23,7 +24,7 @@
   bottom: 0;
   min-width: 250px;
   right: 0;
-  border-left: 1px solid black;
+  border-left: 1px solid grey;
 }
 
 #neume-sheet .classification {
@@ -34,20 +35,20 @@
   height: 100px;
   align-items: center;
   /* margin-bottom: 10px; */
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-top: 1px solid grey;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
 }
 
 .neume-row:last-of-type {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid grey;
 }
 
 .neume-table-header {
   /* margin-bottom: 10px; */
-  border-top: 1px solid black;
+  /* border-top: 1px solid black;
   border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-right: 1px solid black; */
   font-size: 15px;
 }
 
@@ -60,14 +61,14 @@
 }
 
 .neume-table-header > *:not(:first-child) {
-  border-left: 1px solid black;
+  border-left: 1px solid DodgerBlue;
   /* padding-left: 10px; */
 }
 
 .neume-row > input[type=text]:not(.browser-default) {
   flex: 1;
   /* margin-right: 20px; */
-  border-left: 1px solid black;
+  border-left: 1px solid grey;
   height: 100%;
   margin-bottom: 0;
   padding-left: 10px;
