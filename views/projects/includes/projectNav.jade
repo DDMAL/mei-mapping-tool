@@ -26,35 +26,27 @@ div.project-nav-wrapper
   
   .top-row-wrapper
 
-    form(action='/projects/#{project._id}/edit',method='post',name='updateproject',enctype='application/x-www-form-urlencoded', style="flex:1")
       
-      input#projectName(type='text', value='#{project.name}', name='nameProject' required,style="margin-bottom: 0px; font: 18px Avenir, sans-serif; font-size:24px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
-      input(type='hidden',value='PUT',name='_method')
-       
-      button#editDone(type='submit' value = 'update' href = "/projects" class = "button button1UpdateName" class = "tooltip" style = 'display : inline-block')
-        i.fa.fa-pencil
-        //span.tooltiptext You can directly change the project name on the page.   
-          br 
-          t When you are satisfied with the new project name, click here!
+    input(id="projectName_#{project.id}", class="projectName", type='text', value='#{project.name}', name='nameProject' required,style="margin-bottom: 0px; margin-right: auto; font: 18px Avenir, sans-serif; font-size:24px; vertical-align: baseline; width : 35%; display : inline-block;" size = '10' text-align: center;"")
 
-     button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
-       i(id = "compress").fa.fa-caret-up.fa-lg
-       i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
-       span.tooltiptext To collapse or uncollapse neumes, click here!
+    if user.id == project.userID
+      //- button(type = 'button' class = 'button button2AddNeume' class = 'tooltipcollapse' style = "font: 14px Avenir, sans-serif; width : 38px" onclick = "collapseAll();" id = "buttonSavePosition")
+      //-   i(id = "compress").fa.fa-caret-up.fa-lg
+      //-   i(id = "expand" style = "display : none").fa.fa-caret-down.fa-lg 
+      //-   span.tooltiptext To collapse or uncollapse neumes, click here!
 
-    button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px") 
-      i.fa.fa-undo.fa-sm
-      span.tooltiptext To undo a position change, click here!
-      br
-
-    button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
-      i.fa.fa-plus.fa-sm
-      span.tooltiptext To add a new neume, click here!
+      //- button#myBtnElement(class = "button button2AddNeume" class = 'tooltipundo' onclick="undo();" style = "margin-right : 10px") 
+      //-   i.fa.fa-undo.fa-sm
+      //-   span.tooltiptext To undo a position change, click here!
+      //-   br
+    
+      button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
+        i.fa.fa-plus.fa-sm
+        span.tooltiptext To add a new neume, click here!
     
     button(class = 'button button2CSV' class = 'tooltip' id = 'uploadCSVButton' style = "font: 14px Avenir, sans-serif; width : 4%; display : none" onclick = "initializeModal('uploadCSV', 'uploadCSVButton');" )
       i.fa.fa-upload
       | 
-
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
@@ -62,10 +54,10 @@ div.project-nav-wrapper
                     i.fa.fa-code-fork
                     |  Fork
                     span.tooltiptext To save the project as your own and start working on it, click here!
-
-    button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 70px" onclick = "editButtons()")
-      i.fa.fa-caret-down.fa-lg
-      |  Edit
+    if user.id == project.userID
+      button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 0px; display : block; font: 14px Avenir, sans-serif; width : 70px" onclick = "editButtons()")
+        i.fa.fa-caret-down.fa-lg
+        |  Edit
       
     
     div.editButtons(style = "width : 125px; height : 175px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 40px; top : 105px; z-index : 9000; padding : 10px; display : none")
@@ -91,15 +83,30 @@ div.project-nav-wrapper
 
 
   //Four Equal Columns
-  div.sheet-column-wrapper
-    div(style='width : 25%;')
-      | Images
-    div(style='width : 20%;')
-      | Folio 
-    div(style='width : 20%;')
-      | Classification
-    div(style='width : 35% ; border-right: none;')
-      | MEI encoding
+  //- div.sheet-column-wrapper
+  //-   div(style='width : 25%;')
+  //-     | Images
+  //-   div(style='width : 20%;')
+  //-     | Folio 
+  //-   div(style='width : 20%;')
+  //-     | Classification
+  //-   div(style='width : 35% ; border-right: none;')
+  //-     | MEI encoding
+  div.neume-table-header
+    div(style="max-width: 100px;")
+      b Image
+    div
+      b Name
+    div 
+      b Generic Name
+    div 
+      b Folio
+    div 
+      b Description
+    div 
+      b Classification
+    div.mei-header 
+      b MEI Encoding
 
-    div(id = "menu")
+    //- div(id = "menu")
    //Neume section : 4 components added for each new neume. 
