@@ -21,12 +21,32 @@ var fs = require('fs');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
-mongoose.connect('mongodb://localhost:27017/mei-mapping-tool');
+// var io = require('socket.io')(process.env.PORT);
+
+var app = express();
+
+
+
+// const server = app.listen(process.env.PORT, () => {
+//   console.log(`App running on port ${process.env.PORT}`);
+// })
+
+// const io = require('socket.io')(server);
+
+// io.on("connect_error", (err) => {
+//   console.log(`connect_error due to ${err.message}`);
+// });
+//
+// io.on('connection', function(socket) {
+//     console.log('a user connected');
+// });
+
 var db = mongoose.connection;
 var routes = require('./routes/router'),
     neumes = require('./routes/neumes'),
     projects = require('./routes/projects');
-var app = express();
+
+
 var uuid = require('uuid');
 global.imageArray = []; //This variable is initiated everytime the edit page loads.
 
@@ -190,3 +210,4 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+// module.exports = connect;
