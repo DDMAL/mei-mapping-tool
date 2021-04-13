@@ -36,6 +36,7 @@ io.on("connection", (socket) => {
   socket.on('disconnect', () => {
     console.log('a user disconnected');
   });
+
   socket.on("neume edit", function(msg) {
     console.log("message: "  + msg[0] + '\t\t\tattr:' + msg[2] + '\t\t\tid: ' + msg[1].split('_')[1]);
     // socket.broadcast.emit("received", { message: msg  });
@@ -52,14 +53,14 @@ io.on("connection", (socket) => {
     })
   });
 
-  socket.on("neume mei edit", function(msg) {
-    console.log("message: "  + msg[0] + '\t\t\tattr:' + msg[2] + '\t\t\tid: ' + msg[1].split('_')[1]);
+  socket.on("project name edit", function(msg) {
+    console.log("message: "  + msg[0] + '\t\t\tid: ' + msg[1].split('_')[1]);
     // socket.broadcast.emit("received", { message: msg  });
     connect.then(db => {
       console.log('connected correctly to the server');
-      mongoose.model('neume').findById(msg[1].split('_')[1], (err, neume) => {
+      mongoose.model('project').findById(msg[1].split('_')[1], (err, neume) => {
         if (err) {console.log(err)}
-        neume.updateOne({'mei': msg[0]}, (err, element) => {
+        neume.updateOne({'name': msg[0]}, (err, element) => {
           if (err) {
             return err
           }
