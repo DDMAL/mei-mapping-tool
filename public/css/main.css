@@ -90,5 +90,8 @@
   max-width: 100%;
   padding: 10px;
   height: 100%;
-  object-fit: contain;
+  object-fit: contain; }
+
+.neume-delete-button {
+  font-weight: 900;
   background-color: blue; }

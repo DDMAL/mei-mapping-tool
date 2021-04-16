@@ -1,0 +1,88 @@
+@media only screen and (max-width : 680px) {
+
+	header {
+
+		position: absolute;
+
+	}
+
+	#menu-icon {
+
+		display:inline-block;
+
+	}
+
+	nav ul, nav:active ul { 
+
+		display: none;
+		position: absolute;
+		padding: 0px 0px;
+		background: #fff;
+		border: 3px solid #444;
+		right: 200px;
+		top: 38px;
+		width: 50%;
+		border-radius: 4px 4px 4px 4px;
+		z-index: 2000; /* Sit on top */
+
+	}
+
+	nav li {
+
+		text-align: center;
+		width: 100%;
+		padding: 10px 20px;
+		margin: 0;
+
+	}
+
+	nav:hover ul {
+
+		display: block;
+
+
+	}
+#menu-icon {
+
+	width: 6px;
+  height: 0px;
+  background-color: black;
+  margin: 9px 0px;
+  float: left;
+  border-left: 9px solid black;
+
+}
+#menu-icon2 {
+
+	width: 32px;
+  height: 0px;
+  background-color: white;
+  margin: 5px 0px;
+  float: left;
+  border-left: 2.95px solid black;
+
+}
+#menu-icon3 {
+
+	width: 29px;
+  height: 4px;
+  background-color: white;
+  margin: 9px 0px;
+  float: left;
+  border-left: 1px solid black;
+
+}
+#menu-icon4 {
+
+	width: 28px;
+  height: 4px;
+  background-color: white;
+  margin: 9px 0px;
+  float: left;
+  border-left: 0px solid black;
+
+}
+br {
+   display: block;
+   margin: 10px 0;
+}

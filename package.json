@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "watch": "nodemon --ext js,pug --ignore public",
-    "dev_start": "nodemon ./bin/www"
+    "dev_start": "concurrently --kill-others 'nodemon ./bin/www' 'node-sass -w sass -o public/stylesheets/'"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
@@ -21,6 +21,7 @@
     "clean-css": "^4.2.3",
     "columns": "^0.8.0",
     "compression": "^1.7.4",
+    "concurrently": "^6.0.2",
     "config": "^3.3.0",
     "connect-mongo": "^2.0.3",
     "cookie-parser": "~1.3.3",
@@ -70,6 +71,7 @@
     "node-easy-docx": "^0.1.3",
     "node-html-parser": "^1.2.20",
     "node-json-transform": "^1.0.20",
+    "node-sass": "^5.0.0",
     "node-xlsx": "^0.15.0",
     "node-zip": "^1.1.1",
     "nodemailer": "^6.4.4",
@@ -84,6 +86,7 @@
     "rimraf": "^2.7.1",
     "sendmail": "^1.6.1",
     "serve-favicon": "^2.5.0",
+    "sharp": "^0.28.1",
     "simple-undo": "^1.0.2",
     "socket.io": "^4.0.1",
     "sortablejs": "^1.10.2",

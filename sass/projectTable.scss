@@ -1,18 +1,22 @@
 .neume-row, .neume-table-header {
   display: flex;
   align-items: center;
-  position: relative; }
+  position: relative;
+}
 
 .neume-table-header {
   height: 40px;
-  border: 1px solid DodgerBlue; }
+  border: 1px solid DodgerBlue;
+}
 
 .neumeSection {
-  padding-bottom: 50px; }
+  padding-bottom: 50px;
+}
 
 .mei-header {
   min-width: 250px;
-  max-width: 300px; }
+  max-width: 300px;
+}
 
 .neume-row .mei {
   position: absolute;
@@ -20,26 +24,30 @@
   bottom: 0;
   min-width: 250px;
   right: 0;
-  border-left: 1px solid grey; }
+  border-left: 1px solid grey;
+}
 
 #neume-sheet .classification {
-  margin-right: 250px; }
+  margin-right: 250px;
+}
 
 .neume-delete-button {
   position: absolute;
-  right: 0;
-  background-color: red;
-  width: 30px;
-  height: 30px;
-  outline: none;
-  border: none;
-  text-align: center;
-  border-radius: 6px;
-  line-height: 30px;
-  padding-left: 7px; }
+    right: 0;
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    border: none;
+    text-align: center;
+    border-radius: 6px;
+    line-height: 30px;
+    padding-left: 7px;
+}
 
 .neume-delete-button:focus {
-  background-color: red; }
+  background-color: red;
+}
 
 .neume-row {
   height: 100px;
@@ -47,28 +55,33 @@
   /* margin-bottom: 10px; */
   border-top: 1px solid grey;
   border-left: 1px solid grey;
-  border-right: 1px solid grey; }
+  border-right: 1px solid grey;
+}
 
 .neume-row:last-of-type {
-  border-bottom: 1px solid grey; }
+  border-bottom: 1px solid grey;
+}
 
 .neume-table-header {
   /* margin-bottom: 10px; */
   /* border-top: 1px solid black;
   border-left: 1px solid black;
   border-right: 1px solid black; */
-  font-size: 15px; }
+  font-size: 15px;
+}
 
 .neume-table-header > * {
   padding-left: 10px;
   flex: 1;
   height: 100%;
   line-height: 40px;
-  background-color: #afcfee; }
+  background-color: #afcfee;
+}
 
 .neume-table-header > *:not(:first-child) {
   border-left: 1px solid DodgerBlue;
-  /* padding-left: 10px; */ }
+  /* padding-left: 10px; */
+}
 
 .neume-row > input[type=text]:not(.browser-default) {
   flex: 1;
@@ -76,19 +89,24 @@
   border-left: 1px solid grey;
   height: 100%;
   margin-bottom: 0;
-  padding-left: 10px; }
+  padding-left: 10px;
+}
 
 .neume-row > input[type=text]:not(:last-child), .neume-table-header > *:not(:last-child) {
-  /* margin-right: 20px; */ }
+  /* margin-right: 20px; */
+
+}
 
 .neume-row .image-wrap {
   width: 100px;
   /* margin-right: 20px; */
-  height: 100px; }
-
+  height: 100px;
+}
 .neume-row .image-wrap img {
   max-width: 100%;
   padding: 10px;
   height: 100%;
   object-fit: contain;
-  background-color: blue; }
+  background-color: blue;
+
+}
