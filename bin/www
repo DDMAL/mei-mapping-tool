@@ -14,6 +14,9 @@ var env_config = require('dotenv').config()
 
 var logger = require('../logger');
 
+
+const sharp = require('sharp');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -125,6 +128,35 @@ io.on("connection", (socket) => {
       })
     })
   });
+
+  socket.on('neume image add', function(imgBuf) {
+    console.log('message: neume image add', imgBuf);
+    let resizedImageData = '';
+    let resizedBase64 = ''
+    var mimType = 'image/jpeg';
+    sharp(imgBuf[1])
+      .flatten({ background: { r: 255, g: 255, b: 255 } })
+      .resize(128,128, {
+        fit: 'contain'
+      })
+      .toBuffer()
+      .then(resImgBuf => {
+        let resizedImageData = resImgBuf.toString('base64');
+        let resizedBase64 = `data:${mimType};base64,${resizedImageData}`;
+
+        //All the images (images) need to be pushed to an array field in mongodb
+        mongoose.model('neume').findById(imgBuf[0], (err, neume) => {
+            neume.updateOne({'imagesBinary': [resizedBase64.split(',')[1]]}, (err, element) => {
+              if (err) {
+                return err
+              }
+            });
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  })
 
 });
 
