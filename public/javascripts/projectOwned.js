@@ -1,5 +1,7 @@
 const socket = io();
 
+Dropzone.autoDiscover = false;
+
 $('.mei').each((i, obj) => {
   console.log(obj.id)
   var editor = ace.edit(obj.id);
@@ -42,7 +44,9 @@ $('.neumeSection')
 socket.on('new neume info', (msg) => {
   $('.neumeSection').append(
     `<div class="neume-row" id=${msg[1]}>
-      <div class="image-wrap"></div>
+      <div class="image-wrap">
+        <div method='post' action='/image' name="image" required id="dropzone_${msg[1]}" class="dropzone"></div>
+      </div>
       <input type="text" value='' autocomplete="off" name="name" id="neume-name_${msg[1]}" class="name" />
       <input type="text" value='' autocomplete="off" name="generic-name" id="generic-name_${msg[1]}" class="genericName" />
       <input type="text" value='' autocomplete="off" name="folio" id="folio_${msg[1]}" class="folio" />
@@ -52,8 +56,10 @@ socket.on('new neume info', (msg) => {
       <button class="neume-delete-button" style="display: none;"> X</div>
     </div>
     `
-  )
+  );
+
   var editor = ace.edit($('.neumeSection').find('.mei').last().attr('id'));
+
   editor.session.setMode("ace/mode/xml");
   editor.session.on('change', () => {
     socket.emit('neume edit', [editor.session.getValue(), obj.id, 'mei'])
@@ -61,5 +67,27 @@ socket.on('new neume info', (msg) => {
   $('.neumeSection input').on('input', function(e) {
     e.preventDefault();
     socket.emit('neume edit', [$(this).val(), $(this).attr('id'), $(this).attr('class')]);
+  });
+
+  var myDropzone = new Dropzone('#' + $('.neumeSection').find('.dropzone').last().attr('id'), {
+    maxFileSize: 10,
+    acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
+    addRemoveLinks: false,
+  });
+  myDropzone.on("success", function(file, serverResponse) {
+      console.log(this.element.id);
+      if (file.size > (1024 * 1024 * 10)) // not more than 5mb
+      {
+          this.removeFile(file); // if you want to remove the file or you can add alert or presentation of a message
+          alert("The image uploaded is too large. You cannot upload an image bigger than 10 MB. You will be redirected to the main page.")
+      } else {
+        console.log('Image size ok');
+        var imgBuf = file;
+        socket.emit('neume image add', [this.element.id.split('_')[1], file])
+      }
+  });
+  myDropzone.on('removedfile', function(file) {
+      //Function from rm_image_dropzone.js to remove file from folder
+      //console.log(file);
   });
 })
