@@ -12,16 +12,17 @@ include includes/projectNav.jade
                
 div.neumeSection(style = "display: block; top : 145px; position: relative; min-height: calc(100% - 145px)" id="neume-sheet")
   - each neume in neumes
-    div.neume-row
+    div.neume-row(id="#{neume.id}")
       div.image-wrap
         if neume.imagesBinary[0]
           img(src="data:image/jpeg;base64,#{neume.imagesBinary[0]}")
-      input(type='text', value='#{neume.name}', name='name', id="neume-name_#{neume.id}", class="name")
-      input(type='text', value='#{neume.genericName}', name='generic-name', id="generic-name_#{neume.id}", class="genericName")
-      input(type='text', value='#{neume.folio}', name='folio', id="folio_#{neume.id}", class="folio")
-      input(type='text', value='#{neume.description}', name='description', id="description_#{neume.id}", class="description")
-      input(type='text', value='#{neume.classification}', name='classification', id="classification_#{neume.id}", class="classification")
-      div(name='mei', id = 'mei_#{neume.id}', class='mei') #{neume.mei}
+      input(type='text', value='#{neume.name}', autocomplete="off", name='name', id="neume-name_#{neume.id}", class="name")
+      input(type='text', value='#{neume.genericName}', autocomplete="off", name='generic-name', id="generic-name_#{neume.id}", class="genericName")
+      input(type='text', value='#{neume.folio}', autocomplete="off", name='folio', id="folio_#{neume.id}", class="folio")
+      input(type='text', value='#{neume.description}', autocomplete="off", name='description', id="description_#{neume.id}", class="description")
+      input(type='text', value='#{neume.classification}', autocomplete="off", name='classification', id="classification_#{neume.id}", class="classification")
+      div(name='mei', id = 'mei_#{neume.id}', autocomplete="off", class='mei') #{neume.mei}
+      button(class="neume-delete-button" style="display: none;") X 
 
 
 //- script(src"/javascripts/require.js", type="text/javascript")
@@ -29,39 +30,12 @@ script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset=
 script(src="/socket.io/socket.io.js", type="text/javascript")
 script(src="https://code.jquery.com/jquery-3.6.0.min.js", type="text/javascript")
 
+//- Project is owned
 if user.id == project.userID
-  script. 
-    const socket = io();
-    
-    $('.mei').each((i, obj) => {
-      console.log(obj.id)
-      var editor = ace.edit(obj.id);
-      //- editor.setTheme("ace/theme/monokai");
-      editor.session.setMode("ace/mode/xml");
-      editor.session.on('change', () => {
-        socket.emit('neume edit', [editor.session.getValue(), obj.id, 'mei'])
-      });
-    });
-    
-    $('.projectName').on('input', function(e) {
-      socket.emit('project name edit', [$(this).val(), $(this).attr('id')])
-    })
-    
-    
-    $('.neumeSection input').on('input', function(e) {
-      e.preventDefault();
-      socket.emit('neume edit', [$(this).val(), $(this).attr('id'), $(this).attr('class')]);
-    });
+  script(src="/javascripts/projectOwned.js", type="text/javascript")
 else 
-  script.
-    $('input').attr('readonly', 'readonly');
-    $('.mei').each((i, obj) => {
-      console.log(obj.id)
-      var editor = ace.edit(obj.id);
-      //- editor.setTheme("ace/theme/monokai");
-      editor.session.setMode("ace/mode/xml");
-      editor.setReadOnly(true);
-    });
+  script(src="/javascripts/projectOther.js", type="text/javascript")
+    
 
   
 
