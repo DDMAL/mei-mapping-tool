@@ -27,19 +27,39 @@
 
 .neume-delete-button {
   position: absolute;
-  right: 0;
-  background-color: red;
+  right: 5px;
+  bottom: 5px;
+  background-color: transparent;
   width: 30px;
   height: 30px;
   outline: none;
-  border: none;
+  border: 2px solid red;
+  color: red;
   text-align: center;
-  border-radius: 6px;
-  line-height: 30px;
-  padding-left: 7px; }
+  border-radius: 8px;
+  line-height: 27px;
+  padding-left: 7px;
+  transition: background-color 0.2s ease-in-out, color 0.1s ease-in-out; }
+  .neume-delete-button:hover {
+    background-color: red;
+    color: white; }
+  .neume-delete-button:focus {
+    background-color: inherit; }
 
-.neume-delete-button:focus {
-  background-color: red; }
+.neume-add-button {
+  width: 35px;
+  height: 35px;
+  border-radius: 20px;
+  border: 2px solid #34b334;
+  background-color: white;
+  color: #34b334;
+  text-align: center;
+  line-height: 33px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.1s ease-in-out; }
+  .neume-add-button:hover {
+    background-color: #34b334;
+    color: white; }
 
 .neume-row {
   height: 100px;
@@ -76,7 +96,8 @@
   border-left: 1px solid grey;
   height: 100%;
   margin-bottom: 0;
-  padding-left: 10px; }
+  padding-left: 10px;
+  cursor: default; }
 
 .neume-row > input[type=text]:not(:last-child), .neume-table-header > *:not(:last-child) {
   /* margin-right: 20px; */ }
@@ -90,5 +111,4 @@
   max-width: 100%;
   padding: 10px;
   height: 100%;
-  object-fit: contain;
-  background-color: blue; }
+  object-fit: contain; }
