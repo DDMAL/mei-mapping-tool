@@ -69,6 +69,63 @@ io.on("connection", (socket) => {
     })
   });
 
+  socket.on("neume add", function(msg) {
+    // socket.broadcast.emit("received", { message: msg  });
+    connect.then(db => {
+      console.log('connected correctly to the server');
+      mongoose.model('neume').create({
+          name: '',
+          folio: '',
+          description: '',
+          classification: '',
+          mei: '',
+          review: '',
+          dob: '',
+          imagePath: '',
+          project: msg[1],
+          neumeSection: '',
+          neumeSectionName: '',
+          source: '',
+          genericName: ''
+
+      }, function(err, neume) {
+          if (err) {
+              return renderError(res, err);
+          } else {
+            console.log(`message: created neume in project: ${msg[0]} (id: ${msg[1]})\t\t\tneume id: ${neume._id}`);
+            socket.emit('new neume info', [msg[1], neume._id]);
+          }
+      })
+    })
+  });
+
+  socket.on("neume delete", function(msg) {
+    console.log("message: neume delete" + '\t\t\tid: ' + msg);
+    // socket.broadcast.emit("received", { message: msg  });
+    connect.then(db => {
+      console.log('connected correctly to the server');
+      mongoose.model('neume').findById(msg, (err, neume) => {
+        if (err) {console.log(err)}
+        neume.remove((err, neume) => {
+          if (err) {
+            return err
+          } else {
+            mongoose.model("storedImages").remove({
+                neumeID: neume._id
+            }, function(err, image) {
+                // logger.log('info', image);
+                if (err) {
+                    return err;
+                } else {
+                    logger.log('info', "deleted stored image for neume");
+                }
+            });
+          }
+        });
+      })
+    })
+  });
+
 });
 
 
