@@ -1,3 +1,5 @@
+Dropzone.autoDiscover = false;
+
 $('input').attr('readonly', 'readonly');
 $('.mei').each((i, obj) => {
   console.log(obj.id)
