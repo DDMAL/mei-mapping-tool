@@ -136,3 +136,23 @@
   height: 100%;
   object-fit: contain;
 }
+
+.neume-row {
+  .image-wrap {
+    position: relative;
+    .dropzone {
+      height: 100%;
+      .dz-message {
+        font-size: 16px;
+        margin:0;
+      }
+      .dz-preview {
+        margin: 0;
+        .dz-image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
