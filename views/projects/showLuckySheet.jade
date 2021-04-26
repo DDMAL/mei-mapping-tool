@@ -18,6 +18,8 @@ div.neumeSection(style = "display: block; top : 145px; position: relative; min-h
           img(src="data:image/jpeg;base64,#{neume.imagesBinary[0]}")
         else
           div(method='post', action='/image' name="image" required, id="dropzone_#{neume.id}", class="dropzone")
+            div(class="dz-message" data-dz-message)
+              i.fa.fa-upload.fa-lg
       input(type='text', value='#{neume.name}', autocomplete="off", name='name', id="neume-name_#{neume.id}", class="name")
       input(type='text', value='#{neume.genericName}', autocomplete="off", name='generic-name', id="generic-name_#{neume.id}", class="genericName")
       input(type='text', value='#{neume.folio}', autocomplete="off", name='folio', id="folio_#{neume.id}", class="folio")
