@@ -9,11 +9,14 @@ $(document).ready(function() {
         addRemoveLinks: false,
     });
     myDropzone.on("success", function(file, serverResponse) {
+        if (this.files.length > 1) {
+          this.removeFile(this.files[0]);
+        }
         console.log(this.element.id);
         if (file.size > (1024 * 1024 * 10)) // not more than 5mb
         {
-            this.removeFile(file); // if you want to remove the file or you can add alert or presentation of a message
-            alert("The image uploaded is too large. You cannot upload an image bigger than 10 MB. You will be redirected to the main page.")
+          this.removeFile(file); // if you want to remove the file or you can add alert or presentation of a message
+          alert("The image uploaded is too large. You cannot upload an image bigger than 10 MB. You will be redirected to the main page.")
         } else {
           console.log('Image size ok');
           var imgBuf = file;

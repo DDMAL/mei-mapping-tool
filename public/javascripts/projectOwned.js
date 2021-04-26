@@ -45,7 +45,11 @@ socket.on('new neume info', (msg) => {
   $('.neumeSection').append(
     `<div class="neume-row" id=${msg[1]}>
       <div class="image-wrap">
-        <div method='post' action='/image' name="image" required id="dropzone_${msg[1]}" class="dropzone"></div>
+        <div method='post' action='/image' name="image" required id="dropzone_${msg[1]}" class="dropzone">
+          <div class="dz-message" data-dz-message>
+            <i class="fa fa-upload fa-lg"></i>
+          </div>
+        </div>
       </div>
       <input type="text" value='' autocomplete="off" name="name" id="neume-name_${msg[1]}" class="name" />
       <input type="text" value='' autocomplete="off" name="generic-name" id="generic-name_${msg[1]}" class="genericName" />
@@ -75,6 +79,9 @@ socket.on('new neume info', (msg) => {
     addRemoveLinks: false,
   });
   myDropzone.on("success", function(file, serverResponse) {
+      if (this.files.length > 1) {
+        this.removeFile(this.files[0]);
+      }
       console.log(this.element.id);
       if (file.size > (1024 * 1024 * 10)) // not more than 5mb
       {
