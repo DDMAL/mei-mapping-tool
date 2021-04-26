@@ -116,10 +116,18 @@
 .neume-row .image-wrap {
   position: relative; }
   .neume-row .image-wrap .dropzone {
-    height: 100%; }
+    height: calc(100% - 10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    border-radius: 25px;
+    border: 3px dotted rgba(0, 0, 0, 0.3); }
     .neume-row .image-wrap .dropzone .dz-message {
-      font-size: 16px;
+      font-size: 30px;
       margin: 0; }
+      .neume-row .image-wrap .dropzone .dz-message .fa-upload:before {
+        color: rgba(0, 0, 0, 0.3); }
     .neume-row .image-wrap .dropzone .dz-preview {
       margin: 0; }
       .neume-row .image-wrap .dropzone .dz-preview .dz-image {
