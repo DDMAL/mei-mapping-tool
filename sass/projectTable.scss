@@ -141,10 +141,19 @@
   .image-wrap {
     position: relative;
     .dropzone {
-      height: 100%;
+      height: calc(100% - 10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 5px;
+      border-radius: 25px;
+      border: 3px dotted rgba(0, 0, 0, 0.3);
       .dz-message {
-        font-size: 16px;
+        font-size: 30px;
         margin:0;
+        .fa-upload:before {
+          color: rgba(0, 0, 0, 0.3)
+        }
       }
       .dz-preview {
         margin: 0;
