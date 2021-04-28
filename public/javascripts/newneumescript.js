@@ -8,6 +8,7 @@ $(document).ready(function() {
         acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
         addRemoveLinks: false,
     });
+      myDropzone.displayExistingFile(mockFile, `data:image/jpeg;base64,${neumes[i]['imagesBinary'][0]}`, callback, crossOrigin, resizeThumbnail);
     myDropzone.on("success", function(file, serverResponse) {
         if (this.files.length > 1) {
           this.removeFile(this.files[0]);
