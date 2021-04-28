@@ -14,12 +14,15 @@ div.neumeSection(style = "display: block; top : 145px; position: relative; min-h
   - each neume in neumes
     div.neume-row(id="#{neume.id}")
       div.image-wrap
-        if neume.imagesBinary[0]
-          img(src="data:image/jpeg;base64,#{neume.imagesBinary[0]}")
-        else
-          div(method='post', action='/image' name="image" required, id="dropzone_#{neume.id}", class="dropzone")
-            div(class="dz-message" data-dz-message)
-              i.fa.fa-upload.fa-lg
+        //- if neume.imagesBinary[0]
+        //-   img(src="data:image/jpeg;base64,#{neume.imagesBinary[0]}")
+        //-   button.change-image-button(style="display: none;")
+        //-     i.fa.fa-edit
+        //- else
+        div(method='post', action='/image' name="image" required, id="dropzone_#{neume.id}", class="dropzone")
+          div(class="drag-zone")
+          div(class="dz-message" data-dz-message)
+            i.fa.fa-upload.fa-lg
       input(type='text', value='#{neume.name}', autocomplete="off", name='name', id="neume-name_#{neume.id}", class="name")
       input(type='text', value='#{neume.genericName}', autocomplete="off", name='generic-name', id="generic-name_#{neume.id}", class="genericName")
       input(type='text', value='#{neume.folio}', autocomplete="off", name='folio', id="folio_#{neume.id}", class="folio")
@@ -36,8 +39,10 @@ script(src="https://code.jquery.com/jquery-3.6.0.min.js", type="text/javascript"
 
 //- Project is owned
 if user.id == project.userID
-  script(src="/javascripts/projectOwned.js", type="text/javascript")
+  script.
+    var neumes = !{JSON.stringify(neumes).replace(/<\//g, "<\\/")}
   script(src="/javascripts/newneumescript.js", type='text/javascript')
+  script(src="/javascripts/projectOwned.js", type="text/javascript")
 else 
   script(src="/javascripts/projectOther.js", type="text/javascript")
     

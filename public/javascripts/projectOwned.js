@@ -46,6 +46,7 @@ socket.on('new neume info', (msg) => {
     `<div class="neume-row" id=${msg[1]}>
       <div class="image-wrap">
         <div method='post' action='/image' name="image" required id="dropzone_${msg[1]}" class="dropzone">
+          <div class="drag-zone"></div>
           <div class="dz-message" data-dz-message>
             <i class="fa fa-upload fa-lg"></i>
           </div>
