@@ -20,12 +20,31 @@ $(document).ready(function() {
         } else {
           console.log('Image size ok');
           var imgBuf = file;
-          socket.emit('neume image add', [this.element.id.split('_')[1], file])
+          console.log(this.files[0].imagepath)
+          socket.emit('neume image add', [this.element.id.split('_')[1], file, this.files[0].name])
         }
     });
     myDropzone.on('removedfile', function(file) {
         //Function from rm_image_dropzone.js to remove file from folder
         //console.log(file);
     });
+  });
+
+  var dragTimer;
+  $(document).on('dragover', function(e) {
+    var dt = e.originalEvent.dataTransfer;
+    if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('Files'))) {
+      $(".dropzone .drag-zone").css({'background-color': '#afafaf52'});
+      window.clearTimeout(dragTimer);
+    }
+  });
+  $(document).on('dragleave', function(e) {
+    dragTimer = window.setTimeout(function() {
+      $(".dropzone .drag-zone").css({'background-color': 'transparent'});
+    }, 25);
+  });
+
+  $('.neumeSection').on('click', '.dz-preview', function() {
+    $(this).parents('.dropzone').get(0).dropzone.hiddenFileInput.click();
   })
 })
