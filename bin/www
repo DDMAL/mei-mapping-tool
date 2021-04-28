@@ -130,7 +130,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on('neume image add', function(imgBuf) {
-    console.log('message: neume image add', imgBuf);
+    console.log('message: neume image add', imgBuf, imgBuf[1].name);
     let resizedImageData = '';
     let resizedBase64 = ''
     var mimType = 'image/jpeg';
@@ -146,7 +146,10 @@ io.on("connection", (socket) => {
 
         //All the images (images) need to be pushed to an array field in mongodb
         mongoose.model('neume').findById(imgBuf[0], (err, neume) => {
-            neume.updateOne({'imagesBinary': [resizedBase64.split(',')[1]]}, (err, element) => {
+            neume.updateOne({
+              'imagesBinary': [resizedBase64.split(',')[1]],
+              'imagePath': imgBuf[2]
+            }, (err, element) => {
               if (err) {
                 return err
               }
