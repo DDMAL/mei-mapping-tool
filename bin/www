@@ -31,7 +31,7 @@ app.set('port', port);
 var server = http.createServer(app);
 
 const io = require('socket.io')(server, {
-
+  maxHttpBufferSize: 2000000
 });
 
 io.on("connection", (socket) => {
