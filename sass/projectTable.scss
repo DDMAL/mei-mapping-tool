@@ -140,6 +140,18 @@
 .neume-row {
   .image-wrap {
     position: relative;
+    .change-image-button {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background-color: #a29797;
+      padding: 7px 7px 5px 9px;
+      border-radius: 8px;
+      border: none;
+      .fa-edit:before {
+        color: white;
+      }
+    }
     .dropzone {
       height: calc(100% - 10px);
       display: flex;
@@ -148,6 +160,19 @@
       margin: 5px;
       border-radius: 25px;
       border: 3px dotted rgba(0, 0, 0, 0.3);
+      position: relative;
+      padding: 5px;
+      // overflow: hidden;
+      .drag-zone {
+        // margin: 5px;
+        left: 1px;
+        border-radius: 22px;
+        width: 100%;
+        height: 100%;
+        z-index: 30;
+        position: absolute;
+        pointer-events: none;
+      }
       .dz-message {
         font-size: 30px;
         margin:0;
@@ -157,6 +182,7 @@
       }
       .dz-preview {
         margin: 0;
+        min-height: inherit;
         .dz-image {
           width: 100%;
           height: 100%;
