@@ -1,16 +1,28 @@
 
-
+console.log(neumes);
 Dropzone.autoDiscover = false;
 $(document).ready(function() {
   $('.dropzone').each(function(i, el) {
     var myDropzone = new Dropzone('#' + $(this).attr('id'), {
-        maxFileSize: 10,
-        acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
+        maxFileSize: 2000,
+        resizeWidth: 128,
+        acceptedFiles: 'image/*',
         addRemoveLinks: false,
     });
+    // ALWAYS AS MANY DROPZONES AS NEUMES, just check if there is an existing image binary at same index in neumes array
+    if (neumes[i].imagesBinary[0]) {
+      let mockFile = {name: neumes[i]['imagePath'][0], size: 12345};
+      let callback = null;
+      let crossOrigin = null;
+      let resizeThumbnail = false;
       myDropzone.displayExistingFile(mockFile, `data:image/jpeg;base64,${neumes[i]['imagesBinary'][0]}`, callback, crossOrigin, resizeThumbnail);
+      myDropzone.files.length += 1;
+      myDropzone.files[0] = mockFile;
+    }
+
     myDropzone.on("success", function(file, serverResponse) {
         if (this.files.length > 1) {
+          console.log('more than one file')
           this.removeFile(this.files[0]);
         }
         console.log(this.element.id);
