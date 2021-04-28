@@ -29,10 +29,12 @@ $('.neume-add-button').on('click', function(e) {
 $('.neumeSection')
   .on('mouseover', '.neume-row', function(e) {
     $(this).find('.neume-delete-button').fadeIn();
+    // $(this).find('.change-image-button').fadeIn();
     // $(this).css('background-color', 'blue');
   })
   .on('mouseleave', '.neume-row', function(e) {
     $(this).find('.neume-delete-button').fadeOut();
+    // $(this).find('.change-image-button').fadeOut();
     // $(this).css('background-color', 'blue');
   })
 
@@ -75,8 +77,9 @@ socket.on('new neume info', (msg) => {
   });
 
   var myDropzone = new Dropzone('#' + $('.neumeSection').find('.dropzone').last().attr('id'), {
-    maxFileSize: 10,
-    acceptedFiles: ".png, .jpg, .tiff, .tif, .jpeg",
+    maxFileSize: 2000,
+    resizeWidth: 128,
+    acceptedFiles: 'image/*',
     addRemoveLinks: false,
   });
   myDropzone.on("success", function(file, serverResponse) {
@@ -91,7 +94,7 @@ socket.on('new neume info', (msg) => {
       } else {
         console.log('Image size ok');
         var imgBuf = file;
-        socket.emit('neume image add', [this.element.id.split('_')[1], file])
+        socket.emit('neume image add', [this.element.id.split('_')[1], file, this.files[0].name])
       }
   });
   myDropzone.on('removedfile', function(file) {
