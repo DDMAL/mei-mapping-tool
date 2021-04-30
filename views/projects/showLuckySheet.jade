@@ -30,7 +30,8 @@ div.neumeSection(style = "display: block; top : 145px; position: relative; min-h
       input(type='text', value='#{neume.classification}', autocomplete="off", name='classification', id="classification_#{neume.id}", class="classification")
       div(name='mei', id = 'mei_#{neume.id}', autocomplete="off", class='mei') #{neume.mei}
       div.neume-button-wrapper
-        button(class="neume-delete-button" style="display: none;") X 
+        button(class="neume-delete-button" style="display: none;")
+          i.fa.fa-trash.fa-lg
 
 
 //- script(src"/javascripts/require.js", type="text/javascript")
