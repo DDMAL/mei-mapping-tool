@@ -1,4 +1,3 @@
-script(type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
 block content
 body
   h4(style = "font: 30px Avenir, sans-serif; text-align: left;") Upload Files 
@@ -15,26 +14,25 @@ body
  h6(style = "font: 20px Avenir, sans-serif; text-align: left;") This upload might take 2 to 5 minutes, depending on the size of your file.
 
 
- form(action='/imageCSV',method='post',enctype="multipart/form-data")
-                  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
-                  input(type='text',value='#{project.name}', name='projectName' hidden)
-                  br
-                  h5 Upload file
-                  p Choose the type of file to upload : 
-                  select(style = "display : block" name="fileType" id = "fileTypeSelect" required class = "selectfileclass")
-                    option(disabled='', selected='', value='')  -- select a file type --
-                    option(value = ".xlsx") .xlsx
-                    option(value = ".csv") .csv
-                    option(value = ".docx") .docx
-                    option(value = ".html") .html
-                  br
-                  br
-                  input(type = 'file' name = "fileImage" id = "ImportFile" required)
-                  button(type = 'submit' class = 'button button1' id = "imageCSVSubmitbutton") Upload
-                  br
-                  br           
+ form(id="csv-upload-form" onsubmit="return submitCSV(event)")
+  input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+  input(type='text',value='#{project.name}', name='projectName' hidden)
+  br
+  h5 Upload file
+  p Choose the type of file to upload : 
+  select(style = "display : block" name="fileType" id = "fileTypeSelect" required class = "selectfileclass")
+    option(disabled='', selected='', value='')  -- select a file type --
+    option(value = ".xlsx") .xlsx
+    option(value = ".csv") .csv
+    option(value = ".docx") .docx
+    option(value = ".html") .html
+  br
+  br
+  input(type = 'file' name = "fileImage" id = "ImportFile" required)
+  input(type = 'submit' class = 'button button1' id = "imageCSVSubmitbutton")
+  br
+  br           
 script.
   $('.selectfileclass').change(function() {
     $('#ImportFile').attr("accept", $(this).val())
   })
-
