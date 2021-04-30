@@ -15,7 +15,7 @@
 
 .mei-header {
   min-width: 250px;
-  max-width: 300px;
+  max-width: 250px;
 }
 
 .neume-row .mei {
@@ -31,31 +31,38 @@
   margin-right: 250px;
 }
 
-.neume-delete-button {
+.neume-button-wrapper {
   position: absolute;
-  right: 5px;
-  bottom: 5px;
-  background-color: transparent;
-  width: 30px;
-  height: 30px;
-  outline: none;
-  border: 2px solid red;
-  color: red;
-  text-align: center;
-  border-radius: 8px;
-  line-height: 27px;
-  padding-left: 7px;
-  transition: background-color 0.2s ease-in-out, color 0.1s ease-in-out;
-  &:hover {
-    background-color: red;
-    color: white;
-  }
-  &:focus {
-    background-color: inherit;
+  left: calc(100%);
+  height: 100%;
+  .neume-delete-button {
+    position: relative;
+    // right: -36px;
+    top: 50%;
+    margin-left: 6px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    border: 2px solid red;
+    color: red;
+    text-align: center;
+    border-radius: 8px;
+    line-height: 27px;
+    padding-left: 7px;
+    transition: background-color 0.2s ease-in-out, color 0.1s ease-in-out;
+    &:hover {
+      background-color: red;
+      color: white;
+    }
+    &:focus {
+      background-color: inherit;
+    }
   }
 }
 
-.neume-add-button {
+.neume-add-button, .upload-button {
   width: 35px;
   height: 35px;
   border-radius: 20px;
