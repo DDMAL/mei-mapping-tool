@@ -27,7 +27,6 @@
 // }
 
 $('#imageCSVButton').on('click', function() {
-  console.log('bruh');
   $('#imageCSV').css({'display': 'block'});
 })
 
