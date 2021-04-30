@@ -55,14 +55,16 @@ $('.neumeSection')
     $(this).find('.neume-delete-button').fadeIn();
     // $(this).find('.change-image-button').fadeIn();
     // $(this).css('background-color', 'blue');
+    if (!['neume-button-wrapper', 'neume-delete-button'].includes($(e.target).attr('class'))) {
+      $(this).find('.neume-delete-button').removeClass('active');
+      $(this).find('.neume-delete-button').blur();
+    }
   })
   .on('mouseleave', '.neume-row', function(e) {
-    $(this).find('.neume-delete-button').fadeOut();
     $(this).find('.neume-delete-button').removeClass('active');
-    // $(this).find('.change-image-button').fadeOut();
-    // $(this).css('background-color', 'blue');
+    $(this).find('.neume-delete-button').blur();
+    $(this).find('.neume-delete-button').fadeOut();
   })
-
   .on('click', '.neume-delete-button', function(e) {
     if ($(this).hasClass('active')) {
       socket.emit('neume delete', $(this).parents('.neume-row').attr('id'));
@@ -70,8 +72,6 @@ $('.neumeSection')
       return
     }
     $(this).addClass('active');
-    // socket.emit('neume delete', $(this).parents('.neume-row').attr('id'));
-    // $(this).parents('.neume-row').remove();
   })
 
 socket.on('new neume info', (msg) => {
@@ -91,7 +91,9 @@ socket.on('new neume info', (msg) => {
       <input type="text" value='' autocomplete="off" name="description" id="description_${msg[1]}" class="description" />
       <input type="text" value='' autocomplete="off" name="classification" id="classification_${msg[1]}" class="classification" />
       <div name="mei" id="mei_${msg[1]}" autocomplete="off" class="mei"></div>
-      <button class="neume-delete-button" style="display: none;"> X</div>
+      <div class="neume-button-wrapper">
+        <button class="neume-delete-button" style="display: none;"> X</div>
+      </div>
     </div>
     `
   );
