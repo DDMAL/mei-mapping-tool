@@ -11,7 +11,8 @@ var projectSchema = new mongoose.Schema({
     userID: [String],
     admin: String,
     positionArray: [String],
-    csv: Buffer
+    csv: Buffer,
+    csv_type: String
 });
 
 mongoose.model('project', projectSchema);
