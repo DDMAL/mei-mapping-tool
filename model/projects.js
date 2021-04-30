@@ -10,7 +10,8 @@ var projectSchema = new mongoose.Schema({
     },
     userID: [String],
     admin: String,
-    positionArray: [String]
+    positionArray: [String],
+    csv: Buffer
 });
 
 mongoose.model('project', projectSchema);
