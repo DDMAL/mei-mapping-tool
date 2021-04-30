@@ -15,6 +15,11 @@ div.project-nav-wrapper
     .modal-content
       span.close x
       include imageCSV.jade
+  .modal(id="append-delete-modal")
+    .modal-content
+      h3 Would you like to append to or delete the current neumes?
+      button(class="button" onclick="append(true)") Append
+      button(class="button" onclick="append(false)" style="background-color: red") Delete
 
     // Add New Neume Modal
   #modalSection.modal
@@ -43,6 +48,10 @@ div.project-nav-wrapper
       //- button#myBtn(class = "button button2AddNeume" class = 'tooltipAdd' style = "margin-right : 10px") 
       //-   i.fa.fa-plus.fa-sm
       //-   span.tooltiptext To add a new neume, click here!
+      div(id="imageCSVButton" class="upload-button tooltipAdd" style="margin-right: 10px")
+        i.fa.fa-upload
+        span.tooltiptext To upload a spreadsheet file to this project, click here!
+      
       div(class = "neume-add-button" class = 'tooltipAdd' style = "margin-right : 10px") 
         i.fa.fa-plus.fa-sm
         span.tooltiptext To add a new neume, click here!
@@ -74,9 +83,9 @@ div.project-nav-wrapper
                       i.fa.fa-download
                       |  CSV 
                       //span.tooltiptext To download the project as a .csv file, click here!
-      button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
-       i.fa.fa-upload
-       |  Upload
+      //- button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
+      //-  i.fa.fa-upload
+      //-  |  Upload
 
       button(class = 'button' class = 'tooltip' id = 'sectionButton' style = "font: 14px Avenir, sans-serif; width : 100px; display : block; margin-left : 0px;" type = "button")
        | Section
