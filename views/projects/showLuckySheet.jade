@@ -23,13 +23,14 @@ div.neumeSection(style = "display: block; top : 145px; position: relative; min-h
           div(class="drag-zone")
           div(class="dz-message" data-dz-message)
             i.fa.fa-upload.fa-lg
-      input(type='text', value='#{neume.name}', autocomplete="off", name='name', id="neume-name_#{neume.id}", class="name")
+      input(type='text', value='#{neume.name}', autocomplete="off", name='main-name', id="neume-name_#{neume.id}", class="name")
       input(type='text', value='#{neume.genericName}', autocomplete="off", name='generic-name', id="generic-name_#{neume.id}", class="genericName")
       input(type='text', value='#{neume.folio}', autocomplete="off", name='folio', id="folio_#{neume.id}", class="folio")
       input(type='text', value='#{neume.description}', autocomplete="off", name='description', id="description_#{neume.id}", class="description")
       input(type='text', value='#{neume.classification}', autocomplete="off", name='classification', id="classification_#{neume.id}", class="classification")
       div(name='mei', id = 'mei_#{neume.id}', autocomplete="off", class='mei') #{neume.mei}
-      button(class="neume-delete-button" style="display: none;") X 
+      div.neume-button-wrapper
+        button(class="neume-delete-button" style="display: none;") X 
 
 
 //- script(src"/javascripts/require.js", type="text/javascript")
