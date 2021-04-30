@@ -45,11 +45,11 @@
     line-height: 27px;
     padding-left: 7px;
     transition: background-color 0.2s ease-in-out, color 0.1s ease-in-out; }
-    .neume-button-wrapper .neume-delete-button:hover {
+    .neume-button-wrapper .neume-delete-button.active {
       background-color: red;
       color: white; }
     .neume-button-wrapper .neume-delete-button:focus {
-      background-color: inherit; }
+      background-color: red; }
 
 .neume-add-button, .upload-button {
   width: 35px;

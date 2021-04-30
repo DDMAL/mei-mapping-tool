@@ -36,7 +36,6 @@ $('#imageCSVButton').on('click', function() {
 })
 
 $(window).on('click', function(event) {
-    console.log(event.target.id);
     if (event.target.id == 'imageCSV') {
         $(event.target).css({'display': "none"});
     }
@@ -59,13 +58,20 @@ $('.neumeSection')
   })
   .on('mouseleave', '.neume-row', function(e) {
     $(this).find('.neume-delete-button').fadeOut();
+    $(this).find('.neume-delete-button').removeClass('active');
     // $(this).find('.change-image-button').fadeOut();
     // $(this).css('background-color', 'blue');
   })
 
   .on('click', '.neume-delete-button', function(e) {
-    socket.emit('neume delete', $(this).parents('.neume-row').attr('id'));
-    $(this).parents('.neume-row').remove();
+    if ($(this).hasClass('active')) {
+      socket.emit('neume delete', $(this).parents('.neume-row').attr('id'));
+      $(this).parents('.neume-row').remove();
+      return
+    }
+    $(this).addClass('active');
+    // socket.emit('neume delete', $(this).parents('.neume-row').attr('id'));
+    // $(this).parents('.neume-row').remove();
   })
 
 socket.on('new neume info', (msg) => {
