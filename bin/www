@@ -6,6 +6,7 @@
 
 var app = require('../app');
 const connect = require('../dbconnect');
+const { xlsxAdd } = require('../csv_upload');
 const bodyParser = require('body-parser');
 const express = require('express');
 var debug = require('debug')('express-node-mongo-skeleton:server');
@@ -179,6 +180,54 @@ io.on("connection", (socket) => {
       .catch(err => {
         console.log(err);
       })
+  })
+
+  // msg: [project_id, spreadsheet_type, file_buffer]
+  socket.on('spreadsheet upload', function(msg) {
+    console.log('message: spreadsheet upload', msg);
+    console.log('buffer size:', msg[2].length)
+
+    mongoose.model('neume').find(
+      {'project': msg[0]}, (err, neumes) => {
+        console.log(neumes);
+        if (neumes.length != 0) {
+          socket.emit('append check');
+          socket.on('append_delete', function(append) {
+            if (!append) { // delete, then add neumes
+              console.log('delete');
+              mongoose.model('neume').deleteMany(
+                {'project': msg[0]}, (err, result) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log(result);
+                  }
+                });
+            }
+            if (msg[1] == '.xlsx') {
+              xlsxAdd(msg[2]);
+            }
+            // add neumes from msg[2] (Buffer)
+
+          })
+        } else {
+          if (msg[1] == '.xlsx') {
+            xlsxAdd(msg[2]);
+          }
+        }
+
+
+      })
+    // mongoose.model('project').findById(msg[0], (err, project) => {
+    //   project.updateOne({
+    //     'csv': msg[2],
+    //     'csv_type': msg[1]
+    //   }, (err, element) => {
+    //     if (err) {
+    //       return err
+    //     }
+    //   });
+    // });
   })
 
 });
