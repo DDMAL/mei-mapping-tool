@@ -2,6 +2,7 @@ const socket = io();
 
 Dropzone.autoDiscover = false;
 
+
 $('.mei').each((i, obj) => {
   console.log(obj.id)
   var editor = ace.edit(obj.id);
@@ -24,6 +25,30 @@ $('.neumeSection input').on('input', function(e) {
 
 $('.neume-add-button').on('click', function(e) {
   socket.emit('neume add', [$('.projectName').val(), $('.projectName').attr('id').split('_')[1]]);
+})
+
+
+// CSV modal upload
+
+$('#imageCSVButton').on('click', function() {
+  console.log('bruh');
+  $('#imageCSV').css({'display': 'block'});
+})
+
+$(window).on('click', function(event) {
+    console.log(event.target.id);
+    if (event.target.id == 'imageCSV') {
+        $(event.target).css({'display': "none"});
+    }
+});
+
+$('#csv-upload-form').submit(function(e) {
+  try {
+    pee();
+  } catch {
+    alert('There is no file uploaded');
+  }
+  // socket.emit()
 })
 
 $('.neumeSection')
