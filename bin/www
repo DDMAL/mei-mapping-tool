@@ -7,8 +7,10 @@
 var app = require('../app');
 const connect = require('../dbconnect');
 const bodyParser = require('body-parser');
+const express = require('express');
 var debug = require('debug')('express-node-mongo-skeleton:server');
 var http = require('http');
+const mongoose = require('mongoose');
 
 var env_config = require('dotenv').config()
 
@@ -33,13 +35,31 @@ var server = http.createServer(app);
 const io = require('socket.io')(server, {
   maxHttpBufferSize: 2000000
 });
+// const socketioAuth = require("socketio-auth");
+
+// const authenticate = async (client, data, callback) => {
+//   const {username, password} = data;
+//   console.log('authetication');
+//   try {
+//     const user = await mongoose.model('user').findOne({'username': username});
+//     callback(null, user && user['password'] == password);
+//   } catch (err) {
+//     callback(err);
+//   }
+// }
+//
+// const postAuthenticate = client => {
+//   console.log('\n\n\nwhat ok\n\n\n');
+// }
+
+
 
 io.on("connection", (socket) => {
   console.log('a user connected');
   socket.on('disconnect', () => {
     console.log('a user disconnected');
   });
-
+  // socketioAuth(io, {authenticate, postAuthenticate});
   socket.on("neume edit", function(msg) {
     console.log("message: "  + msg[0] + '\t\t\tattr:' + msg[2] + '\t\t\tid: ' + msg[1].split('_')[1]);
     // socket.broadcast.emit("received", { message: msg  });
