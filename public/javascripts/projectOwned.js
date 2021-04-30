@@ -41,14 +41,16 @@ $(window).on('click', function(event) {
     }
 });
 
-$('#csv-upload-form').submit(function(e) {
-  try {
-    pee();
-  } catch {
-    alert('There is no file uploaded');
+function submitCSV(e) {
+  e.preventDefault();
+  var data = new FormData(e.target)
+  console.log(data)
+  for (const [name,value] of data) {
+   console.log(name,typeof value)
   }
-  // socket.emit()
-})
+ socket.emit('spreadsheet upload', [data.get('IdOfProject'), data.get('fileType'), data.get('fileImage')])
+}
+
 
 $('.neumeSection')
   .on('mouseover', '.neume-row', function(e) {
@@ -92,7 +94,7 @@ socket.on('new neume info', (msg) => {
       <input type="text" value='' autocomplete="off" name="classification" id="classification_${msg[1]}" class="classification" />
       <div name="mei" id="mei_${msg[1]}" autocomplete="off" class="mei"></div>
       <div class="neume-button-wrapper">
-        <button class="neume-delete-button" style="display: none;"> X</div>
+        <button class="neume-delete-button" style="display: none;"><i class="fa fa-trash fa-lg"></i></div>
       </div>
     </div>
     `
@@ -134,4 +136,17 @@ socket.on('new neume info', (msg) => {
       //Function from rm_image_dropzone.js to remove file from folder
       //console.log(file);
   });
+})
+
+function append(bool) {
+  $('#append-delete-modal').css({'display': 'none'});
+  if (!bool) {
+    $('.neumeSection').find('.neume-row').remove();
+  }
+  socket.emit('append_delete', bool)
+}
+
+socket.on('append check', () => {
+  $('#imageCSV').css({'display': 'none'});
+  $('#append-delete-modal').css({'display': 'block'});
 })
