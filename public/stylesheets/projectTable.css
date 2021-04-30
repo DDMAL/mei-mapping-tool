@@ -66,6 +66,9 @@
     background-color: #34b334;
     color: white; }
 
+.modal-content {
+  display: table; }
+
 .neume-row {
   height: 100px;
   align-items: center;
