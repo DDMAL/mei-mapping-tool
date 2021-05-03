@@ -189,10 +189,12 @@ io.on("connection", (socket) => {
 
     mongoose.model('neume').find(
       {'project': msg[0]}, (err, neumes) => {
-        console.log(neumes);
+        console.log('found neumes');
         if (neumes.length != 0) {
-          socket.emit('append check');
-          socket.on('append_delete', function(append) {
+          io.emit('append check');
+
+          // Socket 'once' keeps from adding multiple instances every time a new spreadsheet is uploaded 
+          socket.once('append_delete', function(append) {
             if (!append) { // delete, then add neumes
               console.log('delete');
               mongoose.model('neume').deleteMany(
@@ -205,14 +207,16 @@ io.on("connection", (socket) => {
                 });
             }
             if (msg[1] == '.xlsx') {
-              xlsxAdd(msg[2]);
+              console.log('calling xlsx add 1');
+              xlsxAdd(msg[2], msg[0], socket);
             }
             // add neumes from msg[2] (Buffer)
 
           })
         } else {
           if (msg[1] == '.xlsx') {
-            xlsxAdd(msg[2]);
+            console.log('calling xlsx add 2');
+            xlsxAdd(msg[2], msg[0], socket);
           }
         }
 
