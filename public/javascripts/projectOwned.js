@@ -184,6 +184,15 @@ socket.on('new neume info spreadsheet', (msg) => {
     acceptedFiles: 'image/*',
     addRemoveLinks: false,
   });
+  if (msg[1].imagesBinary[0]) {
+    let mockFile = {name: msg[1].imagePath, size: 12345};
+    let callback = null;
+    let crossOrigin = null;
+    let resizeThumbnail = false;
+    myDropzone.displayExistingFile(mockFile, `data:image/jpeg;base64,${msg[1].imagesBinary[0]}`, callback, crossOrigin, resizeThumbnail);
+    myDropzone.files.length += 1;
+    myDropzone.files[0] = mockFile;
+  }
   myDropzone.on("success", function(file, serverResponse) {
       if (this.files.length > 1) {
         this.removeFile(this.files[0]);
