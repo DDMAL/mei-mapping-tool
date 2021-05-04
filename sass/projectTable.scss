@@ -173,6 +173,9 @@
       border: 3px dotted rgba(0, 0, 0, 0.3);
       position: relative;
       padding: 5px;
+      & * {
+        cursor: pointer;
+      }
       // overflow: hidden;
       .drag-zone {
         // margin: 5px;
@@ -194,6 +197,8 @@
       .dz-preview {
         margin: 0;
         min-height: inherit;
+        width: 100%;
+        height: 100%;
         .dz-image {
           width: 100%;
           height: 100%;

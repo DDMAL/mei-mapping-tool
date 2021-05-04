@@ -143,6 +143,8 @@
     border: 3px dotted rgba(0, 0, 0, 0.3);
     position: relative;
     padding: 5px; }
+    .neume-row .image-wrap .dropzone * {
+      cursor: pointer; }
     .neume-row .image-wrap .dropzone .drag-zone {
       left: 1px;
       border-radius: 22px;
@@ -158,7 +160,9 @@
         color: rgba(0, 0, 0, 0.3); }
     .neume-row .image-wrap .dropzone .dz-preview {
       margin: 0;
-      min-height: inherit; }
+      min-height: inherit;
+      width: 100%;
+      height: 100%; }
       .neume-row .image-wrap .dropzone .dz-preview .dz-image {
         width: 100%;
         height: 100%; }
