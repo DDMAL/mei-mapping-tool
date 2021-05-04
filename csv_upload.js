@@ -2,6 +2,8 @@ const node_xj = require("xls-to-json");
 const xlsx = require("xlsx");
 const ExcelJS = require('exceljs');
 const sharp = require('sharp');
+const csvParser = require('csv-parse');
+const csv = require('csvtojson');
 
 function xlsxAdd(buffer, projectID, socket) {
   console.log(`xlsx add to ${projectID}`);
@@ -123,8 +125,43 @@ function xlsxAdd(buffer, projectID, socket) {
 
 }
 
-function csvUpload() {
+function csvUpload(buffer, projectID, socket) {
+  console.log(`csv add to ${projectID}`);
+  console.log(buffer.toString());
+  csv()
+    .fromString(buffer.toString())
+    .then((neumes) => {
+      neumes.forEach((neume, index) => {
+        console.log(neume)
+        if (neume['images'] == '') {
+          mongoose.model('neume').create({
+              name: neume['name'] ? neume['name'] : '',
+              folio: neume['folio'] ? neume['folio'] : '',
+              description: neume['description'] ? neume['description'] : '',
+              classification: neume['classification'] ? neume['classification'] : '',
+              mei: neume['encoding'] ? neume['encoding'] : '',
+              review: '',
+              dob: '',
+              imagesBinary: '',
+              imagePath: '',
+              project: projectID,
+              neumeSection: '',
+              neumeSectionName: '',
+              source: '',
+              genericName: neume['genericName'] ? neume['genericName'] : ''
 
+          }, function(err, neume) {
+              if (err) {
+                  return renderError(res, err);
+              } else {
+                console.log(`message: created neume in project id: ${projectID}\t\t\tneume id: ${neume._id}`);
+                socket.emit('new neume info spreadsheet', [projectID, neume]);
+              }
+          })
+        }
+      });
+    });
+    // console.log(csv_json);
 }
 
 

@@ -209,6 +209,8 @@ io.on("connection", (socket) => {
             if (msg[1] == '.xlsx') {
               console.log('calling xlsx add 1');
               xlsxAdd(msg[2], msg[0], socket);
+            } else if (msg[1] == '.csv') {
+              csvUpload(msg[2], msg[0], socket);
             }
             // add neumes from msg[2] (Buffer)
 
@@ -217,6 +219,9 @@ io.on("connection", (socket) => {
           if (msg[1] == '.xlsx') {
             console.log('calling xlsx add 2');
             xlsxAdd(msg[2], msg[0], socket);
+          }
+          else if (msg[1] == '.csv') {
+            csvUpload(msg[2], msg[0], socket);
           }
         }
 
