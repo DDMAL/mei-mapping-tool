@@ -40,6 +40,10 @@ $(window).on('click', function(event) {
     }
 });
 
+$('#imageCSV .close').on('click', function(e) {
+  $('#imageCSV').css({'display': "none"});
+})
+
 function submitCSV(e) {
   e.preventDefault();
   $('#imageCSV').css({'display': 'none'});
