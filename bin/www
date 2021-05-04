@@ -6,7 +6,7 @@
 
 var app = require('../app');
 const connect = require('../dbconnect');
-const { xlsxAdd } = require('../csv_upload');
+const { xlsxAdd, csvUpload } = require('../csv_upload');
 const bodyParser = require('body-parser');
 const express = require('express');
 var debug = require('debug')('express-node-mongo-skeleton:server');
@@ -156,9 +156,9 @@ io.on("connection", (socket) => {
     let resizedBase64 = ''
     var mimType = 'image/jpeg';
     sharp(imgBuf[1])
-      .flatten({ background: { r: 255, g: 255, b: 255 } })
       .resize(128,128, {
-        fit: 'contain'
+        fit: 'contain',
+        background: "rgb(255,255,255,1)"
       })
       .toBuffer()
       .then(resImgBuf => {
@@ -193,7 +193,7 @@ io.on("connection", (socket) => {
         if (neumes.length != 0) {
           io.emit('append check');
 
-          // Socket 'once' keeps from adding multiple instances every time a new spreadsheet is uploaded 
+          // Socket 'once' keeps from adding multiple instances every time a new spreadsheet is uploaded
           socket.once('append_delete', function(append) {
             if (!append) { // delete, then add neumes
               console.log('delete');

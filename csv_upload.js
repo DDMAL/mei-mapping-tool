@@ -49,7 +49,8 @@ function xlsxAdd(buffer, projectID, socket) {
           resizedImg = sharp(neume['images'].buffer)
             .flatten({ background: { r: 255, g: 255, b: 255 } })
             .resize(128,128, {
-              fit: 'contain'
+              fit: 'contain',
+              background: "rgb(255,255,255,1)"
             })
             .toBuffer()
             .then(resImgBuf => {
@@ -122,5 +123,9 @@ function xlsxAdd(buffer, projectID, socket) {
 
 }
 
+function csvUpload() {
 
-module.exports = { xlsxAdd }
+}
+
+
+module.exports = { xlsxAdd, csvUpload }
