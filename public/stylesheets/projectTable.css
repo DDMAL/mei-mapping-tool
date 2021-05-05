@@ -20,7 +20,10 @@
   bottom: 0;
   min-width: 250px;
   right: 0;
-  border-left: 1px solid grey; }
+  border-left: 1px solid grey;
+  transition: all 0.2s ease-in-out; }
+  .neume-row .mei.selected {
+    background-color: #d6d6d6; }
 
 #neume-sheet .classification {
   margin-right: 250px; }
@@ -29,42 +32,76 @@
   position: absolute;
   left: calc(100%);
   height: 100%;
-  z-index: 5; }
-  .neume-button-wrapper .neume-delete-button {
-    position: relative;
-    top: 50%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; }
+  .neume-button-wrapper .neume-delete-button, .neume-button-wrapper .neume-select-button {
     margin-left: 6px;
-    transform: translateY(-50%);
     background-color: transparent;
     width: 30px;
     height: 30px;
     outline: none;
-    border: 2px solid red;
-    color: red;
     text-align: center;
     border-radius: 8px;
     line-height: 27px;
     padding-left: 7px;
-    transition: background-color 0.2s ease-in-out, color 0.1s ease-in-out; }
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; }
+  .neume-button-wrapper .neume-select-button {
+    border: 2px solid darkgrey;
+    color: #d6d6d6;
+    position: relative; }
+    .neume-button-wrapper .neume-select-button .fa-check {
+      display: none; }
+      .neume-button-wrapper .neume-select-button .fa-check::before {
+        position: absolute;
+        top: 24%;
+        left: 24%; }
+    .neume-button-wrapper .neume-select-button.active {
+      background-color: darkgrey;
+      color: white; }
+      .neume-button-wrapper .neume-select-button.active .fa-check {
+        display: block; }
+    .neume-button-wrapper .neume-select-button.focus {
+      background-color: darkgrey; }
+  .neume-button-wrapper .ind-button-wrapper {
+    width: 30px;
+    height: 30px; }
+  .neume-button-wrapper .neume-delete-button {
+    border: 2px solid red;
+    color: red; }
     .neume-button-wrapper .neume-delete-button.active {
       background-color: red;
       color: white; }
     .neume-button-wrapper .neume-delete-button:focus {
       background-color: red; }
 
-.neume-add-button, .upload-button {
+.neume-add-button, .upload-button, #neume-delete-selected-button {
   width: 35px;
   height: 35px;
   border-radius: 20px;
   border: 2px solid #34b334;
   background-color: white;
-  color: #34b334;
   text-align: center;
   line-height: 33px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, color 0.1s ease-in-out; }
+
+.neume-add-button, .upload-button {
+  color: #34b334;
+  border: 2px solid #34b334; }
   .neume-add-button:hover, .upload-button:hover {
     background-color: #34b334;
+    color: white; }
+
+#neume-delete-selected-button {
+  color: red;
+  border: 2px solid red; }
+  #neume-delete-selected-button:hover {
+    background-color: red;
+    color: white; }
+  #neume-delete-selected-button.active {
+    background-color: red;
     color: white; }
 
 .modal-content {
@@ -76,7 +113,8 @@
   /* margin-bottom: 10px; */
   border-top: 1px solid grey;
   border-left: 1px solid grey;
-  border-right: 1px solid grey; }
+  border-right: 1px solid grey;
+  transition: all 0.2s ease-in-out; }
   .neume-row::after {
     content: "";
     position: absolute;
@@ -84,6 +122,8 @@
     height: 100%;
     width: 40px;
     z-index: 0; }
+  .neume-row.selected {
+    background-color: #d6d6d6; }
 
 .neume-row:last-of-type {
   border-bottom: 1px solid grey; }
