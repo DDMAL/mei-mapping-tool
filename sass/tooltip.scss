@@ -52,6 +52,9 @@
   border-radius: 6px;
   border-style : solid;
   border-color: #4caf50;
+  &.delete {
+    border-color: red;
+  }
   border-width: 2px;
   padding: 10px 10px;
   top: 115%;
