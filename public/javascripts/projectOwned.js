@@ -129,7 +129,7 @@ socket.on('new neume info', (msg) => {
 
   editor.session.setMode("ace/mode/xml");
   editor.session.on('change', () => {
-    socket.emit('neume edit', [editor.session.getValue(), obj.id, 'mei'])
+    socket.emit('neume edit', [editor.session.getValue(), editor.container.id, 'mei'])
   });
   $('.neumeSection input').on('input', function(e) {
     e.preventDefault();
@@ -182,7 +182,10 @@ socket.on('new neume info spreadsheet', (msg) => {
       <input type="text" value="${msg[1].classification}" autocomplete="off" name="classification" id="classification_${msg[1]._id}" class="classification" />
       <div name="mei" id="mei_${msg[1]._id}" autocomplete="off" class="mei"></div>
       <div class="neume-button-wrapper">
-        <button class="neume-delete-button" style="display: none;"><i class="fa fa-trash fa-lg"></i></div>
+        <button class="neume-select-button"><i class="fa fa-check fa-lg"></i></button>
+        <div class="ind-button-wrapper">
+          <button class="neume-delete-button" style="display: none;"><i class="fa fa-trash fa-lg"></i></div>
+        </div>
       </div>
     </div>
     `
