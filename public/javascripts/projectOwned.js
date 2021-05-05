@@ -80,6 +80,23 @@ $('.neumeSection')
     }
     $(this).addClass('active');
   })
+  .on('click', '.neume-select-button', function(e) {
+    $(this).toggleClass('active');
+    $(this).parents('.neume-row').toggleClass('selected');
+    $(this).parents('.neume-row').find('.mei').toggleClass('selected');
+    if ($('.neumeSection').find('.neume-row.selected').length) {
+      $('#neume-delete-selected-button').fadeIn();
+    } else {
+      $('#neume-delete-selected-button').fadeOut();
+    }
+  })
+$('#neume-delete-selected-button').on('click', function(e) {
+  $('.neumeSection').find('.neume-row.selected').each(function() {
+    socket.emit('neume delete', $(this).attr('id'))
+    $(this).remove();
+  })
+  $(this).fadeOut();
+})
 
 socket.on('new neume info', (msg) => {
   $('.neumeSection').append(
@@ -99,7 +116,10 @@ socket.on('new neume info', (msg) => {
       <input type="text" value='' autocomplete="off" name="classification" id="classification_${msg[1]}" class="classification" />
       <div name="mei" id="mei_${msg[1]}" autocomplete="off" class="mei"></div>
       <div class="neume-button-wrapper">
-        <button class="neume-delete-button" style="display: none;"><i class="fa fa-trash fa-lg"></i></div>
+        <button class="neume-select-button"><i class="fa fa-check fa-lg"></i></button>
+        <div class="ind-button-wrapper">
+          <button class="neume-delete-button" style="display: none;"><i class="fa fa-trash fa-lg"></i></div>
+        </div>
       </div>
     </div>
     `
