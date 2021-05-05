@@ -5,6 +5,7 @@ $('.dropzone').each((i, obj) => {
 })
 
 $('input').attr('readonly', 'readonly');
+$('.neume-select-button').css({'display': 'none'});
 $('.mei').each((i, obj) => {
   console.log(obj.id)
   var editor = ace.edit(obj.id);
