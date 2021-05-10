@@ -42,29 +42,33 @@
   z-index: 5;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  .neume-delete-button, .neume-select-button {
+  justify-content: flex-end;
+  .neume-delete-button, .neume-select-button, .neume-reorder-button {
     // position: absolute;
     // right: -36px;
     // top: 50%;
     margin-left: 6px;
+    margin-bottom: 8px;
     // transform: translateY(-50%);
     background-color: transparent;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     outline: none;
 
 
     text-align: center;
-    border-radius: 8px;
-    line-height: 27px;
-    padding-left: 7px;
+    border-radius: 4px;
+    line-height: 20px;
+    // padding-left: 6.4px;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   }
   .neume-select-button {
-    border: 2px solid darkgrey;
+    border: 1px solid darkgrey;
     color: #d6d6d6;
     position: relative;
+    width: 20px;
+    height: 20px;
+    margin-left: 9px;
     .fa-check {
       display: none;
       &::before {
@@ -84,19 +88,30 @@
       background-color: darkgrey;
     }
   }
-  .ind-button-wrapper {
-    width: 30px;
-    height: 30px;
-  }
   .neume-delete-button {
-    border: 2px solid red;
-    color: red;
+    color: darkgrey;
+    border: none;
+    padding-left: 5.4px;
+    padding-top: 3px;
     &.active {
       background-color: red;
       color: white;
+      border-color: red;
     }
     &:focus {
       background-color: red;
+    }
+    .fa-lg {
+      font-size: 1.533333em;
+    }
+  }
+  .neume-reorder-button {
+    border: none;
+    color: darkgrey;
+    margin-bottom: 0;
+    cursor: pointer;
+    .fa-lg {
+      font-size: 1.633333em;
     }
   }
 }
@@ -150,7 +165,7 @@
   border-top: 1px solid grey;
   border-left: 1px solid grey;
   border-right: 1px solid grey;
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   &::after {
     content: "";
     position: absolute;
