@@ -59,7 +59,7 @@ function submitCSV(e) {
 
 $('.neumeSection')
   .on('mouseover', '.neume-row', function(e) {
-    $(this).find('.neume-delete-button').fadeIn();
+    // $(this).find('.neume-delete-button').fadeIn();
     // $(this).find('.change-image-button').fadeIn();
     // $(this).css('background-color', 'blue');
     if (!['neume-button-wrapper', 'neume-delete-button'].includes($(e.target).attr('class'))) {
@@ -70,7 +70,7 @@ $('.neumeSection')
   .on('mouseleave', '.neume-row', function(e) {
     $(this).find('.neume-delete-button').removeClass('active');
     $(this).find('.neume-delete-button').blur();
-    $(this).find('.neume-delete-button').fadeOut();
+    // $(this).find('.neume-delete-button').fadeOut();
   })
   .on('click', '.neume-delete-button', function(e) {
     if ($(this).hasClass('active')) {
