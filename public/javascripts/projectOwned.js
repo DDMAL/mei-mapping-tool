@@ -98,9 +98,17 @@ $('#neume-delete-selected-button').on('click', function(e) {
   $(this).fadeOut();
 })
 
+$(function() {
+  $( ".neumeSection" ).sortable({
+    handle: '> .neume-button-wrapper > .neume-reorder-button',
+    axis: 'y'
+  });
+  $( ".neumeSection" ).disableSelection();
+})
+
 socket.on('new neume info', (msg) => {
   $('.neumeSection').append(
-    `<div class="neume-row" id=${msg[1]}>
+    `<div class="neume-row" id=${msg[1]} class="ui-state-default">
       <div class="image-wrap">
         <div method='post' action='/image' name="image" required id="dropzone_${msg[1]}" class="dropzone">
           <div class="drag-zone"></div>
@@ -117,13 +125,13 @@ socket.on('new neume info', (msg) => {
       <div name="mei" id="mei_${msg[1]}" autocomplete="off" class="mei"></div>
       <div class="neume-button-wrapper">
         <button class="neume-select-button"><i class="fa fa-check fa-lg"></i></button>
-        <div class="ind-button-wrapper">
-          <button class="neume-delete-button" style="display: none;"><i class="fa fa-trash fa-lg"></i></div>
-        </div>
+        <a class="neume-reorder-button"><i class="fa fa-arrows-v fa-lg"></i></a>
+        <button class="neume-delete-button"><i class="fa fa-trash fa-lg"></i></button>
       </div>
     </div>
     `
   );
+
 
   var editor = ace.edit($('.neumeSection').find('.mei').last().attr('id'));
 
@@ -166,7 +174,7 @@ socket.on('new neume info', (msg) => {
 socket.on('new neume info spreadsheet', (msg) => {
   console.log(msg[1])
   $('.neumeSection').append(
-    `<div class="neume-row" id=${msg[1]._id}>
+    `<div class="neume-row" id=${msg[1]._id} class="ui-state-default">
       <div class="image-wrap">
         <div method='post' action='/image' name="image" required id="dropzone_${msg[1]._id}" class="dropzone">
           <div class="drag-zone"></div>
@@ -183,9 +191,8 @@ socket.on('new neume info spreadsheet', (msg) => {
       <div name="mei" id="mei_${msg[1]._id}" autocomplete="off" class="mei"></div>
       <div class="neume-button-wrapper">
         <button class="neume-select-button"><i class="fa fa-check fa-lg"></i></button>
-        <div class="ind-button-wrapper">
-          <button class="neume-delete-button" style="display: none;"><i class="fa fa-trash fa-lg"></i></div>
-        </div>
+        <a class="neume-reorder-button"><i class="fa fa-arrows-v fa-lg"></i></a>
+        <button class="neume-delete-button"><i class="fa fa-trash fa-lg"></i></button>
       </div>
     </div>
     `
