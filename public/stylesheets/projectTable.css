@@ -35,22 +35,25 @@
   z-index: 5;
   display: flex;
   flex-direction: column;
-  justify-content: space-around; }
-  .neume-button-wrapper .neume-delete-button, .neume-button-wrapper .neume-select-button {
+  justify-content: flex-end; }
+  .neume-button-wrapper .neume-delete-button, .neume-button-wrapper .neume-select-button, .neume-button-wrapper .neume-reorder-button {
     margin-left: 6px;
+    margin-bottom: 8px;
     background-color: transparent;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     outline: none;
     text-align: center;
-    border-radius: 8px;
-    line-height: 27px;
-    padding-left: 7px;
+    border-radius: 4px;
+    line-height: 20px;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; }
   .neume-button-wrapper .neume-select-button {
-    border: 2px solid darkgrey;
+    border: 1px solid darkgrey;
     color: #d6d6d6;
-    position: relative; }
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-left: 9px; }
     .neume-button-wrapper .neume-select-button .fa-check {
       display: none; }
       .neume-button-wrapper .neume-select-button .fa-check::before {
@@ -64,17 +67,26 @@
         display: block; }
     .neume-button-wrapper .neume-select-button.focus {
       background-color: darkgrey; }
-  .neume-button-wrapper .ind-button-wrapper {
-    width: 30px;
-    height: 30px; }
   .neume-button-wrapper .neume-delete-button {
-    border: 2px solid red;
-    color: red; }
+    color: darkgrey;
+    border: none;
+    padding-left: 5.4px;
+    padding-top: 3px; }
     .neume-button-wrapper .neume-delete-button.active {
       background-color: red;
-      color: white; }
+      color: white;
+      border-color: red; }
     .neume-button-wrapper .neume-delete-button:focus {
       background-color: red; }
+    .neume-button-wrapper .neume-delete-button .fa-lg {
+      font-size: 1.533333em; }
+  .neume-button-wrapper .neume-reorder-button {
+    border: none;
+    color: darkgrey;
+    margin-bottom: 0;
+    cursor: pointer; }
+    .neume-button-wrapper .neume-reorder-button .fa-lg {
+      font-size: 1.633333em; }
 
 .neume-add-button, .upload-button, #neume-delete-selected-button {
   width: 35px;
@@ -114,7 +126,7 @@
   border-top: 1px solid grey;
   border-left: 1px solid grey;
   border-right: 1px solid grey;
-  transition: all 0.2s ease-in-out; }
+  transition: background-color 0.2s ease-in-out; }
   .neume-row::after {
     content: "";
     position: absolute;
