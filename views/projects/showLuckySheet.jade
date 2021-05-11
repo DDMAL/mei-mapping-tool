@@ -10,9 +10,9 @@ include includes/projectNav.jade
 
 //Title section : Adding a neume button and changing the title name 
                
-div.neumeSection(style = "display: block; top : 145px; position: relative; min-height: calc(100% - 145px)" id="neume-sheet")
+ul.neumeSection(style = "display: block; top : 145px; position: relative; min-height: calc(100% - 145px)" id="neume-sheet")
   - each neume in neumes
-    div.neume-row(id="#{neume.id}" class="ui-state-default")
+    li.neume-row(id="#{neume.id}" class="ui-state-default")
       div.image-wrap
         //- if neume.imagesBinary[0]
         //-   img(src="data:image/jpeg;base64,#{neume.imagesBinary[0]}")
@@ -44,6 +44,7 @@ script(src='/ace-builds/src-noconflict/ace.js', type='text/javascript', charset=
 script(src="/socket.io/socket.io.js", type="text/javascript")
 script(src="https://code.jquery.com/jquery-3.6.0.min.js", type="text/javascript")
 script(src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js", type="text/javascript", integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=", crossorigin="anonymous")
+script(src="/javascripts/jquery.ui.sortable-animation.js", type="text/javascript")
 
 //- Project is owned
 if user.id == project.userID
