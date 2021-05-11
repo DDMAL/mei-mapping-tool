@@ -1,16 +1,46 @@
+$max-project-width: 1250px;
+
+.all-project-nav-wrapper {
+  position: fixed;
+  z-index: 10000;
+  width: 100%;
+  .project-nav-wrapper {
+    // position: fixed;
+    padding: 12px 40px 0;
+    z-index: 1200;
+    width: 100%;
+    /* margin: 0 40px; */
+    background-color: #e4e4e4;
+    .top-row-wrapper {
+      display: flex;
+      margin-bottom: 10px;
+      align-items: center;
+      max-width: $max-project-width;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .neume-table-header {
+      height: 40px;
+      border: 1px solid DodgerBlue;
+      max-width: $max-project-width;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+
 .neume-row, .neume-table-header {
   display: flex;
   align-items: center;
   position: relative;
 }
 
-.neume-table-header {
-  height: 40px;
-  border: 1px solid DodgerBlue;
-}
+
 
 .neumeSection {
   padding-bottom: 50px;
+  max-width: $max-project-width;
 }
 
 .mei-header {
