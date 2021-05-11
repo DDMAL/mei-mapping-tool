@@ -117,6 +117,7 @@ io.on("connection", (socket) => {
               return renderError(res, err);
           } else {
             console.log(`message: created neume in project: ${msg[0]} (id: ${msg[1]})\t\t\tneume id: ${neume._id}`);
+            console.log('neume row: ' + neume.row + ' - '+  typeof neume.row);
             socket.emit('new neume info', [msg[1], neume._id]);
           }
       })
@@ -180,6 +181,20 @@ io.on("connection", (socket) => {
       .catch(err => {
         console.log(err);
       })
+  })
+
+  socket.on('position array change', function(msg) {
+    console.log('message: position array change')
+    console.log(`projectID: ${msg[0]}\t\t\tlist: ${msg[1]}`)
+    mongoose.model('project').findById(msg[0], (err, project) => {
+      project.updateOne({
+        'positionArray': msg[1]
+      }, (err, e) => {
+        if (err) {
+          return err
+        }
+      });
+    });
   })
 
   // msg: [project_id, spreadsheet_type, file_buffer]
