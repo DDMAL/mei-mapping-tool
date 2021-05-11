@@ -196,13 +196,14 @@ socket.on('new neume info spreadsheet', (msg) => {
       <input type="text" value="${msg[1].classification}" autocomplete="off" name="classification" id="classification_${msg[1]._id}" class="classification" />
       <div name="mei" id="mei_${msg[1]._id}" autocomplete="off" class="mei"></div>
       <div class="neume-button-wrapper">
-        <button class="neume-select-button"><i class="fa fa-check fa-lg"></i></button>
+        <button class="neume-select-button"><i class="fa fa-check"></i></button>
         <a class="neume-reorder-button"><i class="fa fa-arrows-v fa-lg"></i></a>
         <button class="neume-delete-button"><i class="fa fa-trash fa-lg"></i></button>
       </div>
     </div>
     `
   );
+  socket.emit('position array change', [$('.projectName').attr('id').split('_')[1], $( ".neumeSection" ).sortable("toArray")]);
 
   var editor = ace.edit($('.neumeSection').find('.mei').last().attr('id'));
 
