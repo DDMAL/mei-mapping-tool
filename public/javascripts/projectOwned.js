@@ -104,6 +104,9 @@ $(function() {
   $( ".neumeSection" ).sortable({
     handle: '> .neume-button-wrapper > .neume-reorder-button',
     axis: 'y',
+    placeholder: 'placeholder',
+    forcePlaceholderSize: true,
+    animation: 200,
     stop: function(event, ui) {
       socket.emit('position array change', [$('.projectName').attr('id').split('_')[1], $( ".neumeSection" ).sortable("toArray")]);
     }
