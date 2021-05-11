@@ -76,6 +76,7 @@ $('.neumeSection')
     if ($(this).hasClass('active')) {
       socket.emit('neume delete', $(this).parents('.neume-row').attr('id'));
       $(this).parents('.neume-row').remove();
+      socket.emit('position array change', [$('.projectName').attr('id').split('_')[1], $( ".neumeSection" ).sortable("toArray")]);
       return
     }
     $(this).addClass('active');
@@ -94,6 +95,7 @@ $('#neume-delete-selected-button').on('click', function(e) {
   $('.neumeSection').find('.neume-row.selected').each(function() {
     socket.emit('neume delete', $(this).attr('id'))
     $(this).remove();
+    socket.emit('position array change', [$('.projectName').attr('id').split('_')[1], $( ".neumeSection" ).sortable("toArray")]);
   })
   $(this).fadeOut();
 })
@@ -101,7 +103,10 @@ $('#neume-delete-selected-button').on('click', function(e) {
 $(function() {
   $( ".neumeSection" ).sortable({
     handle: '> .neume-button-wrapper > .neume-reorder-button',
-    axis: 'y'
+    axis: 'y',
+    stop: function(event, ui) {
+      socket.emit('position array change', [$('.projectName').attr('id').split('_')[1], $( ".neumeSection" ).sortable("toArray")]);
+    }
   });
   $( ".neumeSection" ).disableSelection();
 })
@@ -124,13 +129,14 @@ socket.on('new neume info', (msg) => {
       <input type="text" value='' autocomplete="off" name="classification" id="classification_${msg[1]}" class="classification" />
       <div name="mei" id="mei_${msg[1]}" autocomplete="off" class="mei"></div>
       <div class="neume-button-wrapper">
-        <button class="neume-select-button"><i class="fa fa-check fa-lg"></i></button>
+        <button class="neume-select-button"><i class="fa fa-check"></i></button>
         <a class="neume-reorder-button"><i class="fa fa-arrows-v fa-lg"></i></a>
         <button class="neume-delete-button"><i class="fa fa-trash fa-lg"></i></button>
       </div>
     </div>
     `
   );
+  socket.emit('position array change', [$('.projectName').attr('id').split('_')[1], $( ".neumeSection" ).sortable("toArray")]);
 
 
   var editor = ace.edit($('.neumeSection').find('.mei').last().attr('id'));
