@@ -66,15 +66,16 @@
     border: 1px solid darkgrey;
     color: #d6d6d6;
     position: relative;
-    width: 20px;
-    height: 20px;
-    margin-left: 9px;
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    margin-bottom: 12px;
     .fa-check {
       display: none;
       &::before {
         position: absolute;
-        top: 24%;
-        left: 24%;
+        top: 15%;
+        left: 16%;
       }
     }
     &.active {
