@@ -43,6 +43,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  background-color: white;
+  border-left: 1px solid grey;
   .neume-delete-button, .neume-select-button, .neume-reorder-button {
     // position: absolute;
     // right: -36px;
@@ -179,6 +181,19 @@
   &.selected {
     background-color: #d6d6d6;
   }
+  &.ui-sortable-helper {
+    background-color: #d6d6d6;
+    .mei {
+      background-color: #d6d6d6;
+    }
+  }
+}
+
+.placeholder {
+  background-color: #efefef;
+  border-top: 1px solid grey;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
 }
 
 .neume-row:last-of-type {

@@ -35,7 +35,9 @@
   z-index: 5;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; }
+  justify-content: flex-end;
+  background-color: white;
+  border-left: 1px solid grey; }
   .neume-button-wrapper .neume-delete-button, .neume-button-wrapper .neume-select-button, .neume-button-wrapper .neume-reorder-button {
     margin-left: 6px;
     margin-bottom: 8px;
@@ -137,6 +139,16 @@
     z-index: 0; }
   .neume-row.selected {
     background-color: #d6d6d6; }
+  .neume-row.ui-sortable-helper {
+    background-color: #d6d6d6; }
+    .neume-row.ui-sortable-helper .mei {
+      background-color: #d6d6d6; }
+
+.placeholder {
+  background-color: #efefef;
+  border-top: 1px solid grey;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey; }
 
 .neume-row:last-of-type {
   border-bottom: 1px solid grey; }
