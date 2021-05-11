@@ -211,6 +211,9 @@ router.param('id', function(req, res, next, id) {
 // route for the project when the user owns it
 router.route('/:id')
     .get(function(req, res, next) {
+        console.log('project router entered');
+        var rewritePosition = 0;
+        var rewritePosArr = [];
         mongoose.model('project').findById(req.id, function(err, project) {
             if (err) {
                 return renderError(res, err);
@@ -219,100 +222,209 @@ router.route('/:id')
                     return renderError(res, 'project with id: ' + req.id + ' is null');
                 } else {
                     var positionArray = project.positionArray;
-                    mongoose.model('neume').find({
-                        project: project._id
-                    }, function(err, neumes) {
+                    console.log('\n\nProject Position Array: ' + positionArray + '\n')
+                    // if no position array, write based on current position
+                    // if position array exists, and element [0] starts with 'drop', write based on current position
+                    if (positionArray.length == 0) {
+                      console.log('no position array, writing new one');
+                      rewritePosition = 1;
+                    } else if (positionArray[0] && positionArray[0].startsWith('drop')) {
+                      console.log('earlier version of position array, rewriting');
+                      rewritePosition = 1;
+                    } else {
+                      console.log('no need to rewrite position array\n')
+                    }
+
+                    mongoose.model('User').find({
+                        _id: req.session.userId
+                    }, function(err, users) {
                         if (err) { return renderError(res, err); }
-                        neumeFinal = neumes;
-
-                        //Updating the name
-                        //Getting the neumes for each project and showing them in the logger!!
-                        //Element in face
-                        // logger.info(neumeFinal);
-                        mongoose.model('User').find({
-                            _id: req.session.userId
-                        }, function(err, users) {
-                            if (err) { return renderError(res, err); }
-                            userFinal = users;
-                            // logger.info(userFinal);//This works!!!
-                        });
-                        mongoose.model("neume").find({
-                            project: project._id
-                        }, function(err, neumes) {
-                            if (err) { return renderError(res, err); }
-                            for (let neume of neumes) {
-                                if (neume.classifier == undefined) {
-                                    logger.info('no classifier for neume with id ' + neume._id);
-                                } else if (neume.classifier.includes(".xlsx")) {
-                                    var image = neume.imageMedia;
-                                    //logger.info(image);
-                                    if (fs.existsSync('exports/xl/media/' + image)) {
-                                        var imgPath = 'exports/xl/media/' + image; //This is undefined.
-                                        var A = storedImages;
-                                        var a = new A;
-                                        a.projectID = project._id;
-                                        a.neumeID = neume._id;
-                                        a.img.data = fs.readFileSync(imgPath);
-                                        a.img.contentType = 'image/png';
-                                        a.imgBase64 = a.img.data.toString('base64');
-
-                                        imageData.push(a.img.data.toString('base64'));
-                                        var err_pass; // to receive error and render after the internal function
-                                        mongoose.model('neume').find({
-                                            _id: neume._id
-                                        }).update({
-                                                //push the neumes into the imagesBinary array
-                                                imagePath: 'exports/xl/media/' + neume.imageMedia,
-                                                imagesBinary: fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')
-                                            },
-
-                                            function(err, data) {
-                                                //logger.info(err, data);
-                                                imageData = [];
-
-                                                a.save(function(err, a) {
-                                                    if (err) { err_pass = err; return; }
-
-                                                    logger.info('saved img to mongo');
-                                                });
-                                            });
-                                        if (err_pass) { return RenderError(res, err_pass); }
-                                    }
-                                }
-                            }
-                            if (err) { return renderError(res, err); }
-                            mongoose.model("section").find({
-                                projectID: project._id
-                            }, function(err, sections) {
-                                if (err) { return renderError(res, err); }
-                                var sections = sections;
-                                logger.info(neumeSectionArray); //This is still empty
-
-                                logger.info('GET Retrieving ID: ' + project._id);
-                                var projectdob = project.dob.toISOString();
-                                projectdob = projectdob.substring(0, projectdob.indexOf('T'))
-
-                                res.format({
-                                    html: function() {
-
-                                        res.render('projects/showLuckySheet', {
-                                            "projectdob": projectdob,
-                                            "project": project,
-                                            "neumes": neumeFinal,
-                                            "user": userFinal[0],
-                                            "sections": sections,
-                                            "neumeSections": neumeSectionArray,
-                                            "positionArray": positionArray,
-                                            "owned": true
-                                        });
-                                    },
-                                    json: function() {
-                                        res.json(project);
-                                    }
-                                });
-                            })
-                        });
+                        userFinal = users;
+                        // logger.info(userFinal);//This works!!!
                     });
+
+                    // OLD WAY w/ REWRITE
+                    if (rewritePosition) {
+                      mongoose.model('neume').find({
+                          project: project._id
+                      }, function(err, neumes) {
+                          if (err) { return renderError(res, err); }
+                          neumeFinal = neumes;
+                          //Updating the name
+                          //Getting the neumes for each project and showing them in the logger!!
+                          //Element in face
+                          // logger.info(neumeFinal);
+
+                          mongoose.model("neume").find({
+                              project: project._id
+                          }, function(err, neumes) {
+                              if (err) { return renderError(res, err); }
+                              for (let neume of neumes) {
+                                  if (rewritePosition) {
+                                    console.log('pushing to position array')
+                                    rewritePosArr.push(neume._id);
+                                  }
+                                  // if (neume.classifier == undefined) {
+                                  //     logger.info('no classifier for neume with id ' + neume._id);
+                                  // } else if (neume.classifier.includes(".xlsx")) {
+                                  //     var image = neume.imageMedia;
+                                  //     //logger.info(image);
+                                  //     if (fs.existsSync('exports/xl/media/' + image)) {
+                                  //         var imgPath = 'exports/xl/media/' + image; //This is undefined.
+                                  //         var A = storedImages;
+                                  //         var a = new A;
+                                  //         a.projectID = project._id;
+                                  //         a.neumeID = neume._id;
+                                  //         a.img.data = fs.readFileSync(imgPath);
+                                  //         a.img.contentType = 'image/png';
+                                  //         a.imgBase64 = a.img.data.toString('base64');
+                                  //
+                                  //         imageData.push(a.img.data.toString('base64'));
+                                  //         var err_pass; // to receive error and render after the internal function
+                                  //         mongoose.model('neume').find({
+                                  //             _id: neume._id
+                                  //         }).update({
+                                  //                 //push the neumes into the imagesBinary array
+                                  //                 imagePath: 'exports/xl/media/' + neume.imageMedia,
+                                  //                 imagesBinary: fs.readFileSync('exports/xl/media/' + neume.imageMedia).toString('base64')
+                                  //             },
+                                  //
+                                  //             function(err, data) {
+                                  //                 //logger.info(err, data);
+                                  //                 imageData = [];
+                                  //                 a.save(function(err, a) {
+                                  //                     if (err) { err_pass = err; return; }
+                                  //
+                                  //                     logger.info('saved img to mongo');
+                                  //                 });
+                                  //             });
+                                  //         if (err_pass) { return RenderError(res, err_pass); }
+                                  //     }
+                                  // }
+                              }
+                              project.update({
+                                positionArray: rewritePosArr
+                              }, function(err, projectId) {
+                                console.log('rewrite position array: ' + rewritePosArr);
+                                if (err) {
+                                  return err
+                                }
+                                console.log('should write new position array');
+                              });
+
+
+                              if (err) { return renderError(res, err); }
+                              mongoose.model("section").find({
+                                  projectID: project._id
+                              }, function(err, sections) {
+                                  if (err) { return renderError(res, err); }
+                                  var sections = sections;
+                                  logger.info(neumeSectionArray); //This is still empty
+
+                                  logger.info('GET Retrieving ID: ' + project._id);
+                                  var projectdob = project.dob.toISOString();
+                                  projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+
+                                  res.format({
+                                      html: function() {
+
+                                          res.render('projects/showLuckySheet', {
+                                              "projectdob": projectdob,
+                                              "project": project,
+                                              "neumes": neumeFinal,
+                                              "user": userFinal[0],
+                                              "sections": sections,
+                                              "neumeSections": neumeSectionArray,
+                                              "positionArray": positionArray,
+                                              "owned": true
+                                          });
+                                      },
+                                      json: function() {
+                                          res.json(project);
+                                      }
+                                  });
+                              })
+                          });
+
+
+                      });
+                    } else { // SORT BY EXISTING POSITION ARRAY IN PROJECT
+                      // var neumesFinal = []
+                      // positionArray.forEach((neume_id, index) => {
+                      //   console.log('neume id: ' + neume_id);
+                      //   mongoose.model('neume').findById(neume_id, function(err, neume) {
+                      //     if (err) {
+                      //       return err
+                      //     }
+                      //     console.log('found neume');
+                      //     neumesFinal.push(neume);
+                      //   })
+                      // })
+                      console.log('position array: ' + positionArray)
+
+                      // var neumesFinal = mongoose.model('neume').aggregate([
+                      //   {$match: {_id: {$in: positionArray}}},
+                      //   {$addFields: {"__positionArray": {$indexOfArray: [positionArray, "$_id"]}}},
+                      //   {$sort: {"__positionArray": 1}}
+                      // ]);
+                      mongoose.model('neume').find({
+                        '_id': {$in: positionArray}
+                      }, function(err, unorderedNeumes) {
+                        let obj = {}
+                        unorderedNeumes.forEach(x => obj[x._id] = x)
+                        const neumesFinal = positionArray.map(position => obj[position])
+
+                        var projectdob = project.dob.toISOString();
+                        projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+                        // console.log(neumesFinal);
+                        res.format({
+                            html: function() {
+
+                                res.render('projects/showLuckySheet', {
+                                    "projectdob": projectdob,
+                                    "project": project,
+                                    "neumes": neumesFinal,
+                                    "user": userFinal[0],
+                                    "sections": [],
+                                    "neumeSections": [],
+                                    "positionArray": positionArray,
+                                    "owned": true
+                                });
+                            },
+                            json: function() {
+                                res.json(project);
+                            }
+                        });
+                      })
+
+                      // mongoose.model('neume').find({
+                      //   '_id': {$in: positionArray}
+                      // }, function(err, neumesFinal) {
+                      //   var projectdob = project.dob.toISOString();
+                      //   projectdob = projectdob.substring(0, projectdob.indexOf('T'))
+                      //   // console.log(neumesFinal);
+                      //   res.format({
+                      //       html: function() {
+                      //
+                      //           res.render('projects/showLuckySheet', {
+                      //               "projectdob": projectdob,
+                      //               "project": project,
+                      //               "neumes": neumesFinal,
+                      //               "user": userFinal[0],
+                      //               "sections": [],
+                      //               "neumeSections": [],
+                      //               "positionArray": positionArray,
+                      //               "owned": true
+                      //           });
+                      //       },
+                      //       json: function() {
+                      //           res.json(project);
+                      //       }
+                      //   });
+                      // })
+
+
+                    }
                 }
             }
         });
