@@ -316,6 +316,7 @@ function onError(error) {
 
 
 console.log('\nCress is running on port:', process.env.PORT, '\nPort config is stored in the project root file ".env"\n');
+console.log('\nMongo database is running on port:', process.env.MONGO_PORT, '\nPort config is stored in the project root file ".env"\n');
 
 
 
