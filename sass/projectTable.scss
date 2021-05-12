@@ -1,4 +1,6 @@
 $max-project-width: 1250px;
+$internal-border-color: #cacaca;
+$selected-bkgd-color: #efefef;
 
 .all-project-nav-wrapper {
   position: fixed;
@@ -36,11 +38,14 @@ $max-project-width: 1250px;
   position: relative;
 }
 
-
+html, body {
+  min-height: 100%;
+}
 
 .neumeSection {
-  padding-bottom: 50px;
+  margin-bottom: 200px;
   max-width: $max-project-width;
+  border-bottom: 1px solid $internal-border-color;
 }
 
 .mei-header {
@@ -54,10 +59,10 @@ $max-project-width: 1250px;
   bottom: 0;
   min-width: 250px;
   right: 0;
-  border-left: 1px solid grey;
+  border-left: 1px solid $internal-border-color;
   transition: all 0.2s ease-in-out;
   &.selected {
-    background-color: #d6d6d6;
+    background-color: $selected-bkgd-color;
   }
 }
 
@@ -74,7 +79,7 @@ $max-project-width: 1250px;
   flex-direction: column;
   justify-content: flex-end;
   background-color: white;
-  border-left: 1px solid grey;
+  border-left: 1px solid $internal-border-color;
   .neume-delete-button, .neume-select-button, .neume-reorder-button {
     // position: absolute;
     // right: -36px;
@@ -195,9 +200,9 @@ $max-project-width: 1250px;
   height: 100px;
   align-items: center;
   /* margin-bottom: 10px; */
-  border-top: 1px solid grey;
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
+  border-top: 1px solid $internal-border-color;
+  border-left: 1px solid $internal-border-color;
+  border-right: 1px solid $internal-border-color;
   transition: background-color 0.2s ease-in-out;
   &::after {
     content: "";
@@ -209,25 +214,26 @@ $max-project-width: 1250px;
     // pointer-events: none;
   }
   &.selected {
-    background-color: #d6d6d6;
+    background-color: $selected-bkgd-color;
   }
   &.ui-sortable-helper {
-    background-color: #d6d6d6;
+    background-color: $selected-bkgd-color;
+    border-bottom: 1px solid $internal-border-color;
     .mei {
-      background-color: #d6d6d6;
+      background-color: $selected-bkgd-color;
     }
   }
 }
 
 .placeholder {
-  background-color: #efefef;
-  border-top: 1px solid grey;
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
+  background-color: #ddd;
+  border-top: 1px solid $internal-border-color;
+  border-left: 1px solid $internal-border-color;
+  border-right: 1px solid $internal-border-color;
 }
 
 .neume-row:last-of-type {
-  border-bottom: 1px solid grey;
+  // border-bottom: 1px solid grey;
 }
 
 .neume-table-header {
@@ -254,11 +260,12 @@ $max-project-width: 1250px;
 .neume-row > input[type=text]:not(.browser-default) {
   flex: 1;
   /* margin-right: 20px; */
-  border-left: 1px solid grey;
+  border-left: 1px solid $internal-border-color;
   height: 100%;
   margin-bottom: 0;
   padding-left: 10px;
   cursor: default;
+  border-bottom: none;
 }
 
 .neume-row > input[type=text]:not(:last-child), .neume-table-header > *:not(:last-child) {

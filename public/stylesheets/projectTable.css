@@ -27,9 +27,13 @@
   align-items: center;
   position: relative; }
 
+html, body {
+  min-height: 100%; }
+
 .neumeSection {
-  padding-bottom: 50px;
-  max-width: 1250px; }
+  margin-bottom: 200px;
+  max-width: 1250px;
+  border-bottom: 1px solid #cacaca; }
 
 .mei-header {
   min-width: 250px;
@@ -41,10 +45,10 @@
   bottom: 0;
   min-width: 250px;
   right: 0;
-  border-left: 1px solid grey;
+  border-left: 1px solid #cacaca;
   transition: all 0.2s ease-in-out; }
   .neume-row .mei.selected {
-    background-color: #d6d6d6; }
+    background-color: #efefef; }
 
 #neume-sheet .classification {
   margin-right: 250px; }
@@ -58,7 +62,7 @@
   flex-direction: column;
   justify-content: flex-end;
   background-color: white;
-  border-left: 1px solid grey; }
+  border-left: 1px solid #cacaca; }
   .neume-button-wrapper .neume-delete-button, .neume-button-wrapper .neume-select-button, .neume-button-wrapper .neume-reorder-button {
     margin-left: 6px;
     margin-bottom: 8px;
@@ -147,9 +151,9 @@
   height: 100px;
   align-items: center;
   /* margin-bottom: 10px; */
-  border-top: 1px solid grey;
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
+  border-top: 1px solid #cacaca;
+  border-left: 1px solid #cacaca;
+  border-right: 1px solid #cacaca;
   transition: background-color 0.2s ease-in-out; }
   .neume-row::after {
     content: "";
@@ -159,20 +163,18 @@
     width: 40px;
     z-index: 0; }
   .neume-row.selected {
-    background-color: #d6d6d6; }
+    background-color: #efefef; }
   .neume-row.ui-sortable-helper {
-    background-color: #d6d6d6; }
+    background-color: #efefef;
+    border-bottom: 1px solid #cacaca; }
     .neume-row.ui-sortable-helper .mei {
-      background-color: #d6d6d6; }
+      background-color: #efefef; }
 
 .placeholder {
-  background-color: #efefef;
-  border-top: 1px solid grey;
-  border-left: 1px solid grey;
-  border-right: 1px solid grey; }
-
-.neume-row:last-of-type {
-  border-bottom: 1px solid grey; }
+  background-color: #ddd;
+  border-top: 1px solid #cacaca;
+  border-left: 1px solid #cacaca;
+  border-right: 1px solid #cacaca; }
 
 .neume-table-header {
   /* margin-bottom: 10px; */
@@ -195,11 +197,12 @@
 .neume-row > input[type=text]:not(.browser-default) {
   flex: 1;
   /* margin-right: 20px; */
-  border-left: 1px solid grey;
+  border-left: 1px solid #cacaca;
   height: 100%;
   margin-bottom: 0;
   padding-left: 10px;
-  cursor: default; }
+  cursor: default;
+  border-bottom: none; }
 
 .neume-row > input[type=text]:not(:last-child), .neume-table-header > *:not(:last-child) {
   /* margin-right: 20px; */ }
