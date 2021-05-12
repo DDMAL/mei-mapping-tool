@@ -266,6 +266,12 @@ html, body {
   padding-left: 10px;
   cursor: default;
   border-bottom: none;
+  &:focus {
+    border-bottom: none;
+    background-color: $selected-bkgd-color;
+    box-shadow: none;
+    z-index: 10;
+  }
 }
 
 .neume-row > input[type=text]:not(:last-child), .neume-table-header > *:not(:last-child) {
