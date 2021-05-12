@@ -125,7 +125,7 @@ socket.on('new neume info', (msg) => {
           </div>
         </div>
       </div>
-      <input type="text" value='' autocomplete="off" name="name" id="neume-name_${msg[1]}" class="name" />
+      <input type="text" value='' autocomplete="off" name="main-name" id="neume-name_${msg[1]}" class="name" />
       <input type="text" value='' autocomplete="off" name="generic-name" id="generic-name_${msg[1]}" class="genericName" />
       <input type="text" value='' autocomplete="off" name="folio" id="folio_${msg[1]}" class="folio" />
       <input type="text" value='' autocomplete="off" name="description" id="description_${msg[1]}" class="description" />
@@ -192,7 +192,7 @@ socket.on('new neume info spreadsheet', (msg) => {
           </div>
         </div>
       </div>
-      <input type="text" value="${msg[1].name}" autocomplete="off" name="name" id="neume-name_${msg[1]._id}" class="name" />
+      <input type="text" value="${msg[1].name}" autocomplete="off" name="main-name" id="neume-name_${msg[1]._id}" class="name" />
       <input type="text" value="${msg[1].genericName}" autocomplete="off" name="generic-name" id="generic-name_${msg[1]._id}" class="genericName" />
       <input type="text" value="${msg[1].folio}" autocomplete="off" name="folio" id="folio_${msg[1]._id}" class="folio" />
       <input type="text" value="${msg[1].description}" autocomplete="off" name="description" id="description_${msg[1]._id}" class="description" />
