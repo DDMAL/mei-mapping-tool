@@ -1,112 +1,146 @@
-.header{
+.header {
   box-sizing: border-box;
-  background: linear-gradient(to left,#ff2952,#ce1e3f);;
-}
+  background: linear-gradient(to left, #ff2952, #ce1e3f); }
 
-.separator{
+.separator {
   height: 125px;
-  margin-top:calc(125px * -1);
+  margin-top: calc(125px * -1);
   background-image: linear-gradient(to bottom right, transparent, transparent 50%, #f3efe4 50%, #f3efe4);
-  /* Using transparent for top of the gradient allows for a background image on the header. Alternatively you can just use a solid color that matches the header color. */
-}
+  /* Using transparent for top of the gradient allows for a background image on the header. Alternatively you can just use a solid color that matches the header color. */ }
 
-.footer{
-  background: #f3efe4;
-}
+.project-list {
+  padding-left: 0px; }
 
-.button {border-radius: 5px;
- box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+.project-wrapper {
+  display: flex;
+  max-width: 400px;
+  justify-content: space-between;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+  overflow: hidden; }
+  .project-wrapper button {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    background-color: transparent; }
+  .project-wrapper .project-button {
+    height: 50px;
+    padding: 0 20px;
+    font-size: 1rem;
+    flex: 1;
+    border: none;
+    text-align: left; }
+    .project-wrapper .project-button:hover {
+      background-color: lightgrey;
+      color: black; }
+  .project-wrapper .project-delete-button {
+    height: 50px;
+    margin: 0;
+    width: 50px;
+    color: darkgrey; }
+
+.footer {
+  background: #f3efe4; }
+
+.button {
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* this adds the "card" effect */
   text-align: center;
-  background-color:black;
+  background-color: black;
   height: 100%;
-  position:relative;
+  position: relative;
   border-width: 10px;
-  color : white
-}}
+  color: white; }
+
 .button3 {
- background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border: 2px solid #f44336;
-  width : 4.7%;
+  width: 4.7%;
   /*Adding the delete button to the collapsible element*/
-   position : relative;
-   margin : 10px;
-  /*Adding the neumes for the projects.*/
-}
+  position: relative;
+  margin: 10px;
+  /*Adding the neumes for the projects.*/ }
+
 .button3DeleteProject:hover {
   background-color: #f44336;
-  color: white;
-}
+  color: white; }
+
 .button3DeleteProject {
   border-radius: 5px;
- box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* this adds the "card" effect */
   text-align: center;
-  background-color:white;
+  background-color: white;
   height: 50px;
-  width : 30%;
-  position:relative;
+  width: 30%;
+  position: relative;
   border-width: 10px;
-  color: black; 
+  color: black;
   border: 2px solid #f44336;
   font-size: 14px;
-  margin-right : 10px;
-}
-p {margin : 10px;}
-.buttonNo{
+  margin-right: 10px; }
+
+p {
+  margin: 10px; }
+
+.buttonNo {
   border-radius: 5px;
- box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* this adds the "card" effect */
   text-align: center;
-  background-color:white;
+  background-color: white;
   height: 50px;
-  width : 30%;
-  position:relative;
+  width: 30%;
+  position: relative;
   border-width: 10px;
-  color: black; 
+  color: black;
   border: 2px solid #e7e7e7;
-  font-size: 14px;
-}
+  font-size: 14px; }
+
 .buttonNo:hover {
   background-color: #e7e7e7;
-  color: white;
-}
+  color: white; }
 
 .button:hover {
-  background-color: black; /* pale blue */
-  color: white;
-}
+  background-color: black;
+  /* pale blue */
+  color: white; }
 
 .button2 {
-  background-color: black; /* pale blue */
-  color: black;
-}
+  background-color: black;
+  /* pale blue */
+  color: black; }
+
 .button2No {
   border-radius: 5px;
- box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* this adds the "card" effect */
   text-align: center;
   height: 100%;
-  position:relative;
+  position: relative;
   border-width: 10px;
-  background-color : white;
-  color: red;
-}
-.button2No : hover{
-  background-color: red; /* pale blue */
-  color: white;
-}
+  background-color: white;
+  color: red; }
+
+.button2No:hover {
+  background-color: red;
+  /* pale blue */
+  color: white; }
 
 .button2:hover {
-  background-color: black; /* pale blue */
-  color: white;
-}
+  background-color: black;
+  /* pale blue */
+  color: white; }
+
 .buttonAddProject {
   background-color: white;
   color: black;
-  height : 15%;
-  width : 15%;
-  border: 2px solid #555555;
-}
+  height: 15%;
+  width: 15%;
+  border: 2px solid #555555; }
 
 .buttonAddProject:hover {
   background-color: #555555;
-  color: white;
-}
+  color: white; }

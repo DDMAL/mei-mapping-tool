@@ -10,6 +10,46 @@
   /* Using transparent for top of the gradient allows for a background image on the header. Alternatively you can just use a solid color that matches the header color. */
 }
 
+.project-list {
+  padding-left: 0px;
+}
+
+.project-wrapper {
+  display: flex;
+  max-width: 400px;
+  justify-content: space-between;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+  overflow: hidden;
+  button {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    background-color: transparent;
+  }
+  .project-button {
+    height: 50px;
+    padding: 0 20px;
+    font-size: 1rem;
+    flex: 1;
+    border: none;
+    text-align: left;
+    &:hover {
+      background-color: lightgrey;
+      color: black;
+    }
+  }
+  .project-delete-button {
+    height: 50px;
+    margin: 0;
+    width: 50px;
+    color: darkgrey;
+    // .fa-lg {
+    //
+    // }
+  }
+}
+
 .footer{
   background: #f3efe4;
 }
@@ -22,10 +62,10 @@
   position:relative;
   border-width: 10px;
   color : white
-}}
+}
 .button3 {
- background-color: white; 
-  color: black; 
+ background-color: white;
+  color: black;
   border: 2px solid #f44336;
   width : 4.7%;
   /*Adding the delete button to the collapsible element*/
@@ -46,7 +86,7 @@
   width : 30%;
   position:relative;
   border-width: 10px;
-  color: black; 
+  color: black;
   border: 2px solid #f44336;
   font-size: 14px;
   margin-right : 10px;
@@ -61,7 +101,7 @@ p {margin : 10px;}
   width : 30%;
   position:relative;
   border-width: 10px;
-  color: black; 
+  color: black;
   border: 2px solid #e7e7e7;
   font-size: 14px;
 }
@@ -81,7 +121,7 @@ p {margin : 10px;}
 }
 .button2No {
   border-radius: 5px;
- box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
   text-align: center;
   height: 100%;
   position:relative;
@@ -89,7 +129,7 @@ p {margin : 10px;}
   background-color : white;
   color: red;
 }
-.button2No : hover{
+.button2No:hover{
   background-color: red; /* pale blue */
   color: white;
 }
