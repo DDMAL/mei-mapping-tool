@@ -12,6 +12,8 @@ html
     link(rel="stylesheet" href="/stylesheets/projectsStyle.css")
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css')
     link(rel="stylesheet" href="/stylesheets/modal.css")
     script(type='text/javascript' src='/javascripts/modals.js')
@@ -60,53 +62,53 @@ html
                     .section-header(style = "overflow : auto;")
                       if (projects.length > 0)
                         h2.projectHeader My Projects
-                        ul
+                        ul.project-list
                             - each project, i in projects
-                               button.collapsible(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name} 
-                               br
-                               form#formProjectDelete(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
-                                 input(type='hidden',value='DELETE',name='_method')
-                                 button(type='button' class="button button3" id = "buttonProject#{project._id}").
-                                        x
-                                 br
-                                 br
-
-                                 .modalDeleteCollab(id = "DeleteProjectModal#{project._id}")
-                                    // Modal content
-                                    .modalDeleteCollab-content
-                                      span.closeDeleteCollab(id = "closingModal#{project._id}") ×
-                                      h3 Are you sure you want to delete this project? 
-                                      h3 #{project.name}
-                                      p
-                                       button(type='submit' class = "button3DeleteProject") Yes
-                                       button(type = "button" class = "buttonNo" id = "NoButton#{project._id}") No
-                                       br
-
-                                       script.
-                                           //Modals event listeners for every modal
-                                            window.addEventListener('load', function() {
-                                              
-                                                initializeModal('DeleteProjectModal#{project._id}', 'buttonProject#{project._id}');
-                                           
-                                              });
-
-                                                 document.getElementById("NoButton#{project._id}").onclick = function(){
-                                                            document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
-                                                            };
-                                                 document.getElementById("closingModal#{project._id}").onclick = function(){
-                                                  document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
-                                                  };
+                              div.project-wrapper
+                                button(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="project-button button5") #{project.name} 
+                                button(type='button' class="project-delete-button button3" id = "buttonProject#{project._id}")
+                                  i.fa.fa-trash.fa-lg
+                                div.modal(id="projectdeletemodal_#{project._id}")
+                              //- form#formProjectDelete(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                              //-   input(type='hidden',value='DELETE',name='_method')
+                              //- 
+                              //-   br
+                              //-   br
+                              //- 
+                              //-   .modalDeleteCollab(id = "DeleteProjectModal#{project._id}")
+                              //-      // Modal content
+                              //-      .modalDeleteCollab-content
+                              //-        span.closeDeleteCollab(id = "closingModal#{project._id}") ×
+                              //-        h3 Are you sure you want to delete this project? 
+                              //-        h3 #{project.name}
+                              //-        p
+                              //-         button(type='submit' class = "button3DeleteProject") Yes
+                              //-         button(type = "button" class = "buttonNo" id = "NoButton#{project._id}") No
+                              //-         br
+                              //- 
+                              //-         script.
+                              //-             //Modals event listeners for every modal
+                              //-              window.addEventListener('load', function() {
+                              //- 
+                              //-                  initializeModal('DeleteProjectModal#{project._id}', 'buttonProject#{project._id}');
+                              //- 
+                              //-                });
+                              //- 
+                              //-                   document.getElementById("NoButton#{project._id}").onclick = function(){
+                              //-                              document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
+                              //-                              };
+                              //-                   document.getElementById("closingModal#{project._id}").onclick = function(){
+                              //-                    document.getElementById("DeleteProjectModal#{project._id}").style.display = 'none';
+                              //-                    };
 
                       h2.projectHeader Other Projects
-                      ul
+                      ul.project-list
                           - each project, i in other
-                             if (user != null)
-                              button.collapsible(style = " clear : left;" onclick = "window.location='/projects/fork/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
-                             else
-                              button.collapsible(style = " clear : left;" onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="button button5") #{project.name}
-                              
-                             br
-                             br
+                            div.project-wrapper
+                              if (user != null)
+                                button.collapsible(style = " clear : left;" onclick = "window.location='/projects/fork/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="project-button button5") #{project.name}
+                              else
+                                button.collapsible(style = " clear : left;" onclick = "window.location='/projects/public/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="project-button button5") #{project.name}
 
 
               footer
