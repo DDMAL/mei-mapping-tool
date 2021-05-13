@@ -14,27 +14,32 @@
 .project-wrapper {
   display: flex;
   max-width: 400px;
+  height: 50px;
   justify-content: space-between;
   border: 1px solid darkgrey;
   border-radius: 5px;
-  overflow: hidden; }
+  overflow: hidden;
+  margin-bottom: 15px; }
   .project-wrapper button {
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
     border: none;
     background-color: transparent; }
   .project-wrapper .project-button {
-    height: 50px;
+    height: 100%;
     padding: 0 20px;
     font-size: 1rem;
     flex: 1;
     border: none;
-    text-align: left; }
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
     .project-wrapper .project-button:hover {
       background-color: lightgrey;
       color: black; }
   .project-wrapper .project-delete-button {
-    height: 50px;
+    height: 100%;
     margin: 0;
     width: 50px;
     color: darkgrey; }
