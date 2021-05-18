@@ -64,11 +64,19 @@ html
                         h2.projectHeader My Projects
                         ul.project-list
                             - each project, i in projects
-                              div.project-wrapper
+                              div.project-wrapper(id="#{project._id}")
                                 button(onclick = "window.location='/projects/#{project._id}'" method='post',name='updateproject',enctype='application/x-www-form-urlencoded' class="project-button button5") #{project.name} 
-                                button(type='button' class="project-delete-button button3" id = "buttonProject#{project._id}")
-                                  i.fa.fa-trash.fa-lg
-                                div.modal(id="projectdeletemodal_#{project._id}")
+                                a(href="#projectdeletemodal_#{project._id}" rel="modal:open" type='button' class="project-delete-button button3" id = "buttonProject#{project._id}")
+                                  i.fa.fa-trash
+                                div.modal(id="projectdeletemodal_#{project._id}" class="project-delete-modal")
+                                  div Are you sure you'd like to delete 
+                                    b #{project.name}
+                                    | ?
+                                  br
+                                  div Type the name of the project here to delete:
+                                  br
+                                  input(type="text" class="neume-delete-input")
+                                  a(href="#close-modal" class="finalize-delete-button") Delete
                               //- form#formProjectDelete(action='/projects/#{project._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
                               //-   input(type='hidden',value='DELETE',name='_method')
                               //- 
@@ -118,6 +126,7 @@ html
                   br
                   | MIT License 2019
 
-
+            script(src="/socket.io/socket.io.js", type="text/javascript")
+            script(src="https://code.jquery.com/jquery-3.6.0.min.js", type="text/javascript")      
             script(type='text/javascript' src='/javascripts/addProject.js')
                       
