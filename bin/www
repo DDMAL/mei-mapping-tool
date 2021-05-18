@@ -61,19 +61,33 @@ io.on("connection", (socket) => {
     console.log('a user disconnected');
   });
   // socketioAuth(io, {authenticate, postAuthenticate});
+  socket.on('project delete', function(project_id) {
+    console.log('message: project delete\t\t\tid: ' + project_id)
+    mongoose.model('project').remove({
+      _id: project_id
+    }, (err, project) => {
+      if (err) {
+        return err
+      }
+    })
+    mongoose.model('neume').remove({
+      project: project_id
+    }, (err, neumes) => {
+      if (err) {
+        return err
+      }
+    })
+  })
   socket.on("neume edit", function(msg) {
     console.log("message: "  + msg[0] + '\t\t\tattr:' + msg[2] + '\t\t\tid: ' + msg[1].split('_')[1]);
     // socket.broadcast.emit("received", { message: msg  });
-    connect.then(db => {
-      console.log('connected correctly to the server');
-      mongoose.model('neume').findById(msg[1].split('_')[1], (err, neume) => {
-        if (err) {console.log(err)}
-        neume.updateOne({[msg[2]]: msg[0]}, (err, element) => {
-          if (err) {
-            return err
-          }
-        });
-      })
+    mongoose.model('neume').findById(msg[1].split('_')[1], (err, neume) => {
+      if (err) {console.log(err)}
+      neume.updateOne({[msg[2]]: msg[0]}, (err, element) => {
+        if (err) {
+          return err
+        }
+      });
     })
   });
 
