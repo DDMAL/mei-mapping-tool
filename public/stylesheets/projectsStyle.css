@@ -286,3 +286,25 @@ ul {
 .buttonAddProject:hover {
   background-color: #555555;
   color: white; }
+
+.neume-delete-input {
+  border: 0;
+  border-bottom: 1px solid grey;
+  transition: all 0.2s ease-in-out; }
+  .neume-delete-input:focus {
+    outline: none;
+    border-bottom: 1px solid red; }
+
+.finalize-delete-button {
+  background-color: transparent;
+  border: 1px solid grey;
+  margin-left: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  color: grey;
+  text-decoration: none; }
+  .finalize-delete-button.active {
+    background-color: red;
+    color: white;
+    cursor: pointer; }
