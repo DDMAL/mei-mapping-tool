@@ -1538,38 +1538,41 @@ router.route('/fork')
                                             var imageData = [];
 
                                             //Saving the images in the database from the uploads folder. (for each images in the imageArray)
-                                            imageArray.forEach(function(image) {
+                                            if (imageArray) {
+                                              imageArray.forEach(function(image) {
 
-                                                // our imageStored model
-                                                var A = storedImages;
-                                                // store an img in binary in mongo
-                                                var a = new A;
-                                                a.neumeID = neume._id; //This is the neume id of the element
-                                                a.img.contentType = 'image/png';
-                                                a.imgBase64 = image;
-                                                imageData.push(a.imgBase64); //This works for all the images stored in the database.
+                                                  // our imageStored model
+                                                  var A = storedImages;
+                                                  // store an img in binary in mongo
+                                                  var a = new A;
+                                                  a.neumeID = neume._id; //This is the neume id of the element
+                                                  a.img.contentType = 'image/png';
+                                                  a.imgBase64 = image;
+                                                  imageData.push(a.imgBase64); //This works for all the images stored in the database.
 
-                                                //All the images (images) need to be pushed to an array field in mongodb
-                                                mongoose.model('neume').findOneAndUpdate({
-                                                        _id: neume._id
-                                                    }, {
-                                                        //push the neumes into the imagesBinary array
-                                                        imagesBinary: imageData
-                                                    },
+                                                  //All the images (images) need to be pushed to an array field in mongodb
+                                                  mongoose.model('neume').findOneAndUpdate({
+                                                          _id: neume._id
+                                                      }, {
+                                                          //push the neumes into the imagesBinary array
+                                                          imagesBinary: imageData
+                                                      },
 
-                                                    function(err, data) {
-                                                        //logger.info(err, data);
-                                                        imageData = [];
-                                                    });
+                                                      function(err, data) {
+                                                          //logger.info(err, data);
+                                                          imageData = [];
+                                                      });
 
 
-                                                a.save(function(err, a) {
-                                                    if (err) throw err;
+                                                  a.save(function(err, a) {
+                                                      if (err) throw err;
 
-                                                    logger.error('saved img to mongo');
-                                                });
+                                                      logger.error('saved img to mongo');
+                                                  });
 
-                                            });
+                                              });
+                                            }
+
 
                                             imageArray = [];
 
