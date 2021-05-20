@@ -65,14 +65,14 @@ div.project-nav-wrapper
     form(action='/fork',method='post',enctype='application/x-www-form-urlencoded')
                   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                   input(type='text',value='#{project.name}', name='projectName' hidden)
-                  button(type = 'submit' class = 'button button2CSV' class = 'tooltipfork' style = "font: 14px Avenir, sans-serif; width : 70px;")
+                  button(type = 'submit' class = 'button button2CSV' class = 'tooltipfork' style = "font: 14px Avenir, sans-serif;")
                     i.fa.fa-code-fork
                     |  Copy
                     span.tooltiptext To save the project as your own and start working on it, click here!
     if user.id == project.userID
-      button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 5px; display : block; font: 14px Avenir, sans-serif; width : 70px" onclick = "editButtons()")
+      button(class = 'button button2CSV' class = 'tooltip' id = 'button' style = "margin-left : 5px; display : block; font: 14px Avenir, sans-serif;" onclick = "editButtons()")
         i.fa.fa-caret-down.fa-lg
-        |  Edit
+        |  Export
       
     
     div.editButtons(style = "width : 125px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 40px; top : 105px; z-index : 9000; padding : 10px; display : none")

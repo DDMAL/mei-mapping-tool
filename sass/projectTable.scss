@@ -20,6 +20,12 @@ $selected-bkgd-color: #efefef;
       max-width: $max-project-width;
       margin-left: auto;
       margin-right: auto;
+      .button2CSV {
+        width: auto;
+      }
+      button {
+        padding: 7px 13px;
+      }
     }
     .neume-table-header {
       height: 40px;
