@@ -75,7 +75,7 @@ div.project-nav-wrapper
         |  Export
       
     
-    div.editButtons(style = "width : 125px; display : block; background-color : white; border-radius : 10px; border-style : solid; border-width : 1px; border-color : #009fff; position : fixed; right : 40px; top : 105px; z-index : 9000; padding : 10px; display : none")
+    div.editButtons
 
 
       //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
@@ -85,6 +85,13 @@ div.project-nav-wrapper
                     button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
                       i.fa.fa-download
                       |  CSV 
+      form(action='/xlsxProject',method='post',enctype='application/x-www-form-urlencoded')
+                    input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+                    input(type='text',value='#{project.name}', name='projectName' hidden)
+                    button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+                      i.fa.fa-download
+                      |  XLSX 
+                    
                       //span.tooltiptext To download the project as a .csv file, click here!
       //- button(class = 'button' class = 'tooltip' id = 'imageCSVButton' style = "font: 14px Avenir, sans-serif; width : 100px" onclick = "initializeModal('imageCSV', 'imageCSVButton');")
       //-  i.fa.fa-upload
