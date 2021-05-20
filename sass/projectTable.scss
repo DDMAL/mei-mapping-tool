@@ -20,11 +20,27 @@ $selected-bkgd-color: #efefef;
       max-width: $max-project-width;
       margin-left: auto;
       margin-right: auto;
+      position: relative;
       .button2CSV {
         width: auto;
       }
       button {
         padding: 7px 13px;
+      }
+      .editButtons {
+        width : 125px;
+        display : block;
+        background-color : white;
+        border-radius : 10px;
+        border-style : solid;
+        border-width : 1px;
+        border-color : #009fff;
+        position : absolute;
+        right : 0px;
+        top : 45px;
+        z-index : 9000;
+        padding : 10px;
+        display : none;
       }
     }
     .neume-table-header {
