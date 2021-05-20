@@ -1571,7 +1571,10 @@ router.route('/xlsxProject')
                           fs.unlinkSync(filePathExcel); // delete this file after 30 seconds
                           console.log('file deleted at ' + filePathExcel);
                       }, 5000)
-                      return res.download(filePathExcel);
+
+                      res.download(filePathExcel);
+                      
+                      // res.redirect('back');
                     })
                     .catch(err => {
                       console.log(err);
