@@ -7,6 +7,7 @@
 var app = require('../app');
 const connect = require('../dbconnect');
 const { xlsxAdd, csvUpload } = require('../csv_upload');
+const { xlsxDownload } = require('../csv_download');
 const bodyParser = require('body-parser');
 const express = require('express');
 var debug = require('debug')('express-node-mongo-skeleton:server');
@@ -267,7 +268,14 @@ io.on("connection", (socket) => {
     //   });
     // });
   })
+  socket.on('spreadsheet download', function(msg) {
+    console.log('message: spreadsheet download', msg);
+    if (msg[2] == 'csv') {
 
+    } else if (msg[2] == 'xlsx') {
+      xlsxDownload(msg[0], msg[1])
+    }
+  })
 });
 
 
