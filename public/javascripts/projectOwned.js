@@ -56,6 +56,18 @@ function submitCSV(e) {
  $('#ImportFile').val("");
 }
 
+function downloadCSV(e) {
+  e.preventDefault();
+  var data = new FormData(e.target)
+  socket.emit('spreadsheet download', [data.get('IdOfProject'), data.get('projectName'), data.get('fileType')])
+}
+
+$('.download-button').on('click', function() {
+  setTimeout(function() {
+    window.location.reload();
+  }, 1000)
+})
+
 
 $('.neumeSection')
   .on('mouseover', '.neume-row', function(e) {
