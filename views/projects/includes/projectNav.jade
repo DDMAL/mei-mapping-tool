@@ -76,19 +76,36 @@ div.project-nav-wrapper
       
     
     div.editButtons
-
-
-      //span.tooltiptext To upload neumes as a .csv file, click here! The csv file must be the one downloaded from the same project "download csv" button.
+      
+      //- SOCKET.IO VERSIONS
+      //-
+      //- form(onsubmit="return downloadCSV(event)" enctype='application/x-www-form-urlencoded')
+      //-   input(type='text',value='csv', name='fileType' hidden)
+      //-   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+      //-   input(type='text',value='#{project.name}', name='projectName' hidden)
+      //-   button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+      //-     i.fa.fa-download
+      //-     |  CSV 
+      //- form(onsubmit="return downloadCSV(event)" enctype='application/x-www-form-urlencoded')
+      //-   input(type='text',value='xlsx', name='fileType' hidden)
+      //-   input(type='text',value='#{project.id}', name='IdOfProject' hidden)
+      //-   input(type='text',value='#{project.name}', name='projectName' hidden)
+      //-   button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+      //-     i.fa.fa-download
+      //-     |  XLSX 
+      
+      
+      //- ROUTER VERSION
       form(action='/csvProject',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                     input(type='text',value='#{project.name}', name='projectName' hidden)
-                    button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+                    button(type = 'submit' class = 'button' class = 'download-button tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
                       i.fa.fa-download
                       |  CSV 
       form(action='/xlsxProject',method='post',enctype='application/x-www-form-urlencoded')
                     input(type='text',value='#{project.id}', name='IdOfProject' hidden)
                     input(type='text',value='#{project.name}', name='projectName' hidden)
-                    button(type = 'submit' class = 'button' class = 'tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
+                    button(type = 'submit' class = 'button' class = 'download-button tooltip' style = "font: 14px Avenir, sans-serif; width : 100px; display : block;" )
                       i.fa.fa-download
                       |  XLSX 
                     
