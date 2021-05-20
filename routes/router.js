@@ -6,6 +6,7 @@ var alert = require('alert-node')
 const moment = require('moment')
 const pathName = require('path')
 const json2csv = require('json2csv').parse
+const ExcelJS = require('exceljs');
 const fields = ['imagePath', 'imagesBinary', 'name', 'folio', 'description', 'classification', 'mei', 'review', 'dob', 'project', 'neumeSection', 'neumeSectionName'];
 global.userArray = []
 global.userArray = []
@@ -508,7 +509,6 @@ router.route('/uploadCSV')
             });
     })
 
-var fs = require('fs');
 var dir = './exports';
 
 if (!fs.existsSync(dir)) {
