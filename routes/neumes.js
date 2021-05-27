@@ -9,6 +9,8 @@ var logger = require('../logger');
 global.neumes_array = [];
 var renderError = require('../public/javascripts/error');
 
+const sharp = require('sharp');
+
 router.use(bodyParser.json({
     limit: '50mb'
 }));
@@ -54,121 +56,142 @@ router.route('/cancel')
 
 // build the REST operations at the base for neumes
 // post function to create a new neume
-router.route('/')
-    //  POST a new neume
-    .post(function(req, res) {
-        // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-        var name = req.body.name;
-        var folio = req.body.folio;
-        var description = req.body.description;
-        var neumeSection = req.body.neumeSection;
-        var neumeSectionName = req.body.neumeSectionName;
-        var source = req.body.source;
-        var genericName = req.body.genericName;
-
-        var classification = req.body.classification
-        var mei = req.body.mei;
-        var dob = req.body.dob;
-        var ID_project = req.body.ID_project;
-        var review = req.body.review;
-
-        //call the create function for our database
-        mongoose.model('neume').create({
-            name: name,
-            folio: folio,
-            description: description,
-            classification: classification,
-            mei: mei,
-            review: review,
-            dob: dob,
-            imagePath: imageArray,
-            project: ID_project,
-            neumeSection: neumeSection,
-            neumeSectionName: neumeSectionName,
-            source: source,
-            genericName: genericName
-
-        }, function(err, neume) {
-            if (err) {
-                return renderError(res, err);
-            } else {
-                //neume has been created
-                //logger.log('POST creating new neume: ' + neume); //neume holds the new neume
-                //Show neume array
-                //Neume requests for the images inside of neumes
-                mongoose.model('neume').find({
-                    project: ID_project
-                }, function(err, neumes) {
-                    neumeFinal = neumes;
-                    //logger.log(neumeFinal);//This works!!!
-                });
-                //Creating an xml file to store mei for each neume => neume.mei and neume._id for the name of the file
-                //Making the xml files folder if it doesnt exist
-                //Creating and writing the file with the information
-                //Not really important, simply so that the user can have a history of the xml files they have written.
-
-                // example schema for saving images in the database
-
-
-                //Saving the images in the database from the uploads folder. (for each images in the imageArray)
-                imageArray.forEach(function(image) {
-                    var imgPath = 'uploads/' + image;
-
-                    // our imageStored model
-                    var A = storedImages;
-                    // store an img in binary in mongo
-                    var a = new A;
-                    a.neumeID = neume._id;
-                    a.projectID = neume.project;
-                    a.img.data = fs.readFileSync(imgPath);
-                    a.img.contentType = 'image/png';
-                    a.imgBase64 = a.img.data.toString('base64');
-                    imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
-
-                    //All the images (images) need to be pushed to an array field in mongodb
-                    mongoose.model('neume').findOneAndUpdate({
-                            _id: neume._id
-                        }, {
-                            //push the neumes into the imagesBinary array
-                            imagesBinary: imageData
-                        },
-
-                        function(err, data) {
-                            if (err) { return renderError(res, err); }
-                            //logger.log(err, data);
-                            imageData = [];
-                        });
-
-
-                    a.save(function(err, a) {
-                        if (err) { return renderError(res, err); };
-
-                        logger.info('saved img to mongo');
-                    });
-
-                });
-
-
-                //Using GridFS, we can create a file, find that file in the uploads folder.
-                //Then create a GridFSInputFile set that filename as the new name
-                //Then save the file.
-
-                res.format({
-                    html: function() {
-                        // If it worked, set the header so the address bar doesn't still say /adduser
-                        res.location("/projects/" + ID_project);
-                        // And forward to success page
-                        res.redirect("/projects/" + ID_project);
-                    },
-                    //JSON response will show the newly created neume
-                    json: function() {
-                        res.json(neume);
-                    }
-                });
-                imageArray = [];
-            }
-        })
-    });
+// router.route('/')
+//     //  POST a new neume
+//     .post(function(req, res) {
+//         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+//         var name = req.body.name;
+//         var folio = req.body.folio;
+//         var description = req.body.description;
+//         var neumeSection = req.body.neumeSection;
+//         var neumeSectionName = req.body.neumeSectionName;
+//         var source = req.body.source;
+//         var genericName = req.body.genericName;
+//
+//         var classification = req.body.classification
+//         var mei = req.body.mei;
+//         var dob = req.body.dob;
+//         var ID_project = req.body.ID_project;
+//         var review = req.body.review;
+//
+//         //call the create function for our database
+//         mongoose.model('neume').create({
+//             name: name,
+//             folio: folio,
+//             description: description,
+//             classification: classification,
+//             mei: mei,
+//             review: review,
+//             dob: dob,
+//             imagePath: imageArray,
+//             project: ID_project,
+//             neumeSection: neumeSection,
+//             neumeSectionName: neumeSectionName,
+//             source: source,
+//             genericName: genericName
+//
+//         }, function(err, neume) {
+//             if (err) {
+//                 return renderError(res, err);
+//             } else {
+//                 //neume has been created
+//                 //logger.log('POST creating new neume: ' + neume); //neume holds the new neume
+//                 //Show neume array
+//                 //Neume requests for the images inside of neumes
+//                 mongoose.model('neume').find({
+//                     project: ID_project
+//                 }, function(err, neumes) {
+//                     neumeFinal = neumes;
+//                     //logger.log(neumeFinal);//This works!!!
+//                 });
+//                 //Creating an xml file to store mei for each neume => neume.mei and neume._id for the name of the file
+//                 //Making the xml files folder if it doesnt exist
+//                 //Creating and writing the file with the information
+//                 //Not really important, simply so that the user can have a history of the xml files they have written.
+//
+//                 // example schema for saving images in the database
+//
+//
+//                 //Saving the images in the database from the uploads folder. (for each images in the imageArray)
+//                 imageArray.forEach(function(image) {
+//                     var imgPath = 'uploads/' + image;
+//
+//                     // our imageStored model
+//                     var A = storedImages;
+//                     // store an img in binary in mongo
+//                     var a = new A;
+//                     a.neumeID = neume._id;
+//                     a.projectID = neume.project;
+//                     a.img.data = fs.readFileSync(imgPath);
+//                     a.img.contentType = 'image/png';
+//                     a.imgBase64 = a.img.data.toString('base64');
+//                     imageData.push(a.img.data.toString('base64')); //This works for all the images stored in the database.
+//
+//                     let resizedImageData = '';
+//                     let resizedBase64 = ''
+//                     var mimType = 'image/jpeg';
+//                     var img = new Buffer(a.img.data.toString('base64'), 'base64');
+//                     sharp(img)
+//                       .resize(128,128, {
+//                         fit: 'cover'
+//                       })
+//                       .toBuffer()
+//                       .then(resImgBuf => {
+//                         let resizedImageData = resImgBuf.toString('base64');
+//                         let resizedBase64 = `data:${mimType};base64,${resizedImageData}`;
+//
+//                         //All the images (images) need to be pushed to an array field in mongodb
+//                         mongoose.model('neume').findOneAndUpdate({
+//                                 _id: neume._id
+//                             }, {
+//                                 //push the neumes into the imagesBinary array
+//                                 imagesBinary: [resizedBase64.split(',')[1]]
+//                             },
+//
+//                             function(err, data) {
+//                                 if (err) { return renderError(res, err); }
+//                                 //logger.log(err, data);
+//                                 imageData = [];
+//                             });
+//
+//
+//                         a.save(function(err, a) {
+//                             if (err) { return renderError(res, err); };
+//
+//                             logger.info('saved img to mongo');
+//                         });
+//                       })
+//                       .catch(err => {
+//                         console.log(err);
+//                       })
+//                     // console.log('imgbase64', a.imgBase64);
+//                     // console.log('img_data', a.img.data);
+//
+//
+//
+//                 });
+//
+//
+//                 //Using GridFS, we can create a file, find that file in the uploads folder.
+//                 //Then create a GridFSInputFile set that filename as the new name
+//                 //Then save the file.
+//
+//                 res.format({
+//                     html: function() {
+//                         // If it worked, set the header so the address bar doesn't still say /adduser
+//                         res.location("/projects/" + ID_project);
+//                         // And forward to success page
+//                         res.redirect("/projects/" + ID_project);
+//                     },
+//                     //JSON response will show the newly created neume
+//                     json: function() {
+//                         res.json(neume);
+//                     }
+//                 });
+//                 imageArray = [];
+//             }
+//         })
+//     });
 
 /* Update edit images. */
 // put function to add a new image to a neume
