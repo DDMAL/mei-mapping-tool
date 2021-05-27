@@ -13,6 +13,9 @@ const express = require('express');
 var debug = require('debug')('express-node-mongo-skeleton:server');
 var http = require('http');
 const mongoose = require('mongoose');
+const x = require('libxmljs');
+const fs = require('fs');
+const path = require("path");
 // var db = require('../model/db');
 var env_config = require('dotenv').config()
 
@@ -24,6 +27,23 @@ const sharp = require('sharp');
 /**
  * Get port from environment and store in Express.
  */
+
+
+// var meiValFile = fs.readFileSync(path.resolve(__dirname, 'mei-Neumes_compiled.odd')).toString();
+//
+// var xsd = '<?xml version="1.0" encoding="utf-8" ?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://example.com/XMLSchema/1.0" targetNamespace="http://example.com/XMLSchema/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified"><xs:element name="foo"></xs:element></xs:schema>'
+// var xsdDoc = x.parseXmlString(meiValFilexsasdsadsadas);
+//
+// var xml0 = '<?xml version="1.0" encoding="UTF-8"?><foo xmlns="http://example.com/XMLSchema/1.0"></foo>';
+// var xmlDoc0 = x.parseXmlString(xml0);
+// var xml1 = '<?xml version="1.0" encoding="UTF-8"?><bar xmlns="http://example.com/XMLSchema/1.0"></bar>';
+// var xmlDoc1 = x.parseXmlString(xml1);
+//
+// var result0 = xmlDoc0.validate(xsdDoc);
+// console.log("result0:", result0);
+//
+// var result1 = xmlDoc1.validate(xsdDoc);
+// console.log("result1:", result1);
 
 var port = normalizePort(process.env.PORT || '8800');
 app.set('port', port);
