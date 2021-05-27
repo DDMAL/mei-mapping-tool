@@ -5,6 +5,7 @@
   width: 18px;
   height: 18px;
   border-radius: 4px;
+  font-size: 12px;
   left: calc(100% + 11px);
   background-color: white;
   cursor: pointer; }
@@ -12,7 +13,7 @@
     display: none; }
     #select-all-button .fa-check::before {
       position: absolute;
-      top: 15%;
+      top: 10%;
       left: 16%; }
   #select-all-button.active {
     background-color: darkgrey;

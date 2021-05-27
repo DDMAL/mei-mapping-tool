@@ -9,6 +9,7 @@ $selected-bkgd-color: #efefef;
   width: 18px;
   height: 18px;
   border-radius: 4px;
+  font-size: 12px;
   // margin-left: 10px;
   // margin-bottom: 12px;
   left: calc(100% + 11px);
@@ -18,7 +19,7 @@ $selected-bkgd-color: #efefef;
     display: none;
     &::before {
       position: absolute;
-      top: 15%;
+      top: 10%;
       left: 16%;
     }
   }
@@ -142,7 +143,6 @@ html, body {
     width: 25px;
     height: 25px;
     outline: none;
-
 
     text-align: center;
     border-radius: 4px;
