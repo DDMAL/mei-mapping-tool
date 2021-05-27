@@ -123,8 +123,8 @@ html
                               p Name: 
                                  select(class = "createProjectInput" name="collabName" id = "selectUser" required)
                                       option(disabled='', selected='', value='')  -- select a username -- 
-                                      - each u in user
-                                          option(value='#{user.id}') #{u.username}                            
+                                      //- - each u in user
+                                      //- option(value='#{user.id}') #{user.username}                            
 
                               p Project: 
                                  select(class = "createProjectInput" name="project" id = "selectProject" required)
@@ -180,6 +180,3 @@ script(type='text/javascript').
       });
  });
   
-
-
-
