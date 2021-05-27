@@ -120,6 +120,21 @@ $('.neumeSection')
       $('#neume-delete-selected-button').fadeOut();
     }
   })
+  .on('keyup', 'input', function(e) {
+    e.stopPropagation();
+    switch (e.which) {
+      case 37: // left
+        $(this).prev('input').focus(); break;
+      case 38: // up
+        $(this).parents('.neume-row').prev('.neume-row').find('input').eq($(this).index() - 1).focus();
+        break;
+      case 39: // right
+        $(this).next('input').focus(); break;
+      case 40: // down
+        $(this).parents('.neume-row').next('.neume-row').find('input').eq($(this).index() - 1).focus();
+        break;
+    }
+  })
 $('#neume-delete-selected-button').on('click', function(e) {
   $('.neumeSection').find('.neume-row.selected').each(function() {
     socket.emit('neume delete', $(this).attr('id'))
