@@ -14,6 +14,21 @@ $selected-bkgd-color: #efefef;
   left: calc(100% + 11px);
   background-color: white;
   cursor: pointer;
+  .fa-check {
+    display: none;
+    &::before {
+      position: absolute;
+      top: 15%;
+      left: 16%;
+    }
+  }
+  &.active {
+    background-color: darkgrey;
+    color: white;
+    .fa-check {
+      display: block;
+    }
+  }
 }
 
 .all-project-nav-wrapper {

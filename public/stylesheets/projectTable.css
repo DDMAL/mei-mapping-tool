@@ -8,6 +8,17 @@
   left: calc(100% + 11px);
   background-color: white;
   cursor: pointer; }
+  #select-all-button .fa-check {
+    display: none; }
+    #select-all-button .fa-check::before {
+      position: absolute;
+      top: 15%;
+      left: 16%; }
+  #select-all-button.active {
+    background-color: darkgrey;
+    color: white; }
+    #select-all-button.active .fa-check {
+      display: block; }
 
 .all-project-nav-wrapper {
   position: fixed;
