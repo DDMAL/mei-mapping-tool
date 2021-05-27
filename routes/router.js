@@ -1475,13 +1475,13 @@ router.route('/xlsxProject')
         var workbook = new ExcelJS.Workbook();
         var sheet = workbook.addWorksheet(nameOfProject);
         const columnNames = [
-          {header: 'images', key: 'images', width: 25},
+          {header: 'images', key: 'images', width: 30},
           {header: 'name', key: 'name'},
           {header: 'genericName', key: 'genericName'},
           {header: 'folio', key: 'folio'},
           {header: 'description', key: 'description'},
           {header: 'classification', key: 'classification'},
-          {header: 'encoding', key: 'encoding'},
+          {header: 'mei', key: 'mei'},
         ]
         sheet.columns = columnNames;
 
@@ -1503,9 +1503,9 @@ router.route('/xlsxProject')
                 let obj = {}
                 unorderedNeumes.forEach(x => obj[x._id] = x)
                 const neumesFinal = positionArray.map(position => obj[position])
-
-                neumesFinal.forEach((neume, index) => {
-                  console.log(neume);
+                var index = 0
+                for (const neume of neumesFinal) {
+                  // console.log(neume);
                   let row = sheet.addRow(neume);
 
                   if (neume.imagesBinary[0]) {
@@ -1533,9 +1533,10 @@ router.route('/xlsxProject')
                   //     pattern: 'solid',
                   //     fgColor: {argb: 'ffffff'}                    }
                   // }
-                })
+                  index += 1;
+                }
                   //var neume = neume;
-                  logger.info(neumesFinal);
+                  // logger.info(neumesFinal);
                   let csv
                   try {
                       csv = json2csv(neumesFinal, {
@@ -1573,7 +1574,7 @@ router.route('/xlsxProject')
                       }, 5000)
 
                       res.download(filePathExcel);
-                      
+
                       // res.redirect('back');
                     })
                     .catch(err => {
