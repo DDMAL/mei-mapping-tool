@@ -428,86 +428,86 @@ router.route('/csv')
     });
 
 var multer = require('multer')
-var uploadCSV = multer({
-    dest: 'exports/'
-})
-router.route('/uploadCSV')
-    .post(uploadCSV.single('csvFile'), function(req, res) {
-
-        var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
-        var nameOfProject = req.body.projectName;
-        var csvParser = require('csv-parse');
-        var file = req.file.buffer;
-
-        const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
-        var fs = require('fs');
-        var dir = './exports';
-
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir);
-        }
-        fs.writeFile(filePath, file, function(err) {
-
-        });
-
-        const csv = require('csvtojson');
-
-        csv()
-            .fromFile(req.file.path)
-            .then((jsonObj) => {
-
-                var imagesBinary = jsonObj.imagesBinary.replace(/[\[\]']+/g, '');
-                jsonObj.imagesBinary = imagesBinary;
-
-                mongoose.model("neume").insert(jsonObj)
-                    .then(function(jsonObj) {
-
-                        jsonObj.forEach(function(neume) {
-                            mongoose.model("neume").find({
-                                _id: neume.id
-                            }).update({
-                                project: IdOfProject
-                            }, function(err, neumeElement) {
-                                if (err) {
-                                    res.send("There was a problem updating the information to the database: " + err);
-                                } else {
-                                    mongoose.model('neume').find({
-                                        _id: neume.id
-                                    }).update({
-                                        imagesBinary: neumeElement.imagesBinary.replace(/[\[\]']+/g, ''),
-                                        mei: neumeElement.mei.replace("“$1”", /"([^"]*)"/g)
-                                    }, function(err, neumeElement) {
-                                        if (err) {
-                                            res.send("There was a problem updating the information to the database: " + err);
-                                        } else {
-                                            logger.info("hey");
-                                        }
-                                    })
-                                }
-                            })
-
-                        })
-
-
-
-
-                        res.redirect("back");
-                    })
-                    .catch(function(err) {
-                        err = "Please, only upload the csv file downloaded from the project."
-                        return res.format({
-                            html: function() {
-                                res.render('errorLog', {
-                                    "error": err,
-                                });
-                            },
-                            json: function() {
-                                res.json(err);
-                            }
-                        });
-                    });
-            });
-    })
+// var uploadCSV = multer({
+//     dest: 'exports/'
+// })
+// router.route('/uploadCSV')
+//     .post(uploadCSV.single('csvFile'), function(req, res) {
+//
+//         var IdOfProject = req.body.IdOfProject; // I need to add the id of the project to the neume I just created.
+//         var nameOfProject = req.body.projectName;
+//         var csvParser = require('csv-parse');
+//         var file = req.file.buffer;
+//
+//         const filePath = pathName.join(__dirname, "..", "exports", req.file.path) //This works
+//         var fs = require('fs');
+//         var dir = './exports';
+//
+//         if (!fs.existsSync(dir)) {
+//             fs.mkdirSync(dir);
+//         }
+//         fs.writeFile(filePath, file, function(err) {
+//
+//         });
+//
+//         const csv = require('csvtojson');
+//
+//         csv()
+//             .fromFile(req.file.path)
+//             .then((jsonObj) => {
+//
+//                 var imagesBinary = jsonObj.imagesBinary.replace(/[\[\]']+/g, '');
+//                 jsonObj.imagesBinary = imagesBinary;
+//
+//                 mongoose.model("neume").insert(jsonObj)
+//                     .then(function(jsonObj) {
+//
+//                         jsonObj.forEach(function(neume) {
+//                             mongoose.model("neume").find({
+//                                 _id: neume.id
+//                             }).update({
+//                                 project: IdOfProject
+//                             }, function(err, neumeElement) {
+//                                 if (err) {
+//                                     res.send("There was a problem updating the information to the database: " + err);
+//                                 } else {
+//                                     mongoose.model('neume').find({
+//                                         _id: neume.id
+//                                     }).update({
+//                                         imagesBinary: neumeElement.imagesBinary.replace(/[\[\]']+/g, ''),
+//                                         mei: neumeElement.mei.replace("“$1”", /"([^"]*)"/g)
+//                                     }, function(err, neumeElement) {
+//                                         if (err) {
+//                                             res.send("There was a problem updating the information to the database: " + err);
+//                                         } else {
+//                                             logger.info("hey");
+//                                         }
+//                                     })
+//                                 }
+//                             })
+//
+//                         })
+//
+//
+//
+//
+//                         res.redirect("back");
+//                     })
+//                     .catch(function(err) {
+//                         err = "Please, only upload the csv file downloaded from the project."
+//                         return res.format({
+//                             html: function() {
+//                                 res.render('errorLog', {
+//                                     "error": err,
+//                                 });
+//                             },
+//                             json: function() {
+//                                 res.json(err);
+//                             }
+//                         });
+//                     });
+//             });
+//     })
 
 var dir = './exports';
 
