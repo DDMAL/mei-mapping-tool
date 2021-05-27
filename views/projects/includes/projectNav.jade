@@ -5,7 +5,7 @@ div.project-nav-wrapper
     .modal-content
       span.close ×
       //- include newNeume.jade
-
+  
   .modal(id = "uploadCSV")
     .modal-content
       span.close x
@@ -51,6 +51,7 @@ div.project-nav-wrapper
       div(id="neume-delete-selected-button" class="tooltipAdd" style="margin-right: 10px; display: none;")
         i.fa.fa-trash.fa-lg
         span.tooltiptext.delete To delete all the selected neumes, click here!
+      
       div(id="imageCSVButton" class="upload-button tooltipAdd" style="margin-right: 10px")
         i.fa.fa-upload
         span.tooltiptext To upload a spreadsheet file to this project, click here!
@@ -146,6 +147,7 @@ div.project-nav-wrapper
       b Classification
     div.mei-header 
       b MEI Encoding
+    div(id="select-all-button")
 
     //- div(id = "menu")
    //Neume section : 4 components added for each new neume. 
