@@ -164,23 +164,12 @@ io.on("connection", (socket) => {
     // socket.broadcast.emit("received", { message: msg  });
     connect.then(db => {
       console.log('connected correctly to the server');
-      mongoose.model('neume').findById(msg, (err, neume) => {
+      return mongoose.model('neume').findById(msg, (err, neume) => {
         if (err) {console.log(err)}
-        neume.remove((err, neume) => {
+        return neume.deleteOne((err, neume) => {
           if (err) {
             return err
-          } else {
-            mongoose.model("storedImages").remove({
-                neumeID: neume._id
-            }, function(err, image) {
-                // logger.log('info', image);
-                if (err) {
-                    return err;
-                } else {
-                    logger.log('info', "deleted stored image for neume");
-                }
-            });
-          }
+          } 
         });
       })
     })
