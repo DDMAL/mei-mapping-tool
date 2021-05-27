@@ -1,3 +1,14 @@
+#select-all-button {
+  border: 1px solid darkgrey;
+  color: #d6d6d6;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  left: calc(100% + 11px);
+  background-color: white;
+  cursor: pointer; }
+
 .all-project-nav-wrapper {
   position: fixed;
   z-index: 10000;
