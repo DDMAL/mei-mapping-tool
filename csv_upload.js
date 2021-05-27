@@ -1,9 +1,9 @@
 const node_xj = require("xls-to-json");
-const xlsx = require("xlsx");
 const ExcelJS = require('exceljs');
 const sharp = require('sharp');
 const csvParser = require('csv-parse');
 const csv = require('csvtojson');
+const Neume = require('./model/neumes');
 
 function xlsxAdd(buffer, projectID, socket) {
   console.log(`xlsx add to ${projectID}`);
@@ -21,13 +21,14 @@ function xlsxAdd(buffer, projectID, socket) {
   console.log('good so far!')
   workbook.xlsx.load(buffer).then(wb => {
     // console.log(workbook, 'workbook instance');
-    workbook.eachSheet((sheet, id) => {
+    workbook.eachSheet(async (sheet, id) => {
       var neumes = [];
       var keys = ['images']
       sheet.columns = columnNames;
-      sheet.eachRow((row, index) => {
+      console.log(sheet);
+      sheet.eachRow({includeEmpty: true}, (row, index) => {
         var neume = {}
-        console.log(index);
+        console.log('Row ' + index + ' = ' + JSON.stringify(row.values));
         if (index - 1) {
           columnNames.forEach((name, i) => {
             neume[name['key']] = row.getCell(name['key']).value;
@@ -38,82 +39,78 @@ function xlsxAdd(buffer, projectID, socket) {
       for (const image of sheet.getImages()) {
         console.log('processing image row', image.range.tl.nativeRow, 'col', image.range.tl.nativeCol, 'imageId', image.imageId);
         const img = workbook.model.media.find(m => m.index === image.imageId);
-        console.log(img);
+        // console.log(img);
         neumes[image.range.tl.nativeRow - 1]['images'] = img;
       }
-      neumes.forEach((neume, index) => {
+      console.log(neumes)
+      for (const neume of neumes) {
         let resizedImageData = '';
         let resizedBase64 = ''
         var mimType = 'image/jpeg';
         var resizedImg = '';
-        try {
-          console.log('entered try');
-          resizedImg = sharp(neume['images'].buffer)
+        console.log('Neume image buffer: ' + neume['images']);
+
+        // If row has images or not
+        if (neume['images']) {
+          const buffer = await sharp(neume['images'].buffer)
             .flatten({ background: { r: 255, g: 255, b: 255 } })
             .resize(128,128, {
               fit: 'contain',
               background: "rgb(255,255,255,1)"
             })
             .toBuffer()
-            .then(resImgBuf => {
-              let resizedImageData = resImgBuf.toString('base64');
-              let resizedBase64 = `data:${mimType};base64,${resizedImageData}`;
 
-              //All the images (images) need to be pushed to an array field in mongodb
-              mongoose.model('neume').create({
-                  name: neume['name'] ? neume['name'] : '',
-                  folio: neume['folio'] ? neume['folio'] : '',
-                  description: neume['description'] ? neume['description'] : '',
-                  classification: neume['classification'] ? neume['classification'] : '',
-                  mei: neume['encoding'] ? neume['encoding'] : '',
-                  review: '',
-                  dob: '',
-                  imagesBinary: [resizedBase64.split(',')[1]],
-                  imagePath: neume['images'].name + '.jpg',
-                  project: projectID,
-                  neumeSection: '',
-                  neumeSectionName: '',
-                  source: '',
-                  genericName: neume['genericName'] ? neume['genericName'] : ''
+          let resizedImageData = buffer.toString('base64');
+          let resizedBase64 = `data:${mimType};base64,${resizedImageData}`;
 
-              }, function(err, neume) {
-                  if (err) {
-                      return renderError(res, err);
-                  } else {
-                    console.log(`message: created neume in project id: ${projectID}\t\t\tneume id: ${neume._id}`);
-                    socket.emit('new neume info spreadsheet', [projectID, neume]);
-                  }
-              })
-            })
-        } catch {
-          console.log('entered catch');
-          mongoose.model('neume').create({
-              name: neume['name'] ? neume['name'] : '',
-              folio: neume['folio'] ? neume['folio'] : '',
-              description: neume['description'] ? neume['description'] : '',
-              classification: neume['classification'] ? neume['classification'] : '',
-              mei: neume['encoding'] ? neume['encoding'] : '',
-              review: '',
-              dob: '',
-              imagesBinary: '',
-              imagePath: '',
-              project: projectID,
-              neumeSection: '',
-              neumeSectionName: '',
-              source: '',
-              genericName: neume['genericName'] ? neume['genericName'] : ''
-
-          }, function(err, neume) {
-              if (err) {
-                  return renderError(res, err);
-              } else {
-                console.log(`message: created neume in project id: ${projectID}\t\t\tneume id: ${neume._id}`);
-                socket.emit('new neume info spreadsheet', [projectID, neume]);
-              }
+          const neumeAdd = new Neume({
+            name: neume['name'] ? neume['name'] : '',
+            folio: neume['folio'] ? neume['folio'] : '',
+            description: neume['description'] ? neume['description'] : '',
+            classification: neume['classification'] ? neume['classification'] : '',
+            mei: neume['encoding'] ? neume['encoding'] : '',
+            review: '',
+            dob: '',
+            imagesBinary: [resizedBase64.split(',')[1]],
+            imagePath: neume['images'].name + '.jpg',
+            project: projectID,
+            neumeSection: '',
+            neumeSectionName: '',
+            source: '',
+            genericName: neume['genericName'] ? neume['genericName'] : ''
           })
+
+          // Wait for this neume to be added before the next
+          await neumeAdd.save();
+          console.log(`message: created neume in project id: ${projectID}\t\t\tneume id: ${neumeAdd._id}`);
+          socket.emit('new neume info spreadsheet', [projectID, neumeAdd]);
+        } else {
+          console.log('entered catch');
+
+          const neumeAdd = new Neume({
+            name: neume['name'] ? neume['name'] : '',
+            folio: neume['folio'] ? neume['folio'] : '',
+            description: neume['description'] ? neume['description'] : '',
+            classification: neume['classification'] ? neume['classification'] : '',
+            mei: neume['encoding'] ? neume['encoding'] : '',
+            review: '',
+            dob: '',
+            imagesBinary: '',
+            imagePath: '',
+            project: projectID,
+            neumeSection: '',
+            neumeSectionName: '',
+            source: '',
+            genericName: neume['genericName'] ? neume['genericName'] : ''
+          })
+
+          // Wait for this neume to be added before the next
+          await neumeAdd.save();
+          console.log(`message: created neume in project id: ${projectID}\t\t\tneume id: ${neumeAdd._id}`);
+          socket.emit('new neume info spreadsheet', [projectID, neumeAdd]);
         }
 
-      })
+      }
     })
   })
   // let sheetData = xlsx.utils.sheet_to_json(workbook)
