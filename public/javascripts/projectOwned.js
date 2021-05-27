@@ -68,6 +68,23 @@ $('.download-button').on('click', function() {
   }, 1000)
 })
 
+$('#select-all-button').on('click', function(e) {
+  $(this).toggleClass('active');
+  if ($(this).hasClass('active')) {
+    $('.neumeSection').find('.neume-row').addClass('selected');
+    $('.neumeSection').find('.neume-select-button').addClass('active');
+    $('.neumeSection').find('.mei').addClass('selected');
+  } else {
+    $('.neumeSection').find('.neume-row').removeClass('selected');
+    $('.neumeSection').find('.neume-select-button').removeClass('active');
+    $('.neumeSection').find('.mei').removeClass('selected');
+  }
+  if ($('.neumeSection').find('.neume-row.selected').length) {
+    $('#neume-delete-selected-button').fadeIn();
+  } else {
+    $('#neume-delete-selected-button').fadeOut();
+  }
+})
 
 $('.neumeSection')
   .on('mouseover', '.neume-row', function(e) {
@@ -109,6 +126,7 @@ $('#neume-delete-selected-button').on('click', function(e) {
     $(this).remove();
     socket.emit('position array change', [$('.projectName').attr('id').split('_')[1], $( ".neumeSection" ).sortable("toArray")]);
   })
+  $('#select-all-button').removeClass('active');
   $(this).fadeOut();
 })
 
