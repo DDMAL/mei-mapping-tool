@@ -66,7 +66,7 @@ Reporting an issue? Click [here](https://github.com/DDMAL/mei-mapping-tool/wiki/
 
 IP addresses for the server can be found through the lab's Arbutus account with Compute Canada. You need to create an SSH key pair and talk to Alex or Néstor about the local SSH configuration for tunneling (proxy jumping) through a lab computer into the Compute Canada virtual machines. You will only share the PUBLIC KEY (**<key_name>.pub** not **<key_name>**) with the individual assisting you. 
 
-Your local SSH configuration should look something like this after sending your sending your public key and it's configuration
+Your local SSH configuration should look something like this after sending your public key and confirming its configuration:
 
 ```
 Host ddmal_<ddmal_member_name>
@@ -105,8 +105,61 @@ Host mei-mapping.staging
 
 ### Staging
 
+Inside the production container, the website code is located at `/srv/cress/mei-mapping-tool-dev/`. The current branch is set to `sheet-develop-v1`, the current default branch of this repo. 
+
+After pulling or updating changes, run the command:
+
+```
+sudo systemctl restart cress-staging.service
+```
+
+The application is always running using this systemd command, and it should restart when there are any unanticipated breaking errors. The systemd script can be found at `/lib/systemd/system/cress-staging.service`. 
+
+To check if the restart worked, run:
+
+```
+sudo journalctl -u cress-staging.service -n 24
+```
+
+to see the last 24 lines of the node logs. Change the number at the end of the previous command if you need to trace back further. 
+
+If there is a mongo (database) related error, run the systemd script:
+
+```
+sudo systemctl restart mongod.service
+```
+
+and then run the restart script for cress-staging just to be sure again. Similarly, the systemd script can be found at `/lib/systemd/system/mongod.service` and its logs can be checked with `sudo journalctl -u mongod.service -n 24`.
+
+The `.env` file at the root folder can be configured to run the app on a different port or listen for the mongo database on a different port. It is part of the `.gitignore` file since the production and staging environments could end up having different configurations. 
 
 
 ### Production
 
+Inside the production container, the website code is located at `/var/lib/cress`. The current branch is set to `sheet-develop-v1`, the current default branch of this repo. 
 
+After pulling or updating changes, run the command:
+
+```
+sudo systemctl restart cress.service
+```
+
+The application is always running using this systemd command, and it should restart when there are any unanticipated breaking errors. The systemd script can be found at `/lib/systemd/system/cress.service`. 
+
+To check if the restart worked, run:
+
+```
+sudo journalctl -u cress.service -n 24
+```
+
+to see the last 24 lines of the node logs. Change the number at the end of the previous command if you need to trace back further. 
+
+If there is a mongo (database) related error, run the systemd script:
+
+```
+sudo systemctl restart mongod.service
+```
+
+and then run the restart script for cress-staging just to be sure again. Similarly, the systemd script can be found at `/lib/systemd/system/mongod.service` and its logs can be checked with `sudo journalctl -u mongod.service -n 24`.
+
+The `.env` file at the root folder can be configured to run the app on a different port or listen for the mongo database on a different port. It is part of the `.gitignore` file since the production and staging environments could end up having different configurations.
