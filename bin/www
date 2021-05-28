@@ -13,7 +13,7 @@ const express = require('express');
 var debug = require('debug')('express-node-mongo-skeleton:server');
 var http = require('http');
 const mongoose = require('mongoose');
-const x = require('libxmljs');
+// const x = require('libxmljs');
 const fs = require('fs');
 const path = require("path");
 // var db = require('../model/db');
@@ -169,7 +169,7 @@ io.on("connection", (socket) => {
         return neume.deleteOne((err, neume) => {
           if (err) {
             return err
-          } 
+          }
         });
       })
     })
