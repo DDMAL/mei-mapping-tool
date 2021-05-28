@@ -133,6 +133,11 @@ $('.neumeSection')
       case 40: // down
         $(this).parents('.neume-row').next('.neume-row').find('input').eq($(this).index() - 1).focus();
         break;
+      case 13: // enter
+        e.preventDefault();
+        console.log('enter pressed');
+        $(this).parents('.neume-row').next('.neume-row').find('input').eq($(this).index() - 1).focus();
+        break;
     }
   })
 $('#neume-delete-selected-button').on('click', function(e) {
