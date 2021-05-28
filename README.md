@@ -34,7 +34,7 @@ You can access the development version of the mei-mapping-tool app at https://cr
 
 4. Start the server
 
-  `npm start`
+  `npm run dev_start`
 
   You should be able to see the message *node ./bin/www*
 
@@ -61,3 +61,52 @@ you should be able to interact with the database with mongodb commands like `sho
 For more information about how the application works, you can go to the Cress [wiki](https://github.com/DDMAL/mei-mapping-tool/wiki).
 
 Reporting an issue? Click [here](https://github.com/DDMAL/mei-mapping-tool/wiki/Issues)!
+
+## Server Information
+
+IP addresses for the server can be found through the lab's Arbutus account with Compute Canada. You need to create an SSH key pair and talk to Alex or Néstor about the local SSH configuration for tunneling (proxy jumping) through a lab computer into the Compute Canada virtual machines. You will only share the PUBLIC KEY (**<key_name>.pub** not **<key_name>**) with the individual assisting you. 
+
+Your local SSH configuration should look something like this after sending your sending your public key and it's configuration
+
+```
+Host ddmal_<ddmal_member_name>
+  HostName <ip_addr>
+  User <name> # username provided to you
+  IdentityFile ~/cressdev #just a suggested key pair name, put the system path here that leads to it on your local device
+
+# Production #####################
+
+Host nginx.prod
+  ProxyJump ddmal_<ddmal_member_name>
+  HostName <ip_addr>
+  User <name> # same as above
+  IdentityFile ~/cressdev
+
+Host mei-mapping.production
+  ProxyJump nginx.prod
+  HostName <ip_addr>
+  User <name> # same as above
+  IdentityFile ~/cressdev
+
+
+# Staging ########################
+
+Host nginx.staging
+  ProxyJump ddmal_<ddmal_member_name>
+  HostName <ip_addr>
+  User <name>
+  IdentityFile ~/cressdev
+Host mei-mapping.staging
+  ProxyJump nginx.staging
+  HostName <ip_addr>
+  User <name>
+  IdentityFile ~/cressdev
+```
+
+### Staging
+
+
+
+### Production
+
+
