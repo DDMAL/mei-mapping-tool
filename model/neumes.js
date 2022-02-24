@@ -21,7 +21,8 @@ var neumeSchema = new mongoose.Schema({
     row: Number,
     imageMedia: String,
     source: String,
-    genericName: String
+    genericName: String,
+    width: {type: [Number], default: [1]}
 });
 var Neume = module.exports = mongoose.model('neume', neumeSchema);
 
