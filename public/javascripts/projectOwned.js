@@ -177,6 +177,7 @@ socket.on('new neume info', (msg) => {
       </div>
       <input type="text" value='' autocomplete="off" name="main-name" id="neume-name_${msg[1]}" class="name" />
       <input type="text" value='' autocomplete="off" name="generic-name" id="generic-name_${msg[1]}" class="genericName" />
+      <input type="text" value='' autocomplete="off" name="width" id="generic-name_${msg[1]}" class="width" />
       <input type="text" value='' autocomplete="off" name="folio" id="folio_${msg[1]}" class="folio" />
       <input type="text" value='' autocomplete="off" name="description" id="description_${msg[1]}" class="description" />
       <input type="text" value='' autocomplete="off" name="classification" id="classification_${msg[1]}" class="classification" />
