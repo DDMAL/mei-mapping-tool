@@ -45,6 +45,9 @@ mixin seeinfomixin(neume, owned)
      p(style = "font: 16px Avenir, sans-serif;") Generic Name: 
      input#inputGenericName(type='text', value='#{neume.genericName}', name='genericName' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. Generic Name")
 
+     p(style = "font: 16px Avenir, sans-serif;") Width: 
+     input#inputWidth(type='text', value='#{neume.width}', name='width' ,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;" placeholder = "ex. [1, 1]")
+
      p(style = "font: 16px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
      input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
      //Add folio for the neumes

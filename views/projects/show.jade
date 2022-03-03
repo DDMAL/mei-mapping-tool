@@ -44,6 +44,9 @@ div.neumeSection(style = "padding-bottom : 3px; padding-top : 170px")
                             .column
                              p(style = "font: 14px Avenir, sans-serif; float : left; margin-top : 0px; display:table-cell; ") Folio: 
                             .column 
+
+                             input#inputWidth(type='text', value='#{neume.width}', name='width' required,style="font-size:12px; margin : 0px padding : 0px; font: 14px Avenir, sans-serif;")
+
                              input#inputfolio(type='text', value='#{neume.folio}', name='folio', style="font-size:12px; float:right; padding : none; margin-bottom : 0px; height : 15px; width : 40%; font: 14px Avenir, sans-serif; display:table-cell; right : 20px; position : absolute")
                              br
                              //Add folio for the neumes
