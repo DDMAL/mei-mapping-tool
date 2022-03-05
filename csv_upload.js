@@ -12,6 +12,7 @@ function xlsxAdd(buffer, projectID, socket) {
     {header: 'images', key: 'images'},
     {header: 'name', key: 'name'},
     {header: 'genericName', key: 'genericName'},
+    {header: 'width', key: 'width'},
     {header: 'folio', key: 'folio'},
     {header: 'description', key: 'description'},
     {header: 'classification', key: 'classification'},
@@ -77,7 +78,8 @@ function xlsxAdd(buffer, projectID, socket) {
             neumeSection: '',
             neumeSectionName: '',
             source: '',
-            genericName: neume['genericName'] ? neume['genericName'] : ''
+            genericName: neume['genericName'] ? neume['genericName'] : '',
+            width: neume['width'] ? neume['width']: ''
           })
 
           // Wait for this neume to be added before the next
@@ -101,7 +103,8 @@ function xlsxAdd(buffer, projectID, socket) {
             neumeSection: '',
             neumeSectionName: '',
             source: '',
-            genericName: neume['genericName'] ? neume['genericName'] : ''
+            genericName: neume['genericName'] ? neume['genericName'] : '',
+            width: neume['width'] ? neume['width']: ''
           })
 
           // Wait for this neume to be added before the next
@@ -145,7 +148,8 @@ function csvUpload(buffer, projectID, socket) {
               neumeSection: '',
               neumeSectionName: '',
               source: '',
-              genericName: neume['genericName'] ? neume['genericName'] : ''
+              genericName: neume['genericName'] ? neume['genericName'] : '',
+              width: neume['width'] ? neume['width']: ''
 
           }, function(err, neume) {
               if (err) {
