@@ -13,6 +13,7 @@ function xlsxDownload(IdOfProject, nameOfProject) {
     {header: 'images', key: 'images', width: 25},
     {header: 'name', key: 'name'},
     {header: 'genericName', key: 'genericName'},
+    {header: 'width', key: 'width'},
     {header: 'folio', key: 'folio'},
     {header: 'description', key: 'description'},
     {header: 'classification', key: 'classification'},
